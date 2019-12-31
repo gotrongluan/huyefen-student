@@ -1,17 +1,26 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
-    "build": "umi build",
-    "test": "umi test",
+    "start": "APP_TYPE=dev umi dev",
+    "build": "APP_TYPE=prod umi build",
+    "test": "APP_TYPE=test umi test",
     "lint": "eslint --ext .js src mock tests",
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@ant-design/dark-theme": "^1.0.3",
+    "@emotion/core": "^10.0.27",
+    "antd": "^3.26.5",
+    "classnames": "^2.2.6",
     "dva": "^2.6.0-beta.6",
-    "antd": "^3.19.5",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "os": "^0.1.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^16.8.6",
+    "react-reveal": "^1.2.2",
+    "react-spinners": "^0.7.2"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
@@ -28,7 +37,10 @@
     "umi-plugin-react": "^1.8.4"
   },
   "lint-staged": {
-    "*.{js,jsx}": ["eslint --fix", "git add"]
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=8.0.0"

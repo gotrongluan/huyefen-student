@@ -1,3 +1,3 @@
 export default {
-  'index.start': 'Getting Started',
+	'route.index': 'Hello'
 }

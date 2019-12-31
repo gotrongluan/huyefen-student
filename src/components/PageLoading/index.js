@@ -1,5 +1,5 @@
 export default () => {
     return (
-        <div>This is index page</div>
+        <div>This is page loading</div>
     )
 }
