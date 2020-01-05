@@ -1,0 +1,22 @@
+import React from 'react';
+import { colorTheme } from '@/config/constants';
+import { css } from '@emotion/core';
+import PropagateLoader from 'react-spinners/PropagateLoader';
+import { Spin } from 'antd';
+
+const override = css`
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translate(0%, -50%);
+`;
+
+
+export default ({ children, fontSize, isCenter = true, ...restProps}) => {
+    const icon = <PropagateLoader css={isCenter ? override : null} loading={true} size={`${fontSize}px`} color={colorTheme} />
+    return (
+        <Spin indicator={icon} {...restProps}>
+            {children}
+        </Spin>
+    );
+}
