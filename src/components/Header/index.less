@@ -1,0 +1,96 @@
+.header {
+    width: 100%;
+    position: fixed;
+    z-index: 2;
+    height: @header-height;
+    background-color: black;
+    .leftContent, .rightContent {
+        width: 50%;
+    }
+    .leftContent {
+        .logo {
+            float: left;
+            height: 48px;
+            img {
+                height: 100%;
+                width: auto;
+            }
+        }
+        .search {
+            width: 50%;
+            padding-top: 2px;
+            padding-left: 5px;
+            float: left;
+            line-height: @header-height;
+        }
+    }
+    .rightContent {
+        float: right;
+        .account {
+            float: right;
+            .accountText {
+                padding: 0 15px;
+            }
+        }
+        .messenger {
+            float: right;
+            padding: 0 7.5px 0 15px;
+        }
+        .notifications {
+            float: right;
+            padding: 0 15px 0 7.5px;
+        }
+        .teaching {
+            float: right;
+            .teachingText {
+                line-height: @header-height;
+                text-align: center;
+                padding-left: 25px;
+                padding-right: 25px;
+                cursor: pointer;
+                &:hover {
+                    opacity: 0.75;
+                    background-color: rgba(0, 21, 41, 0.6);
+                }
+            }
+        }
+
+    }
+}
+
+.teachingPopover {
+    width: 380px;
+    text-align: center;
+    .content {
+        padding: 25px 15px;
+    }
+}
+
+.accountPopover {
+    width: 360px;
+    :global(.ant-popover-inner-content) {
+        padding: 5px 0px 15px 0px;
+    }
+    .info {
+        padding: 10px 20px;
+        margin-bottom: 5px;
+        .mail {
+            font-size: 0.9em;
+        }
+    }
+    .divider {
+        padding: 0 20px;
+        .realDivider {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            background: white;
+        }
+    }
+    .item {
+        padding: 5px 20px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+    }
+}

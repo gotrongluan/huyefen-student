@@ -1,7 +1,7 @@
 import React from 'react';
 import { colorTheme } from '@/config/constants';
 import { css } from '@emotion/core';
-import PropagateLoader from 'react-spinners/PropagateLoader';
+import SyncLoader from 'react-spinners/SyncLoader';
 import { Spin } from 'antd';
 
 const override = css`
@@ -13,7 +13,7 @@ const override = css`
 
 
 export default ({ children, fontSize, isCenter = true, ...restProps}) => {
-    const icon = <PropagateLoader css={isCenter ? override : null} loading={true} size={`${fontSize}px`} color={colorTheme} />
+    const icon = <SyncLoader css={isCenter ? override : null} loading={true} size={`${fontSize}px`} color={colorTheme} />
     return (
         <Spin indicator={icon} {...restProps}>
             {children}

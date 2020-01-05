@@ -13,22 +13,22 @@ export default [
         ]
     },
     {
-        path: '/messenger', component: '../layouts/MessengerLayout',
+        path: '/messenger', component: '../layouts/NonFooterLayout',
         routes: [
             {
                 path: '/messenger',
                 component: './Messenger/Default',
-                Routes: ['./routes/Authenticate']
+                Routes: ['./src/routes/Authenticate']
             },
             {
                 path: '/messenger/:converId',
                 component: './Messenger/Chat',
-                Routes: ['./routes/Authenticate']
+                Routes: ['./src/routes/Authenticate']
             }
         ]
     },
     {
-        path: '/learning', component: '../layouts/LearningLayout',
+        path: '/learning', component: '../layouts/NonFooterLayout',
         routes: [
             
         ]
@@ -42,11 +42,11 @@ export default [
             },
             {
                 path: '/courses/:areaTag',
-                component: './Courses/Categories'
+                component: './Courses/Category'
             },
             {
                 path: '/courses/:areaTag/:cateTag',
-                component: './Courses/Categories'
+                component: './Courses/Category'
             },
             {
                 path: '/courses/:areaTag/:cateTag/:topicTag',
@@ -58,27 +58,27 @@ export default [
             },
             {
                 path: '/notifications',
-                Routes: ['./routes/Authenticate'],
+                Routes: ['./src/routes/Authenticate'],
                 component: './Notifications'
             },
             {
                 path: '/my-courses',
-                Routes: ['./routes/Authenticate'],
+                Routes: ['./src/routes/Authenticate'],
                 component: './MyCourses'
             },
             {
                 path: '/profile',
-                Routes: ['./routes/Authenticate'],
+                Routes: ['./src/routes/Authenticate'],
                 component: './Profile'
             },
             {
                 path: '/my-friends',
-                Routes: ['./routes/Authenticate'],
+                Routes: ['./src/routes/Authenticate'],
                 component: './MyFriends'
             },
             {
                 path: 'my-teachers',
-                Routes: ['./routes/Authenticate'],
+                Routes: ['./src/routes/Authenticate'],
                 component: './MyTeachers'
             },
             {
@@ -91,12 +91,12 @@ export default [
             },
             {
                 path: '/cart',
-                Routes: ['./routes/Authenticate'],
+                Routes: ['./src/routes/Authenticate'],
                 component: './Cart'
             },
             {
                 path: '/payment',
-                Routes: ['./routes/Authenticate'],
+                Routes: ['./src/routes/Authenticate'],
                 component: './Payment'
             },
             {
