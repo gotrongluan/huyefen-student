@@ -81,7 +81,7 @@ const Messenger = () => {
     const unread = 14;
     let count = 0;
     if (unread > 0)
-        count = <Avatar style={{ background: 'red', fontSize: '11px' }} size={18}>{unread > 9 ? '9+' : unread}</Avatar>;
+        count = <Avatar style={{ background: 'red', fontSize: '11px' }} size={16}>{unread > 9 ? '9+' : unread}</Avatar>;
     const trigger = (
         <span className={styles.trigger}>
             <Badge
@@ -89,7 +89,7 @@ const Messenger = () => {
                 style={{ boxShadow: 'none' }}
                 className={styles.badge}
             >
-                <Icon type="message" style={{ fontSize: 16 }}/>
+                <Icon type="message" style={{ fontSize: 18 }}/>
             </Badge>
         </span>
     );

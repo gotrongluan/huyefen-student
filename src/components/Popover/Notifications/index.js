@@ -4,8 +4,8 @@ import Link from 'umi/link';
 import router from 'umi/router';
 import { Popover, List, Badge, Avatar, Icon, Empty, Spin as Loading } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
-import Spin from 'elements/spin/secondary';
-import { fromNow, truncate } from 'utils/utils';
+import Spin from '@/elements/spin/secondary';
+import { fromNow, truncate } from '@/utils/utils';
 import NOTIFICATIONS from '@/assets/fakers/notifications';
 import styles from './index.less';
 
@@ -15,7 +15,7 @@ const Notifications = () => {
     const getContent = () => {
         let notifications = NOTIFICATIONS;
         let loading = false;
-        let oldLoading = false; 
+        let oldLoading = true; 
 
         const content = (notifications === null || _.isEmpty(notifications)) ? (
             <div className={styles.empty}>
@@ -30,7 +30,7 @@ const Notifications = () => {
                     rowKey={item => item._id + _.uniqueId("notification_popover_")}
                     renderItem={item => (
                         <div className={styles.notiItem} onClick={() => handleViewNotify(item)}>
-                            <List.Item style={{ background: (!item.unseen ? 'inherit' : 'rgba(250, 218, 94, 0.05)')}}>
+                            <List.Item style={{ background: (item.seen ? 'inherit' : 'rgba(250, 218, 94, 0.05)')}}>
                                 <List.Item.Meta
                                     avatar={<Avatar src={item.avatar} size={36} />}
                                     title={<span>{truncate(item.content, 92)}</span>}
@@ -77,7 +77,7 @@ const Notifications = () => {
     let unread = 0;
     let count = 0;
     if (unread > 0)
-        count = <Avatar style={{ background: 'red', fontSize: '11px' }} size={18}>{unread > 99 ? '99+' : unread}</Avatar>;
+        count = <Avatar style={{ background: 'red', fontSize: '11px' }} size={16}>{unread > 99 ? '99+' : unread}</Avatar>;
     const trigger = (
         <span className={styles.trigger}>
             <Badge
@@ -86,7 +86,7 @@ const Notifications = () => {
                 className={styles.badge}
                 overflowCount={9}
             >
-                <Icon type="bell" style={{ fontSize: 16 }}/>
+                <Icon type="bell" style={{ fontSize: 18 }}/>
             </Badge>
         </span>
     );
