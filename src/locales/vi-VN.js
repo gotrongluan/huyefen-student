@@ -77,5 +77,22 @@ export default {
 	'footer.links.help': 'Hỗ trợ',
 	'footer.links.sitemap': 'Site map',
 	'footer.links.business': 'Hanjh cho doanh nghiệp',
-	'footer.content.description': 'Hanjh cung cấp quyền truy cập toàn cầu vào giáo dục tốt nhất thế giới, hợp tác với các trường đại học và tổ chức hàng đầu để cung cấp các khóa học trực tuyến.'
+	'footer.content.description': 'Hanjh cung cấp quyền truy cập toàn cầu vào giáo dục tốt nhất thế giới, hợp tác với các trường đại học và tổ chức hàng đầu để cung cấp các khóa học trực tuyến.',
+	'login.invalidinput': 'Giá trị nhập không hợp lệ!',
+	'login.emptyphone': 'Số điện thoại không được trống!',
+	'login.emptypassword': 'Mật khẩu không được trống!',
+	'login.title': 'Đăng nhập',
+	'login.phone.rules.required': 'Hãy nhập số điện thoại!',
+	'login.phone.rules.len': 'Số điện thoại phải có 10 ký tự!',
+	'login.phone.rules.pattern': 'Số điện thoại không hợp lệ!',
+	'login.phone.placeholder': 'Điện thoại',
+	'login.password.rules.required': 'Hãy nhập mật khẩu!',
+	'login.password.placeholder': 'Mật khẩu',
+	'login.rememberme': 'Ghi nhớ tôi',
+	'login.forgotpass': 'Quên mật khẩu',
+	'login.btn': 'Đăng nhập',
+	'login.or': 'Hoặc',
+	'login.registernow': 'đăng ký ngay!',
+	'userLayout.slogan1': 'Hệ thống học tập trực tuyến',
+	'userLayout.slogan2': 'Khoá học - Messenger - FAQ - Review'
 }

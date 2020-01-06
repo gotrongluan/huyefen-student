@@ -77,5 +77,22 @@ export default {
 	'footer.links.help': 'Help and Support',
 	'footer.links.sitemap': 'Site map',
 	'footer.links.business': 'Hanjh for Business',
-	'footer.content.description': 'Hanjh provides universal access to the world’s best education, partnering with top universities and organizations to offer courses online.'
+	'footer.content.description': 'Hanjh provides universal access to the world’s best education, partnering with top universities and organizations to offer courses online.',
+	'login.invalidinput': 'Invalid input values, please try again!',
+	'login.emptyphone': 'Your phone must not be empty!',
+	'login.emptypassword': 'Your password must not be empty!',
+	'login.title': 'Login',
+	'login.phone.rules.required': 'Please enter your phone!',
+	'login.phone.rules.len': 'Your phone must has 10 characters!',
+	'login.phone.rules.pattern': 'Your phone is invalid!',
+	'login.phone.placeholder': 'Phone',
+	'login.password.rules.required': 'Please enter your Password!',
+	'login.password.placeholder': 'Password',
+	'login.rememberme': 'Remember me',
+	'login.forgotpass': 'Forgot password',
+	'login.btn': 'Log in',
+	'login.or': 'Or',
+	'login.registernow': 'register now!',
+	'userLayout.slogan1': 'Massive Open Onlive Courses',
+	'userLayout.slogan2': 'Courses - Messenger - FAQ - Review'
 }

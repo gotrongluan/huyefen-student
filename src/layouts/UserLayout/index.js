@@ -1,8 +1,28 @@
-export default function({ children }) {
+import React from 'react';
+import { formatMessage } from 'umi-plugin-react/locale';
+import { Row } from 'antd';
+import background from '@/assets/images/background-login.svg';
+import styles from './index.less';
+
+const UserLayout = ({ children }) => {
     return (
-        <div>
-            <div>This is user layout</div>
-            <div>{children}</div>
-        </div>
+        <Row className={styles.userLayout} style={{ background: `url(${background})` }}>
+            <Row className={styles.inlineDiv}>
+                <div className={styles.title}>
+                    <div className={styles.hanjh}>Hanjh</div>
+                    <div className={styles.slogan}>
+                        {formatMessage({ id: 'userLayout.slogan1' })}
+                    </div>
+                    <div className={styles.slogan}>
+                        {formatMessage({ id: 'userLayout.slogan2' })}
+                    </div>
+                </div>
+                <div className={styles.child}>
+                    {children}
+                </div>
+            </Row>
+        </Row>
     )
-}
+};
+
+export default UserLayout;
