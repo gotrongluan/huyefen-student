@@ -1,0 +1,78 @@
+.trigger {
+    padding: 0 20px;
+    .text {
+        margin-right: 5px;
+    }
+    &:hover {
+        opacity: 0.75;
+        background-color: rgba(0, 21, 41, 0.6);
+    }
+}
+
+.popover {
+    width: 380px;
+    z-index: 3;
+    :global(.ant-popover-inner-content) {
+        padding: 0;
+    }
+    :global(.ant-spin) {
+        max-height: 100% !important;
+    }
+    .courseItem {
+        padding: 15px 0px 15px 10px;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.85;
+        }
+        .avatar {
+            img {
+                width: 100%;
+                height: 60px;
+            }
+        }
+        .info {
+            padding-left: 10px;
+            height: 60px;
+            position: relative;
+            .name {
+                line-height: 1em;
+                font-weight: bold;
+                color: @primary-color;
+            }
+            .authors {
+                font-size: 0.9em;
+                margin-top: 2px;
+            }
+            .progress {
+                position: absolute;
+                bottom: 0;
+                width: 90%;
+            }
+        }
+    }
+    .empty {
+        text-align: center;
+        padding: 25px 15px;
+    }
+    .loading {
+        height: 100px;
+    }
+}
+.viewAll {
+    padding: 6px 0;
+    text-align: center;
+    color: @primary-color;
+    border-radius: 0 0 4px 4px;
+    border-top: 1px solid black;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+        color: rgba(0, 0, 0, 0.85);
+    }
+}
+
+.oldLoading {
+    text-align: center;
+    padding-bottom: 8px;
+}
+

@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'umi/link';
 import router from 'umi/router';
+import { FormattedMessage as locale } from 'umi-plugin-react/locale';
 import { Layout, Row, Col, Input, Popover, Divider, Avatar, message } from 'antd';
-// import Categories from '@/components/Popover/Categories';
-// import MyCourses from '@/components/Popover/MyCourses';
-// import Cart from '@/components/Popover/Cart';
+import Categories from '@/components/Popover/Categories';
+import MyCourses from '@/components/Popover/MyCourses';
+import Cart from '@/components/Popover/Cart';
 import Messenger from '@/components/Popover/Messenger';
 import Notifications from '@/components/Popover/Notifications';
 import logo from '@/assets/images/logo_trans.png';
@@ -27,10 +28,10 @@ const Header = () => {
                     <img src={logo} alt="Logo" />
                 </div>
                 <div className={styles.categories}>
-
+                    <Categories />
                 </div>
                 <div className={styles.search}>
-                    <Search placeholder="Search courses..." />
+                    <Search placeholder={locale({ id: 'header.search.placeholder' })} />
                 </div>
             </div>
             <div className={styles.rightContent}>
@@ -51,23 +52,23 @@ const Header = () => {
                                     </Col>
                                 </Row>
                                 <div className={styles.item}>
-                                    <Link to="/profile">Profile</Link>
+                                    <Link to="/profile">{locale({ id: 'header.account.profile' })}</Link>
                                 </div>
                                 <div className={styles.item}>
-                                    <Link to="/purchase-history">Purchase history</Link>
+                                    <Link to="/purchase-history">{locale({ id: 'header.account.purchase-history' })}</Link>
                                 </div>
                                 <div className={styles.item}>
-                                    <Link to="/my-friends">My friends</Link>
+                                    <Link to="/my-friends">{locale({ id: 'header.account.myfriends' })}</Link>
                                 </div>
                                 <div className={styles.item}>
-                                    <Link to="/my-teachers">My teachers</Link>
+                                    <Link to="/my-teachers">{locale({ id: 'header.account.myteachers' })}</Link>
                                 </div>
                                 <div className={styles.divider}><Divider type="horizontal" className={styles.realDivider} /></div>
                                 <div className={styles.item}>
-                                    Help center
+                                    {locale({ id: 'header.account.help' })}
                                 </div>
                                 <div className={styles.item} onClick={handleLogout}>
-                                    Log out
+                                    {locale({ id: 'header.account.logout' })}
                                 </div>
                             </div>
                         )}
@@ -84,14 +85,17 @@ const Header = () => {
                     <Messenger />
                 </div>
                 <div className={styles.cart}>
-                    
+                    <Cart />
+                </div>
+                <div className={styles.myCourses}>
+                    <MyCourses />
                 </div>
                 <div className={styles.teaching}>
                     <Popover
                         content={(
                             <div className={styles.content}>
-                                <p>Turn what you know into an opportunity and reach millions around the world.</p>
-                                <div><Link to="/teaching">Learn more</Link></div>
+                                <p>{locale({ id: 'header.teaching.text' })}</p>
+                                <div><Link to="/teaching">{locale({ id: 'header.teaching.learnmore' })}</Link></div>
                             </div>
                         )}
                         popupClassName={styles.teachingPopover}
@@ -99,7 +103,7 @@ const Header = () => {
                         popupAlign={{ offset: [-5, -13] }}
                     >
                         <div className={styles.teachingText} onClick={() => router.push('/teaching')}>
-                            Teach on Hanjh
+                            {locale({ id: 'header.teaching.trigger' })}
                         </div>
                     </Popover>
                 </div>

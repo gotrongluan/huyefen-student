@@ -34,7 +34,7 @@ const Messenger = () => {
                 <List
                     className={styles.messagesList}
                     dataSource={messages}
-                    rowKey={item => item._id + _.uniqueId("messenger_popover_")}
+                    rowKey={item => item._id + _.uniqueId("messenger_")}
                     renderItem={item => (
                         <List.Item
                             className={styles.item}

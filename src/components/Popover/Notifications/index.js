@@ -27,7 +27,7 @@ const Notifications = () => {
             <Scrollbars autoHeight autoHeightMax={474} onScroll={handleScroll}>
                 <List
                     dataSource={notifications}
-                    rowKey={item => item._id + _.uniqueId("notification_popover_")}
+                    rowKey={item => item._id + _.uniqueId("notification_")}
                     renderItem={item => (
                         <div className={styles.notiItem} onClick={() => handleViewNotify(item)}>
                             <List.Item style={{ background: (item.seen ? 'inherit' : 'rgba(250, 218, 94, 0.05)')}}>
@@ -63,7 +63,7 @@ const Notifications = () => {
 
     const handleScroll = e => {
         const element = e.srcElement;
-        if (element.scrollTop === element.scrollHeight - 437) {
+        if (element.scrollTop === element.scrollHeight - 474) {
             
         }
     }

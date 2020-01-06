@@ -39,4 +39,22 @@ export const findLimit = (data, minimum, number = false) => {
     while (length % i > 0 && i < length)
         i++;
     return i;
+};
+
+export const transAuthors = (authors, maxLength) => {
+    if (_.isEmpty(authors)) return "";
+    let authorsStr = authors[0];
+    let i = 1;
+    const n = authors.length;
+    while (i < n) {
+        if (authorsStr.length + 2 + authors[i].length <= maxLength) {
+            authorsStr = `${authorsStr}, ${authors[i]}`;
+            i++;
+        }
+        else {
+            authorsStr = `${authorsStr} and ${n - i} others`;
+            i = n + 1;
+        }
+    }   
+    return authorsStr;
 }

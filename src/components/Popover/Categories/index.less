@@ -1,0 +1,23 @@
+.popover {
+    width: 380px;
+    z-index: 3;
+    :global(.ant-popover-inner-content) {
+        padding: 0;
+    }
+    :global(.ant-spin) {
+        max-height: 100% !important;
+    }
+    .loading {
+        height: 100px;
+    }
+    .empty {
+        text-align: center;
+        height: 400px;
+        .inlineDiv {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
