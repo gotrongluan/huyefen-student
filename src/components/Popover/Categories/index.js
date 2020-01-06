@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { FormattedMessage as locale } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { Button, Popover, Dropdown, Menu, Empty } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import CATEGORIES from '@/assets/fakers/categories';
@@ -10,13 +10,15 @@ const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
 
 const Categories = () => {
+
+    let categories = CATEGORIES;
     let loading = false;
-    let categories = null;
+
     const trigger = (
-        <Button type="primary" icon="down" size="default">{locale({ id: 'menu.cate.button' })}</Button>
+        <Button type="primary" icon="down" size="default">{formatMessage({ id: 'header.cate.trigger' })}</Button>
     );
 
-    if (!categories || _.isEmtpy(categories) || loading) {
+    if (!categories || _.isEmpty(categories) || loading) {
         let content;
         if (loading)
             content = (
@@ -32,7 +34,7 @@ const Categories = () => {
             content = (
                 <div className={styles.empty}>
                     <div className={styles.inlineDiv}>
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={locale({ id: 'header.cate.empty' })}/>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={formatMessage({ id: 'header.cate.empty' })}/>
                     </div>
                 </div>
             );
@@ -47,7 +49,27 @@ const Categories = () => {
             </Popover>
         )
     }
-    return trigger;
+
+    const parseCategories = categories => {
+        if (!categories) return null;
+        return categories.map(cate => cate.children ? (
+            <SubMenu key={cate.label} title={formatMessage({ id: cate.name })}>
+                {parseCategories(cate.children)}
+            </SubMenu>
+        ) : (
+            <MenuItem key={cate.label}>{formatMessage({ id: cate.name })}</MenuItem>
+        ));
+    };
+
+    return (
+        <Dropdown overlay={(
+            <Menu>
+                {parseCategories(categories)}
+            </Menu>
+        )}>
+            {trigger}
+        </Dropdown>
+    );
 }
 
 export default Categories;

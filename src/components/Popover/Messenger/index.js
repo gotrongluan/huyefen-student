@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import { Popover, List, Badge, Avatar, Icon, Empty, Spin as Loading } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -26,7 +27,7 @@ const Messenger = () => {
         const content = (messages === null || _.isEmpty(messages)) ? (
             <div className={styles.empty}>
                 <div className={styles.inlineDiv}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No conversation"/>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={formatMessage({ id: 'header.messenger.empty' })}/>
                 </div>
             </div>
         ) : (
@@ -62,7 +63,7 @@ const Messenger = () => {
                 isCenter
             >
                 <div>{content}</div>
-                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/messenger">View all</Link></div>
+                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/messenger">{formatMessage({ id: 'header.messenger.viewall' })}</Link></div>
             </Spin>
         );
     };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import { Popover, Icon, List, Progress, Spin as Loading, message, Row, Col, Tooltip } from 'antd';
 import Scrollbars from 'react-custom-scrollbars';
@@ -42,8 +43,8 @@ const MyCourses = () => {
             </Spin>
         ) : _.isEmpty(myCourses) ? (
             <div className={styles.empty}>
-                <p>Your courses is empty.</p>
-                <div><Link to="/">Keep learning.</Link></div>
+                <p>{formatMessage({ id: 'header.mycourses.empty' })}</p>
+                <div><Link to="/">{formatMessage({ id: 'header.mycourses.keep' })}</Link></div>
             </div>
         ) : (
             <div>
@@ -74,7 +75,7 @@ const MyCourses = () => {
                         </div>
                     )}
                 </Scrollbars>
-                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/mycourses">View all</Link></div>
+                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/mycourses">{formatMessage({ id: 'header.mycourses.viewall' })}</Link></div>
             </div>
             
         )
@@ -84,7 +85,7 @@ const MyCourses = () => {
 
     const trigger = (
         <div className={styles.trigger}>
-            <span className={styles.text}>My Courses</span>
+            <span className={styles.text}>{formatMessage({ id: 'header.mycourses.trigger' })}</span>
             <Icon type={visible ? "up" : "down"} styles={{ fontSize: 18 }} />
         </div>
     );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
 import { Popover, List, Badge, Avatar, Icon, Empty, Spin as Loading } from 'antd';
@@ -20,7 +21,7 @@ const Notifications = () => {
         const content = (notifications === null || _.isEmpty(notifications)) ? (
             <div className={styles.empty}>
                 <div className={styles.inlineDiv}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No notification"/>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={formatMessage({ id: 'header.notifications.empty' })}/>
                 </div>
             </div>
         ) : (
@@ -54,7 +55,7 @@ const Notifications = () => {
                 isCenter
             >
                 <div>{content}</div>
-                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/notifications">View all</Link></div>
+                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/notifications">{formatMessage({ id: 'header.notifications.viewall' })}</Link></div>
             </Spin>
         );
     }

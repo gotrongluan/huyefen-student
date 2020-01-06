@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { FormattedMessage as locale } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { Layout, Row, Col, Input, Popover, Divider, Avatar, message } from 'antd';
 import Categories from '@/components/Popover/Categories';
 import MyCourses from '@/components/Popover/MyCourses';
@@ -31,7 +31,7 @@ const Header = () => {
                     <Categories />
                 </div>
                 <div className={styles.search}>
-                    <Search placeholder={locale({ id: 'header.search.placeholder' })} />
+                    <Search placeholder={formatMessage({ id: 'header.search.placeholder' })} />
                 </div>
             </div>
             <div className={styles.rightContent}>
@@ -52,23 +52,23 @@ const Header = () => {
                                     </Col>
                                 </Row>
                                 <div className={styles.item}>
-                                    <Link to="/profile">{locale({ id: 'header.account.profile' })}</Link>
+                                    <Link to="/profile">{formatMessage({ id: 'header.account.profile' })}</Link>
                                 </div>
                                 <div className={styles.item}>
-                                    <Link to="/purchase-history">{locale({ id: 'header.account.purchase-history' })}</Link>
+                                    <Link to="/purchase-history">{formatMessage({ id: 'header.account.purchase-history' })}</Link>
                                 </div>
                                 <div className={styles.item}>
-                                    <Link to="/my-friends">{locale({ id: 'header.account.myfriends' })}</Link>
+                                    <Link to="/my-friends">{formatMessage({ id: 'header.account.myfriends' })}</Link>
                                 </div>
                                 <div className={styles.item}>
-                                    <Link to="/my-teachers">{locale({ id: 'header.account.myteachers' })}</Link>
+                                    <Link to="/my-teachers">{formatMessage({ id: 'header.account.myteachers' })}</Link>
                                 </div>
                                 <div className={styles.divider}><Divider type="horizontal" className={styles.realDivider} /></div>
                                 <div className={styles.item}>
-                                    {locale({ id: 'header.account.help' })}
+                                    {formatMessage({ id: 'header.account.help' })}
                                 </div>
                                 <div className={styles.item} onClick={handleLogout}>
-                                    {locale({ id: 'header.account.logout' })}
+                                    {formatMessage({ id: 'header.account.logout' })}
                                 </div>
                             </div>
                         )}
@@ -94,8 +94,8 @@ const Header = () => {
                     <Popover
                         content={(
                             <div className={styles.content}>
-                                <p>{locale({ id: 'header.teaching.text' })}</p>
-                                <div><Link to="/teaching">{locale({ id: 'header.teaching.learnmore' })}</Link></div>
+                                <p>{formatMessage({ id: 'header.teaching.text' })}</p>
+                                <div><Link to="/teaching">{formatMessage({ id: 'header.teaching.learnmore' })}</Link></div>
                             </div>
                         )}
                         popupClassName={styles.teachingPopover}
@@ -103,7 +103,7 @@ const Header = () => {
                         popupAlign={{ offset: [-5, -13] }}
                     >
                         <div className={styles.teachingText} onClick={() => router.push('/teaching')}>
-                            {locale({ id: 'header.teaching.trigger' })}
+                            {formatMessage({ id: 'header.teaching.trigger' })}
                         </div>
                     </Popover>
                 </div>

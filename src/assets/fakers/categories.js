@@ -1,7 +1,7 @@
 export default [
     {
         label: 'development',
-        name: 'cate.area.development',
+        name: 'cate.development',
         children: [
             {
                 label: 'all-dev',
@@ -13,7 +13,7 @@ export default [
                 children: [
                     {
                         label: 'all-web-dev',
-                        name: 'cate.development.web-development.all-web-development'
+                        name: 'cate.development.web-development.all'
                     },
                     {
                         label: 'javascript',
@@ -43,7 +43,7 @@ export default [
                 children: [
                     {
                         label: 'all-mob-dev',
-                        name: 'cate.development.mobile-development.all-mobile-development'
+                        name: 'cate.development.mobile-development.all'
                     },
                     {
                         label: 'android',
@@ -67,7 +67,7 @@ export default [
     },
     {
         label: 'it-and-software',
-        name: 'cate.area.it-and-software',
+        name: 'cate.it-and-software',
         children: [
             {
                 label: 'all-it',
@@ -78,20 +78,20 @@ export default [
                 name: 'cate.it-and-software.crypto',
                 children: [
                     {
-                        label: 'all-web-dev',
+                        label: 'network',
                         name: 'cate.it-and-software.crypto.network'
                     },
                     {
-                        label: 'javascript',
-                        name: 'cate.it-and-software.web-development.system'
+                        label: 'system',
+                        name: 'cate.it-and-software.crypto.system'
                     },
                     {
-                        label: 'angular',
-                        name: 'cate.it-and-software.web-development.public-key'
+                        label: 'public-key',
+                        name: 'cate.it-and-software.crypto.public-key'
                     },
                     {
-                        label: 'react',
-                        name: 'cate.it-and-software.web-development.private-key'
+                        label: 'private-key',
+                        name: 'cate.it-and-software.crypto.private-key'
                     }
                 ]
             }
