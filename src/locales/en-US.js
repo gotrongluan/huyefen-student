@@ -1,4 +1,6 @@
 export default {
+	'locale.english': 'English',
+	'locale.vietnamese': 'Vietnamese',
 	'route.user': 'Hanjh User',
 	'route.user.login': 'Log in',
 	'route.user.register': 'Register',
@@ -66,5 +68,14 @@ export default {
 	'cate.it-and-software.crypto.network': 'Network Security',
 	'cate.it-and-software.crypto.system': 'System Security',
 	'cate.it-and-software.crypto.public-key': 'Assymmetric Cryptography',
-	'cate.it-and-software.crypto.private-key': 'Symmetric Cryptography'
+	'cate.it-and-software.crypto.private-key': 'Symmetric Cryptography',
+	'footer.links.teaching': 'Teach on Hanjh',
+	'footer.links.app': 'Hanjh app',
+	'footer.links.about': 'About us',
+	'footer.links.careers': 'Careers',
+	'footer.links.blog': 'Blog',
+	'footer.links.help': 'Help and Support',
+	'footer.links.sitemap': 'Site map',
+	'footer.links.business': 'Hanjh for Business',
+	'footer.content.description': 'Hanjh provides universal access to the world’s best education, partnering with top universities and organizations to offer courses online.'
 }

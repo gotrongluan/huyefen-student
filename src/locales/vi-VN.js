@@ -1,4 +1,6 @@
 export default {
+	'locale.english': 'Tiếng Anh',
+	'locale.vietnamese': 'Tiếng Việt',
 	'route.user': 'Hanjh Xác thực',
 	'route.user.login': 'Đăng nhập',
 	'route.user.register': 'Đăng ký',
@@ -66,5 +68,14 @@ export default {
 	'cate.it-and-software.crypto.network': 'Bảo mật mạng',
 	'cate.it-and-software.crypto.system': 'Bảo mật hệ thống',
 	'cate.it-and-software.crypto.public-key': 'Mã hoá bất đối xứng',
-	'cate.it-and-software.crypto.private-key': 'Mã hoá đối xứng'
+	'cate.it-and-software.crypto.private-key': 'Mã hoá đối xứng',
+	'footer.links.teaching': 'Dạy học trên Hanjh',
+	'footer.links.app': 'Hanjh app',
+	'footer.links.about': 'Về chúng tôi',
+	'footer.links.careers': 'Tuyển dụng',
+	'footer.links.blog': 'Blog',
+	'footer.links.help': 'Hỗ trợ',
+	'footer.links.sitemap': 'Site map',
+	'footer.links.business': 'Hanjh cho doanh nghiệp',
+	'footer.content.description': 'Hanjh cung cấp quyền truy cập toàn cầu vào giáo dục tốt nhất thế giới, hợp tác với các trường đại học và tổ chức hàng đầu để cung cấp các khóa học trực tuyến.'
 }
