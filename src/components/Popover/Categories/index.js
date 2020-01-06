@@ -53,20 +53,24 @@ const Categories = () => {
     const parseCategories = categories => {
         if (!categories) return null;
         return categories.map(cate => cate.children ? (
-            <SubMenu key={cate.label} title={formatMessage({ id: cate.name })}>
+            <SubMenu key={cate.label} title={formatMessage({ id: cate.name })} className={styles.cateItem}>
                 {parseCategories(cate.children)}
             </SubMenu>
         ) : (
-            <MenuItem key={cate.label}>{formatMessage({ id: cate.name })}</MenuItem>
+            <MenuItem key={cate.label} className={styles.cateItem}>{formatMessage({ id: cate.name })}</MenuItem>
         ));
     };
 
     return (
-        <Dropdown overlay={(
-            <Menu>
-                {parseCategories(categories)}
-            </Menu>
-        )}>
+        <Dropdown
+            trigger={['click']}
+            overlayClassName={styles.overlay}
+            overlay={(
+                <Menu>
+                    {parseCategories(categories)}
+                </Menu>
+            )}
+        >
             {trigger}
         </Dropdown>
     );
