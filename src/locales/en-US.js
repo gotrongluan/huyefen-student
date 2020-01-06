@@ -115,4 +115,10 @@ export default {
 	'register.btn': 'Register',
 	'register.or': 'Or',
 	'register.already': 'Already have an account!',
+	'cate.finance-accounting': 'Finance & Accounting',
+	'cate.music': 'Music',
+	'cate.design': 'Design',
+	'cate.marketing': 'Marketing',
+	'cate.business': 'Business',
+	'cate.lifestyle': 'Life Style'
 }

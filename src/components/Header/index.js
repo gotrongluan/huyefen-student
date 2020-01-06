@@ -31,7 +31,7 @@ const Header = () => {
                     <Categories />
                 </div>
                 <div className={styles.search}>
-                    <Search placeholder={formatMessage({ id: 'header.search.placeholder' })} />
+                    <Search placeholder={formatMessage({ id: 'header.search.placeholder' })} size="large"/>
                 </div>
             </div>
             <div className={styles.rightContent}>

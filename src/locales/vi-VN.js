@@ -115,4 +115,10 @@ export default {
 	'register.btn': 'Đăng ký',
 	'register.or': 'Hoặc',
 	'register.already': 'Đã có tài khoản!',
+	'cate.finance-accounting': 'Finance & Accounting',
+	'cate.music': 'Music',
+	'cate.design': 'Design',
+	'cate.marketing': 'Marketing',
+	'cate.business': 'Business',
+	'cate.lifestyle': 'Life Style'
 }

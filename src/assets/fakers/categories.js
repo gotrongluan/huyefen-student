@@ -66,6 +66,14 @@ export default [
         ]
     },
     {
+        label: 'finace-accounting',
+        name: 'cate.finance-accounting'
+    },
+    {
+        label: 'design',
+        name: 'cate.design'
+    },
+    {
         label: 'it-and-software',
         name: 'cate.it-and-software',
         children: [
@@ -96,5 +104,21 @@ export default [
                 ]
             }
         ]
+    },
+    {
+        label: 'business',
+        name: 'cate.business'
+    },
+    {
+        label: 'marketing',
+        name: 'cate.marketing'
+    },
+    {
+        label: 'music',
+        name: 'cate.music'
+    },
+    {
+        label: 'lifestyle',
+        name: 'cate.lifestyle'
     }
 ]
