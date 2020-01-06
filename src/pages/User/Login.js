@@ -8,14 +8,10 @@ import Spin from '@/elements/spin/secondary';
 //import * as GlobalActions from '_redux/actions/global';
 import styles from './Login.less';
 
-class Login extends React.PureComponent {
-    handleSubmit = e => {
+const Login = (props) => {
+    const handleSubmit = e => {
         e.preventDefault();
-        const {
-            //login,
-            form,
-            //location
-        } = this.props;
+        const { form } = props;
         const errors = form.getFieldsError();
 
         if (_.some(errors, err => err)) return message.error(formatMessage({ id: 'login.invalidinput' }));
@@ -27,59 +23,57 @@ class Login extends React.PureComponent {
         //login(phone, password, from);
     }
 
-    render() {
-        const { getFieldDecorator } = this.props.form;
-        const { loading } = this.props;
-        return (
-            <Row className={styles.login}>
-                <div className={styles.title}>{formatMessage({ id: 'login.title' })}</div>
-                <div className={styles.loginForm}>
-                    <Form onSubmit={this.handleSubmit} className={styles.form}>
-                        <Form.Item>
-                            {getFieldDecorator('phone', {
-                                rules: [
-                                    { required: true, message: formatMessage({ id: 'login.phone.rules.required' }) },
-                                    { len: 10, message: formatMessage({ id: 'login.phone.rules.len' }) },
-                                    { pattern: /^\d+$/, message: formatMessage({ id: 'login.phone.rules.pattern' }) }
-                                ],
-                            })(
-                                <Input
-                                    prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder={formatMessage({ id: 'login.phone.placeholder' })}
-                                    size="large"
-                                />,
-                            )}
-                        </Form.Item>
-                        <Form.Item>
-                            {getFieldDecorator('password', {
-                                rules: [{ required: true, message: formatMessage({ id: 'login.password.rules.required' }) }],
-                            })(
-                                <Input
-                                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    type="password"
-                                    placeholder={formatMessage({ id: 'login.password.placeholder' })}
-                                    size="large"
-                                />,
-                            )}
-                        </Form.Item>
-                        <Form.Item>
-                            {getFieldDecorator('remember', {
-                                valuePropName: 'checked',
-                                initialValue: true,
-                            })(<Checkbox>{formatMessage({ id: 'login.rememberme' })}</Checkbox>)}
-                        <Link className={styles.forgot} to="/home">
-                            {formatMessage({ id: 'login.forgotpass' })}
-                        </Link>
-                        <Button type="primary" htmlType="submit" className={styles.btn} size="large">
-                            {loading ? (<Spin fontSize={4} isCenter={false} color="white"/>) : formatMessage({ id: 'login.btn' })}
-                        </Button>
-                        {formatMessage({ id: 'login.or' })} <Link to="/user/signup">{formatMessage({ id: 'login.registernow' })}</Link>
-                        </Form.Item>
-                    </Form>
-                </div>
-            </Row>
-        )
-    }
+    const { getFieldDecorator } = props.form;
+    const { loading } = props;
+    return (
+        <Row className={styles.login}>
+            <div className={styles.title}>{formatMessage({ id: 'login.title' })}</div>
+            <div className={styles.loginForm}>
+                <Form onSubmit={handleSubmit} className={styles.form}>
+                    <Form.Item>
+                        {getFieldDecorator('phone', {
+                            rules: [
+                                { required: true, message: formatMessage({ id: 'login.phone.rules.required' }) },
+                                { len: 10, message: formatMessage({ id: 'login.phone.rules.len' }) },
+                                { pattern: /^\d+$/, message: formatMessage({ id: 'login.phone.rules.pattern' }) }
+                            ],
+                        })(
+                            <Input
+                                prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                placeholder={formatMessage({ id: 'login.phone.placeholder' })}
+                                size="large"
+                            />,
+                        )}
+                    </Form.Item>
+                    <Form.Item>
+                        {getFieldDecorator('password', {
+                            rules: [{ required: true, message: formatMessage({ id: 'login.password.rules.required' }) }],
+                        })(
+                            <Input
+                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                type="password"
+                                placeholder={formatMessage({ id: 'login.password.placeholder' })}
+                                size="large"
+                            />,
+                        )}
+                    </Form.Item>
+                    <Form.Item>
+                        {getFieldDecorator('remember', {
+                            valuePropName: 'checked',
+                            initialValue: true,
+                        })(<Checkbox>{formatMessage({ id: 'login.rememberme' })}</Checkbox>)}
+                    <Link className={styles.forgot} to="/">
+                        {formatMessage({ id: 'login.forgotpass' })}
+                    </Link>
+                    <Button type="primary" htmlType="submit" className={styles.btn} size="large">
+                        {loading ? (<Spin fontSize={4} isCenter={false} color="white"/>) : formatMessage({ id: 'login.btn' })}
+                    </Button>
+                    {formatMessage({ id: 'login.or' })} <Link to="/user/register">{formatMessage({ id: 'login.registernow' })}</Link>
+                    </Form.Item>
+                </Form>
+            </div>
+        </Row>
+    )
 }
 
 // const mapStateToProps = ({ loading }) => ({

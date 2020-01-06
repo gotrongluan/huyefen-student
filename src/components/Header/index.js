@@ -18,7 +18,7 @@ const Header = () => {
     const handleLogout = () => {
         //
         message.success('Log out!');
-        router.push('/login');
+        router.push('/user/login');
     };
 
     return (
