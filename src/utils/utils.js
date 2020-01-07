@@ -57,4 +57,12 @@ export const transAuthors = (authors, maxLength) => {
         }
     }   
     return authorsStr;
+};
+
+export const roundStarRating = rating => {
+    if (rating > 5) return 5;
+    else if (rating < 0) return 0;
+    const ceil = _.ceil(rating);
+    if (rating < ceil) return ceil - 0.5;
+    else return rating;
 }

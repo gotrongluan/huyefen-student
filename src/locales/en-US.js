@@ -52,6 +52,7 @@ export default {
 	'cate.development.web-development': 'Web Development',
 	'cate.development.web-development.all': 'All Web Development',
 	'cate.development.web-development.javascript': 'Javascript',
+	'cate.development.web-development.python': 'Python',
 	'cate.development.web-development.angular': 'Angular',
 	'cate.development.web-development.react': 'React',
 	'cate.development.web-development.css': 'CSS',
@@ -120,5 +121,18 @@ export default {
 	'cate.design': 'Design',
 	'cate.marketing': 'Marketing',
 	'cate.business': 'Business',
-	'cate.lifestyle': 'Life Style'
+	'cate.lifestyle': 'Life Style',
+	'home.title.whatshould': 'What should to learn',
+	'home.subtitle.topcourses': 'Top courses recommended for you',
+	'home.topcourses.mostpopular': 'Most popular',
+	'home.topcourses.toprating': 'Top ratings',
+	'home.subtitle.topcoursesofcate': 'Top courses in',
+	'course.lastupdated': 'Last updated',
+	'course.bestseller': 'Bestseller',
+	'course.highrated': 'Highrated',
+	'course.lectures': 'Lectures',
+	'course.alllevel': 'All level',
+	'course.beginner': 'Beginner',
+	'course.addToCart': 'Add to cart',
+
 }

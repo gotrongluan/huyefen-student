@@ -1,3 +1,55 @@
 .homepage {
-
+    width: 100%;
+    padding: 0;
+    .recommender {
+        margin: auto;
+        width: 78%;
+        padding: 60px 0;
+        .title {
+            font-weight: bold;
+            font-size: 1.6em;
+        }
+        .topCoursesCont {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            .subTitle {
+                font-size: 1.2em;
+            }
+            .topCourses {
+                margin-top: 10px;
+                :global(.ant-tabs) {
+                    overflow: visible;
+                }
+            }
+        }
+        .topCoursesOfCateCont {
+            margin-top: 45px;
+            .subTitle {
+                font-size: 1.2em;
+                .cateName {
+                    font-weight: bold;
+                    color: @primary-color;
+                }
+            }
+            .topCoursesOfCate {
+                margin-top: 10px;
+            }
+        }
+        .courseItem {
+            width: 96% !important;
+        }
+        :global {
+            .ant-carousel .slick-prev, .ant-carousel .slick-next {
+                // color: @primary-color;
+                // border: 2px solid @primary-color;
+                background-color: @primary-color;
+                opacity: 0.6;
+                color: black;
+                z-index: 10;
+                &:hover {
+                    opacity: 0.9;
+                }
+            }
+        }
+    }
 }

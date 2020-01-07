@@ -1,9 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Popover, Card, Button, Icon, Tag, Rate } from 'antd';
+import { Popover, Card, Button, Icon, Tag, Rate, Row, Col } from 'antd';
 import { tagColor, featuredColor } from '@/config/constants';
-import { truncate, transAuthors } from '@/utils/utils';
+import { truncate, transAuthors, roundStarRating } from '@/utils/utils';
 import styles from './index.less';
 
 const CourseCarouselItem = ({ course }) => {
@@ -16,12 +16,12 @@ const CourseCarouselItem = ({ course }) => {
                 {`${formatMessage({ id: 'course.lastupdated' })}: ${course.lastUpdated}`}
             </div>
             <div className={styles.name}>
-                {course.name}
+                {truncate(course.name, 100)}
             </div>
             {course.featured && !_.isEmpty(course.featured) && (
                 <div className={styles.featured}>
                     {_.map(course.featured, (featured, i) => (
-                        <Tag color={featuredColor(i)} key={_.uniqueId('course_feature_')}>{formatMessage({ id: featured })}</Tag>
+                        <Tag color={featuredColor(i)} key={_.uniqueId('course_feature_')}>{_.toUpper(formatMessage({ id: featured }))}</Tag>
                     ))}
                 </div>
             )}
@@ -30,23 +30,23 @@ const CourseCarouselItem = ({ course }) => {
                     <Tag color={tagColor(i)} key={_.uniqueId('course_topic_')}>{formatMessage({ id: topic })}</Tag>
                 ))}
             </div>
-            <div className={styles.lectureInfo}>
-                <span className={styles.infoItem}>
-                    <Icon type="container" style={{ fontSize: '0.5em' }}/>
+            <Row className={styles.lectureInfo}>
+                <Col className={styles.infoItem} span={12}>
+                    <Icon type="container" theme="filled" />
                     <span>{`${course.numOfLectures} ${formatMessage({ id: 'course.lectures' })}`}</span>
-                </span>
-                <span className={styles.infoItem}>
-                    <Icon type="rocket" style={{ fontSize: '0.5em' }}/>
+                </Col>
+                <Col className={styles.infoItem} span={12}>
+                    <Icon type="rocket" theme="filled" />
                     <span>{formatMessage({ id: course.level })}</span>
-                </span>
-            </div>
+                </Col>
+            </Row>
             <div className={styles.summary}>
-                {truncate(course.summary, 90)}
+                {truncate(course.summary, 130)}
             </div>
             <div className={styles.whatLearn}>
                 <ul className={styles.list}>
                     {_.map(course.whatLearn, item => (
-                        <li key={_.uniqueId('what_learn_')}>{truncate(item, 60)}</li>
+                        <li key={_.uniqueId('what_learn_')}>{truncate(item, 120)}</li>
                     ))}
                 </ul>
             </div>
@@ -58,15 +58,25 @@ const CourseCarouselItem = ({ course }) => {
 
     const trigger = (
         <Card
+            className={styles.course}
             hoverable
             style={{ width: '100%' }}
-            cover={<img alt="cover" src={course.avatar} />}
+            cover={(
+                <div className={styles.cover}>
+                    {course.featured && !_.isEmpty(course.featured) && (
+                        <Tag color={featuredColor(0)} key={_.uniqueId('course_feature_')}>{_.toUpper(formatMessage({ id: course.featured[0] }))}</Tag>
+                    )}
+                    <img alt="cover" src={course.avatar} />
+                </div>
+                
+            )}
         >
             <div className={styles.info}>
-                <div className={styles.name}>{truncate(course.name, 60)}</div>
-                <div className={styles.authors}>{transAuthors(course.authors, 36)}</div>
+                <div className={styles.name}>{truncate(course.name, 35)}</div>
+                <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                 <div className={styles.starRating}>
-                    <Rate allowHalf value={course.rating} disabled />
+                    <Rate allowHalf value={roundStarRating(course.starRating)} disabled className={styles.stars} />
+                    <span className={styles.ratingVal}>{course.starRating}</span>
                 </div>
                 <div className={styles.price}>
                     {course.price}
@@ -81,6 +91,7 @@ const CourseCarouselItem = ({ course }) => {
             popupClassName={styles.popover}
             trigger="hover"
             content={content}
+            mouseEnterDelay={0.5}
         >
             {trigger}
         </Popover>
