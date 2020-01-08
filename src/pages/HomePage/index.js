@@ -1,13 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
-import { Row, Col, Tabs, Carousel, Button } from 'antd';
+import Link from 'umi/link';
+import { Row, Col, Tabs, Carousel, Button, Tag } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import CategoriesBar from '@/components/CategoriesBar';
 import Course from '@/components/CourseCarouselItem';
 import CATEGORIES from '@/assets/fakers/categories';
 import MOST_POPULAR from '@/assets/fakers/mostPopular';
 import TOP_RATING from '@/assets/fakers/topRating';
-import TOP_COURSES_OF_CATES from '@/assets/fakers/topCoursesOfCates'
+import TOP_COURSES_OF_CATES from '@/assets/fakers/topCoursesOfCates';
+import TOP_TOPICS from '@/assets/fakers/topTopics';
+import { tagColor } from '@/config/constants';
 import { range } from '@/utils/utils';
 import styles from './index.less';
 
@@ -19,6 +22,7 @@ const Homepage = () => {
     let personal = false;
     let mostPopularCourses = MOST_POPULAR;
     let topRatingCourses = TOP_RATING;
+    let topTopics = TOP_TOPICS;
     let recommender = null;
     const topCoursesOfCates = TOP_COURSES_OF_CATES;
     const coursesCarousel = (courses, chunkSize = 4) => {
@@ -86,6 +90,16 @@ const Homepage = () => {
                         </Row>
                     </Row>
                 ))}
+                <Row className={styles.topTopicsCont}>
+                    <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.toptopics' })} `}</Row>
+                    <Row className={styles.topTopics}>
+                        {_.map(topTopics, (topic, i) => (
+                            <Link to="/teaching" key={topic._id}>
+                                <Tag color={tagColor(i)}>{formatMessage({ id: topic.name })}</Tag>
+                            </Link>
+                        ))}
+                    </Row>
+                </Row>
             </React.Fragment>
         )
     }

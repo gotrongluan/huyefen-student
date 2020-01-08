@@ -127,6 +127,7 @@ export default {
 	'home.topcourses.mostpopular': 'Most popular',
 	'home.topcourses.toprating': 'Top ratings',
 	'home.subtitle.topcoursesofcate': 'Top courses in',
+	'home.subtitle.toptopics': 'Topics recommender for you',
 	'course.lastupdated': 'Last updated',
 	'course.bestseller': 'Bestseller',
 	'course.highrated': 'Highrated',
