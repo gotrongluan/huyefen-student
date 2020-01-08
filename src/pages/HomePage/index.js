@@ -5,11 +5,13 @@ import { Row, Col, Tabs, Carousel, Button, Tag } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import CategoriesBar from '@/components/CategoriesBar';
 import Course from '@/components/CourseCarouselItem';
+import Friend from '@/components/Friend';
 import CATEGORIES from '@/assets/fakers/categories';
 import MOST_POPULAR from '@/assets/fakers/mostPopular';
 import TOP_RATING from '@/assets/fakers/topRating';
 import TOP_COURSES_OF_CATES from '@/assets/fakers/topCoursesOfCates';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
+import TOP_FRIENDS from '@/assets/fakers/topFriends';
 import { tagColor } from '@/config/constants';
 import { range } from '@/utils/utils';
 import styles from './index.less';
@@ -17,15 +19,16 @@ import styles from './index.less';
 const { TabPane } = Tabs;
 
 const Homepage = () => {
-    let loading = false;
-    let categories = CATEGORIES;
+    // let loading = false;
+    // let categories = CATEGORIES;
     let personal = false;
     let mostPopularCourses = MOST_POPULAR;
     let topRatingCourses = TOP_RATING;
     let topTopics = TOP_TOPICS;
+    let topFriends = TOP_FRIENDS;
     let recommender = null;
     const topCoursesOfCates = TOP_COURSES_OF_CATES;
-    const coursesCarousel = (courses, chunkSize = 4) => {
+    const coursesCarousel = (courses) => {
         // const chunks = _.chunk(courses, chunkSize);
         // return (
         //     <Carousel
@@ -56,11 +59,31 @@ const Homepage = () => {
                 nextArrow={<Button shape="circle" icon="right" size="large" />}
             >
                 {_.map(courses, (course, i) => (
-                    <div className={styles.courseItem} key={_.uniqueId('course_')}>
+                    <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
                         <Course course={course} />
                     </div>
                 ))}
-                {_.map(range(5 - courses.length), n => (<div className={styles.courseItem} />))}
+                {_.map(range(5 - courses.length), n => (<div key={n} className={styles.courseItem} />))}
+            </Carousel>
+        )
+    };
+
+    const friendsCarousel = (friends) => {
+        return (
+            <Carousel
+                arrows={false}
+                slidesToShow={4}
+                slidesToScroll={2}
+                speed={500}
+                autoplay
+                autoplaySpeed={3500}
+            >
+                {_.map(friends, (friend, i) => (
+                    <div className={styles.friendItem} key={friend._id + _.uniqueId('friend_')}>
+                        <Friend friend={friend} />
+                    </div>
+                ))}
+                {_.map(range(4 - friends.length), n => (<div key={n} className={styles.courseItem} />))}
             </Carousel>
         )
     };
@@ -90,11 +113,17 @@ const Homepage = () => {
                         </Row>
                     </Row>
                 ))}
+                <Row className={styles.topFriendsCont}>
+                    <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.topfriends' })} `}</Row>
+                    <Row className={styles.topFriends}>
+                        {friendsCarousel(topFriends)}
+                    </Row>
+                </Row>
                 <Row className={styles.topTopicsCont}>
                     <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.toptopics' })} `}</Row>
                     <Row className={styles.topTopics}>
                         {_.map(topTopics, (topic, i) => (
-                            <Link to="/teaching" key={topic._id}>
+                            <Link to="/teaching" key={topic._id + _.uniqueId("topic_")}>
                                 <Tag color={tagColor(i)}>{formatMessage({ id: topic.name })}</Tag>
                             </Link>
                         ))}

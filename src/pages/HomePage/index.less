@@ -54,8 +54,29 @@
                 }
             }
         }
-        .courseItem {
+        .topFriendsCont {
+            margin-top: 45px;
+            .subTitle {
+                font-size: 1.2em;
+            }
+            .topFriends {
+                margin-top: 10px;
+                :global(.slick-dots) {
+                    top: 120%;
+                    li {
+                        background-color: rgba(250, 218, 94, 0.4);
+                        button {
+                            background-color: @primary-color;
+                        }
+                    }
+                }
+            }
+        }
+        .courseItem, .friendItem {
             width: 96% !important;
+        }
+        .friendItem {
+
         }
         :global {
             .ant-carousel .slick-prev, .ant-carousel .slick-next {

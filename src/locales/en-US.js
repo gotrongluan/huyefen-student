@@ -127,7 +127,8 @@ export default {
 	'home.topcourses.mostpopular': 'Most popular',
 	'home.topcourses.toprating': 'Top ratings',
 	'home.subtitle.topcoursesofcate': 'Top courses in',
-	'home.subtitle.toptopics': 'Topics recommender for you',
+	'home.subtitle.toptopics': 'Topics recommended for you',
+	'home.subtitle.topfriends': 'Friends recommended for you',
 	'course.lastupdated': 'Last updated',
 	'course.bestseller': 'Bestseller',
 	'course.highrated': 'Highrated',
@@ -135,5 +136,5 @@ export default {
 	'course.alllevel': 'All level',
 	'course.beginner': 'Beginner',
 	'course.addToCart': 'Add to cart',
-
+	'friend.mutualfriends': 'mutual friends',
 }
