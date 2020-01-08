@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import Link from 'umi/link';
+import { Parallax } from 'react-parallax';
 import { Row, Col, Tabs, Carousel, Button, Tag } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import CategoriesBar from '@/components/CategoriesBar';
@@ -12,7 +13,8 @@ import TOP_RATING from '@/assets/fakers/topRating';
 import TOP_COURSES_OF_CATES from '@/assets/fakers/topCoursesOfCates';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
 import TOP_FRIENDS from '@/assets/fakers/topFriends';
-import { tagColor } from '@/config/constants';
+import homeJumpotronImg from '@/assets/images/homeJumpotronImg.jpg';
+import { tagColor} from '@/config/constants';
 import { range } from '@/utils/utils';
 import styles from './index.less';
 
@@ -141,6 +143,33 @@ const Homepage = () => {
                 <CategoriesBar loading={loading} categories={categories} />
             </div> */}
             <Row className={styles.jumpotron}>
+                <Parallax
+                    bgImage={homeJumpotronImg}
+                    renderLayer={() => (
+                        <div>
+                            <div
+                                style={{
+                                    background: `rgba(0, 0, 0, 0.5)`,
+                                    width: '100%',
+                                    height: '100%',
+                                    position: 'absolute'
+                                }}
+                            />
+                        </div>
+                        
+                    )}
+                >
+                    <div style={{ height: 400 }}>
+                        <div className={styles.inlineDiv}>
+                            <div className={styles.bigSlogan}>
+                                {formatMessage({ id: 'home.jumpotron.bigslogan' })}
+                            </div>
+                            <div className={styles.smallSlogan}>
+                                {formatMessage({ id: 'home.jumpotron.smallslogan' })}
+                            </div>
+                        </div>
+                    </div>
+                </Parallax>
             </Row>
             <Row className={styles.recommender}>
                 {recommender}

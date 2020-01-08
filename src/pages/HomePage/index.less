@@ -1,6 +1,25 @@
 .homepage {
     width: 100%;
     padding: 0;
+    .jumpotron {
+        width: 100%;
+        .inlineDiv {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: @primary-color;
+            .bigSlogan {
+                font-size: 2.4em;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+            .smallSlogan {
+                font-size: 1.4em;
+            }
+        }
+    }
     .recommender {
         margin: auto;
         width: 78%;
@@ -74,9 +93,6 @@
         }
         .courseItem, .friendItem {
             width: 96% !important;
-        }
-        .friendItem {
-
         }
         :global {
             .ant-carousel .slick-prev, .ant-carousel .slick-next {

@@ -122,6 +122,8 @@ export default {
 	'cate.marketing': 'Marketing',
 	'cate.business': 'Business',
 	'cate.lifestyle': 'Life Style',
+	'home.jumpotron.bigslogan': 'Master a new subject with our online courses',
+	'home.jumpotron.smallslogan': 'Learn new skills online - and change your life for the better.',
 	'home.title.whatshould': 'What should to learn',
 	'home.subtitle.topcourses': 'Top courses recommended for you',
 	'home.topcourses.mostpopular': 'Most popular',
