@@ -11,27 +11,21 @@ import styles from './Register.less';
 const { Option } = Select;
 
 const Register = (props) => {
-    useEffect(() => {
-        const { form } = props;
-        form.setFieldsValue({
-            gender: 'male',
-            birthday: moment()
-        });
-    }, [props]);
 
     const handleSubmit = e => {
         e.preventDefault();
         const {
             //signup,
             form,
-        } = this.props;
+        } = props;
         const errors = form.getFieldsError();
 
         if (_.some(errors, err => err)) return message.error(formatMessage({ id: 'register.invalidinput' }));
-        const { name, phone, address, password, gender, birthday } = form.getFieldsValue();
+        const { name, phone, address, password, gender, birthday, job } = form.getFieldsValue();
         if (!phone || phone.trim().length === 0) return message.error(formatMessage({ id: 'register.emptyphone' }));
         if (!password || password.trim().length === 0) return message.error(formatMessage({ id: 'register.emptypassword' }));
         if (!name || name.trim().length === 0) return message.error(formatMessage({ id: 'register.emptyname' }));
+        if (!job) return message.error('You must select your job!');
         let info = {
             name, password, phone, gender,
             birthday: birthday.format("DD/MM/YYYY")
@@ -64,7 +58,9 @@ const Register = (props) => {
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item>
-                                {getFieldDecorator('gender')(
+                                {getFieldDecorator('gender', {
+                                    initialValue: 'male'
+                                })(
                                     <Select placeholder={formatMessage({ id: 'register.gender.placeholder' })} size="large">
                                         <Option value="male" >{formatMessage({ id: 'register.gender.male' })}</Option>
                                         <Option value="female">{formatMessage({ id: 'register.gender.female' })}</Option>
@@ -74,7 +70,9 @@ const Register = (props) => {
                         </Col>
                         <Col span={12}>
                             <Form.Item>
-                                {getFieldDecorator('birthday')(
+                                {getFieldDecorator('birthday', {
+                                    initialValue: moment()
+                                })(
                                     <DatePicker placeholder={formatMessage({ id: 'register.birthday.placeholder' })} size="large"/>
                                 )}
                             </Form.Item>
@@ -92,6 +90,32 @@ const Register = (props) => {
                                 placeholder={formatMessage({ id: 'register.password.placeholder' })}
                                 size="large"
                             />,
+                        )}
+                    </Form.Item>
+                    <Form.Item>
+                        {getFieldDecorator('job', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: 'Please select your job!',
+                                }
+                            ]
+                        })(
+                            <Select
+                                showSearch
+                                placeholder="Job"
+                                optionFilterProp="children"
+                                filterOption={(input, option) =>
+                                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) > -1
+                                }
+                                size="large"
+                                style={{ width: '100%' }}
+                            >
+                                <Option value="student">Student</Option>
+                                <Option value="teacher">Teacher</Option>
+                                <Option value="doctor">Doctor</Option>
+                                <Option value="others">Others</Option>
+                            </Select>
                         )}
                     </Form.Item>
                     <Form.Item>
