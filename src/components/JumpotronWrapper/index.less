@@ -1,0 +1,25 @@
+.jumpotronWrapper {
+    .jumpotron {
+        width: 100%;
+        height: 220px;
+        background: @primary-color;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, @primary-color, #F2994A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            font-size: 6em;
+        }
+    }
+    .content {
+        & > div {
+            margin: auto;
+            width: 78%;
+            padding: 60px 0 40px 0;
+        }
+    }
+}

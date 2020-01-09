@@ -1,0 +1,31 @@
+.course {
+    :global(.ant-card-body) {
+        padding: 0;
+    }
+    .info {
+        .avatar {
+            img {
+                width: 100%;
+                height: 90px;
+            }
+        }
+        .name {
+            padding-left: 15px;
+            padding-top: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    }
+    .progress {
+        width: 100%;
+        line-height: 8px;
+        :global {
+            .ant-progress-line, .ant-progress-outer {
+                line-height: 8px;
+            }
+            .ant-progress-inner {
+                border-radius: 0;
+            }
+        }
+    }
+}

@@ -80,10 +80,40 @@ export default [
                 component: './MyCourses'
             },
             {
-                path: '/profile',
-                title: 'route.basic.profile',
-                Routes: ['./src/routes/Authenticate'],
-                component: './Profile'
+                path: '/settings',
+                title: 'route.basic.settings',
+                component: '../layouts/SettingsLayout',
+                routes: [
+                    {
+                        path: '/settings/profile',
+                        title: 'route.basic.settings.profile',
+                        Routes: ['./src/routes/Authenticate'],
+                        component: './Settings/Profile'
+                    },
+                    {
+                        path: '/settings/payment-methods',
+                        title: 'route.basic.settings.paymentmethods',
+                        Routes: ['./src/routes/Authenticate'],
+                        component: './Settings/PaymentMethods'
+                    },
+                    {
+                        path: '/settings/email',
+                        title: 'route.basic.settings.email',
+                        Routes: ['./src/routes/Authenticate'],
+                        component: './Settings/Email'
+                    },
+                    {
+                        path: '/settings/note-highlights',
+                        title: 'route.basic.settings.notehighlight',
+                        Routes: ['./src/routes/Authenticate'],
+                        component: './Settings/NoteHighlight'
+                    },
+                    {
+                        path: '/settings',
+                        redirect: '/settings/profile',
+                        exact: true
+                    }
+                ]
             },
             {
                 path: '/my-friends',

@@ -7,12 +7,14 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import CategoriesBar from '@/components/CategoriesBar';
 import Course from '@/components/CourseCarouselItem';
 import Friend from '@/components/Friend';
+import InProgressCourse from '@/components/InProgressCourse';
 import CATEGORIES from '@/assets/fakers/categories';
 import MOST_POPULAR from '@/assets/fakers/mostPopular';
 import TOP_RATING from '@/assets/fakers/topRating';
 import TOP_COURSES_OF_CATES from '@/assets/fakers/topCoursesOfCates';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
 import TOP_FRIENDS from '@/assets/fakers/topFriends';
+import MY_COURSES from '@/assets/fakers/mycourses';
 import homeJumpotronImg from '@/assets/images/homeJumpotronImg.jpg';
 import { tagColor} from '@/config/constants';
 import { range } from '@/utils/utils';
@@ -28,6 +30,7 @@ const Homepage = () => {
     let topRatingCourses = TOP_RATING;
     let topTopics = TOP_TOPICS;
     let topFriends = TOP_FRIENDS;
+    let backCourses = MY_COURSES;
     let recommender = null;
     const topCoursesOfCates = TOP_COURSES_OF_CATES;
     const coursesCarousel = (courses) => {
@@ -85,10 +88,31 @@ const Homepage = () => {
                         <Friend friend={friend} />
                     </div>
                 ))}
-                {_.map(range(4 - friends.length), n => (<div key={n} className={styles.courseItem} />))}
+                {_.map(range(4 - friends.length), n => (<div key={n} className={styles.friendItem} />))}
             </Carousel>
         )
     };
+
+    const backCoursesCarousel = backCourses => {
+        return (
+            <Carousel
+                arrows
+                dots={false}
+                slidesToShow={3}
+                slidesToScroll={2}
+                speed={500}
+                prevArrow={<Button shape="circle" icon="left" size="large" />}
+                nextArrow={<Button shape="circle" icon="right" size="large" />}
+            >
+                {_.map(backCourses, backCourse => (
+                    <div className={styles.backCourseItem} key={backCourse._id + _.uniqueId('backCourse_')}>
+                        <InProgressCourse course={backCourse} />
+                    </div>
+                ))}
+                {_.map(range(3 - backCourses.length), n => (<div key={n} className={styles.backCourseItem} />))}
+            </Carousel>
+        )
+    }
 
     if (!personal) {
         recommender = (
@@ -170,6 +194,15 @@ const Homepage = () => {
                         </div>
                     </div>
                 </Parallax>
+            </Row>
+            <Row className={styles.back}>
+                <Row className={styles.title}>{`${formatMessage({ id: 'home.title.back' })}, Ngọc Hạnh`}</Row>
+                <Row className={styles.backCoursesCont}>
+                    <Row className={styles.subTitle}>{formatMessage({ id: 'home.subtitle.back' })}</Row>
+                    <Row className={styles.backCourses}>
+                        {backCoursesCarousel(backCourses)}
+                    </Row>
+                </Row>
             </Row>
             <Row className={styles.recommender}>
                 {recommender}

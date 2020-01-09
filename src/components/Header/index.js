@@ -51,17 +51,17 @@ const Header = () => {
                                         <div className={styles.mail}>ngochanhvuong@gmail.com</div>
                                     </Col>
                                 </Row>
-                                <div className={styles.item}>
-                                    <Link to="/profile">{formatMessage({ id: 'header.account.profile' })}</Link>
+                                <div className={styles.item} onClick={() => router.push('/settings')}>
+                                    <span>{formatMessage({ id: 'header.account.settings' })}</span>
                                 </div>
-                                <div className={styles.item}>
-                                    <Link to="/purchase-history">{formatMessage({ id: 'header.account.purchase-history' })}</Link>
+                                <div className={styles.item} onClick={() => router.push('/purchase-history')}>
+                                    <span>{formatMessage({ id: 'header.account.purchase-history' })}</span>
                                 </div>
-                                <div className={styles.item}>
-                                    <Link to="/my-friends">{formatMessage({ id: 'header.account.myfriends' })}</Link>
+                                <div className={styles.item} onClick={() => router.push('/my-friends')}>
+                                    <span>{formatMessage({ id: 'header.account.myfriends' })}</span>
                                 </div>
-                                <div className={styles.item}>
-                                    <Link to="/my-teachers">{formatMessage({ id: 'header.account.myteachers' })}</Link>
+                                <div className={styles.item} onClick={() => router.push('/my-teachers')}>
+                                    <span>{formatMessage({ id: 'header.account.myteachers' })}</span>
                                 </div>
                                 <div className={styles.divider}><Divider type="horizontal" className={styles.realDivider} /></div>
                                 <div className={styles.item}>

@@ -36,7 +36,9 @@
     }
     .colorBar {
         height: 5px;
-        background: @primary-color;
-        background: linear-gradient(90deg, rgba(250,218,94,1) 0%, rgba(255,211,0,1) 35%, rgba(255,255,0,1) 100%);
+        background: @primary-color;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, @primary-color, #F2994A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
     }
 }
