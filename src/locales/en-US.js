@@ -145,5 +145,9 @@ export default {
 	'course.beginner': 'Beginner',
 	'course.addToCart': 'Add to cart',
 	'friend.mutualfriends': 'mutual friends',
-	'settings.title': 'Settings'
+	'settings.title': 'Settings',
+	'settings.menu.profile': 'Profile',
+	'settings.menu.paymentmethods': 'Payment methods',
+	'settings.menu.email': 'Email preferences',
+	'settings.menu.notehighlight': 'Note & highlight'
 }

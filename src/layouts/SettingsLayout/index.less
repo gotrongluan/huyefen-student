@@ -1,0 +1,30 @@
+.settings {
+    .menu {
+        .menuItem {
+            margin-bottom: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+            }
+            i {
+                font-size: 2.2em;
+                position: relative;
+                top: 7px;
+            }
+            .name {
+                margin-left: 20px;
+            }
+        }
+        .active {
+            color: @primary-color;
+        }
+    }
+    .content {
+        //background-color: @background-color-1;
+        border: 0.5px solid @primary-color;
+        //box-shadow: 0 2px 8px rgba(250, 218, 94, 1);
+        padding: 20px 10px;
+        border-radius: 4px;
+    }
+}

@@ -110,8 +110,10 @@ export default [
                     },
                     {
                         path: '/settings',
-                        redirect: '/settings/profile',
-                        exact: true
+                        redirect: '/settings/profile'
+                    },
+                    {
+                        redirect: '/exception/404'
                     }
                 ]
             },
