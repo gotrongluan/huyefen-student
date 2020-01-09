@@ -32,12 +32,6 @@ const menuData = [
 
 const Settings = ({ location, children }) => {
     const pathname = location.pathname;
-    useEffect(() => {
-        console.log('hello');
-        return () => {
-            console.log('bye');
-        }
-    });
     return (
         <Wrapper title={formatMessage({ id: 'settings.title' })}>
             <Row className={styles.settings}>

@@ -149,5 +149,7 @@ export default {
 	'settings.menu.profile': 'Profile',
 	'settings.menu.paymentmethods': 'Payment methods',
 	'settings.menu.email': 'Email preferences',
-	'settings.menu.notehighlight': 'Note & highlight'
+	'settings.menu.notehighlight': 'Note & highlight',
+	'settings.profile.account.job.student': 'Student',
+	'settings.profile.account.title': 'Account Information'
 }
