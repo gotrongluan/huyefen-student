@@ -112,6 +112,7 @@ export default {
 	'register.gender.placeholder': 'Gender',
 	'register.birthday.placeholder': 'Birthday',
 	'register.password.rules.required': 'Please enter your password!',
+	'register.password.rules.min': 'Your password must has more than 5 character!',
 	'register.password.placeholder': 'Password',
 	'register.address.placeholder': 'Address',
 	'register.phone.rules.required': 'Please enter your phone!',

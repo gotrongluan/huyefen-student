@@ -109,7 +109,7 @@ export default [
                         component: './Settings/Email'
                     },
                     {
-                        path: '/settings/note-highlights',
+                        path: '/settings/note-highlight',
                         title: 'route.basic.settings.notehighlight',
                         Routes: ['./src/routes/Authenticate'],
                         component: './Settings/NoteHighlight'

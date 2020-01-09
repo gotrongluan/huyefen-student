@@ -82,7 +82,10 @@ const Register = (props) => {
                     </Row>
                     <Form.Item>
                         {getFieldDecorator('password', {
-                            rules: [{ required: true, message: formatMessage({ id: 'register.password.rules.required' }) }],
+                            rules: [
+                                { required: true, message: formatMessage({ id: 'register.password.rules.required' }) },
+                                { min: 6, message: formatMessage({ id: 'register.password.rules.min' })}
+                            ],
                         })(
                             <Input
                                 type="password"

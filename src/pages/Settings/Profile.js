@@ -24,7 +24,7 @@ const Profile = ({ form }) => {
         return false;
     };
 
-    const handleRemoveAvatar = () => { setAvatar(null); return false; }
+    const handleRemoveAvatar = () => setAvatar(null);
 
     const avatarProps = {
         name: 'avatarfile',
