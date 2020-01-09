@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Form, Input, DatePicker, Button, Avatar, Upload, Row, Col, Select, Divider, Icon, Transfer } from 'antd';
+import { Form, Input, DatePicker, Button, Avatar, Upload, Row, Col, Select, Divider, Icon, Transfer, message } from 'antd';
 import CATES_OF_CONCERN from '@/assets/fakers/catesOfConcern';
 import styles from './Profile.less';
 
@@ -11,14 +11,63 @@ const { Option } = Select;
 const Profile = ({ form }) => {
     const { getFieldDecorator } = form;
     const data = CATES_OF_CONCERN;
+    const [avatar, setAvatar] = useState(null);
     const [mockData, setMockData] = useState([...data['mockData']])
     const [targetKeys, setTargetKeys] = useState([...data['targetKeys']]);
 
     const handleChangeInfo = () => {};
+    
     const handleChangeConcern = targetKeys => setTargetKeys(targetKeys);
+    
+    const handleBeforeUpload = file => {
+        setAvatar(file);
+        return false;
+    };
+
+    const handleRemoveAvatar = () => { setAvatar(null); return false; }
+
+    const avatarProps = {
+        name: 'avatarfile',
+        beforeUpload: handleBeforeUpload,
+        onRemove: handleRemoveAvatar,
+        openFileDialogOnClick: !avatar,
+        showUploadList: {
+            showRemoveIcon: true
+        }
+    };
 
     return (
         <div className={styles.profile}>
+            <div className={styles.avatar}>
+                <div className={styles.main}>
+                    <Avatar
+                        size={150}
+                        src={"https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56"}
+                        alt="avatar"
+                    />
+                </div>
+                <div className={styles.uploader}>
+                    <Form layout="vertical" onSubmit={(e) => {
+                        message.success('Change avatar!');
+                        e.preventDefault();
+                    }}>
+                        <Form.Item>
+                            <Upload {...avatarProps} accept="image/*">
+                                {!avatar ? (
+                                    <Button className={styles.upBtn}>
+                                        <Icon type="upload" /> New avatar
+                                    </Button>
+                                ) : (
+                                    <Button type="primary" htmlType="submit">
+                                        <Icon type="check" /> Let's change                    
+                                    </Button>
+                                )}
+                            </Upload>
+                        </Form.Item>
+                    </Form>
+                </div>
+            </div>
+            <Divider dashed className={styles.divider} />
             <div className={styles.account}>
                 <div className={styles.title}>
                     {formatMessage({ id: 'settings.profile.account.title' })}
@@ -203,12 +252,6 @@ const Profile = ({ form }) => {
                 <div className={styles.btn}>
                     <Button type="primary" size="large">Update concerned categories</Button>
                 </div>
-            </div>
-            <div className={styles.avatar}>
-
-            </div>
-            <div className={styles.changePassword}>
-
             </div>
         </div>
     )

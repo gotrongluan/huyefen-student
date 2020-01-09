@@ -14,6 +14,11 @@ const menuData = [
         icon: 'user'
     },
     {
+        url: '/settings/change-password',
+        name: formatMessage({ id: 'settings.menu.changepass' }),
+        icon: 'lock'
+    },
+    {
         url: '/settings/payment-methods',
         name: formatMessage({ id: 'settings.menu.paymentmethods' }),
         icon: 'credit-card'

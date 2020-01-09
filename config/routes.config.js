@@ -91,6 +91,12 @@ export default [
                         component: './Settings/Profile'
                     },
                     {
+                        path: '/settings/change-password',
+                        title: 'route.basic.settings.changepass',
+                        Routes: ['./src/routes/Authenticate'],
+                        component: './Settings/ChangePassword'
+                    },
+                    {
                         path: '/settings/payment-methods',
                         title: 'route.basic.settings.paymentmethods',
                         Routes: ['./src/routes/Authenticate'],
