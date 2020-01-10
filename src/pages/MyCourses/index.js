@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import { List, Row, Form, Select, Button, Col, message } from 'antd';
+import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
 import MyCourse from '@/components/MyCourse';
 import MY_COURSES from '@/assets/fakers/mycourses';
@@ -16,6 +17,7 @@ const MyCourses = () => {
     const [instructor, setInstructor] = useState(undefined);
     const loading = false;
     const filterLoading = false;
+    const myCourses = MY_COURSES;
     const handleSort = sort => {
         setSort(sort);
         message.success('Sort successfully!');
@@ -35,7 +37,9 @@ const MyCourses = () => {
                 <Row className={styles.filter} gutter={24}>
                     <Col span={5} className={styles.sortCont}>
                         {loading ? (
-                            <div></div>
+                            <div className={styles.loading}>
+                                <Spin fontSize={8} isCenter spinning/>
+                            </div>
                         ) : (
                             <Form layout="vertical" className={styles.sortForm}>
                                 <div className={styles.label}>Sort by</div>
@@ -62,7 +66,9 @@ const MyCourses = () => {
                         </Col>  
                     <Col span={19} className={styles.filterCont}>
                         {filterLoading ? (
-                            <div></div>
+                            <div className={styles.loading}>
+                                <Spin fontSize={8} isCenter spinning/>
+                            </div>
                         ) : (
                             <Form layout="inline" className={styles.filterForm}>
                                 <div className={styles.label}>Filter by</div>
@@ -130,6 +136,21 @@ const MyCourses = () => {
                             </Form>
                         )}
                     </Col>
+                </Row>
+                <Row className={styles.content}>
+                    <List
+                        grid={{
+                            gutter: 16,
+                            column: 4
+                        }}
+                        dataSource={myCourses}
+                        rowKey={course => course._id + _.uniqueId('my_course_')}
+                        renderItem={course => (
+                            <List.Item>
+                                <MyCourse course={course} />
+                            </List.Item>
+                        )}
+                    />
                 </Row>
             </div>
         </Wrapper>

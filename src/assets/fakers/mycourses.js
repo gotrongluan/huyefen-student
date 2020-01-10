@@ -4,6 +4,7 @@ export default [
         name: 'Lập trình PHP cơ bản',
         authors: ['Nguyễn Hứa Phùng'],
         progress: 25,
+        registerTime: 1567476499584,
         avatar: 'https://techtalk.vn/wp-content/uploads/2018/12/php-1024x538-696x366.png'
     },
     {
@@ -11,6 +12,7 @@ export default [
         name: 'Reactjs for beginner (2019)',
         authors: ['Ha Huynh Sam', 'Luan Nguyen Trong'],
         progress: 57,
+        registerTime: 1567476499584,
         avatar: 'https://miro.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png'
     },
     {
@@ -18,6 +20,7 @@ export default [
         name: 'Introduction to microservices',
         authors: ['Manh Le Duc', 'Hung Nguyen Viet'],
         progress: 0,
+        registerTime: 1567476499584,
         avatar: 'https://miro.medium.com/max/6996/1*xu1Ge_Cew0DHdSU6ETcpLQ.png'
     },
     {
@@ -25,6 +28,7 @@ export default [
         name: 'Advanced in Machine Learning',
         authors: ['Tan Dinh Minh', 'Duong Le Hoang', 'Tuan Vu Dao Anh', 'Duong Cao Chanh'],
         progress: 2,
+        registerTime: 1567476499584,
         avatar: 'https://miro.medium.com/max/2400/1*c_fiB-YgbnMl6nntYGBMHQ.jpeg'
     },
     {
@@ -32,6 +36,7 @@ export default [
         name: 'Make a greate app with Android Java',
         authors: ['Kiet Luong Tuan', 'Tai Than Duc', 'Hieu Pham Minh'],
         progress: 60,
+        registerTime: 1567476499584,
         avatar: 'https://nordvpn.com/wp-content/uploads/2019/09/NordVPN-app-update-Android-1200x675.png'
     },
     {
@@ -39,6 +44,7 @@ export default [
         name: 'Odoo in Enterprise Resource Planning (ERP)',
         authors: ['Khang Nguyen An', 'Tham Nguyen Minh'],
         progress: 20,
+        registerTime: 1567476499584,
         avatar: 'https://www.nicepng.com/png/detail/393-3932222_odoo-features1-odoo-erp.png'
     },
     {
@@ -46,6 +52,7 @@ export default [
         name: 'Mật mã và an ninh mạng',
         authors: ['Nguyễn Hồ Minh Phước', 'Nguyễn Văn Tường'],
         progress: 0,
+        registerTime: 1567476499584,
         avatar: 'https://www.cisomag.com/wp-content/uploads/2017/03/Cherry-picking-a-new-trend-among-hackers.jpg'
     }
 ]
