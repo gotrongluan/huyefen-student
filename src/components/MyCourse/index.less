@@ -72,3 +72,27 @@
         }
     }
 }
+
+.recommendFriendModal {
+    :global(.ant-modal-header) {
+        background-color: rgba(20, 20, 20, 0.5);
+        .title {
+            color: @primary-color;
+            text-align: center;
+        }
+    }
+    :global(.ant-modal-footer) {
+        background-color: rgba(20, 20, 20, 0.5);
+    }
+    .table {
+        :global(.ant-table-row-selected) {
+            &, td {
+                background: inherit;
+                &:hover {
+                    background-color: inherit;
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}

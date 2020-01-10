@@ -1,11 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
-import { Card, Modal, Button, Rate, Progress, Tooltip, Dropdown, Menu, Icon } from 'antd';
+import { Card, Modal, Button, Rate, Progress, Tooltip, Dropdown, Menu, Icon, Avatar, Table } from 'antd';
 import { linearColorTheme } from '@/config/constants';
 import { truncate, transAuthors } from '@/utils/utils';
+import FRIENDS from '@/assets/fakers/topFriends';
 import styles from './index.less';
 
 const MyCourse = ({ course }) => {
+    const [visibleModal, setVisibleModal] = useState(false);
+    const [selectedFriendIds, setSelectedFriendIds] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const friends = FRIENDS;
+    const friendsLoading = false;
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            width: '425px'
+        },
+        {
+            title: 'Avatar',
+            dataIndex: 'avatar',
+            render: avatar => <Avatar alt="avatar" shape="circle" size={36} src={avatar} />,
+            fixed: 'right',
+            width: '90px'
+        }
+    ];
+    const handleCancelRecommend = () => {
+        setCurrentPage(1);
+        setVisibleModal(false);
+        setSelectedFriendIds([]);
+    };
+    const handleRecommend = () => {
+        console.log(selectedFriendIds);
+        handleCancelRecommend();
+    };
+    const handleSelectFriends = friendIds => {
+        setSelectedFriendIds(friendIds);
+    };
+    const handleChangeFriendsPage = page => {
+        setCurrentPage(page);
+        //fetch data;
+    };
     return (
         <React.Fragment>
             <Card
@@ -28,7 +64,7 @@ const MyCourse = ({ course }) => {
                                         </span>
                                     </Menu.Item>
                                     <Menu.Divider />
-                                    <Menu.Item key="recommend">
+                                    <Menu.Item key="recommend" onClick={() => setVisibleModal(true)}>
                                         <span>
                                             <Icon type="share-alt" />
                                             <span>Recommend to Friend</span>
@@ -56,8 +92,45 @@ const MyCourse = ({ course }) => {
                     </div>
                 </div>
             </Card>
-            <Modal>
-
+            <Modal
+                className={styles.recommendFriendModal}
+                title={<div className={styles.title}>Recommend to friends</div>}
+                width={600}
+                centered
+                okText="Recommend"
+                cancelText="Cancel"
+                visible={visibleModal}
+                onOk={handleRecommend}
+                onCancel={handleCancelRecommend}
+                bodyStyle={{
+                    padding: '10px'
+                }}
+            >
+                <div className={styles.friends}>
+                    <Table
+                        className={styles.table}
+                        columns={columns}
+                        dataSource={friends}
+                        loading={friendsLoading}
+                        rowKey={friend => friend._id}
+                        showHeader={false}
+                        scroll={{ x: 581 }}
+                        rowSelection={{
+                            columnWidth: '60px',
+                            fixed: 'left',
+                            onChange: handleSelectFriends,
+                            selectedRowKeys: selectedFriendIds
+                        }}
+                        pagination={(friends && friends.length > 5) ? {
+                            total: 40,
+                            pageSize: 5,
+                            current: currentPage,
+                            simple: true,
+                            small: true,
+                            onChange: handleChangeFriendsPage
+                        } : false}
+                    />
+                </div>
             </Modal>
         </React.Fragment> 
     )

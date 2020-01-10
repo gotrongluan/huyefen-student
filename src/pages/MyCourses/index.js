@@ -36,7 +36,7 @@ const MyCourses = () => {
             <div className={styles.myCourses}>
                 <Row className={styles.filter} gutter={24}>
                     <Col span={5} className={styles.sortCont}>
-                        {loading ? (
+                        {!myCourses || loading ? (
                             <div className={styles.loading}>
                                 <Spin fontSize={8} isCenter spinning/>
                             </div>
@@ -138,7 +138,7 @@ const MyCourses = () => {
                     </Col>
                 </Row>
                 <Row className={styles.content}>
-                    {loading ? (
+                    {!myCourses || loading ? (
                         <div className={styles.loading}>
                             <Spin spinning fontSize={15} isCenter />
                         </div>
