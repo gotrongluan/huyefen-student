@@ -35,8 +35,8 @@ const Homepage = () => {
     const backCourses = MY_COURSES;
     const loading = false
     const isBack = true;
-    const backLoading = true;
-    const recommendLoading = true;
+    const backLoading = false;
+    const recommendLoading = false;
     let recommender = null;
     const topCoursesOfCates = TOP_COURSES_OF_CATES;
     const coursesCarousel = (courses) => {

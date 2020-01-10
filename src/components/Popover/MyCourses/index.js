@@ -18,21 +18,15 @@ const MyCourses = () => {
         setVisible(visible);
     };
 
-    const handleScroll = e => {
-        const element = e.srcElement;
-        if (element.scrollTop === element.scrollHeight - 437) {
-            
-        }
-    };
-
     const handleGotoCourse = name => message.success(`Go to course ${name}`);
 
-    const handleViewAll = () => {};
+    const handleViewAll = () => {
+        handleVisibleChange(false);
+    };
 
     const getContent = () => {
-        let myCourses = MYCOURSES;
+        let myCourses = _.take(MYCOURSES, 4);
         const loading = false;
-        const oldLoading = false;
         return loading ? (
             <Spin
                 spinning
@@ -48,7 +42,7 @@ const MyCourses = () => {
             </div>
         ) : (
             <div>
-                <Scrollbars autoHeight autoHeightMax={270} onScroll={handleScroll}>
+                <Scrollbars autoHeight autoHeightMax={270}>
                     <List
                         dataSource={myCourses}
                         rowKey={item => item._id + _.uniqueId("mycourse_")}
@@ -69,13 +63,8 @@ const MyCourses = () => {
                             </Row>
                         )}
                     />
-                    {oldLoading && (
-                        <div className={styles.oldLoading}>
-                            <Loading indicator={<Icon type="loading" style={{ fontSize: 18 }} spin />} />
-                        </div>
-                    )}
                 </Scrollbars>
-                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/mycourses">{formatMessage({ id: 'header.mycourses.viewall' })}</Link></div>
+                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/my-courses">{formatMessage({ id: 'header.mycourses.viewall' })}</Link></div>
             </div>
             
         )
@@ -95,7 +84,7 @@ const MyCourses = () => {
             content={content}
             popupClassName={styles.popover}
             placement="bottom"
-            trigger="hover"
+            trigger="click"
             visible={visible}
             popupAlign={{ offset: [3, -13] }}
             arrowPointAtCenter
