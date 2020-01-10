@@ -138,19 +138,30 @@ const MyCourses = () => {
                     </Col>
                 </Row>
                 <Row className={styles.content}>
-                    <List
-                        grid={{
-                            gutter: 16,
-                            column: 4
-                        }}
-                        dataSource={myCourses}
-                        rowKey={course => course._id + _.uniqueId('my_course_')}
-                        renderItem={course => (
-                            <List.Item>
-                                <MyCourse course={course} />
-                            </List.Item>
-                        )}
-                    />
+                    {loading ? (
+                        <div className={styles.loading}>
+                            <Spin spinning fontSize={15} isCenter />
+                        </div>
+                    ) : (
+                        <List
+                            grid={{
+                                gutter: 16,
+                                column: 4
+                            }}
+                            dataSource={myCourses}
+                            rowKey={course => course._id + _.uniqueId('my_course_')}
+                            renderItem={course => (
+                                <List.Item>
+                                    <MyCourse course={course} />
+                                </List.Item>
+                            )}
+                            pagination={myCourses.length > 8 ? {
+                                total: myCourses.length,
+                                pageSize: 8,
+                                defaultCurrent: 1
+                            } : false}
+                        />
+                    )}
                 </Row>
             </div>
         </Wrapper>
