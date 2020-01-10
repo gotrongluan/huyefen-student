@@ -1,8 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 import Link from 'umi/link';
 import { Parallax } from 'react-parallax';
 import { Row, Col, Tabs, Carousel, Button, Tag } from 'antd';
+import Spin from '@/elements/spin/secondary';
 import { formatMessage } from 'umi-plugin-react/locale';
 import CategoriesBar from '@/components/CategoriesBar';
 import Course from '@/components/CourseCarouselItem';
@@ -16,7 +18,7 @@ import TOP_TOPICS from '@/assets/fakers/topTopics';
 import TOP_FRIENDS from '@/assets/fakers/topFriends';
 import MY_COURSES from '@/assets/fakers/mycourses';
 import homeJumpotronImg from '@/assets/images/homeJumpotronImg.jpg';
-import { tagColor} from '@/config/constants';
+import { tagColor } from '@/config/constants';
 import { range } from '@/utils/utils';
 import styles from './index.less';
 
@@ -25,12 +27,16 @@ const { TabPane } = Tabs;
 const Homepage = () => {
     // let loading = false;
     // let categories = CATEGORIES;
-    let personal = false;
-    let mostPopularCourses = MOST_POPULAR;
-    let topRatingCourses = TOP_RATING;
-    let topTopics = TOP_TOPICS;
-    let topFriends = TOP_FRIENDS;
-    let backCourses = MY_COURSES;
+    const personal = false;
+    const mostPopularCourses = MOST_POPULAR;
+    const topRatingCourses = TOP_RATING;
+    const topTopics = TOP_TOPICS;
+    const topFriends = TOP_FRIENDS;
+    const backCourses = MY_COURSES;
+    const loading = false
+    const isBack = true;
+    const backLoading = true;
+    const recommendLoading = true;
     let recommender = null;
     const topCoursesOfCates = TOP_COURSES_OF_CATES;
     const coursesCarousel = (courses) => {
@@ -114,6 +120,29 @@ const Homepage = () => {
         )
     }
 
+    const courseSkeletonsCarousel = () => {
+        return (
+            <Carousel
+                arrow={false}
+                dots={false}
+                slidesToShow={5}
+            >
+                {_.map(range(5), n => (
+                    <div className={styles.courseItem} key={n + _.uniqueId('course_skeleton_')}>
+                        <div className={styles.courseSkeleton}>
+                            <div className={classNames(styles.avatar, styles.skeletonBox)} />
+                            <div className={styles.info}>
+                                <div className={classNames(styles.name, styles.skeletonBox)} />
+                                <div className={classNames(styles.authors, styles.skeletonBox)} />
+                                <div className={classNames(styles.price, styles.skeletonBox)} />
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </Carousel>
+        )
+    };
+
     if (!personal) {
         recommender = (
             <React.Fragment>
@@ -195,18 +224,69 @@ const Homepage = () => {
                     </div>
                 </Parallax>
             </Row>
-            <Row className={styles.back}>
-                <Row className={styles.title}>{`${formatMessage({ id: 'home.title.back' })}, Ngọc Hạnh`}</Row>
-                <Row className={styles.backCoursesCont}>
-                    <Row className={styles.subTitle}>{formatMessage({ id: 'home.subtitle.back' })}</Row>
-                    <Row className={styles.backCourses}>
-                        {backCoursesCarousel(backCourses)}
+            {loading ? (
+                <div className={styles.loading}>
+                    <Spin spinning fontSize={10} isCenter/>
+                </div>
+            ) : (
+                <React.Fragment>
+                    {isBack && (
+                        <Row className={styles.back}>
+                            {backLoading ? (
+                                <div className={styles.backLoading}>
+                                    <div className={classNames(styles.titleSkeleton, styles.skeletonBox)} />
+                                    <Row className={styles.coursesSkeleton} gutter={16}>
+                                        <Col span={12} className={styles.course}>
+                                            <Row>
+                                                <Col span={10} className={styles.avatarCol}>
+                                                    <div className={classNames(styles.avatar, styles.skeletonBox)} />
+                                                </Col>
+                                                <Col span={14} className={styles.infoCol}>
+                                                    <div className={classNames(styles.name, styles.skeletonBox)} />
+                                                    <div className={classNames(styles.progress, styles.skeletonBox)} />
+                                                    <div className={classNames(styles.authors, styles.skeletonBox)} />
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col span={12} className={styles.course}>
+                                            <Row>
+                                                <Col span={10} className={styles.avatarCol}>
+                                                    <div className={classNames(styles.avatar, styles.skeletonBox)} />
+                                                </Col>
+                                                <Col span={14} className={styles.infoCol}>
+                                                    <div className={classNames(styles.name, styles.skeletonBox)} />
+                                                    <div className={classNames(styles.progress, styles.skeletonBox)} />
+                                                    <div className={classNames(styles.authors, styles.skeletonBox)} />
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            ) : (
+                                <>
+                                    <Row className={styles.title}>{`${formatMessage({ id: 'home.title.back' })}, Ngọc Hạnh`}</Row>
+                                    <Row className={styles.backCoursesCont}>
+                                        <Row className={styles.subTitle}>{formatMessage({ id: 'home.subtitle.back' })}</Row>
+                                        <Row className={styles.backCourses}>
+                                            {backCoursesCarousel(backCourses)}
+                                        </Row>
+                                    </Row>
+                                </>
+                            )}
+                        </Row>
+                    )}
+                    <Row className={styles.recommender}>
+                        {recommendLoading ? (
+                            <div className={styles.recommendLoading}>
+                                <div className={classNames(styles.titleSkeleton, styles.skeletonBox)} />
+                                <div className={styles.coursesSkeleton}>
+                                    {courseSkeletonsCarousel()}
+                                </div>
+                            </div>
+                        ) : recommender}
                     </Row>
-                </Row>
-            </Row>
-            <Row className={styles.recommender}>
-                {recommender}
-            </Row>
+                </React.Fragment>
+            )}
         </div>
     )
 };

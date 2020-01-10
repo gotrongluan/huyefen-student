@@ -15,6 +15,7 @@ const MyCourses = () => {
     const [category, setCategory] = useState(undefined);
     const [progress, setProgress] = useState(undefined);
     const [instructor, setInstructor] = useState(undefined);
+    const [currentPage, setCurrentPage] = useState(1);
     const loading = false;
     const filterLoading = false;
     const myCourses = MY_COURSES;
@@ -30,6 +31,15 @@ const MyCourses = () => {
     };
     const handleChangeInstructor = instructor => {
         setInstructor(instructor);
+    };
+    const handleFilter = () => {};
+    const handleReset = () => {
+        setCategory(undefined);
+        setProgress(undefined);
+        setInstructor(undefined);
+    };
+    const handleChangeCurrentPage = page => {
+        setCurrentPage(page);
     };
     return (
         <Wrapper title="My courses">
@@ -130,8 +140,8 @@ const MyCourses = () => {
                                     </Select>
                                 </Form.Item>
                                 <Form.Item className={classnames(styles.formItem, styles.btn)}>
-                                    <Button type="primary" >Filter</Button>
-                                    <Button  className={styles.resetBtn}>Reset</Button>
+                                    <Button type="primary" onClick={handleFilter}>Filter</Button>
+                                    <Button  className={styles.resetBtn} onClick={handleReset}>Reset</Button>
                                 </Form.Item>
                             </Form>
                         )}
@@ -156,9 +166,10 @@ const MyCourses = () => {
                                 </List.Item>
                             )}
                             pagination={myCourses.length > 8 ? {
-                                total: myCourses.length,
+                                total: 100,
                                 pageSize: 8,
-                                defaultCurrent: 1
+                                current: currentPage,
+                                onChange: handleChangeCurrentPage
                             } : false}
                         />
                     )}

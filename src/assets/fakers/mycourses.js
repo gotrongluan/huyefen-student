@@ -63,14 +63,14 @@ export default [
         registerTime: 1567476499584,
         avatar: 'https://techtalk.vn/wp-content/uploads/2018/12/php-1024x538-696x366.png'
     },
-    {
-        _id: 12,
-        name: 'Reactjs for beginner (2019)',
-        authors: ['Ha Huynh Sam', 'Luan Nguyen Trong'],
-        progress: 57,
-        registerTime: 1567476499584,
-        avatar: 'https://miro.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png'
-    },
+    // {
+    //     _id: 12,
+    //     name: 'Reactjs for beginner (2019)',
+    //     authors: ['Ha Huynh Sam', 'Luan Nguyen Trong'],
+    //     progress: 57,
+    //     registerTime: 1567476499584,
+    //     avatar: 'https://miro.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png'
+    // },
     // {
     //     _id: 13,
     //     name: 'Introduction to microservices',
