@@ -1,7 +1,13 @@
 .purchaseHistory {
     .table {
-        .item {
+        .item, .bundle {
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+            }
             width: 75%;
+        }
+        .item {
             height: 88px;
             cursor: pointer;
             &:hover {
@@ -20,7 +26,6 @@
         }
         .bundle {
             font-weight: bold;
-            width: 75%;
         }
         .items .subItems {
             margin-left: 20%;
