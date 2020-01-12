@@ -15,10 +15,10 @@ const MyCourses = () => {
     const [category, setCategory] = useState(undefined);
     const [progress, setProgress] = useState(undefined);
     const [instructor, setInstructor] = useState(undefined);
-    const [currentPage, setCurrentPage] = useState(1);
-    const loading = false;
+    let [myCourses, setMyCourses] = useState(MY_COURSES);
+    const [loading, setLoading] = useState(false);
+    const initLoading = false;
     const filterLoading = false;
-    const myCourses = MY_COURSES;
     const handleSort = sort => {
         setSort(sort);
         message.success('Sort successfully!');
@@ -38,15 +38,33 @@ const MyCourses = () => {
         setProgress(undefined);
         setInstructor(undefined);
     };
-    const handleChangeCurrentPage = page => {
-        setCurrentPage(page);
+    const handleMoreCourses = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setMyCourses([...myCourses, ...MY_COURSES]);
+            setLoading(false);
+        }, 2000);
     };
+    const loadMore = (
+        !initLoading && !loading ? (
+            <div className={styles.loadMore}>
+                <Button size="small" type="default" onClick={handleMoreCourses}>More courses</Button>
+                <Button size="small" type="primary" style={{ marginLeft: 10 }}>All courses</Button>
+            </div>
+        ) : null
+    );
+    if (loading && myCourses) myCourses = _.concat(myCourses, [
+        { key: _.uniqueId('my_course_loading_'), loading: true },
+        { key: _.uniqueId('my_course_loading_'), loading: true },
+        { key: _.uniqueId('my_course_loading_'), loading: true },
+        { key: _.uniqueId('my_course_loading_'), loading: true }
+    ]);
     return (
         <Wrapper title="My courses">
             <div className={styles.myCourses}>
                 <Row className={styles.filter} gutter={24}>
                     <Col span={5} className={styles.sortCont}>
-                        {!myCourses || loading ? (
+                        {!myCourses || initLoading ? (
                             <div className={styles.loading}>
                                 <Spin fontSize={8} isCenter spinning/>
                             </div>
@@ -77,7 +95,7 @@ const MyCourses = () => {
                     <Col span={19} className={styles.filterCont}>
                         {filterLoading ? (
                             <div className={styles.loading}>
-                                <Spin fontSize={8} isCenter spinning/>
+                                <Spin fontSize={6} isCenter spinning/>
                             </div>
                         ) : (
                             <Form layout="inline" className={styles.filterForm}>
@@ -148,31 +166,31 @@ const MyCourses = () => {
                     </Col>
                 </Row>
                 <Row className={styles.content}>
-                    {!myCourses || loading ? (
-                        <div className={styles.loading}>
-                            <Spin spinning fontSize={15} isCenter />
-                        </div>
-                    ) : (
+                    <Spin spinning={!myCourses || initLoading} fontSize={8} isCenter>
                         <List
                             grid={{
                                 gutter: 16,
                                 column: 4
                             }}
+                            loadMore={loadMore}
                             dataSource={myCourses}
-                            rowKey={course => course._id + _.uniqueId('my_course_')}
+                            rowKey={course => (course._id || course.key) + _.uniqueId('my_course_')}
                             renderItem={course => (
                                 <List.Item>
-                                    <MyCourse course={course} />
+                                    {!course.loading ? (<MyCourse course={course} />) : (
+                                        <div className={styles.courseSkeleton}>
+                                            <div className={classnames(styles.avatar, styles.skeletonBox)} />
+                                            <div className={styles.info}>
+                                                <div className={classnames(styles.name, styles.skeletonBox)} />
+                                                <div className={classnames(styles.authors, styles.skeletonBox)} />
+                                                <div className={classnames(styles.price, styles.skeletonBox)} />
+                                            </div>
+                                        </div> 
+                                    )}
                                 </List.Item>
                             )}
-                            pagination={myCourses.length > 8 ? {
-                                total: 100,
-                                pageSize: 8,
-                                current: currentPage,
-                                onChange: handleChangeCurrentPage
-                            } : false}
                         />
-                    )}
+                    </Spin>
                 </Row>
             </div>
         </Wrapper>
