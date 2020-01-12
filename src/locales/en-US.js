@@ -20,6 +20,7 @@ export default {
 	'route.basic.settings.paymentmethods': 'Payment Methods',
 	'route.basic.settings.email': 'Email Preferences',
 	'route.basic.settings.notehighlight': 'Note & Highlight',
+	'route.basic.purchasehistory': 'Purchase history',
 	'route.basic.myteachers': 'My teachers',
 	'route.basic.myfriends': 'My friends',
 	'route.basic.friend': 'Friend',

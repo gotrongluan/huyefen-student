@@ -124,6 +124,12 @@ export default [
                 ]
             },
             {
+                path: '/purchase-history',
+                title: 'route.basic.purchasehistory',
+                Routes: ['./src/routes/Authenticate'],
+                component: './PurchaseHistory'
+            },
+            {
                 path: '/my-friends',
                 title: 'route.basic.myfriends',
                 Routes: ['./src/routes/Authenticate'],

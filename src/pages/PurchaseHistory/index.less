@@ -1,0 +1,66 @@
+.purchaseHistory {
+    .table {
+        .item {
+            width: 75%;
+            height: 88px;
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+            }
+            .avatar {
+                img {
+                    width: 100%;
+                    height: 88px;
+                }
+            }
+            .name {
+                padding: 0 15px;
+                font-size: 1.2em;
+            }
+        }
+        .bundle {
+            font-weight: bold;
+            width: 75%;
+        }
+        .items .subItems {
+            margin-left: 20%;
+            .item {
+                width: 80%;
+                margin-top: 13px;
+                height: 73px;
+                .avatar {
+                    img {
+                        height: 73px;
+                    }
+                }
+                .name {
+                    font-size: 1em;
+                }
+            }
+            .bundle {
+                width: 80%;
+                margin-top: 13px;
+                height: 73px;
+                font-size: 0.85em;
+            }
+        }
+        .prices {
+            .total {
+                height: 88px;
+                font-size: 1.2em;
+                color: @primary-color;
+            }
+            .subPrices {
+                .price {
+                    margin-top: 13px;
+                    height: 73px;
+                }
+            }
+        }
+        
+        :global(.ant-table-row-cell-break-word) {
+            vertical-align: baseline;
+            vertical-align: -webkit-baseline-middle;
+        }
+    }
+}
