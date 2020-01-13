@@ -19,7 +19,7 @@ const MyTeachers = () => {
         }, 1500);
     };
     const loadMore = (
-        !loading && !initLoading ? (
+        !loading && !initLoading && teachers ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreTeachers}>More teachers</Button>
                 <Button size="small" type="primary" style={{ marginLeft: 10 }}>All teachers</Button>

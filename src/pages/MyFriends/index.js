@@ -19,7 +19,7 @@ const MyFriends = () => {
         }, 1500);
     };
     const loadMore = (
-        !loading && !initLoading ? (
+        !loading && !initLoading && friends ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreFriends}>More friends</Button>
                 <Button size="small" type="primary" style={{ marginLeft: 10 }}>All friends</Button>

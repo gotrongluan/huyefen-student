@@ -46,7 +46,7 @@ const MyCourses = () => {
         }, 2000);
     };
     const loadMore = (
-        !initLoading && !loading ? (
+        !initLoading && !loading && myCourses ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreCourses}>More courses</Button>
                 <Button size="small" type="primary" style={{ marginLeft: 10 }}>All courses</Button>

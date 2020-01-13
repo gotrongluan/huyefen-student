@@ -1,0 +1,46 @@
+.course {
+    :global(.ant-card-cover) {
+        .cover {
+            position: relative;
+            width: 100%;
+            height: 163px;
+            overflow: hidden;
+            .ticked {
+                position: absolute;
+                top: 6px;
+                right: 6px;
+            }
+            img {
+                width: 100%;
+                height: auto;
+                min-height: 163px;
+            }
+        }
+    }
+    :global(.ant-card-body) {
+        padding: 15px;
+        height: 160px;
+        .info {
+            .name {
+                font-size: 1.2em;
+                font-weight: bold;
+                height: 50px;
+            }
+            .authors {
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
+            .starRating {
+                margin-top: 10px;
+                text-align: right;
+                .stars {
+                    font-size: 0.9em;
+                }
+                .ratingVal {
+                    margin-left: 5px;
+                    font-size: 1.2em;
+                }
+            }
+        }
+    }
+}

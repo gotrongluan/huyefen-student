@@ -10,4 +10,6 @@ export default {
     '@icon-color': 'inherit',
     '@background-color-1': 'rgb(20, 20, 20)',
     '@skeleton-to-color': 'shade(rgb(40, 40, 40), 5%);',
+    '@primary-5': 'yellow',
+    '@primary-7': 'yellow'
 };
