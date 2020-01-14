@@ -102,5 +102,44 @@
                 }
             }
         }
+        .biography {
+            .bioContent {
+                width: 70%;
+                margin: auto;
+                .bio {
+                    strong {
+                        color: @primary-color;
+                    }
+                }
+                .statistic {
+                    margin-top: 30px;
+                    :global(.ant-card-body) {
+                        padding: 13px;
+                    }
+                }
+                .divider {
+                    background-color: white;
+                    margin-bottom: 30px;
+                }
+                .social {
+                    .title {
+                        margin-bottom: 15px;
+                    }
+                    .links {
+                        a {
+                            margin-left: 15px;
+                            &:first-child {
+                                margin-left: 0;
+                            }
+                            button {
+                                i {
+                                    font-size: 1.26em;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
