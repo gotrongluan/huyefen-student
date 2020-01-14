@@ -1,0 +1,106 @@
+.teacher {
+    .skeletonBox {
+        background-color: rgb(20, 20, 20);
+        position: relative;
+        overflow: hidden;
+        &::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(
+                90deg,
+                rgba(transparent, 0) 0,
+                rgba(rgba(40, 40, 40, 0.4), 0.2) 20%,
+                rgba(rgba(40, 40, 40, 0.4), 0.5) 40%,
+                rgba(transparent, 0)
+            );
+            animation: shimmer 1.5s infinite;
+            content: '';
+        }
+        
+        @keyframes shimmer {
+            100% {
+              transform: translateX(100%);
+            }
+        }
+    }
+    .jumpotron {
+        width: 100%;
+        height: 380px;
+        background: rgb(35, 35, 35);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, rgb(35, 35, 35), rgb(75, 75, 75));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, rgb(35, 35, 35), rgb(75, 75, 75)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        .info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            .avatarCont .avatar {
+                border: 6px solid white;
+            }
+            .name {
+                margin-top: 10px;
+                font-size: 2.2em;
+                font-weight: bold;
+            }
+            .actions {
+                margin-top: 40px;
+                button {
+                    min-width: 180px;
+                }
+            }
+        }
+    }
+    .content {
+        //position: relative;
+        .tabs {
+            position: relative;
+            bottom: 44px;
+            width: 78%;
+            margin: auto;
+        }
+        .tabPane {
+            width: 100%;
+            padding: 60px 0 40px 0;
+        }
+        .courses {
+            .courseContent {
+                width: 85%;
+                margin: auto;
+                .loadMore {
+                    margin-top: 30px;
+                    text-align: center;
+                }
+                
+                .courseSkeleton {
+                    width: 100%;
+                    background-color: rgb(30, 30, 30);
+                    .avatar {
+                        height: 163px;
+                        
+                        width: 100%;
+                    }
+                    .info {
+                        padding: 15px;
+                        .name, .authors, .price {
+                            height: 25px;
+                            
+                            width: 100%;
+                            margin-bottom: 15px;
+                        }
+                        .price {
+                            margin-left: auto;
+                            margin-right: 0;
+                            width: 30%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

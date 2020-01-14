@@ -78,10 +78,10 @@ const Friend= () => {
         ) : null
     );
     if (loading && courses) courses = _.concat(courses, [
-        { key: _.uniqueId('my_course_loading_'), loading: true },
-        { key: _.uniqueId('my_course_loading_'), loading: true },
-        { key: _.uniqueId('my_course_loading_'), loading: true },
-        { key: _.uniqueId('my_course_loading_'), loading: true }
+        { key: _.uniqueId('friend_course_loading_'), loading: true },
+        { key: _.uniqueId('friend_course_loading_'), loading: true },
+        { key: _.uniqueId('friend_course_loading_'), loading: true },
+        { key: _.uniqueId('friend_course_loading_'), loading: true }
     ]);
     if (friendLoading && friends) friends = _.concat(friends, [{
         key: _.uniqueId('friend_loading_'),
