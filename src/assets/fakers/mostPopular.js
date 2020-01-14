@@ -137,7 +137,8 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.7,
-        price: '9.99$'
+        price: '9.99$',
+        isRegistered: true
     },
     {
         _id: 8,

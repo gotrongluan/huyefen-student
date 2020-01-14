@@ -30,9 +30,15 @@ const TeacherCourse = ({ course }) => {
                     <Rate allowHalf value={roundStarRating(course.starRating)} disabled className={styles.stars} />
                     <span className={styles.ratingVal}>{course.starRating}</span>
                 </div>
-                <div className={styles.price}>
-                    {course.price}
-                </div>
+                {course.isRegistered ? (
+                    <div className={styles.registered}>
+                        Registered
+                    </div>
+                ) : (
+                    <div className={styles.price}>
+                        {course.price}
+                    </div>
+                )}
             </div>
         </Card>
     )

@@ -4,6 +4,7 @@ export default [
         name: 'Lập trình PHP cơ bản',
         authors: ['Nguyễn Hứa Phùng'],
         starRating: 4.3,
+        isRegistered: true,
         avatar: 'https://techtalk.vn/wp-content/uploads/2018/12/php-1024x538-696x366.png'
     },
     {
@@ -18,6 +19,7 @@ export default [
         name: 'Introduction to microservices',
         authors: ['Manh Le Duc', 'Hung Nguyen Viet'],
         starRating: 3.8,
+        isRegistered: true,
         avatar: 'https://miro.medium.com/max/6996/1*xu1Ge_Cew0DHdSU6ETcpLQ.png'
     },
     {
