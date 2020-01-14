@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import router from 'umi/router';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Popover, Card, Button, Icon, Tag, Rate, Row, Col } from 'antd';
 import { tagColor, featuredColor } from '@/config/constants';
@@ -60,6 +61,7 @@ const CourseCarouselItem = ({ course }) => {
         <Card
             className={styles.course}
             hoverable
+            onClick={() => router.push('/course/123')}
             style={{ width: '100%' }}
             cover={(
                 <div className={styles.cover}>
@@ -83,6 +85,7 @@ const CourseCarouselItem = ({ course }) => {
                 </div>
             </div>
         </Card>
+        
     );
 
     return (

@@ -65,4 +65,8 @@ export const roundStarRating = rating => {
     const ceil = _.ceil(rating);
     if (rating < ceil) return ceil - 0.5;
     else return rating;
-}
+};
+
+export const  numberWithCommas = x => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};

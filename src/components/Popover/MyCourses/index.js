@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
+import router from 'umi/router';
 import { Popover, Icon, List, Progress, Spin as Loading, message, Row, Col, Tooltip } from 'antd';
 import Scrollbars from 'react-custom-scrollbars';
 import Spin from '@/elements/spin/secondary';
@@ -18,7 +19,10 @@ const MyCourses = () => {
         setVisible(visible);
     };
 
-    const handleGotoCourse = name => message.success(`Go to course ${name}`);
+    const handleGotoCourse = name => {
+        message.success(`Go to course ${name}`);
+        router.push('/course/123');
+    };
 
     const handleViewAll = () => {
         handleVisibleChange(false);

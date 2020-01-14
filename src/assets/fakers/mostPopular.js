@@ -138,7 +138,7 @@ export default [
         ],
         starRating: 4.7,
         price: '9.99$',
-        isRegistered: true
+        //isRegistered: true
     },
     {
         _id: 8,

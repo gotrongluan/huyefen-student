@@ -1,0 +1,150 @@
+.detail {
+    .jumpotron {
+        width: 100%;
+        height: 380px;
+        background: rgb(35, 35, 35);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, rgb(35, 35, 35), rgb(75, 75, 75));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, rgb(35, 35, 35), rgb(75, 75, 75)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        .courseInfo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            .info {
+                position: relative;
+                & > div {
+                    width: 72%;
+                    font-size: 1.1em;
+                }
+                .name {
+                    font-size: 2.7em;
+                    font-weight: bold;
+                    color: @primary-color;
+                    background: -webkit-linear-gradient(to right, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+                    background: linear-gradient(to right, @primary-color, #F2994A);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+                .summary {
+                    font-size: 1.5em;
+                }
+                .statistic {
+                    margin-top: 5px;
+                    .ratingVal {
+                        margin-left: 8px;
+                        font-size: 1.3em;
+                    }
+                    .numOfRatings, .numOfEnrolled {
+                        margin-left: 12px;
+                    }
+                }
+                .authors {
+                    margin-top: 5px;
+                }
+                .extra {
+                    margin-top: 5px;
+                    i {
+                        font-size: 1.4em;
+                    }
+                    .language, .lastUpdated {
+                        margin-left: 12px;
+                    }
+                    .levelVal, .languageVal, .lastUpdatedVal {
+                        margin-left: 8px;
+                    }
+                }
+                .btns {
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translate(0%, -50%);
+                    width: 25%;
+                    text-align: center;
+                    .btnsLoading {
+                        width: 200px;
+                        margin: auto;
+                    }
+                    button {
+                        width: 200px;
+                        border-radius: 0;
+                    }
+                    .buyNow {
+                        margin-top: 15px;
+                    }
+                }
+            }
+            
+        }
+    }
+    .stickyBar {
+        background: rgb(20, 20, 20);
+        padding: 7px 0;
+        .info {
+            width: 80%;
+            margin: auto;
+            text-align: left;
+            position: relative;
+            .name {
+                font-size: 1.5em;
+                color: @primary-color;
+                background: -webkit-linear-gradient(to right, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, @primary-color, #F2994A);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .statistic {
+                .stars {
+                    font-size: 1em;
+                }
+                .ratingVal {
+                    margin-left: 8px;
+                    font-size: 1.15em;
+                }
+                .numOfRatings, .numOfEnrolled {
+                    margin-left: 12px;
+                }
+            }
+            .btns {
+                position: absolute;
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translate(0%, -50%);
+                button {
+                    border-radius: 0;
+                }
+                .buyNow {
+                    margin-left: 15px;
+                }
+            }
+        }
+        
+    }
+    .content {
+        //position: relative;
+        .tabs {
+            position: relative;
+            bottom: 54px;
+            width: 78%;
+            margin: auto;
+        }
+        .tabPane {
+            width: 100%;
+            padding: 60px 0 40px 0;
+        }
+        .loading {
+            height: 450px;
+            position: relative;
+            .inlineDiv {
+                text-align: center;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}

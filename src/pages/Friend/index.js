@@ -99,7 +99,7 @@ const Friend= () => {
             <Row className={styles.jumpotron}>
                 <div className={styles.info}>
                     <div className={styles.avatarCont}>
-                        {infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (<Avatar size={120} shape="circle" className={styles.avatar} src={friend.avatar} />)}
+                        {infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (<Avatar alt="friend-avatar" size={120} shape="circle" className={styles.avatar} src={friend.avatar} />)}
                     </div>
                     <div className={styles.name}>
                         {!infoLoading && friend.name}

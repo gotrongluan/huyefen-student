@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { Tabs, Avatar, Skeleton, Button, Row, Col, Icon, Spin as Loading, List, Statistic, Divider, Card } from 'antd';
+import { Row, Col, Tabs, Button, Skeleton, Icon, Spin as Loading, List, Statistic, Divider, Card } from 'antd';
 import TeacherCourse from '@/components/TeacherCourse';
 import COURSES from '@/assets/fakers/mostPopular';
 import Spin from '@/elements/spin/secondary';
-
 import styles from './index.less';
 
 const { TabPane } = Tabs;
@@ -60,17 +59,19 @@ const Teacher = () => {
         ) : null
     );
     if (loading && courses) courses = _.concat(courses, [
-        { key: _.uniqueId('friend_course_loading_'), loading: true },
-        { key: _.uniqueId('friend_course_loading_'), loading: true },
-        { key: _.uniqueId('friend_course_loading_'), loading: true },
-        { key: _.uniqueId('friend_course_loading_'), loading: true }
+        { key: _.uniqueId('teacher_course_loading_'), loading: true },
+        { key: _.uniqueId('teacher_course_loading_'), loading: true },
+        { key: _.uniqueId('teacher_course_loading_'), loading: true },
+        { key: _.uniqueId('teacher_course_loading_'), loading: true }
     ]);
     return (
         <Row className={styles.teacher}>
             <Row className={styles.jumpotron}>
                 <div className={styles.info}>
-                    <div className={styles.avatarCont}>
-                        {infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (<Avatar size={120} shape="circle" className={styles.avatar} src={teacher.avatar} />)}
+                    <div className={styles.avatarContainer}>
+                        {infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (
+                            <img src={teacher.avatar} alt="teacher-avatar" />
+                        )}
                     </div>
                     <div className={styles.name}>
                         {!infoLoading && teacher.name}

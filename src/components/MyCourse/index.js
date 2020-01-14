@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { Card, Modal, Button, Rate, Progress, Tooltip, Dropdown, Menu, Icon, Avatar, Table } from 'antd';
+import router from 'umi/router';
+import { Card, Modal, Progress, Tooltip, Dropdown, Menu, Icon, Avatar, Table } from 'antd';
 import { linearColorTheme } from '@/config/constants';
 import { truncate, transAuthors } from '@/utils/utils';
 import FRIENDS from '@/assets/fakers/topFriends';
@@ -57,7 +58,7 @@ const MyCourse = ({ course }) => {
                             overlayClassName={styles.overlay}
                             overlay={(
                                 <Menu>
-                                    <Menu.Item key="edit-rating">
+                                    <Menu.Item key="edit-rating" onClick={() => router.push('/course/123')}>
                                         <span>
                                             <Icon type="edit" />
                                             <span>Edit rating</span>
@@ -75,11 +76,11 @@ const MyCourse = ({ course }) => {
                         >
                             <div className={styles.optionsBtn}><Icon type="more" /></div>
                         </Dropdown>
-                        <img alt="avatar" src={course.avatar} />
+                        <img alt="avatar" src={course.avatar} onClick={() => router.push('/course/123')}/>
                     </div>
                 }
             >
-                <div className={styles.info}>
+                <div className={styles.info} onClick={() => router.push('/course/123')}>
                     <div className={styles.name}>{truncate(course.name, 35)}</div>
                     <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                     <div className={styles.progress}>
