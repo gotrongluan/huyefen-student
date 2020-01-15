@@ -12,6 +12,7 @@ import OVERVIEW from '@/assets/fakers/overview';
 import SYLLABUS from '@/assets/fakers/syllabus';
 import RELATED_COURSES from '@/assets/fakers/relatedCourses';
 import INSTRUCTORS from '@/assets/fakers/instructors';
+import REVIEWS from '@/assets/fakers/reviews';
 import styles from './Detail.less';
 
 const { TabPane } = Tabs;
@@ -234,6 +235,12 @@ const RelatedCourses = ({ data }) => {
     )
 };
 
+const Reviews = ({ data }) => {
+    return (
+        <div></div>
+    )
+};
+
 const Instructors = ({ instructors }) => {
     return (
         <React.Fragment>
@@ -284,6 +291,8 @@ const DetailCourse = () => {
     const [relatedCoursesLoading, setRelatedCoursesLoading] = useState(false);
     const [instructors, setInstructors] = useState(null);
     const [instructorsLoading, setInstructorsLoading] = useState(false);
+    const [reviews, setReviews] = useState(null);
+    const [reviewsLoading, setReviewsLoading] = useState(false);
     useEffect(() => {
         setCourseInfoLoading(true);
         setOverviewLoading(true);
@@ -315,6 +324,13 @@ const DetailCourse = () => {
             setInstructorsLoading(false);
         }, 1000);
     };
+    const fetchReviews = courseId => {
+        setReviewsLoading(true);
+        setTimeout(() => {
+            setReviews(REVIEWS);
+            setInstructorsLoading(false);
+        }, 1000);
+    };
     const handleChangeTabs = activeKey => {
         if (activeKey === 'overview') {
 
@@ -330,7 +346,9 @@ const DetailCourse = () => {
             }
         }
         else if (activeKey === 'reviews') {
-
+            if (!reviews) {
+                fetchReviews(courseInfo._id);
+            }
         }
         else if (activeKey === 'instructors') {
             if (!instructors) {
@@ -549,7 +567,11 @@ const DetailCourse = () => {
                             key="reviews"
                             className={classNames(styles.tabPane, styles.reviews)}
                         >
-
+                            {!reviews || reviewsLoading ? (
+                                <Loading />
+                            ) : (
+                                <Reviews data={reviews} />
+                            )}
                         </TabPane>
                         <TabPane
                             tab="About instructors"
