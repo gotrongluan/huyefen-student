@@ -86,7 +86,7 @@ const Homepage = () => {
             <Carousel
                 arrows={false}
                 slidesToShow={4}
-                slidesToScroll={1}
+                slidesToScroll={2}
                 speed={500}
                 autoplay
                 autoplaySpeed={3500}

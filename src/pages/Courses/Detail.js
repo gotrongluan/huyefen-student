@@ -11,6 +11,7 @@ import COURSE_INFO from '@/assets/fakers/courseInfo';
 import OVERVIEW from '@/assets/fakers/overview';
 import SYLLABUS from '@/assets/fakers/syllabus';
 import RELATED_COURSES from '@/assets/fakers/relatedCourses';
+import INSTRUCTORS from '@/assets/fakers/instructors';
 import styles from './Detail.less';
 
 const { TabPane } = Tabs;
@@ -231,7 +232,45 @@ const RelatedCourses = ({ data }) => {
             )}
         </React.Fragment>
     )
-}
+};
+
+const Instructors = ({ instructors }) => {
+    return (
+        <React.Fragment>
+            {_.map(instructors, (instructor, i) => {
+                return (
+                    <Row className={styles.instructor} key={instructor._id}>
+                        {i > 0 && (<Divider dashed className={styles.divider} />)}
+                        <Col span={6} className={styles.summary}>
+                            <div className={styles.avatarCont}>
+                                <Avatar alt="ins-ava" size={120} className={styles.avatar} shape="circle" src={instructor.avatar} />
+                            </div>
+                            <div className={classNames(styles.stat, styles.reviews)}>
+                                <Icon type="block" />
+                                <span className={styles.value}>{`${numberWithCommas(instructor.numOfReviews)} reviews`}</span>
+                            </div>
+                            <div className={classNames(styles.stat, styles.students)}>
+                                <Icon type="user" />
+                                <span className={styles.value}>{`${numberWithCommas(instructor.numOfStudents)} students`}</span>
+                            </div>
+                            <div className={classNames(styles.stat, styles.courses)}>
+                                <Icon type="read" />
+                                <span className={styles.value}>{`${numberWithCommas(instructor.numOfCourses)} courses`}</span>
+                            </div>
+                        </Col>
+                        <Col span={18} className={styles.detail}>
+                            <div className={styles.name}>{instructor.name}</div>
+                            <div className={styles.job}>{instructor.job}</div>
+                            <ViewMore height={270}>
+                                <div className={styles.biography} dangerouslySetInnerHTML={{ __html: instructor.biography }}/>
+                            </ViewMore>
+                        </Col>
+                    </Row>
+                );
+            })}
+        </React.Fragment>
+    )
+};
 
 const DetailCourse = () => {
     const [sticky, setSticky] = useState(false);
@@ -243,6 +282,8 @@ const DetailCourse = () => {
     const [syllabusLoading, setSyllabusLoading] = useState(false);
     const [relatedCourses, setRelatedCourses] = useState(null);
     const [relatedCoursesLoading, setRelatedCoursesLoading] = useState(false);
+    const [instructors, setInstructors] = useState(null);
+    const [instructorsLoading, setInstructorsLoading] = useState(false);
     useEffect(() => {
         setCourseInfoLoading(true);
         setOverviewLoading(true);
@@ -267,6 +308,13 @@ const DetailCourse = () => {
             setRelatedCoursesLoading(false);
         }, 1000);
     };
+    const fetchInstructors = courseId => {
+        setInstructorsLoading(true);
+        setTimeout(() => {
+            setInstructors(INSTRUCTORS);
+            setInstructorsLoading(false);
+        }, 1000);
+    };
     const handleChangeTabs = activeKey => {
         if (activeKey === 'overview') {
 
@@ -285,7 +333,9 @@ const DetailCourse = () => {
 
         }
         else if (activeKey === 'instructors') {
-
+            if (!instructors) {
+                fetchInstructors(courseInfo._id);
+            }
         }
     };
     const handlePreview = lectureId => {
@@ -506,7 +556,11 @@ const DetailCourse = () => {
                             key="instructors"
                             className={classNames(styles.tabPane, styles.instructors)}
                         >
-
+                            {!instructors || instructorsLoading ? (
+                                <Loading />
+                            ) : (
+                                <Instructors instructors={instructors} />
+                            )}
                         </TabPane>
                     </Tabs>
                 )}

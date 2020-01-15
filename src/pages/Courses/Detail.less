@@ -309,5 +309,50 @@
                 }
             }
         }
+        .instructors {
+            padding-left: 10%;
+            padding-right: 10%;
+            .instructor {
+                margin-bottom: 40px;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .divider {
+                    background: white;
+                }
+                .summary {
+                    .avatarCont {
+                        margin-bottom: 24px;
+                        .avatar {
+                            border: 6px solid white;
+                        }
+                    }
+                    .stat {
+                        margin-bottom: 8px;
+                        color: white;
+                        i {
+                            font-size: 1.5em;
+                            position: relative;
+                            top: 3px;
+                            color: @primary-color;
+                        }
+                        .value {
+                            margin-left: 8px;
+                        }
+                    }
+                }
+                .detail {
+                    .name {
+                        font-size: 2em;
+                        color: white;
+                    }
+                    .job {
+                        font-size: 1.1em;
+                        color: white;
+                        margin-bottom: 25px;
+                    }
+                }
+            }
+        }
     }
 }
