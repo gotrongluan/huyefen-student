@@ -1,0 +1,25 @@
+.action {
+    padding-top: 15px;
+    box-shadow: 0 -5px 5px -5px #333;
+    & > div {
+        display: inline-block;
+        cursor: pointer;
+        &:hover {
+            i, .title {
+                color: @primary-color;
+            }
+        }
+        i {
+            font-size: 1.4em;
+            color: white;
+            position: relative;
+            top: 3px;
+        }
+        .title {
+            margin-left: 10px;
+            font-size: 1em;
+            color: white;
+            
+        }
+    }
+}

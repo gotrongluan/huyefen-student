@@ -70,3 +70,13 @@ export const roundStarRating = rating => {
 export const  numberWithCommas = x => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const minutesToHour = mins => {
+    if (mins < 60) return `${mins} mins`;
+    let num = mins;
+    let hours = (num / 60);
+    let rhours = Math.floor(hours);
+    let minutes = (hours - rhours) * 60;
+    let rminutes = Math.round(minutes);
+    return rminutes > 0 ? `${rhours}h${rminutes}m` : `${rhours}h`;
+}
