@@ -38,7 +38,7 @@ const TeacherCourse = ({ course }) => {
                         </div>
                     ) : (
                         <div className={styles.price}>
-                            {course.price}
+                            {`$${_.round(course.price, 2)}`}
                         </div>
                     )}
                 </div>

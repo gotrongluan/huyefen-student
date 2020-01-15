@@ -3,6 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
 import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
+import TeacherCourse from '@/components/TeacherCourse';
 import ViewMore from '@/components/ViewMore';
 import Sticky from 'react-sticky-el';
 import { roundStarRating, numberWithCommas, minutesToHour } from '@/utils/utils';
@@ -127,7 +128,7 @@ const RelatedCourses = ({ data }) => {
         );
     };
     const renderPrice = price => {
-        return (<span className={styles.price}>{`$${price}`}</span>);
+        return (<span className={styles.price}>{`$${_.round(price, 2)}`}</span>);
     };
     const alsoBoughtColumns = [
         {
@@ -162,7 +163,7 @@ const RelatedCourses = ({ data }) => {
 
     return (
         <React.Fragment>
-            {data.alsoBought && (
+            {data.alsoBought && !_.isEmpty(data.alsoBought) && (
                 <Row className={styles.alsoBought}>
                     <div className={styles.title}>People also bought</div>
                     <div className={styles.main}>
@@ -179,19 +180,52 @@ const RelatedCourses = ({ data }) => {
                     </div>
                 </Row>
             )}
-            {data.frequent && (
+            {data.frequent && !_.isEmpty(data.frequent) && (
                 <Row className={styles.frequent}>
                     <div className={styles.title}>Frequent bought together</div>
                     <div className={styles.main}>
-
+                        <List
+                            grid={{
+                                gutter: 16,
+                                column: 4
+                            }}
+                            dataSource={data.frequent}
+                            rowKey={course => (course._id || course.key) + _.uniqueId('freq_course_')}
+                            renderItem={course => (
+                                <List.Item>
+                                    <TeacherCourse course={course} />
+                                </List.Item>
+                            )}
+                        />
+                        <div className={styles.icon}>
+                            <Icon type="gift" theme="filled" />
+                        </div>
+                        <div className={styles.total}>
+                            {`Total: $${_.round(_.sumBy(data.frequent, 'price'), 2)}`}
+                        </div>
+                        <div className={styles.addToCart}>
+                            <Button type="primary" icon="shopping" size="large">Add all to cart</Button>
+                        </div>
                     </div>
                 </Row>
             )}
-            {data.sameAuthors && (
+            {data.sameAuthors && !_.isEmpty(data.sameAuthors) && (
                 <Row className={styles.sameAuthors}>
                     <div className={styles.title}>More courses by same authors</div>
                     <div className={styles.main}>
-
+                        <List
+                            grid={{
+                                gutter: 16,
+                                column: 4
+                            }}
+                            dataSource={data.sameAuthors}
+                            rowKey={course => (course._id || course.key) + _.uniqueId('same_authors_course_')}
+                            renderItem={course => (
+                                <List.Item>
+                                    <TeacherCourse course={course} />
+                                </List.Item>
+                            )}
+                        />
                     </div>
                 </Row>
             )}

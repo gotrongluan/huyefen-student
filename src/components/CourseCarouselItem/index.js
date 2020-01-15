@@ -81,7 +81,7 @@ const CourseCarouselItem = ({ course }) => {
                     <span className={styles.ratingVal}>{course.starRating}</span>
                 </div>
                 <div className={styles.price}>
-                    {course.price}
+                    {`$${_.round(course.price, 2)}`}
                 </div>
             </div>
         </Card>

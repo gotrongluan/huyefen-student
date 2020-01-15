@@ -86,7 +86,7 @@ const PurchaseHistory = () => {
                 <div className={styles.total}>{`$${prices[0]}`}</div>
                 <div className={styles.subPrices}>
                     {_.map(_.slice(prices, 1), price => (
-                        <div className={styles.price} key={_.uniqueId('price_')}>{`$${price}`}</div>
+                        <div className={styles.price} key={_.uniqueId('price_')}>{`$${_.round(price, 2)}`}</div>
                     ))}
                 </div>
             </div>

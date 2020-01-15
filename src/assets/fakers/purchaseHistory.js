@@ -4,7 +4,7 @@ export default (i = 1) => [
         key: 1,
         code: 'PARADISE',
         date: 1578813415803,
-        prices: ['9.99'],
+        prices: [9.99],
         paymentType: 'visa ****2112',
         items: [
             {
@@ -20,7 +20,7 @@ export default (i = 1) => [
         key: 2,
         code: 'NGOCHANH',
         date: 1578813415803,
-        prices: ['19.99', '10.00', '9.99'],
+        prices: [19.99, 10.00, 9.99],
         paymentType: 'visa ****2112',
         items: [
             {
@@ -42,7 +42,7 @@ export default (i = 1) => [
         key: 3,
         code: 'HANHCUTE',
         date: 1578813415803,
-        prices: ['19.99', '10.00', '9.99', '5.00'],
+        prices: [19.99, 10.00, 9.99, 5.00],
         paymentType: 'visa ****2112',
         items: [
             {
@@ -72,7 +72,7 @@ export default (i = 1) => [
         key: 4,
         code: 'HANHXINH',
         date: 1578813415803,
-        prices: ['18.00'],
+        prices: [18.00],
         paymentType: 'visa ****2112',
         items: [
             {

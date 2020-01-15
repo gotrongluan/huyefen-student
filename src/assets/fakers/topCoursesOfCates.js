@@ -21,7 +21,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.2,
-                price: '19.99$'
+                price: 19.99
             },
             {
                 _id: 2,
@@ -41,7 +41,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.7,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 3,
@@ -61,7 +61,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.6,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 4,
@@ -81,7 +81,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.5,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 5,
@@ -101,7 +101,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.5,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 6,
@@ -121,7 +121,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.2,
-                price: '19.99$'
+                price: 19.99
             },
         ]
     },
@@ -147,7 +147,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.2,
-                price: '19.99$'
+                price: 19.99
             },
             {
                 _id: 2,
@@ -167,7 +167,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.7,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 3,
@@ -187,7 +187,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.6,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 4,
@@ -207,7 +207,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.5,
-                price: '9.99$'
+                price: 9.99
             }
             
         ]
@@ -234,7 +234,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.2,
-                price: '19.99$'
+                price: 19.99
             },
             {
                 _id: 2,
@@ -254,7 +254,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.7,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 3,
@@ -274,7 +274,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.6,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 4,
@@ -294,7 +294,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.5,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 5,
@@ -314,7 +314,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.5,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 6,
@@ -334,7 +334,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.2,
-                price: '19.99$'
+                price: 19.99
             },
             {
                 _id: 11,
@@ -354,7 +354,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.2,
-                price: '19.99$'
+                price: 19.99
             },
             {
                 _id: 12,
@@ -374,7 +374,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.7,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 13,
@@ -394,7 +394,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.6,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 14,
@@ -414,7 +414,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.5,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 15,
@@ -434,7 +434,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.5,
-                price: '9.99$'
+                price: 9.99
             },
             {
                 _id: 16,
@@ -454,7 +454,7 @@ export default [
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.2,
-                price: '19.99$'
+                price: 19.99
             },
         ]
     }

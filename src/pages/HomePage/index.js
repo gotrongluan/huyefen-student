@@ -22,6 +22,10 @@ import styles from './index.less';
 
 const { TabPane } = Tabs;
 
+const SlickButton = ({currentSlide, slideCount, children, ...props}) => (
+    <span {...props}>{children}</span>
+);
+
 const Homepage = () => {
     // let loading = false;
     // let categories = CATEGORIES;
@@ -62,10 +66,10 @@ const Homepage = () => {
                 arrows
                 dots={false}
                 slidesToShow={5}
-                slidesToScroll={3}
+                slidesToScroll={2}
                 speed={500}
-                prevArrow={<Button shape="circle" icon="left" size="large" />}
-                nextArrow={<Button shape="circle" icon="right" size="large" />}
+                prevArrow={<SlickButton><Button shape="circle" icon="left" size="large" /></SlickButton>}
+                nextArrow={<SlickButton><Button shape="circle" icon="right" size="large" /></SlickButton>}
             >
                 {_.map(courses, (course, i) => (
                     <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
@@ -82,7 +86,7 @@ const Homepage = () => {
             <Carousel
                 arrows={false}
                 slidesToShow={4}
-                slidesToScroll={2}
+                slidesToScroll={1}
                 speed={500}
                 autoplay
                 autoplaySpeed={3500}
@@ -103,10 +107,10 @@ const Homepage = () => {
                 arrows
                 dots={false}
                 slidesToShow={3}
-                slidesToScroll={2}
+                slidesToScroll={1}
                 speed={500}
-                prevArrow={<Button shape="circle" icon="left" size="large" />}
-                nextArrow={<Button shape="circle" icon="right" size="large" />}
+                prevArrow={<SlickButton><Button shape="circle" icon="left" size="large" /></SlickButton>}
+                nextArrow={<SlickButton><Button shape="circle" icon="right" size="large" /></SlickButton>}
             >
                 {_.map(backCourses, backCourse => (
                     <div className={styles.backCourseItem} key={backCourse._id + _.uniqueId('backCourse_')}>
