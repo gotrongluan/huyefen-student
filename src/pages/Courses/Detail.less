@@ -1,4 +1,7 @@
 .detail {
+    strong {
+        color: @primary-color;
+    }
     .jumpotron {
         width: 100%;
         height: 380px;
@@ -70,7 +73,7 @@
                         width: 200px;
                         border-radius: 0;
                     }
-                    .buyNow {
+                    .buyNow, .refund {
                         margin-top: 15px;
                     }
                 }
@@ -116,7 +119,7 @@
                 button {
                     border-radius: 0;
                 }
-                .buyNow {
+                .buyNow, .refund {
                     margin-left: 15px;
                 }
             }
@@ -144,6 +147,28 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
+            }
+        }
+        .overview {
+            padding-left: 10%;
+            padding-right: 10%;
+            .divider {
+                background: white;
+            }
+            .whatLearn, .requirements, .description {
+                .title {
+                    font-size: 1.5em;
+                    margin-bottom: 25px;
+                    color: @primary-color;
+                }
+                .content {
+                    .listItem {
+                        padding: 5px 0;
+                        i {
+                            font-size: 1em;
+                        }
+                    }
+                }
             }
         }
     }

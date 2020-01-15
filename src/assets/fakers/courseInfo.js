@@ -8,5 +8,7 @@ export default {
     authors: ['Luan Nguyen Trong', 'Phuoc Nguyen Ho Minh', 'Ngoc Hanh Vuong'],
     language: 'English',
     lastUpdated: 1578813445999,
-    level: 'Beginner'
+    level: 'Beginner',
+    isRegistered: true,
+    refundable: false
 }
