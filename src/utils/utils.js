@@ -79,4 +79,4 @@ export const minutesToHour = mins => {
     let minutes = (hours - rhours) * 60;
     let rminutes = Math.round(minutes);
     return rminutes > 0 ? `${rhours}h${rminutes}m` : `${rhours}h`;
-}
+};

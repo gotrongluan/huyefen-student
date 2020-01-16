@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import classNames from 'classnames';
+import TimeAgo from 'react-timeago';
 import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
 import TeacherCourse from '@/components/TeacherCourse';
 import ViewMore from '@/components/ViewMore';
@@ -235,9 +236,132 @@ const RelatedCourses = ({ data }) => {
     )
 };
 
-const Reviews = ({ data }) => {
+const FeaturedReview = ({ data: review, handleVoting }) => {
     return (
-        <div></div>
+        <div className={styles.featuredReview}>
+            <div className={styles.user}>
+                <div className={styles.avatarCont}>
+                    <Avatar className={styles.avatar} size={60} src={review.user.avatar} alt="ava-user" shape="circle" /> 
+                </div>
+                <div className={styles.info}>
+                    <div className={styles.names}>
+                        <span className={styles.name}>{review.user.name}</span>
+                        <span className={styles.time}><TimeAgo date={review.createdAt} /></span>
+                    </div>
+                    <div className={styles.starRating}>
+                        <Rate allowHalf value={roundStarRating(review.starRating)} disabled className={styles.stars} />
+                        <span className={styles.ratingVal}>{review.starRating}</span>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.content}>
+                <ViewMore height={250}>
+                    <div dangerouslySetInnerHTML={{ __html: review.content }}/>
+                </ViewMore>
+            </div>
+            <div className={styles.voting}>
+                <span className={styles.text}>Was this review helpful?</span>
+                <span className={styles.like} onClick={() => handleVoting(review._id, 1)}><Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/></span>
+                <span className={styles.dislike} onClick={() => handleVoting(review._id, 0)}><Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/></span>
+            </div>
+        </div>
+    )
+};
+
+const Review = ({ data: review, handleVoting }) => {
+    return (
+        <Row className={styles.review}>
+            <Col span={6} className={styles.user}>
+                <div className={styles.avatarCont}>
+                    <Avatar className={styles.avatar} size={60} src={review.user.avatar} alt="ava-user" shape="circle" /> 
+                </div>
+                <div className={styles.name}>
+                    {review.user.name}
+                </div>
+                <div className={styles.time}>
+                    <TimeAgo date={review.createdAt} />
+                </div>
+            </Col>
+            <Col span={18} className={styles.right}>
+                <div className={styles.starRating}>
+                    <Rate allowHalf value={roundStarRating(review.starRating)} disabled className={styles.stars} />
+                    <span className={styles.ratingVal}>{review.starRating}</span>
+                </div>
+                <div className={styles.content}>
+                    <ViewMore height={250}>
+                        <div dangerouslySetInnerHTML={{ __html: review.content }}/>
+                    </ViewMore>
+                </div>
+                <div className={styles.voting}>
+                    <span className={styles.text}>Was this review helpful?</span>
+                    <span className={styles.like} onClick={() => handleVoting(review._id, 1)}><Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/></span>
+                    <span className={styles.dislike} onClick={() => handleVoting(review._id, 0)}><Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/></span>
+                </div>
+            </Col>
+        </Row>
+    );
+};
+
+const Reviews = ({ data, handleVoting, handleMoreReviews, reviewsLoading }) => {
+    const loadMore = (
+        !reviewsLoading ? (
+            <div className={styles.loadMore}>
+                <Button size="small" type="default" onClick={handleMoreReviews}>More reviews</Button>
+            </div>
+        ) : null
+    );
+    const reviewsList = !reviewsLoading ? data.data : _.concat(data.data, [
+        {
+            _id: _.uniqueId('review_loading_'),
+            loading: true
+        },
+        {
+            _id: _.uniqueId('review_loading_'),
+            loading: true
+        },
+    ]);
+    let count = 0;
+    return (
+        <React.Fragment>
+            {data.featured && !_.isEmpty(data.featured) && (
+                <Row className={styles.featured}>
+                    <div className={styles.title}>Featured reviews</div>
+                    <div className={styles.main}>
+                        {_.map(data.featured, (review, i) => (
+                            <>
+                                {i > 0 && (
+                                    <Divider dashed className={styles.divider} />
+                                )}
+                                <FeaturedReview data={review} key={review._id + _.uniqueId('featured_review_')} handleVoting={handleVoting}/>
+                            </>
+                        ))}
+                    </div>
+                </Row>
+            )}
+            <Row className={styles.listReviews}>
+                <div className={styles.title}>Reviews</div>
+                <div className={styles.main}>
+                    <List
+                        dataSource={reviewsList}
+                        itemLayout="horizontal"
+                        split={false}
+                        className={styles.list}
+                        rowKey={item => item._id + _.uniqueId('review_')}
+                        loadMore={loadMore}
+                        renderItem={item => (
+                            <>
+                                {count++ > 0 && (<Divider dashed className={styles.divider} />)}
+                                <List.Item style={{ borderBottom: 'none' }}>
+                                    <Skeleton loading={item.loading} active avatar={{ size: 80 }} paragraph={{ rows: 3, width: ['90%', '75%', '45%']}} title={{ width: '30%' }}>
+                                        <Review data={item} handleVoting={handleVoting} />
+                                    </Skeleton>  
+                                </List.Item>
+                            </>
+                        )}
+                    />
+                </div>
+            </Row>
+        </React.Fragment>
     )
 };
 
@@ -293,6 +417,7 @@ const DetailCourse = () => {
     const [instructorsLoading, setInstructorsLoading] = useState(false);
     const [reviews, setReviews] = useState(null);
     const [reviewsLoading, setReviewsLoading] = useState(false);
+    const [moreReviewsLoading, setMoreReviewsLoading] = useState(false);
     useEffect(() => {
         setCourseInfoLoading(true);
         setOverviewLoading(true);
@@ -303,6 +428,9 @@ const DetailCourse = () => {
             setOverviewLoading(false);
         }, 1500);
     }, []);
+    const handleVoting = (reviewId, val) => {
+        message.info('Voting review ' + reviewId + ' with ' + val);
+    };
     const fetchSyllabus = courseId => {
         setSyllabusLoading(true);
         setTimeout(() => {
@@ -328,7 +456,7 @@ const DetailCourse = () => {
         setReviewsLoading(true);
         setTimeout(() => {
             setReviews(REVIEWS);
-            setInstructorsLoading(false);
+            setReviewsLoading(false);
         }, 1000);
     };
     const handleChangeTabs = activeKey => {
@@ -358,6 +486,19 @@ const DetailCourse = () => {
     };
     const handlePreview = lectureId => {
         message.success(`review lecture ${lectureId}`);
+    };
+    const handleMoreReviews = () => {
+        setMoreReviewsLoading(true);
+        setTimeout(() => {
+            setReviews({
+                ...reviews,
+                data: [
+                    ...reviews.data,
+                    ...REVIEWS.data
+                ]
+            });
+            setMoreReviewsLoading(false);
+        }, 5400);
     };
     return (
         <div className={styles.detail}>
@@ -570,7 +711,7 @@ const DetailCourse = () => {
                             {!reviews || reviewsLoading ? (
                                 <Loading />
                             ) : (
-                                <Reviews data={reviews} />
+                                <Reviews data={reviews} handleVoting={handleVoting} handleMoreReviews={handleMoreReviews} reviewsLoading={moreReviewsLoading} />
                             )}
                         </TabPane>
                         <TabPane
