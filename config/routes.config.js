@@ -20,13 +20,8 @@ export default [
         title: 'route.messenger',
         routes: [
             {
-                path: '/messenger',
-                component: './Messenger/Default',
-                Routes: ['./src/routes/Authenticate']
-            },
-            {
-                path: '/messenger/:converId',
-                component: './Messenger/Chat',
+                path: '/messenger/:converId?',
+                component: './Messenger/index.js',
                 Routes: ['./src/routes/Authenticate']
             }
         ]

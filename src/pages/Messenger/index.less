@@ -1,0 +1,142 @@
+.messenger {
+    border-bottom: 0.5px solid @primary-color;
+    .conversations {
+        .header {
+            height: 64px;
+            line-height: 64px;
+            border-bottom: 0.5px solid @primary-color;
+            border-right: 0.5px solid @primary-color;
+            position: fixed;
+            top: 64;
+            left: 0;
+            width: 25%;
+            z-index: 1000;
+            padding-left: 10px;
+            .title {
+                font-size: 18px;
+                font-weight: bold;
+                color: @primary-color;
+                margin-left: 5px;
+                
+            }
+        }
+        .convers {
+            margin-top: 64px;
+            :global(.ant-list-item) {
+                padding-left: 10px;
+                padding-right: 10px;
+                cursor: pointer;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+            .select {
+                background-color: rgba(245, 222, 179, 0.2);
+                border-right: 2px solid @primary-color;
+            }
+            .oldConverLoading {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+        }
+        height: calc(100vh - 64px);
+        border-right: 0.5px solid @primary-color;
+    }
+    .rightCont {
+        .inlineDiv {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .header {
+            height: 64px;
+            line-height: 64px;
+            border-bottom: 0.5px solid @primary-color;
+            position: fixed;
+            top: 64;
+            left: 25%;
+            width: 75%;
+            z-index: 1000;
+            padding-left: 10px;
+            .name {
+                font-size: 16px;
+                font-weight: bold;
+                margin-left: 8px;
+                
+            }
+            .status {
+                float: right;
+                padding-right: 10px;
+                :global(.ant-badge-status-dot) {
+                    width: 8px;
+                    height: 8px;
+                }
+            }
+        }
+        .content {
+            margin-top: 64px;
+            .info {
+                .avatar {
+                    text-align: center;
+                    padding-top: 50px;
+                    padding-bottom: 50px;
+                    border-bottom: 0.5px solid @primary-color;
+                    .name {
+                        font-size: 16px;
+                        font-weight: bold;
+                        margin-top: 10px;
+                    }
+                    .avatarLoading {
+                        height: 150px;
+                        position: relative;
+                        :global(.ant-skeleton-header) {
+                            padding: 0;
+                        }
+                    }
+                        
+                }
+                .allOptions {
+                    .optionLoading {
+                        position: relative;
+                        height: 250px;
+                    }
+                    .option {
+                        margin-bottom: 10px;
+                        .icon {
+                            text-align: right;
+                        }
+                    }
+                    background-color: inherit;
+                    :global(.ant-collapse-item) {
+                        border-bottom: 1px solid @primary-color;
+                    }
+                }
+                
+            }
+            .messages {
+                border-right: 0.5px solid @primary-color;
+                height: calc(100vh - 64px - 64px);
+                .typeMessage {
+                    height: 50px;
+                    border-top: 0.5px solid @primary-color;
+                    padding: 5px 10px;
+                    
+                    input {
+                        width: 95%;
+                        height: 30px;
+                        border-radius: 18px;
+                        background: rgba(0, 0, 0, 0.02);
+                    }
+                    i {
+                        margin-left: 13px;
+                        position: relative;
+                        top: 5px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,7 +6,7 @@ import { Popover, List, Badge, Avatar, Icon, Empty, Spin as Loading } from 'antd
 import { Scrollbars } from 'react-custom-scrollbars';
 import Spin from '@/elements/spin/secondary';
 import { fromNow, truncate } from '@/utils/utils';
-import MESSAGES from '@/assets/fakers/messages';
+import CONVERSATIONS from '@/assets/fakers/conversations';
 import styles from './index.less';
 
 const Messenger = () => {
@@ -14,17 +14,17 @@ const Messenger = () => {
 
     const getContent = () => {
         // let {
-        //     messengerPopover: messages,
+        //     messengerPopover: conversations,
         //     loading,
         //     //oldLoading
         // } = this.props;
-        let messages = MESSAGES;
+        let conversations = CONVERSATIONS;
         let loading = false;
         let oldLoading = false;
-        //sort messages
-        messages = messages === null ? messages : _.orderBy(messages, ['updatedAt'], ['desc']);
-        //messages = messages ? _.take(messages, 5) : null;
-        const content = (messages === null || _.isEmpty(messages)) ? (
+        //sort conversations
+        conversations = conversations === null ? conversations : _.orderBy(conversations, ['updatedAt'], ['desc']);
+        //conversations = conversations ? _.take(conversations, 5) : null;
+        const content = (conversations === null || _.isEmpty(conversations)) ? (
             <div className={styles.empty}>
                 <div className={styles.inlineDiv}>
                     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={formatMessage({ id: 'header.messenger.empty' })}/>
@@ -33,8 +33,8 @@ const Messenger = () => {
         ) : (
             <Scrollbars autoHeight autoHeightMax={437} onScroll={handleScroll}>
                 <List
-                    className={styles.messagesList}
-                    dataSource={messages}
+                    className={styles.conversationsList}
+                    dataSource={conversations}
                     rowKey={item => item._id + _.uniqueId("messenger_")}
                     renderItem={item => (
                         <List.Item
@@ -58,7 +58,7 @@ const Messenger = () => {
         );
         return (
             <Spin
-                spinning={loading || messages === null}
+                spinning={loading || conversations === null}
                 fontSize={8}
                 isCenter
             >
