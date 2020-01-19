@@ -1,0 +1,89 @@
+.learningLayout {
+    height: 100vh;
+    width: 100%;
+    .header {
+        background: rgb(20, 20, 20);
+        padding: 3px 0;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        width: 100%;
+        height: 64px;
+        .info {
+            width: 100%;
+            padding: 0 24px;
+            margin: auto;
+            text-align: left;
+            position: relative;
+            .name {
+                font-size: 1.5em;
+                color: @primary-color;
+                background: -webkit-linear-gradient(to right, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, @primary-color, #F2994A);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                :global(.ant-skeleton-paragraph) {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+            }
+            .btns {
+                position: absolute;
+                position: absolute;
+                top: 50%;
+                right: 24px;
+                transform: translate(0%, -50%);
+                button {
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+    .sider {
+        height: calc(100vh - 64px);
+        overflow-y: scroll;
+        background: rgb(30, 30, 30);
+        &::-webkit-scrollbar {
+            display: none;
+        } 
+        .inlineDiv {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .menu {
+            padding-bottom: 40px;
+            padding-top: 40px;
+            background: inherit;
+            :global {
+                .ant-menu-sub {
+                    background: rgb(30, 30, 30);
+                }
+                .ant-menu-item-selected > a {
+                    color: @primary-color;
+                }
+            }
+            .chapter {
+                .lecture > a {
+                    display: block;
+                    position: relative;
+                    .name {
+                        width: 162px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    .status {
+                        position: absolute;
+                        top: 50%;
+                        right: 0;
+                        transform: translate(0%, -50%);
+                    }
+                }
+            }
+        }
+    }
+}

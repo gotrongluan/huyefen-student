@@ -1,8 +1,22 @@
-export default function({ children }) {
+import React from 'react';
+import { Layout } from 'antd';
+import Header from '@/components/Header';
+import ScrollLayout from '@/components/ScrollLayout';
+import styles from './index.less';
+
+const { Content } = Layout;
+
+const MessengerLayout = ({ children }) => {
     return (
-        <div>
-            <div>This is messenger layout</div>
-            <div>{children}</div>
-        </div>
+        <Layout className={styles.messengerLayout}>
+            <Header className={styles.header} />
+            <ScrollLayout>
+                <Content>
+                    {children}
+                </Content>
+            </ScrollLayout>
+        </Layout>
     )
-}
+};
+
+export default MessengerLayout;

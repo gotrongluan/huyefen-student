@@ -16,21 +16,47 @@ export default [
         ]
     },
     {
-        path: '/messenger', component: '../layouts/NonFooterLayout',
+        path: '/messenger', component: '../layouts/MessengerLayout',
         title: 'route.messenger',
         routes: [
             {
                 path: '/messenger/:converId?',
                 component: './Messenger/index.js',
+                title: 'route.messenger.chat',
                 Routes: ['./src/routes/Authenticate']
             }
         ]
     },
     {
-        path: '/learning', component: '../layouts/NonFooterLayout',
+        path: '/learning/:courseId', component: '../layouts/LearningLayout',
         title: 'route.learning',
+        Routes: ['./src/routes/Authenticate'],
         routes: [
-            
+            {
+                path: '/learning/:courseId/overview',
+                component: './Learning/Overview',
+                title: 'route.learning.overview',
+            },
+            {
+                path: '/learning/:courseId/forum',
+                component: './Learning/Forum',
+                title: 'route.learning.forum'
+            },
+            {
+                path: '/learning/:courseId/announcements',
+                component: './Learning/Announcements',
+                title: 'route.learning.announcements'
+            },
+            {
+                path: '/learning/:courseId/reviews',
+                component: './Learning/Reviews',
+                title: 'route.learning.reviews'
+            },
+            {
+                path: '/learning/:courseId/lecture/:lectureId',
+                component: './Learning/Lecture',
+                title: 'route.learning.lecture'
+            }
         ]
     },
     {

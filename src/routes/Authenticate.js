@@ -1,8 +1,7 @@
-export default function({ children }) {
-    return (
-        <div>
-            {/* <div>This is authenticate</div> */}
-            <div>{children}</div>
-        </div>
-    )
-}
+import React from 'react';
+
+const Authenticate = ({ children }) => {
+    return (<div>{children}</div>);
+};
+
+export default Authenticate;

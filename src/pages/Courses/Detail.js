@@ -376,7 +376,7 @@ const Instructors = ({ instructors }) => {
                             <div className={styles.avatarCont}>
                                 <Avatar alt="ins-ava" size={120} className={styles.avatar} shape="circle" src={instructor.avatar} />
                             </div>
-                            <div className={classNames(styles.stat, styles.reviews)}>
+                            <div className={classNames(styles.stat, styles.numReviews)}>
                                 <Icon type="block" />
                                 <span className={styles.value}>{`${numberWithCommas(instructor.numOfReviews)} reviews`}</span>
                             </div>
