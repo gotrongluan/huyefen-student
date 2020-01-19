@@ -1,0 +1,90 @@
+.overview {
+    strong {
+        color: @primary-color;
+    }
+    .about, .instructors {
+        .title {
+            font-size: 1.4em;
+            color: @primary-color;
+            margin-bottom: 25px;
+        }
+    }
+    .about {
+        .main {
+            .loading {
+                height: 360px;
+                position: relative;
+                .inlineDiv {
+                    position: absolute;
+                    text-align: center;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+            .summary {
+                margin-bottom: 22px;
+                font-size: 1.2em;
+            }
+            .table {
+                :global(.ant-descriptions-item-label) {
+                    background: rgb(35, 35, 35);
+                    color: @primary-color;
+                }
+                .whatLearn, .requirements {
+                    .listItem {
+                        :global(.ant-list-item-meta-avatar) {
+                            position: relative;
+                            top: 7px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .divider {
+        background-color: white;
+    }
+    .instructors {
+        margin-top: 60px;
+        .main {
+            margin-top: 20px;
+            .content {
+                .instructor {
+                    .info {
+                        margin-bottom: 25px;
+                        .meta {
+                            position: relative;
+                            height: 60px;
+                            width: 100%;
+                            .avatarCont {
+                                height: 60px;
+                                width: 60px;
+                                .avatar {
+                                    border: 3px solid white;
+                                }
+                            }
+                            .txt {
+                                position: absolute;
+                                width: calc(100% - 84px);
+                                top: 50%;
+                                left: 84px;
+                                padding-right: 24px;
+                                transform: translate(0%, -50%);
+                                .name {
+                                    font-size: 1.1em;
+                                    color: white;
+                                }
+                                .job {
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
