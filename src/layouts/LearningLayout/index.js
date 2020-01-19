@@ -104,13 +104,14 @@ const LearningLayout = ({ children, match, location, history }) => {
                                 <SubMenu key={chapter._id} title={chapter.title} className={styles.chapter} popupClassName={styles.subMenuPopup}>
                                     {_.map(chapter.lectures, lecture => (
                                         <MenuItem key={`/lecture/${lecture._id}`} className={styles.lecture}>
-                                            <Link to={`${match.url}/lecture/${lecture._id}`}>
-                                                <div className={styles.name}>
-                                                    {lecture.title}
-                                                    <Checkbox checked={lecture.isFinished} className={styles.status} onChange={e => handleChangeLectureStatus(lecture._id, e.target.value)}/>
-                                                </div>
+                                            <div>
+                                                <Link className={styles.name} to={`${match.url}/lecture/${lecture._id}`}>{lecture.title}</Link>
+                                                <Checkbox checked={lecture.isFinished} className={styles.status} onChange={e => handleChangeLectureStatus(lecture._id, e.target.value)}/>
+                                            </div>
+                                            
                                                 
-                                            </Link>
+                                                
+                                            
                                         </MenuItem>
                                     ))}
                                 </SubMenu>

@@ -58,30 +58,37 @@
             padding-bottom: 40px;
             padding-top: 40px;
             background: inherit;
-            :global {
-                .ant-menu-sub {
-                    background: rgb(30, 30, 30);
-                }
-                .ant-menu-item-selected > a {
-                    color: @primary-color;
-                }
+            a {
+                color: inherit;
             }
             .chapter {
-                .lecture > a {
-                    display: block;
+                .lecture > div {
                     position: relative;
                     .name {
                         width: 162px;
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
+                        display: block;
                     }
+                    
                     .status {
                         position: absolute;
                         top: 50%;
                         right: 0;
                         transform: translate(0%, -50%);
                     }
+                }
+            }
+            :global {
+                .ant-menu-sub {
+                    background: rgb(30, 30, 30);
+                }
+                .ant-menu-item-selected {
+                    color: @primary-color;
+                }
+                .ant-menu-item::after {
+                    border-right: 3px solid @primary-color;
                 }
             }
         }
