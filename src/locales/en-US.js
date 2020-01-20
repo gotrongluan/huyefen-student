@@ -9,6 +9,8 @@ export default {
 	'route.learning': 'Hanjh Learning',
 	'route.learning.overview': 'Overview',
 	'route.learning.forum': 'Forum',
+	'route.learning.forum.allthreads': 'All Threads',
+	'route.learning.forum.thread': 'Thread',
 	'route.learning.lecture': 'Lecture',
 	'route.learning.announcements': 'Announcements',
 	'route.learning.reviews': 'Reviews',

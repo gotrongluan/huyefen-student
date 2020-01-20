@@ -39,8 +39,20 @@ export default [
             },
             {
                 path: '/learning/:courseId/forum',
-                component: './Learning/Forum',
-                title: 'route.learning.forum'
+                component: '../layouts/ForumLayout',
+                title: 'route.learning.forum',
+                routes: [
+                    {
+                        path: '/learning/:courseId/forum',
+                        component: './Learning/Forum/index',
+                        title: 'route.learning.forum.allthreads'
+                    },
+                    {
+                        path: '/learning/:courseId/forum/thread/:threadId',
+                        component: './Learning/Forum/Thread',
+                        title: 'route.learning.forum.thread'
+                    }
+                ]
             },
             {
                 path: '/learning/:courseId/announcements',

@@ -1,0 +1,30 @@
+.forum {
+    padding-left: 10%;
+    padding-right: 10%;
+    .search {
+        margin-bottom: 10px;
+    }
+    .totalAndNew {
+        margin-top: 20px;
+        font-size: 1.2em;
+        .newQuestion {
+            text-align: right;
+            & > span {
+                color: @primary-color;
+                cursor: pointer;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+    .divider {
+        background: white;
+    }
+}
+
+.treeSelect {
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+}

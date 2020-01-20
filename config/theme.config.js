@@ -11,5 +11,6 @@ export default {
     '@background-color-1': 'rgb(20, 20, 20)',
     '@skeleton-to-color': 'shade(rgb(40, 40, 40), 5%);',
     '@primary-5': 'yellow',
-    '@primary-7': 'yellow'
+    '@primary-7': 'yellow',
+    '@primary-2': 'rgba(250, 218, 94, 0.7)'
 };
