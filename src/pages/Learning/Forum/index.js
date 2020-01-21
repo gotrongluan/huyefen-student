@@ -38,7 +38,7 @@ const Forum = () => {
             });
             setInitLoading(false);
         }, 1500);
-    }, [forum]);
+    }, []);
     useEffect(() => {
         if (!forum.lectureOptions) {
             setLectureOptionsLoading(true);
@@ -50,7 +50,7 @@ const Forum = () => {
                 setLectureOptionsLoading(false);
             }, 1200);
         }
-    }, [forum]);
+    }, []);
     const handleSort = value => {
         setForum({
             ...forum,
