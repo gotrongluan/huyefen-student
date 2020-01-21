@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import { Divider, List, Select, TreeSelect, Input, Row, Col, Form, Icon, message } from 'antd';
+import { Divider, List, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton } from 'antd';
+import TimeAgo from 'react-timeago';
 import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
-//import QUESTIONS from '@/assets/fakers/questions';
+import QUESTIONS from '@/assets/fakers/questions';
 import styles from './index.less';
 
 const { Option } = Select;
@@ -31,7 +32,9 @@ const Forum = () => {
                 ...forum,
                 // list: QUESTIONS,
                 total: 2149,
-                lectureOptions: LECTURE_OPTIONS
+                lectureOptions: LECTURE_OPTIONS,
+                list: QUESTIONS,
+                loadMore: true
             });
             setInitLoading(false);
         }, 1500);
@@ -78,6 +81,32 @@ const Forum = () => {
         });
     };
 
+    const handleMoreThreads = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setForum({
+                ...forum,
+                list: [...forum.list, ...QUESTIONS]
+            });
+            setLoading(false);
+        }, 1000);
+    };
+
+    const loadMore = (
+        !initLoading && !loading && forum.loadMore ? (
+            <div className={styles.loadMore}>
+                <Button size="small" onClick={handleMoreThreads}>More threads</Button>
+            </div>
+        ) : null
+    );
+    // message.info(!forum.total || initLoading);
+    const threadsData = loading ? [...forum.list, {
+        _id: _.uniqueId('thread_loading_'),
+        loading: true
+    }, {
+        _id: _.uniqueId('thread_loading_'),
+        loading: true
+    }] : forum.list;
     return (
         <div className={styles.forum}>
             <div className={styles.search}>
@@ -161,8 +190,49 @@ const Forum = () => {
                 <Col span={12} className={styles.newQuestion}><span>Ask a new question</span></Col>
             </Row>
             <Divider className={styles.divider} dashed/>
-            <div className={styles.list}>
-
+            <div className={styles.threads}>
+                {initLoading || !forum.list ? (
+                    <div className={styles.loading}>
+                        <div className={styles.inlineDiv}>
+                            <Spin indicator={<Icon type="loading" spin style={{ fontSize: 64 }} />} />
+                        </div>
+                    </div>
+                ) : (_.map(threadsData, (thread, i) => (
+                    <React.Fragment key={thread._id + _.uniqueId('thread_')}>
+                        {i > 0 && (<Divider className={styles.divider} dashed key={_.uniqueId('thread_divider_')} />)}
+                        {thread.loading ? (
+                            <Skeleton active avatar={{ size: 40, shape: 'circle' }} title={false} key={thread._id + _.uniqueId('thread_')} paragraph={{ rows: 3, width: ['40%', '90%', '45%']}} />
+                        ) : (
+                            <Row className={styles.thread} key={thread._id + _.uniqueId('thread_')}>
+                                <Col span={2} className={styles.avatarCont}>
+                                    <img alt="ava-user" src={thread.user.avatar} className={styles.avatar} />
+                                </Col>
+                                <Col span={18} className={styles.info}>
+                                    <div className={styles.title}>{thread.title}</div>
+                                    <div className={styles.content}>{thread.content}</div>
+                                    <div className={styles.extra}>
+                                        <span className={styles.name}>{thread.user.name}</span>
+                                        <span className={styles.order}>{`Lecture ${thread.lecture.order}`}</span>
+                                        <span className={styles.time}>
+                                            <TimeAgo date={thread.createdAt}/>
+                                        </span>
+                                    </div>
+                                </Col>
+                                <Col span={4} className={styles.statistic}>
+                                    <div className={styles.votings}>
+                                        <span className={styles.value}>{thread.numOfVotings}</span>
+                                        <Icon type="arrow-up" />
+                                    </div>
+                                    <div className={styles.answers}>
+                                        <span className={styles.value}>{thread.numOfAnswers}</span>
+                                        <Icon type="message" />
+                                    </div>
+                                </Col>
+                            </Row>
+                        )}
+                    </React.Fragment>
+                )))}
+                {loadMore}
             </div>
         </div>
     )

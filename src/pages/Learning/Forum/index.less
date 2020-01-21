@@ -21,6 +21,75 @@
     .divider {
         background: white;
     }
+    .threads {
+        .loading {
+            height: 360px;
+            position: relative;
+            .inlineDiv {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+            }
+        }
+        .thread {
+            height: 84px;
+            .avatarCont {
+                text-align: center;
+                img {
+                    width: 50%;
+                    border-radius: 50%;
+                    border: 2px solid white;
+                }
+            }
+            .info {
+                padding-right: 10px;
+                position: relative;
+                height: 100%;
+                .title, .content {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .title {
+                    font-size: 1.2em;
+                    color: white;
+                }
+                .extra {
+                    font-size: 0.9em;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    .name, .order {
+                        color: @primary-color;
+                        margin-right: 6px;
+                    }
+                }
+            }
+            .statistic {
+                text-align: center;
+                color: @primary-color;
+                .votings, .answers {
+                    .value {
+                        margin-right: 6px;
+                        font-size: 1.2em;
+                    }
+                    i {
+                        font-size: 1.1em;
+                    }
+                }
+                .answers {
+                    margin-top: 10px;
+                }
+            }
+        }
+        .loadMore {
+            margin-top: 25px;
+            text-align: center;
+        }
+    }
 }
 
 .treeSelect {
