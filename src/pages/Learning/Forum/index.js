@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import { Divider, List, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton } from 'antd';
+import { Divider, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton, Modal, message } from 'antd';
 import TimeAgo from 'react-timeago';
 import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
 import QUESTIONS from '@/assets/fakers/questions';
 import styles from './index.less';
 
 const { Option } = Select;
-const { Search } = Input;
+const { Search, TextArea } = Input;
 const FormItem = Form.Item;
 
 const Forum = () => {
@@ -22,9 +22,18 @@ const Forum = () => {
             questionTypes: []
         }
     });
+    const [visibleModal, setVisibleModal] = useState(false);
+    const [questionTitle, setQuestionTitle] = useState({
+        value: '',
+        validateStatus: 'success',
+        help: ''
+    });
+    const [questionContent, setQuestionContent] = useState('');
+    const [newQuestionLecture, setNewQuestionLecture] = useState(undefined);
     const [initLoading, setInitLoading] = useState(false);
     const [loading, setLoading] = useState(false);
     const [lectureOptionsLoading, setLectureOptionsLoading] = useState(false);
+
     useEffect(() => {
         setInitLoading(true);
         setTimeout(() => {
@@ -38,7 +47,8 @@ const Forum = () => {
             });
             setInitLoading(false);
         }, 1500);
-    }, []);
+    }, [forum]);
+
     useEffect(() => {
         if (!forum.lectureOptions) {
             setLectureOptionsLoading(true);
@@ -50,7 +60,8 @@ const Forum = () => {
                 setLectureOptionsLoading(false);
             }, 1200);
         }
-    }, []);
+    }, [forum]);
+
     const handleSort = value => {
         setForum({
             ...forum,
@@ -81,6 +92,22 @@ const Forum = () => {
         });
     };
 
+    const handleChangeQuestionTitle = e => {
+        const val = e.target.value;
+        if (!val || val.length === '') {
+            setQuestionTitle({
+                validateStatus: 'error',
+                help: 'You must enter title',
+                value: val
+            });
+        }
+        else setQuestionTitle({
+            validateStatus: 'success',
+            help: '',
+            value: val
+        });
+    };
+
     const handleMoreThreads = () => {
         setLoading(true);
         setTimeout(() => {
@@ -92,10 +119,31 @@ const Forum = () => {
         }, 1000);
     };
 
+    const handleCancelAskQuestion = () => {
+        setQuestionTitle({
+            validateStatus: 'success',
+            help: '',
+            value: ''
+        });
+        setQuestionContent('');
+        setNewQuestionLecture(undefined);
+        setVisibleModal(false);
+    };
+
+    const handleSubmitQuestion = () => {
+        if (questionTitle.value === '') message.error('You must enter title!');
+        else if (newQuestionLecture === undefined) message.error('You must select lecture');
+        else if (questionContent === '') message.error('You must enter question!');
+        else {
+            //call api;
+            handleCancelAskQuestion();
+        }
+    };
+
     const loadMore = (
         !initLoading && !loading && forum.loadMore ? (
             <div className={styles.loadMore}>
-                <Button size="small" onClick={handleMoreThreads}>More threads</Button>
+                <Button size="small" onClick={handleMoreThreads}>More questions</Button>
             </div>
         ) : null
     );
@@ -107,6 +155,18 @@ const Forum = () => {
         _id: _.uniqueId('thread_loading_'),
         loading: true
     }] : forum.list;
+    const lectureOptionsData = !forum.lectureOptions || lectureOptionsLoading ? [] : (_.map(forum.lectureOptions, chapter => ({
+        key: chapter._id,
+        title: chapter.title,
+        value: chapter._id,
+        selectable: false,
+        children: _.map(chapter.lectures, lecture => ({
+            key: lecture._id,
+            value: lecture._id,
+            title: lecture.title  
+        }))
+    })));
+
     return (
         <div className={styles.forum}>
             <div className={styles.search}>
@@ -118,12 +178,11 @@ const Forum = () => {
                         <Col span={8}>
                             <FormItem label="Lecture">
                                 <TreeSelect
-                                    className={styles.lectures}
                                     disabled={!forum.lectureOptions || lectureOptionsLoading}
                                     style={{ width: '100%' }}
                                     onChange={handleLecture}
                                     value={forum.filters.lectures}
-                                    dropdownClassName={styles.treeSelect}
+                                    dropdownClassName={styles.forumTreeSelect}
                                     dropdownStyle={{ maxHeight: 360, overflow: 'auto' }}
                                     size="large"
                                     suffixIcon={!forum.lectureOptions || lectureOptionsLoading ? (
@@ -135,17 +194,7 @@ const Forum = () => {
                                             key: 'all',
                                             value: 'all'
                                         },
-                                        ...(!forum.lectureOptions || lectureOptionsLoading ? [] : (_.map(forum.lectureOptions, chapter => ({
-                                            key: chapter._id,
-                                            title: chapter.title,
-                                            value: chapter._id,
-                                            selectable: false,
-                                            children: _.map(chapter.lectures, lecture => ({
-                                                key: lecture._id,
-                                                value: lecture._id,
-                                                title: lecture.title  
-                                            }))
-                                        }))))
+                                        ...lectureOptionsData
                                     ]}
                                 />
                             </FormItem>
@@ -187,7 +236,7 @@ const Forum = () => {
             </div>
             <Row className={styles.totalAndNew}>
                 <Col span={12} className={styles.total}>{(!forum.total || initLoading) ? '...' : `${forum.total} ${forum.total < 2 ? 'question' : 'questions'}`}</Col>
-                <Col span={12} className={styles.newQuestion}><span>Ask a new question</span></Col>
+                <Col span={12} className={styles.newQuestion}><span onClick={() => setVisibleModal(true)}>Ask a new question</span></Col>
             </Row>
             <Divider className={styles.divider} dashed/>
             <div className={styles.threads}>
@@ -234,6 +283,55 @@ const Forum = () => {
                 )))}
                 {loadMore}
             </div>
+            <Modal
+                className={styles.newQuestionModal}
+                title={<div className={styles.modalTitle}>Ask a new question</div>}
+                width={600}
+                centered
+                okText="Submit"
+                visible={visibleModal}
+                onOk={handleSubmitQuestion}
+                onCancel={handleCancelAskQuestion}
+                bodyStyle={{ padding: '35px 10px' }}
+            >
+                <Form>
+                    <FormItem label="Title" help={questionTitle.help} validateStatus={questionTitle.validateStatus} required>
+                        <Input 
+                            type="text"
+                            placeholder="Title"
+                            value={questionTitle.value}
+                            onChange={handleChangeQuestionTitle}
+                            style={{ width: '100%' }}
+                        />
+                    </FormItem>
+                    <FormItem label="Lecture" required>
+                        <TreeSelect
+                            style={{ width: '100%' }}
+                            onChange={value => setNewQuestionLecture(value)}
+                            placeholder="Lecture"
+                            value={newQuestionLecture}
+                            dropdownClassName={styles.newQuestionTreeSelect}
+                            dropdownStyle={{ maxHeight: 200, overflow: 'auto' }}
+                            suffixIcon={!forum.lectureOptions || lectureOptionsLoading ? (
+                                <Icon type="loading" spin style={{ fontSize: 12, color: '#fada5e' }}/>
+                            ) : undefined}
+                            treeData={lectureOptionsData}
+                        />
+                    </FormItem>
+                    <FormItem label="Content" required>
+                        <TextArea 
+                            style={{ width: '100%' }}
+                            value={questionContent}
+                            placeholder="Content"
+                            onChange={e => setQuestionContent(e.target.value)}
+                            autoSize={{
+                                minRows: 6,
+                                maxRows: 10
+                            }}
+                        />
+                    </FormItem>
+                </Form>
+            </Modal>
         </div>
     )
     

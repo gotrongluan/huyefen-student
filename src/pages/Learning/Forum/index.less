@@ -34,7 +34,7 @@
             }
         }
         .thread {
-            height: 84px;
+            height: 100px;
             .avatarCont {
                 text-align: center;
                 img {
@@ -92,8 +92,21 @@
     }
 }
 
-.treeSelect {
+.forumTreeSelect, .newQuestionTreeSelect {
     &::-webkit-scrollbar {
         width: 0;
+    }
+}
+
+.newQuestionModal {
+    :global(.ant-modal-header) {
+        background-color: rgba(20, 20, 20, 0.5);
+        .modalTitle {
+            color: @primary-color;
+            text-align: center;
+        }
+    }
+    :global(.ant-modal-footer) {
+        background-color: rgba(20, 20, 20, 0.5);
     }
 }
