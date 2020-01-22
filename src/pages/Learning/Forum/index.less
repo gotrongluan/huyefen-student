@@ -35,6 +35,10 @@
         }
         .thread {
             height: 100px;
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+            }
             .avatarCont {
                 text-align: center;
                 img {
@@ -69,7 +73,8 @@
                 }
             }
             .statistic {
-                text-align: center;
+                text-align: right;
+                padding-right: 25px;
                 color: @primary-color;
                 .votings, .answers {
                     .value {

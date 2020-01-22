@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import router from 'umi/router';
 import { Divider, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton, Modal, message } from 'antd';
 import TimeAgo from 'react-timeago';
 import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
@@ -10,7 +11,7 @@ const { Option } = Select;
 const { Search, TextArea } = Input;
 const FormItem = Form.Item;
 
-const Forum = () => {
+const Forum = ({ location }) => {
     const [forum, setForum] = useState({
         total: null,
         list: null,
@@ -47,7 +48,7 @@ const Forum = () => {
             });
             setInitLoading(false);
         }, 1500);
-    }, [forum]);
+    }, []);
 
     useEffect(() => {
         if (!forum.lectureOptions) {
@@ -60,7 +61,7 @@ const Forum = () => {
                 setLectureOptionsLoading(false);
             }, 1200);
         }
-    }, [forum]);
+    }, []);
 
     const handleSort = value => {
         setForum({
@@ -235,7 +236,7 @@ const Forum = () => {
                 </Form>
             </div>
             <Row className={styles.totalAndNew}>
-                <Col span={12} className={styles.total}>{(!forum.total || initLoading) ? '...' : `${forum.total} ${forum.total < 2 ? 'question' : 'questions'}`}</Col>
+                <Col span={12} className={styles.total}>{(!forum.total || initLoading) ? 'Loading...' : `${forum.total} ${forum.total < 2 ? 'question' : 'questions'}`}</Col>
                 <Col span={12} className={styles.newQuestion}><span onClick={() => setVisibleModal(true)}>Ask a new question</span></Col>
             </Row>
             <Divider className={styles.divider} dashed/>
@@ -252,7 +253,7 @@ const Forum = () => {
                         {thread.loading ? (
                             <Skeleton active avatar={{ size: 40, shape: 'circle' }} title={false} key={thread._id + _.uniqueId('thread_')} paragraph={{ rows: 3, width: ['40%', '90%', '45%']}} />
                         ) : (
-                            <Row className={styles.thread} key={thread._id + _.uniqueId('thread_')}>
+                            <Row className={styles.thread} key={thread._id + _.uniqueId('thread_')} onClick={() => router.push(`${location.pathname}/thread/${thread._id}`)}>
                                 <Col span={2} className={styles.avatarCont}>
                                     <img alt="ava-user" src={thread.user.avatar} className={styles.avatar} />
                                 </Col>
