@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import { Skeleton, Divider, Row, Col, Avatar, Icon, message, Spin } from 'antd';
+import { Skeleton, Divider, Row, Col, Avatar, Icon, message, Spin, Button } from 'antd';
 import TimeAgo from 'react-timeago';
 import THREAD from '@/assets/fakers/thread';
+import ANSWERS from '@/assets/fakers/answers';
 import styles from './Thread.less';
 
 const Thread = ({ match }) => {
     const [thread, setThread] = useState(null);
     const [threadLoading, setThreadLoading] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         setThreadLoading(true);
         setTimeout(() => {
@@ -16,6 +17,20 @@ const Thread = ({ match }) => {
             setThreadLoading(false);
         }, 1400);
     }, []);
+
+    const handleLoadmoreAnswers = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setThread({
+                ...thread,
+                answers: [
+                    ...thread.answers,
+                    ...ANSWERS
+                ]
+            });
+            setLoading(false);
+        }, 1200);
+    };
 
     const handleToggleVoting = threadId => {
         message.info(`You toggled vote of thread ${threadId}`);
@@ -27,6 +42,21 @@ const Thread = ({ match }) => {
 
     const handleToggleAnswerVoting = answerId => message.info(`You toggled voting of answer ${answerId}`);
 
+    const loadMore = (
+        !threadLoading && !loading && thread ? (
+            <div className={styles.loadMore}>
+                <Button size="small" onClick={handleLoadmoreAnswers}>More answers</Button>
+            </div>
+        ) : null
+    );
+
+    const answersData = loading ? _.concat(thread.answers, [{
+        _id: _.uniqueId('loading_answer_'),
+        loading: true
+    }, {
+        _id: _.uniqueId('loading_answer_'),
+        loading: true
+    }]) : (thread && thread.answers);
     return (
         <div className={styles.thread}>
             {!thread || threadLoading ? (
@@ -63,10 +93,10 @@ const Thread = ({ match }) => {
                     {thread && (<span style={{ color: thread.isFollowed ? '#fada5e' : 'inherit' }} onClick={() => handleToggleFollow(thread._id)}>{thread.isFollowed ? 'Unfollow' : 'Follow'}</span>)}
                 </Col>
             </Row>
-            <Divider dashed className={styles.divider} />
+            <Divider className={styles.divider} />
             {!thread || threadLoading ? (
                 <div className={styles.answersLoading}>
-                    <Skeleton active avatar={{ size: 60, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 3, width: ['60%', '96%', '72%']}}/>
+                    <Skeleton active avatar={{ size: 60, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 2, width: ['60%', '96%']}}/>
                 </div>
             ) : (
                 <div className={styles.answers}>
@@ -76,32 +106,37 @@ const Thread = ({ match }) => {
                         </div>
                     ) : (
                         <React.Fragment>
-                            {_.map(thread.answers, (answer, i) => (
-                                <>
+                            {_.map(answersData, (answer, i) => (
+                                <React.Fragment key={answer._id + _.uniqueId('answer_')}>
                                     {i > 0 && (<Divider dashed className={styles.divider} />)}
-                                    <Row className={styles.answer} key={answer._id}>
-                                        <Col span={2} className={styles.avatarCont}>
-                                            <Avatar shape="circle" className={styles.avatar} src={answer.user.avatar} alt="user-avar" />
-                                        </Col>
-                                        <Col span={22} className={styles.right}>
-                                            <div className={styles.name}>
-                                                <span>{answer.user.name}</span>
-                                                {answer.user.isInstructor && (
-                                                    <span style={{ marginLeft: 10 }}>{'(Instructor)'}</span>
-                                                )}
+                                    {answer.loading ? (
+                                        <Skeleton active avatar={{ size: 60, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 2, width: ['60%', '96%']}}/>
+                                    ) : (
+                                        <Row className={styles.answer} key={answer._id + _.uniqueId('answer_')}>
+                                            <Col span={2} className={styles.avatarCont}>
+                                                <Avatar shape="circle" className={styles.avatar} src={answer.user.avatar} alt="user-avar" />
+                                            </Col>
+                                            <Col span={22} className={styles.right}>
+                                                <div className={styles.name}>
+                                                    <span>{answer.user.name}</span>
+                                                    {answer.user.isInstructor && (
+                                                        <span style={{ marginLeft: 10 }}>{'(Instructor)'}</span>
+                                                    )}
+                                                </div>
+                                                <div className={styles.time}>
+                                                    <TimeAgo date={answer.createdAt} />
+                                                </div>
+                                                <div className={styles.content} dangerouslySetInnerHTML={{ __html: answer.content }} />
+                                            </Col>
+                                            <div className={styles.votings}>
+                                                <span className={styles.value}>{answer.numOfVotings}</span>
+                                                <span onClick={() => handleToggleAnswerVoting(answer._id)}><Icon type="arrow-up" style={{ color: answer.isVoted ? '#fada5e' : 'inherit' }}/></span>
                                             </div>
-                                            <div className={styles.time}>
-                                                <TimeAgo date={answer.createdAt} />
-                                            </div>
-                                            <div className={styles.content} dangerouslySetInnerHTML={{ __html: answer.content }} />
-                                        </Col>
-                                        <div className={styles.votings}>
-                                            <span className={styles.value}>{answer.numOfVotings}</span>
-                                            <span onClick={() => handleToggleAnswerVoting(answer._id)}><Icon type="arrow-up" style={{ color: answer.isVoted ? '#fada5e' : 'inherit' }}/></span>
-                                        </div>
-                                    </Row>
-                                </>
+                                        </Row>
+                                    )}
+                                </React.Fragment>
                             ))}
+                            {loadMore}
                         </React.Fragment>
                     )}
                 </div>
