@@ -57,6 +57,13 @@
     .loading {
         height: 100px;
     }
+    .scrollEle {
+        & > div {
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    }
 }
 .viewAll {
     padding: 6px 0;

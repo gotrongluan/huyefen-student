@@ -46,7 +46,7 @@ const MyCourses = () => {
             </div>
         ) : (
             <div>
-                <Scrollbars autoHeight autoHeightMax={270}>
+                <Scrollbars autoHeight autoHeightMax={270} className={styles.scrollEle}>
                     <List
                         dataSource={myCourses}
                         rowKey={item => item._id + _.uniqueId("mycourse_")}

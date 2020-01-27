@@ -31,7 +31,7 @@ const Messenger = () => {
                 </div>
             </div>
         ) : (
-            <Scrollbars autoHeight autoHeightMax={437} onScroll={handleScroll}>
+            <Scrollbars autoHeight autoHeightMax={437} onScroll={handleScroll} className={styles.scrollEle}>
                 <List
                     className={styles.conversationsList}
                     dataSource={conversations}

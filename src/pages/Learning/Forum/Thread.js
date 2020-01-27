@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import router from 'umi/router';
 import { Skeleton, Divider, Row, Col, Avatar, Icon, message, Spin, Button } from 'antd';
 import TimeAgo from 'react-timeago';
 import THREAD from '@/assets/fakers/thread';
@@ -29,7 +30,7 @@ const Thread = ({ match }) => {
                 ]
             });
             setLoading(false);
-        }, 1200);
+        }, 3200);
     };
 
     const handleToggleVoting = threadId => {
@@ -59,6 +60,12 @@ const Thread = ({ match }) => {
     }]) : (thread && thread.answers);
     return (
         <div className={styles.thread}>
+            <div className={styles.back}>
+                <span onClick={() => router.push(`/learning/${match.params.courseId}/forum`)}>
+                    <Icon type="arrow-left" />
+                    <span className={styles.text}>Back to forum</span>
+                </span>
+            </div>
             {!thread || threadLoading ? (
                 <div className={styles.loading}>
                     <div className={styles.inlineDiv}>
@@ -96,7 +103,7 @@ const Thread = ({ match }) => {
             <Divider className={styles.divider} />
             {!thread || threadLoading ? (
                 <div className={styles.answersLoading}>
-                    <Skeleton active avatar={{ size: 60, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 2, width: ['60%', '96%']}}/>
+                    <Skeleton active avatar={{ size: 48, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 2, width: ['60%', '96%']}}/>
                 </div>
             ) : (
                 <div className={styles.answers}>
@@ -110,7 +117,7 @@ const Thread = ({ match }) => {
                                 <React.Fragment key={answer._id + _.uniqueId('answer_')}>
                                     {i > 0 && (<Divider dashed className={styles.divider} />)}
                                     {answer.loading ? (
-                                        <Skeleton active avatar={{ size: 60, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 2, width: ['60%', '96%']}}/>
+                                        <Skeleton active avatar={{ size: 48, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 2, width: ['60%', '96%']}}/>
                                     ) : (
                                         <Row className={styles.answer} key={answer._id + _.uniqueId('answer_')}>
                                             <Col span={2} className={styles.avatarCont}>

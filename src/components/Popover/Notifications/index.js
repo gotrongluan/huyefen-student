@@ -25,7 +25,7 @@ const Notifications = () => {
                 </div>
             </div>
         ) : (
-            <Scrollbars autoHeight autoHeightMax={474} onScroll={handleScroll}>
+            <Scrollbars autoHeight autoHeightMax={474} onScroll={handleScroll} className={styles.scrollEle}>
                 <List
                     dataSource={notifications}
                     rowKey={item => item._id + _.uniqueId("notification_")}

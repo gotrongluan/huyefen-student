@@ -10,6 +10,26 @@
             transform: translate(-50%, -50%);
         }
     }
+    .back {
+        margin-bottom: 35px;
+        & > span {
+            cursor: pointer;
+            &:hover {
+                opacity: 0.8;
+            }
+            i {
+                color: @primary-color;
+                font-size: 2.5em;
+                position: relative;
+                top: 7px;
+            }
+            .text {
+                font-size: 1.5em;
+                color: white;
+                margin-left: 24px;
+            }
+        }
+    }
     .question, .answer {
         .avatarCont {
             text-align: center;
