@@ -93,3 +93,10 @@
 .dropdown {
     width: auto !important;
 }
+.cateDropdown ul, .insDropdown ul{
+    max-height: 200px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

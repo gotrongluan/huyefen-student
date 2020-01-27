@@ -111,7 +111,7 @@ const MyCourses = () => {
                                             width: 'auto !important',
                                             minWidth: 180
                                         }}
-                                        
+                                        dropdownClassName={styles.cateDropdown}
                                     >
                                         <Option value="1">Web Development</Option>
                                         <Option value="2">Business</Option>
@@ -148,13 +148,18 @@ const MyCourses = () => {
                                             width: 'auto !important',
                                             minWidth: 200
                                         }}
-                                        dropdownClassName={styles.dropdown}
+                                        dropdownClassName={classnames(styles.dropdown, styles.insDropdown)}
                                     >
                                         <Option value="1">Luan Nguyen Trong</Option>
                                         <Option value="2">Tan Dinh Minh</Option>
                                         <Option value="3">Nghia Nguyen Trong</Option>
                                         <Option value="4">Manh Le Duc</Option>
                                         <Option value="5">Phuoc Nguyen Ho Minh</Option>
+                                        <Option value="11">Luan Nguyen Trong</Option>
+                                        <Option value="21">Tan Dinh Minh</Option>
+                                        <Option value="13">Nghia Nguyen Trong</Option>
+                                        <Option value="14">Manh Le Duc</Option>
+                                        <Option value="15">Phuoc Nguyen Ho Minh</Option>
                                     </Select>
                                 </Form.Item>
                                 <Form.Item className={classnames(styles.formItem, styles.btn)}>
