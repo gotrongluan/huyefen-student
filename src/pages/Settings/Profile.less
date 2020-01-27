@@ -43,11 +43,28 @@
         background: white;
     }
     .catesOfConcern {
-        .main { margin-bottom: 30px; }
+        .main {
+            margin-bottom: 30px;
+            .concernTransfer {
+                :global(.ant-transfer-list-body) {
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+            }
+        }
     }
     .loading {
         height: 300px;
         position: relative;
         width: 100%;
+    }
+}
+
+.dropdown ul{
+    max-height: 200px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        display: none;
     }
 }

@@ -198,6 +198,7 @@ const Profile = ({ form }) => {
                                                     }
                                                     size="large"
                                                     style={{ width: '100%' }}
+                                                    dropdownClassName={styles.dropdown}
                                                 >
                                                     <Option value="student">{formatMessage({ id: 'settings.profile.account.job.student' })}</Option>
                                                     <Option value="teacher">Teacher</Option>
@@ -258,6 +259,7 @@ const Profile = ({ form }) => {
                     <>
                         <div className={styles.main}>
                             <Transfer
+                                className={styles.concernTransfer}
                                 operations={['concern', 'remove']}
                                 titles={['Remain', 'Concerned']}
                                 targetKeys={targetKeys}
