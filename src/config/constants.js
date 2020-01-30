@@ -19,6 +19,9 @@ export const featuredColor = id => {
     return colors[id % n];
 };
 export const customColorMap = {
+    'SILVER': {
+		color: 'rgb(192, 192, 192)'
+	},
 	'BLACK': {
 		color: 'rgba(0, 0, 0, 0.65)'
 	},
@@ -39,9 +42,6 @@ export const customColorMap = {
 	},
 	'MAGENTA': {
 		color: 'rgb(255, 0, 255)'
-	},
-	'SILVER': {
-		color: 'rgb(192, 192, 192)'
 	},
 	'GRAY': {
 		color: 'rgb(128, 128, 128)'

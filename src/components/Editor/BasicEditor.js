@@ -33,6 +33,10 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
         e.preventDefault();
         onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
     };
+    const handleBlock = blockType => e => {
+        e.preventDefault();
+        onChange(RichUtils.toggleBlockType(editorState, blockType));
+    };
     const handleToggleColor = color => e => {
 		e.preventDefault();
 		const selection = editorState.getSelection();
@@ -69,6 +73,19 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
 		onChange(nextEditorState);
 		setColorVisible(false);
     };
+    const getBlockType = () => {
+        const selectionState = editorState.getSelection();
+		return editorState.getCurrentContent().getBlockForKey(selectionState.getStartKey()).getType();
+    };
+    const inlineStyleBtnClass = inlineStyle => {
+        const currentInlineStyle = editorState.getCurrentInlineStyle();
+        if (currentInlineStyle.has(inlineStyle)) return classNames(styles.btn, styles.btnActive);
+        return styles.btn;
+    };
+    const blockBtnClass = blockType => {
+        if (getBlockType() === blockType) return classNames(styles.btn, styles.btnActive);
+        return styles.btn;
+    };
     const customColorMapKeys = _.keys(customColorMap);
 	let colorData = _.map(customColorMapKeys, colorKey => ({
 		key: colorKey,
@@ -83,24 +100,24 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
 			break;
 		}
 	}
-	if (!activeKey) activeKey = 'BLACK';
+	if (!activeKey) activeKey = 'SILVER';
     return (
         <div className={styles.basicEditor}>
             <div className={styles.buttons}>
                 <Tooltip placement="top" title="Bold | Cmd+B">
-                    <span className={styles.btn} onMouseDown={handleInlineStyle('BOLD')}><Icon type="bold" /></span>
+                    <span className={inlineStyleBtnClass('BOLD')} onMouseDown={handleInlineStyle('BOLD')}><Icon type="bold" /></span>
                 </Tooltip>
                 <Tooltip placement="top" title="Italic | Cmd+I">
-                    <span className={styles.btn} onMouseDown={handleInlineStyle('ITALIC')}><Icon type="italic" /></span>
+                    <span className={inlineStyleBtnClass('ITALIC')} onMouseDown={handleInlineStyle('ITALIC')}><Icon type="italic" /></span>
                 </Tooltip>
                 <Tooltip placement="top" title="Underline | Cmd+U">
-                    <span className={styles.btn} onMouseDown={handleInlineStyle('UNDERLINE')}><Icon type="underline" /></span>
+                    <span className={inlineStyleBtnClass('UNDERLINE')} onMouseDown={handleInlineStyle('UNDERLINE')}><Icon type="underline" /></span>
                 </Tooltip>
                 <Tooltip placement="top" title="Highlight | Cmd+H">
-                    <span className={styles.btn} onMouseDown={handleInlineStyle('HIGHLIGHT')}><Icon type="highlight" /></span>
+                    <span className={inlineStyleBtnClass('HIGHLIGHT')} onMouseDown={handleInlineStyle('HIGHLIGHT')}><Icon type="highlight" /></span>
                 </Tooltip>
                 <Popover
-                    placement="bottom"
+                    placement="top"
                     content={(
                         <div>
                             <div className={styles.header}>Select color</div>
@@ -128,6 +145,12 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                 >
                     <span className={styles.btn} ><Icon type="font-colors" /></span>
                 </Popover>
+                <Tooltip placement="top" title="Header 2">
+                    <span className={blockBtnClass('header-two')} onMouseDown={handleBlock('header-two')}>H2</span>
+                </Tooltip>
+                <Tooltip placement="top" title="Header 5">
+                    <span className={blockBtnClass('header-five')} onMouseDown={handleBlock('header-five')}>H5</span>
+                </Tooltip>
             </div>
             <div className={styles.editor}>
                 <Editor
