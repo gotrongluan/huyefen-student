@@ -18,3 +18,63 @@ export const featuredColor = id => {
     const n = colors.length;
     return colors[id % n];
 };
+export const customColorMap = {
+	'BLACK': {
+		color: 'rgba(0, 0, 0, 0.65)'
+	},
+	'RED': {
+		color: 'rgba(255, 0, 0, 0.65)'
+	},
+	'BLUE': {
+		color: 'rgba(0, 0, 255, 0.65)'
+	},
+	'LIME': {
+		color: 'rgba(0, 255, 0, 0.65)'
+	},
+	'YELLOW': {
+		color: 'rgb(255, 255, 0)'
+	},
+	'CYAN': {
+		color: 'rgb(0, 255, 255)'
+	},
+	'MAGENTA': {
+		color: 'rgb(255, 0, 255)'
+	},
+	'SILVER': {
+		color: 'rgb(192, 192, 192)'
+	},
+	'GRAY': {
+		color: 'rgb(128, 128, 128)'
+	},
+	'MAROON': {
+		color: 'rgb(128, 0, 0)'
+	},
+	'OLIVE': {
+		color: 'rgb(128, 128, 0)'
+	},
+	'GREEN': {
+		color: 'rgb(0, 128, 0)'
+	},
+	'PURPLE': {
+		color: 'rgb(128, 0, 128)'
+	},
+	'TEAL': {
+		color: 'rgb(0, 128, 128)'
+	},
+	'WHITE': {
+		color: 'rgb(255, 255, 255)'
+	}
+};
+export const customStyleMap = {
+	'HIGHLIGHT': {
+		background: '#FADA5E',
+		padding: '1px',
+		borderRadius: '2px',
+		border: '0.2px solid #FADA5E',
+		color: 'black',
+    },
+    'BOLD': {
+        color: '#FADA5E'
+    },
+	...customColorMap
+};

@@ -128,19 +128,19 @@ const Forum = ({ location }) => {
             help: '',
             value: ''
         });
-        setQuestionContent('');
+        setQuestionContent(EditorState.createEmpty());
         setNewQuestionLecture(undefined);
         setVisibleModal(false);
     };
 
     const handleSubmitQuestion = () => {
-        if (questionTitle.value === '') message.error('You must enter title!');
-        else if (newQuestionLecture === undefined) message.error('You must select lecture');
-        else if (questionContent === '') message.error('You must enter question!');
+        if (questionTitle.value === '') return message.error('You must enter title!');
+        else if (newQuestionLecture === undefined) return message.error('You must select lecture');
         else {
-            //call api;
-            handleCancelAskQuestion();
-        }
+            const contentState = questionContent.getCurrentContent();
+            if (!contentState.hasText()) return message.error('You must enter question!');
+        };
+        handleCancelAskQuestion();
     };
 
     const loadMore = (
