@@ -80,3 +80,8 @@ export const minutesToHour = mins => {
     let rminutes = Math.round(minutes);
     return rminutes > 0 ? `${rhours}h${rminutes}m` : `${rhours}h`;
 };
+
+export const checkInvalidLinkWithoutProtocol = link => {
+    const hrefRegex = /^([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+.*)$/;
+	return hrefRegex.test(link);
+}

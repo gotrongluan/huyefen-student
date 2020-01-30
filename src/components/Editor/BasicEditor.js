@@ -1,17 +1,56 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { Button, Tooltip, Popover, Dropdown, Menu, Icon } from 'antd';
+import { Button, Tooltip, Popover, Icon, Input } from 'antd';
 import { Modifier, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding } from 'draft-js';
 import { customStyleMap, customColorMap } from '@/config/constants';
 import Editor from 'draft-js-plugins-editor';
+import { checkInvalidLinkWithoutProtocol } from '@/utils/utils';
 import styles from './BasicEditor.less';
 
 const { hasCommandModifier } = KeyBindingUtil;
+const { Search } = Input;
+
+const findLinkEntity = (contentBlock, callback, contentState) => {
+	contentBlock.findEntityRanges((character) => {
+		const entityKey = character.getEntity();
+		if (entityKey === null) {
+			return false;
+		}
+		return contentState.getEntity(entityKey).getType() === 'LINK';
+	}, callback);
+};
+
+const Anchor = ({ contentState, entityKey, children }) => {
+    const { href } = contentState.getEntity(entityKey).getData();
+    const link = `https://${href}`;
+	return (
+		<Tooltip placement="top" title={`Shift+Click to ${link}`}>
+            <span 
+                className={styles.link}
+                onClick={e => {
+                    e.stopPropagation();
+                    if (e.shiftKey) {
+                        window.open(link, '_blank');
+                    }
+                }}
+            >
+                {children}
+            </span>
+        </Tooltip>
+	);
+};
 
 const BasicEditor = ({ editorState, onChange, placeholder }) => {
     const [colorVisible, setColorVisible] = useState(false);
-
+    const [link, setLink] = useState('');
+    const [linkVisible, setLinkVisible] = useState(false);
+    const decorators = [
+        {
+            strategy: findLinkEntity,
+            component: Anchor
+        }
+    ]
     const handleKeyCommand = command => {
         if (command === 'highlight') {
             return onChange(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
@@ -73,6 +112,25 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
 		onChange(nextEditorState);
 		setColorVisible(false);
     };
+    const handleAddLink = () => {
+        const selection = editorState.getSelection();
+		const contentState = editorState.getCurrentContent();
+		let newContentState = contentState.createEntity('LINK', 'MUTABLE', { href: link });
+		const entityKey = newContentState.getLastCreatedEntityKey();
+		newContentState = Modifier.applyEntity(
+			newContentState,
+			selection,
+			entityKey
+		);
+		const newEditorState = EditorState.push(
+			editorState,
+			newContentState,
+			'add-new-link'
+		);
+		onChange(newEditorState);
+		setLinkVisible(false);
+		setLink('');
+    };
     const getBlockType = () => {
         const selectionState = editorState.getSelection();
 		return editorState.getCurrentContent().getBlockForKey(selectionState.getStartKey()).getType();
@@ -80,6 +138,19 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
     const inlineStyleBtnClass = inlineStyle => {
         const currentInlineStyle = editorState.getCurrentInlineStyle();
         if (currentInlineStyle.has(inlineStyle)) return classNames(styles.btn, styles.btnActive);
+        return styles.btn;
+    };
+    const entityClass = entityType => {
+        const selectionState = editorState.getSelection();
+        const contentState = editorState.getCurrentContent();
+        const blockKey = selectionState.getStartKey();
+        const offset = selectionState.getStartOffset();
+        const block = contentState.getBlockForKey(blockKey);
+        const entityKey = block.getEntityAt(offset);
+        if (entityKey) {
+            const entity = contentState.getEntity(entityKey);
+            return entity.getType() === entityType ? classNames(styles.btnActive, styles.btn) : styles.btn;
+        }
         return styles.btn;
     };
     const blockBtnClass = blockType => {
@@ -145,6 +216,35 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                 >
                     <span className={styles.btn} ><Icon type="font-colors" /></span>
                 </Popover>
+                <Popover
+                    placement="top"
+                    popupClassName={styles.linkPopover}
+                    trigger="hover"
+                    visible={linkVisible}
+                    onVisibleChange={setLinkVisible}
+                    content={(
+                        <div className={styles.content}>
+                            <Search
+                                addonBefore={<span>https://</span>}
+                                enterButton={
+                                    <Button
+                                        type="primary"
+                                        disabled={!checkInvalidLinkWithoutProtocol(link)}
+                                        style={{ width: 60 }}
+                                    >
+                                        Add
+                                    </Button>
+                                }
+                                value={link}
+                                placeholder="Enter href..."
+                                onChange={e => setLink(e.target.value)}
+                                onSearch={handleAddLink}
+                            />
+                        </div>
+                    )}
+                >
+                    <span className={entityClass('LINK')} ><Icon type="link" /></span>
+                </Popover>
                 <Tooltip placement="top" title="Header 2">
                     <span className={blockBtnClass('header-two')} onMouseDown={handleBlock('header-two')}>H2</span>
                 </Tooltip>
@@ -160,6 +260,7 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                     placeholder={placeholder}
                     handleKeyCommand={handleKeyCommand}
                     keyBindingFn={keyBindingFn}
+                    decorators={decorators}
                 />
             </div>
         </div>

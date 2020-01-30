@@ -51,6 +51,9 @@ export default [
                         path: '/learning/:courseId/forum/thread/:threadId',
                         component: './Learning/Forum/Thread',
                         title: 'route.learning.forum.thread'
+                    },
+                    {
+                        redirect: '/exception/404'
                     }
                 ]
             },
@@ -68,6 +71,9 @@ export default [
                 path: '/learning/:courseId/lecture/:lectureId',
                 component: './Learning/Lecture',
                 title: 'route.learning.lecture'
+            },
+            {
+                redirect: '/exception/404'
             }
         ]
     },
