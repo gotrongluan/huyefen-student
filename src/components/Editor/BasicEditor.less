@@ -15,6 +15,7 @@
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
         height: 40px;
+        line-height: 40px;
         z-index: 100;
         background-color: inherit;
         .btn {
@@ -53,6 +54,17 @@
             &:hover {
                 opacity: 0.8;
             }
+        }
+        .codeBlock {
+            font-weight: bold;
+            //color: orange;
+            color: white;
+            //background: rgba(250, 218, 94, 0.2);
+            font-family: 'Source Code Pro', monospace;
+            padding: 0px 6px 2px 6px;
+            //border: 1px dashed @primary-color;
+            border-left: 3px solid @primary-color;
+            margin: 0;
         }
     }
 }

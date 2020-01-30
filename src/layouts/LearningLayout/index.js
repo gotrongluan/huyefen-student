@@ -5,7 +5,7 @@ import router from 'umi/router';
 import Link from 'umi/link';
 import PageLoading from '@/components/PageLoading';
 import ScrollLayout from '@/components/ScrollLayout';
-import COURSE_INFO from '@/assets/fakers/courseLearningInfo'
+import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
 import styles from './index.less';
 
 const { Content, Sider } = Layout;

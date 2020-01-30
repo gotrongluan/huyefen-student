@@ -3,7 +3,7 @@ import _ from 'lodash';
 import router from 'umi/router';
 import { Divider, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton, Modal, message } from 'antd';
 import { EditorState } from 'draft-js';
-import Editor from '@/components/Editor/BasicEditor';
+import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
 import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
 import QUESTIONS from '@/assets/fakers/questions';
@@ -321,13 +321,16 @@ const Forum = ({ location }) => {
                             treeData={lectureOptionsData}
                         />
                     </FormItem>
-                    <FormItem label="Content" required>
+                    <div className={styles.questionContentTitle}>
+                        <span>Content:</span>
+                    </div>
+                    <div className={styles.questionContentWrapper}>
                         <Editor
                             editorState={questionContent}
                             onChange={editorState => setQuestionContent(editorState)}
                             placeholder="Enter question..."
                         />
-                    </FormItem>
+                    </div>
                 </Form>
             </Modal>
         </div>

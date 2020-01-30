@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { Button, Tooltip, Popover, Icon, Input } from 'antd';
 import { Modifier, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding } from 'draft-js';
 import { customStyleMap, customColorMap } from '@/config/constants';
 import Editor from 'draft-js-plugins-editor';
-import { checkInvalidLinkWithoutProtocol } from '@/utils/utils';
+import { checkValidLinkWithoutProtocol } from '@/utils/utils';
 import styles from './BasicEditor.less';
 
 const { hasCommandModifier } = KeyBindingUtil;
@@ -42,6 +42,7 @@ const Anchor = ({ contentState, entityKey, children }) => {
 };
 
 const BasicEditor = ({ editorState, onChange, placeholder }) => {
+    const editorRef = useRef(null);
     const [colorVisible, setColorVisible] = useState(false);
     const [link, setLink] = useState('');
     const [linkVisible, setLinkVisible] = useState(false);
@@ -50,7 +51,22 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
             strategy: findLinkEntity,
             component: Anchor
         }
-    ]
+    ];
+    const blockStyleFn = contentBlock => {
+        const blockType = contentBlock.getType();
+        if (blockType === 'code-block') return styles.codeBlock;
+    };
+    const onKeyPressed = e => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+			const newContentState = Modifier.replaceText(
+                editorState.getCurrentContent(),
+                editorState.getSelection(),
+                '\t'
+            );
+            onChange(EditorState.push(editorState, newContentState, 'tab-character'));
+		}
+    };
     const handleKeyCommand = command => {
         if (command === 'highlight') {
             return onChange(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
@@ -67,7 +83,8 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
             return 'highlight';
         }
         return getDefaultKeyBinding(e);
-    }
+    };
+    const handleFocus = () => editorRef.current.focus();
     const handleInlineStyle = inlineStyle => e => {
         e.preventDefault();
         onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
@@ -229,7 +246,7 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                                 enterButton={
                                     <Button
                                         type="primary"
-                                        disabled={!checkInvalidLinkWithoutProtocol(link)}
+                                        disabled={!checkValidLinkWithoutProtocol(link)}
                                         style={{ width: 60 }}
                                     >
                                         Add
@@ -251,9 +268,13 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                 <Tooltip placement="top" title="Header 5">
                     <span className={blockBtnClass('header-five')} onMouseDown={handleBlock('header-five')}>H5</span>
                 </Tooltip>
+                <Tooltip placement="top" title="Code block">
+                    <span className={blockBtnClass('code-block')} onMouseDown={handleBlock('code-block')}><Icon type="code" /></span>
+                </Tooltip>
             </div>
-            <div className={styles.editor}>
+            <div className={styles.editor} onKeyDown={onKeyPressed} onClick={handleFocus}>
                 <Editor
+                    blockStyleFn={blockStyleFn}
                     customStyleMap={customStyleMap}
                     editorState={editorState}
                     onChange={onChange}
@@ -261,6 +282,7 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                     handleKeyCommand={handleKeyCommand}
                     keyBindingFn={keyBindingFn}
                     decorators={decorators}
+                    ref={editorRef}
                 />
             </div>
         </div>

@@ -81,7 +81,17 @@ export const minutesToHour = mins => {
     return rminutes > 0 ? `${rhours}h${rminutes}m` : `${rhours}h`;
 };
 
-export const checkInvalidLinkWithoutProtocol = link => {
+export const checkValidLinkWithoutProtocol = link => {
     const hrefRegex = /^([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+.*)$/;
 	return hrefRegex.test(link);
+};
+
+export const checkValidLink = link => {
+    const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(link);
 }

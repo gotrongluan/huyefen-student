@@ -1,11 +1,11 @@
 @import '~draft-js/dist/Draft.css';
+@import '~draft-js-image-plugin/lib/plugin.css';
+@import '~draft-js-focus-plugin/lib/plugin.css';
+@import '~draft-js-alignment-plugin/lib/plugin.css';
 
 html, body, #root {
 	height: 100vh;
 	box-sizing: border-box;
 	margin: 0;
-}
-
-* {
-  	font-family: 'Be Vietnam', sans-serif;
-}
+	font-family: 'Be Vietnam', sans-serif;
+};

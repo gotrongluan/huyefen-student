@@ -114,4 +114,21 @@
     :global(.ant-modal-footer) {
         background-color: rgba(20, 20, 20, 0.5);
     }
+    .questionContentTitle {
+        display: inline-block;
+        line-height: 40px;
+        white-space: nowrap;
+        text-align: right;
+        vertical-align: middle;
+        color: white;
+        span::before {
+            display: inline-block;
+            margin-right: 4px;
+            color: #f5222d;
+            font-size: 14px;
+            font-family: SimSun, sans-serif;
+            line-height: 1;
+            content: '*';
+        }
+    }
 }
