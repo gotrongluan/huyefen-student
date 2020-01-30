@@ -1,3 +1,5 @@
+@import '~draft-js/dist/Draft.css';
+
 html, body, #root {
 	height: 100vh;
 	box-sizing: border-box;

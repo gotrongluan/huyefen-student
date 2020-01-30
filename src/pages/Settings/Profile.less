@@ -46,9 +46,9 @@
         .main {
             margin-bottom: 30px;
             .concernTransfer {
-                :global(.ant-transfer-list-body) {
-                    &::-webkit-scrollbar {
-                        display: none;
+                :global {
+                    .ant-transfer-list-body::-webkit-scrollbar, .ant-transfer-list-content::-webkit-scrollbar {
+                        width: 0;
                     }
                 }
             }

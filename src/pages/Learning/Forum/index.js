@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import router from 'umi/router';
 import { Divider, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton, Modal, message } from 'antd';
+import { EditorState } from 'draft-js';
+import Editor from '@/components/Editor/BasicEditor';
 import TimeAgo from 'react-timeago';
 import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
 import QUESTIONS from '@/assets/fakers/questions';
@@ -29,7 +31,7 @@ const Forum = ({ location }) => {
         validateStatus: 'success',
         help: ''
     });
-    const [questionContent, setQuestionContent] = useState('');
+    const [questionContent, setQuestionContent] = useState(EditorState.createEmpty());
     const [newQuestionLecture, setNewQuestionLecture] = useState(undefined);
     const [initLoading, setInitLoading] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -48,7 +50,7 @@ const Forum = ({ location }) => {
             });
             setInitLoading(false);
         }, 1500);
-    }, []);
+    }, [forum]);
 
     useEffect(() => {
         if (!forum.lectureOptions) {
@@ -61,7 +63,7 @@ const Forum = ({ location }) => {
                 setLectureOptionsLoading(false);
             }, 1200);
         }
-    }, []);
+    }, [forum]);
 
     const handleSort = value => {
         setForum({
@@ -320,15 +322,10 @@ const Forum = ({ location }) => {
                         />
                     </FormItem>
                     <FormItem label="Content" required>
-                        <TextArea 
-                            style={{ width: '100%' }}
-                            value={questionContent}
-                            placeholder="Content"
-                            onChange={e => setQuestionContent(e.target.value)}
-                            autoSize={{
-                                minRows: 6,
-                                maxRows: 10
-                            }}
+                        <Editor
+                            editorState={questionContent}
+                            onChange={editorState => setQuestionContent(editorState)}
+                            placeholder="Enter question..."
                         />
                     </FormItem>
                 </Form>
