@@ -140,6 +140,8 @@ const Forum = ({ location }) => {
             const contentState = questionContent.getCurrentContent();
             if (!contentState.hasText()) return message.error('You must enter question!');
         };
+        //do something
+        //call exportToHTML
         handleCancelAskQuestion();
     };
 

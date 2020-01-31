@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import router from 'umi/router';
+import { EditorState } from 'draft-js';
 import { Skeleton, Divider, Row, Col, Avatar, Icon, message, Spin, Button } from 'antd';
+import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
 import THREAD from '@/assets/fakers/thread';
 import ANSWERS from '@/assets/fakers/answers';
@@ -11,6 +13,7 @@ const Thread = ({ match }) => {
     const [thread, setThread] = useState(null);
     const [threadLoading, setThreadLoading] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [yourAnswer, setYourAnswer] = useState(EditorState.createEmpty());
     useEffect(() => {
         setThreadLoading(true);
         setTimeout(() => {
@@ -146,6 +149,13 @@ const Thread = ({ match }) => {
                             {loadMore}
                         </React.Fragment>
                     )}
+                    <div className={styles.yourAnswer}>
+                        <Editor
+                            editorState={yourAnswer}
+                            onChange={editorState => setYourAnswer(editorState)}
+                            placeholder="Enter answer..."
+                        />
+                    </div>
                 </div>
             )}
         </div>
