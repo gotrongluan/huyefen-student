@@ -12,7 +12,6 @@ export const exportToHTML = editorState => {
     };
     const blockRenderers = {
         'code-block': (block) => {
-            console.log(block);
             return (
                 '<pre style="font-weight:bold;color:white;font-family:\'Source Code Pro\', monospace;padding:0px 6px 2px 6px;border-left: 3px solid #FADA5E;margin:0">' + block.getText() + '</pre>'
             )
