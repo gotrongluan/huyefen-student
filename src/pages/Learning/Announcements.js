@@ -19,12 +19,26 @@ const LoadingAnnouncement = () => {
 
 const CommentInput = ({ onPressEnter }) => {
     const [value, setValue] = useState('');
-    const handlePressEnter = () => {
-        onPressEnter(value);
-        setValue('');
+    const handlePressEnter = e => {
+        
+        if (!e.shiftKey) {
+            e.preventDefault();
+            onPressEnter(value);
+            setValue('');
+        }
     };
     return (
-        <Input type="text" value={value} onChange={e => setValue(e.target.value)} onPressEnter={handlePressEnter} placeholder="Enter comment..."/>
+        <Input.TextArea
+            className={styles.textArea}
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            onPressEnter={handlePressEnter}
+            placeholder="Enter comment..."
+            autoSize={{
+                minRows: 2,
+                maxRows: 5
+            }}
+        />
     )
 };
 

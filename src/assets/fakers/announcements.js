@@ -38,7 +38,7 @@ export default {
                         isInstructor: false
                     },
                     createdAt: 1578813445900,
-                    content: '<div>To me not much.</div>',
+                    content: 'To me not much.',
                 }
             ]
         },

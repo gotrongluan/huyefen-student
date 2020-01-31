@@ -98,15 +98,19 @@
             }
         }
         .input {
-            position: relative;
-            height: 48px;
-            input {
+            //position: relative;
+            //height: 48px;
+            textarea {
                 width: 100%;
-                border-radius: 30px;
-                position: absolute;
-                top: 50%;
-                left: 0;
-                transform: translate(0%, -50%);
+                resize: none;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+                border-radius: 20px;
+                // position: absolute;
+                // top: 50%;
+                // left: 0;
+                // transform: translate(0%, -50%);
             }
         }
     }
