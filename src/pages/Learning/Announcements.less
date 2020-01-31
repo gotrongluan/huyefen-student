@@ -1,11 +1,113 @@
 .announcements {
     padding-left: 10%;
     padding-right: 10%;
-    .loadingAnnouncement {
+    .loadMore {
+        margin-top: 25px;
+        text-align: center;
+    }
+    .loadingAnnouncement, .announcement {
         padding: 16px 24px;
         border-radius: 20px;
         border: 1px solid rgb(20, 20, 20);
         background-color: @component-background;
+    }
+    .loadingAnnouncement {
         height: 300px;
+    }
+    .divider {
+        background: white;
+    }
+    .announcement {
+        margin-top: 60px;
+        &:first-child {
+            margin-top: 0;
+        }
+        .announce {
+            .user {
+                margin-bottom: 25px;
+                position: relative;
+                height: 60px;
+                width: 100%;
+                .avatarCont {
+                    height: 60px;
+                    width: 60px;
+                    .avatar {
+                        border: 3px solid white;
+                    }
+                }
+                .txt {
+                    position: absolute;
+                    width: calc(100% - 84px);
+                    top: 50%;
+                    left: 84px;
+                    padding-right: 24px;
+                    transform: translate(0%, -50%);
+                    .name {
+                        font-size: 1.2em;
+                        color: @primary-color;
+                    }
+                }
+            }
+        }
+    }
+    .comments {
+        margin-bottom: 25px;
+        .comment {
+            margin-top: 25px;
+            &:first-child {
+                margin-top: 0;
+            }
+            .avatarCont {
+                .avatar {
+                    border: 2px solid white;
+                }
+            }
+            .right {
+                .nameAndTime {
+                    .name {
+                        font-size: 1.1em;
+                        & > span {
+                            color: white;
+                        }
+                    }
+                    .time {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+    }
+    .moreComments {
+        .txt {
+            color: @primary-color;
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        .iconLoading {
+            color: @primary-color;
+            margin-left: 10px;
+        }
+    }
+    .yourComment {
+        padding-top: 20px;
+        .avatarCont {
+            .avatar {
+                border: 2px solid white;
+            }
+        }
+        .input {
+            position: relative;
+            height: 48px;
+            input {
+                width: 100%;
+                border-radius: 30px;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translate(0%, -50%);
+            }
+        }
     }
 }

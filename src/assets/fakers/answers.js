@@ -21,7 +21,7 @@ export default [
             isInstructor: false
         },
         createdAt: 1578813445900,
-        content: '<div>To me not much.</div>',
+        content: '<div><p>To me not much.</p> I think app implies that it has functionality like a login system, creating and deleting, stuff like that. <p>To me not much.</p><p>I think app implies that it has functionality like a login system, creating and deleting, stuff like that</p><p>To me not much.</p><p>I think app implies that it has functionality like a login system, creating and deleting, stuff like that</p><p>To me not much.</p><p>I think app implies that it has functionality like a login system, creating and deleting, stuff like that</p></div>',
         numOfVotings: 3,
         isVoted: true
     },

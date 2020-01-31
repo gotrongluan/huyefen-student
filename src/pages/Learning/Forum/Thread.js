@@ -5,6 +5,7 @@ import { EditorState } from 'draft-js';
 import { Skeleton, Divider, Row, Col, Avatar, Icon, message, Spin, Button } from 'antd';
 import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
+import ViewMore from '@/components/ViewMore';
 import { exportToHTML } from '@/utils/editor';
 import THREAD from '@/assets/fakers/thread';
 import ANSWERS from '@/assets/fakers/answers';
@@ -110,7 +111,7 @@ const Thread = ({ match }) => {
             ) : (
                 <Row className={styles.question}>
                     <Col span={4} className={styles.avatarCont}>
-                        <Avatar shape="circle" className={styles.avatar} src={thread.user.avatar} alt="user-avar"/>
+                        <Avatar shape="circle" className={styles.avatar} src={thread.user.avatar} alt="user-avar" size={100} />
                     </Col>
                     <Col span={20} className={styles.right}>
                         <div className={styles.title}>{thread.title}</div>
@@ -156,7 +157,7 @@ const Thread = ({ match }) => {
                                     ) : (
                                         <Row className={styles.answer} key={answer._id + _.uniqueId('answer_')}>
                                             <Col span={2} className={styles.avatarCont}>
-                                                <Avatar shape="circle" className={styles.avatar} src={answer.user.avatar} alt="user-avar" />
+                                                <Avatar shape="circle" className={styles.avatar} src={answer.user.avatar} alt="user-avar" size={48} />
                                             </Col>
                                             <Col span={22} className={styles.right}>
                                                 <div className={styles.name}>
@@ -168,7 +169,9 @@ const Thread = ({ match }) => {
                                                 <div className={styles.time}>
                                                     <TimeAgo date={answer.createdAt} />
                                                 </div>
-                                                <div className={styles.content} dangerouslySetInnerHTML={{ __html: answer.content }} />
+                                                <ViewMore height={250}>
+                                                    <div className={styles.content} dangerouslySetInnerHTML={{ __html: answer.content }} />
+                                                </ViewMore>
                                             </Col>
                                             <div className={styles.votings}>
                                                 <span className={styles.value}>{answer.numOfVotings}</span>

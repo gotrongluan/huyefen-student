@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, Avatar, Row, Col, Input, List, Button } from 'antd';
+import _ from 'lodash';
+import { Skeleton, Avatar, Row, Col, Input, List, Button, Divider, Icon, message } from 'antd';
+import TimeAgo from 'react-timeago';
+import ViewMore from '@/components/ViewMore';
 import ANNOUNCEMENTS from '@/assets/fakers/announcements';
+import OLD_ANNOUNCEMENTS from '@/assets/fakers/oldAnnouncements';
+import { avatarSrc } from '@/config/constants';
 import styles from './Announcements.less';
 
 const LoadingAnnouncement = () => {
@@ -11,21 +16,49 @@ const LoadingAnnouncement = () => {
     )
 };
 
+const CommentInput = ({ onPressEnter }) => {
+    const [value, setValue] = useState('');
+    const handlePressEnter = () => {
+        onPressEnter(value);
+        setValue('');
+    };
+    return (
+        <Input type="text" value={value} onChange={e => setValue(e.target.value)} onPressEnter={handlePressEnter} placeholder="Enter comment..."/>
+    )
+};
+
 const Announcements = () => {
     const [announcements, setAnnouncements] = useState(null);
     const [initLoading, setInitLoading] = useState(false);
     const [loading, setLoading] = useState(false);
-    // useEffect(() => {
-    //     setInitLoading(true);
-    //     setTimeout(() => {
-    //         setAnnouncements(ANNOUNCEMENTS);
-    //         setInitLoading(false);
-    //     }, 1200);
-    // }, []);
+    useEffect(() => {
+        setInitLoading(true);
+        setTimeout(() => {
+            setAnnouncements(ANNOUNCEMENTS);
+            setInitLoading(false);
+        }, 1200);
+    }, []);
     const handleMoreAnnouncements = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setAnnouncements({
+                ...announcements,
+                list: {
+                    ...announcements.list,
+                    ...OLD_ANNOUNCEMENTS
+                }
+            })
+            setLoading(false);
+        }, 1000);
+    };
+    const handleMoreComments = announcementId => {
 
     };
-
+    const handleComment = (annoucementId, comment) => {
+        if (comment !== '') {
+            message.success(comment);
+        }
+    };
     const loadMore = (
         (!initLoading && !loading && announcements && announcements.loadMore) ? (
             <div className={styles.loadMore}>
@@ -33,16 +66,117 @@ const Announcements = () => {
             </div>
         ) : null
     );
+
+    let announcementData = announcements ? _.orderBy(announcements.list, ['createdAt'], ['desc']) : null;
+    if (loading && announcementData) {
+        announcementData = _.concat(announcementData, [
+            {
+                _id: _.uniqueId('announcement_loading_'),
+                loading: true
+            }
+        ]);
+    }
     return (
         <div className={styles.announcements}>
             {!announcements || initLoading ? (
-                <>
+                <React.Fragment>
                     <LoadingAnnouncement />
-                    <div style={{ height: 40 }}/>
+                    <div style={{ height: 60 }}/>
                     <LoadingAnnouncement />
-                </>
+                </React.Fragment>
             ) : (
-                <div></div>
+                <React.Fragment>
+                    <List
+                        className={styles.list}
+                        itemLayout="horizontal"
+                        dataSource={announcementData}
+                        rowKey={announcement => announcement._id + _.uniqueId('announcement_')}
+                        split={false}
+                        renderItem={announcement => (
+                            <React.Fragment>
+                                {announcement.loading ? (
+                                    <div>
+                                        <div style={{ height: 60 }}/>
+                                        <LoadingAnnouncement />
+                                    </div>
+                                ) : (
+                                    <div className={styles.announcement}>
+                                        <div className={styles.announce}>
+                                            <div className={styles.user}>
+                                                <div className={styles.avatarCont}>
+                                                    <Avatar alt="ins-ava" size={60} className={styles.avatar} shape="circle" src={announcement.user.avatar} />
+                                                </div>
+                                                <div className={styles.txt}>
+                                                    <div className={styles.name}>{announcement.user.name}</div>
+                                                    <div className={styles.time}><TimeAgo date={announcement.createdAt} /></div>
+                                                </div>
+                                            </div>
+                                            <Row className={styles.content}>
+                                                <div dangerouslySetInnerHTML={{ __html: announcement.content }}/>
+                                            </Row>
+                                        </div>
+                                        <Divider dashed className={styles.divider} />
+                                        <div className={styles.comments}>
+                                            {!_.isEmpty(announcement.comments) && (
+                                                <List
+                                                    itemLayout="horizontal"
+                                                    dataSource={announcement.comments}
+                                                    rowKey={comment => comment._id + _.uniqueId('comment_')}
+                                                    split={false}
+                                                    renderItem={comment => (
+                                                        <Row className={styles.comment}>
+                                                            <Col span={2} className={styles.avatarCont}>
+                                                                <Avatar shape="circle" className={styles.avatar} src={comment.user.avatar} alt="user-avar" size={48}/>
+                                                            </Col>
+                                                            <Col span={22} className={styles.right}>
+                                                                <div className={styles.nameAndTime}>
+                                                                    <span className={styles.name}>
+                                                                        <span>{comment.user.name}</span>
+                                                                        {comment.user.isInstructor && (
+                                                                            <span style={{ marginLeft: 10 }}>{'(Instructor)'}</span>
+                                                                        )}
+                                                                    </span>
+                                                                    <span className={styles.time}><TimeAgo date={comment.createdAt} /></span>
+                                                                </div>
+                                                                <ViewMore height={200}>
+                                                                    <div className={styles.content} dangerouslySetInnerHTML={{ __html: comment.content }} />
+                                                                </ViewMore>
+                                                            </Col>
+                                                        </Row>
+                                                    )}
+                                                />
+                                            )}
+                                        </div>
+                                        {announcement.moreComments && (
+                                            <div className={styles.moreComments}>
+                                                <span
+                                                    className={styles.txt}
+                                                    onClick={() => handleMoreComments(announcement._id)}
+                                                >
+                                                    <Icon type="plus" style={{ fontSize: '0.8em' }} /> More comments
+                                                </span>
+                                                {announcement.commentsLoading && (
+                                                    <span className={styles.iconLoading}>
+                                                        <Icon type="loading-3-quarters" style={{ fontSize: '0.8em' }} spin/>
+                                                    </span>
+                                                )}
+                                            </div>
+                                        )}
+                                        <Row className={styles.yourComment}>
+                                            <Col span={2} className={styles.avatarCont}>
+                                                <Avatar shape="circle" className={styles.avatar} src={avatarSrc} alt="your-avar" size={48}/>
+                                            </Col>
+                                            <Col span={22} className={styles.input}>
+                                                <CommentInput onPressEnter={value => handleComment(announcement._id, value)}/>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        )}
+                    />
+                    {loadMore}
+                </React.Fragment>
             )}
         </div>
     )
