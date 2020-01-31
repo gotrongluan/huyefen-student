@@ -67,14 +67,13 @@ export const customColorMap = {
 };
 export const customStyleMap = {
 	'HIGHLIGHT': {
-		background: '#FADA5E',
+		background: 'rgba(250, 218, 94, 0.2)',
 		padding: '1px',
 		borderRadius: '2px',
 		border: '0.2px solid #FADA5E',
-		color: 'black',
     },
     'BOLD': {
-        color: '#FADA5E'
+        fontSize: 'larger'
     },
 	...customColorMap
 };

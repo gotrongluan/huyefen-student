@@ -402,6 +402,7 @@ const ImageEditor = ({ editorState, onChange, placeholder }) => {
                     ref={editorRef}
                 />
                 <AlignmentTool />
+                <div style={{ clear: 'both' }}></div>
             </div>
         </div>
     )

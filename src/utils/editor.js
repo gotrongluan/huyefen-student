@@ -8,27 +8,29 @@ export const exportToHTML = editorState => {
         style: val
     }));
     const inlineStyles = {
-        BOLD: {
-            element: 'b',
-            style: {
-                color: '#FADA5E'
-            }
-        },
         ...customInlineStyles
+    };
+    const blockRenderers = {
+        'code-block': (block) => {
+            console.log(block);
+            return (
+                '<pre style="font-weight:bold;color:white;font-family:\'Source Code Pro\', monospace;padding:0px 6px 2px 6px;border-left: 3px solid #FADA5E;margin:0">' + block.getText() + '</pre>'
+            )
+        }
     };
     const blockStyleFn = block => {
         const blockType = block.getType();
-        if (blockType === 'code-block') 
-            return {
-                style: {
-                    fontWeight: 'bold',
-                    color: 'white',
-                    fontFamily: '\'Soure Code Pro\', monospace',
-                    padding: '0px 6px 2px 6px',
-                    borderLeft: '3px solid #FADA5E',
-                    margin: 0
-                }
-            };
+        // if (blockType === 'code-block') 
+        //     return {
+        //         style: {
+        //             fontWeight: 'bold',
+        //             color: 'white',
+        //             fontFamily: '\'Soure Code Pro\', monospace',
+        //             padding: '0px 6px 2px 6px',
+        //             borderLeft: '3px solid #FADA5E',
+        //             margin: 0
+        //         }
+        //     };
         if (blockType === 'atomic')
             return {
                 style: {
@@ -39,21 +41,30 @@ export const exportToHTML = editorState => {
     const entityStyleFn = entity => {
         const entityType = entity.getType().toUpperCase();
         if (entityType === 'LINK') {
+            const { href } = entity.getData();
             return {
                 element: 'a',
+                attributes: {
+                    href: `https://${href}`,
+                    target: '_blank',
+                },
                 style: {
-                    color: '#FADA5E',
-                    textDecoration: 'underline'
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    padding: '1px',
+                    borderRadius: '2px',
+                    border: 'white',
+                    cursor: 'pointer',
+                    color: '#FADA5E'
                 }
             };
         }
         if (entityType === 'IMAGE') {
-            const { src, width, height = 'auto', alignment = 'default' } = entity.getData();
+            const { src, width = 40, height, alignment = 'default' } = entity.getData();
             let imageStyle = {
                 position: 'relative',
                 cursor: 'default',
-                width,
-                height
+                width: `${width}%`,
+                height: height ? `${height}%` : 'auto'
             };
             if (alignment === 'left') {
                 imageStyle = {
@@ -88,7 +99,9 @@ export const exportToHTML = editorState => {
     const options = {
         inlineStyles,
         blockStyleFn,
-        entityStyleFn
+        entityStyleFn,
+        blockRenderers,
+        defaultBlockTag: 'div'
     }
     return stateToHTML(contentState, options);
 };
