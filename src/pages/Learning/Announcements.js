@@ -5,6 +5,7 @@ import TimeAgo from 'react-timeago';
 import ViewMore from '@/components/ViewMore';
 import ANNOUNCEMENTS from '@/assets/fakers/announcements';
 import OLD_ANNOUNCEMENTS from '@/assets/fakers/oldAnnouncements';
+import COMMENTS from '@/assets/fakers/answers';
 import { avatarSrc } from '@/config/constants';
 import styles from './Announcements.less';
 
@@ -52,7 +53,33 @@ const Announcements = () => {
         }, 1000);
     };
     const handleMoreComments = announcementId => {
+        setAnnouncements({
+            ...announcements,
+            list: {
+                ...announcements.list,
+                [announcementId]: {
+                    ...announcements.list[announcementId],
+                    commentsLoading: true
+                }
+            }
+        });
 
+        setTimeout(() => {
+            setAnnouncements({
+                ...announcements,
+                list: {
+                    ...announcements.list,
+                    [announcementId]: {
+                        ...announcements.list[announcementId],
+                        comments: [
+                            ...announcements.list[announcementId]['comments'],
+                            ...COMMENTS
+                        ],
+                        commentsLoading: false
+                    }
+                }
+            });
+        }, 1200);
     };
     const handleComment = (annoucementId, comment) => {
         if (comment !== '') {
