@@ -11,12 +11,19 @@ import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
 import { checkValidLinkWithoutProtocol, checkValidLink } from '@/utils/utils';
+import alignmentToolStyles from './alignmentToolStyles.css';
+import buttonStyles from './buttonStyles.css';
 import styles from './ImageEditor.less';
 
 const focusPlugin = createFocusPlugin();
 const resizeablePlugin = createResizeablePlugin();
 const blockDndPlugin = createBlockDndPlugin();
-const alignmentPlugin = createAlignmentPlugin();
+const alignmentPlugin = createAlignmentPlugin({
+    theme: {
+        alignmentToolStyles,
+        buttonStyles
+    }
+});
 const { AlignmentTool } = alignmentPlugin;
 
 const decorator = composeDecorators(

@@ -1,0 +1,37 @@
+.alignmentTool {
+    left: 50%;
+	-webkit-transform: translate(-50%) scale(0);
+			transform: translate(-50%) scale(0);
+	position: absolute;
+	border: 1px solid rgb(20, 20, 20);
+	background: rgb(30, 30, 30);
+	border-radius: 2px;
+	box-shadow: 0px 1px 3px 0px rgba(40,40,40,1);
+	z-index: 101;
+    box-sizing: border-box;
+}
+  
+.alignmentTool:after, .alignmentTool:before {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+  
+.alignmentTool:after {
+    border-color: rgba(30, 30, 30, 0);
+	border-top-color: rgb(30, 30, 30);
+	border-width: 4px;
+	margin-left: -4px;
+}
+  
+.alignmentTool:before {
+    border-color: rgba(40, 40, 40, 0);
+	border-top-color: rgb(20, 20, 20);
+	border-width: 6px;
+	margin-left: -6px;
+}
