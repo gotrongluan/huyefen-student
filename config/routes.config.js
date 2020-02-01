@@ -63,9 +63,9 @@ export default [
                 title: 'route.learning.announcements'
             },
             {
-                path: '/learning/:courseId/reviews',
-                component: './Learning/Reviews',
-                title: 'route.learning.reviews'
+                path: '/learning/:courseId/review',
+                component: './Learning/Review',
+                title: 'route.learning.review'
             },
             {
                 path: '/learning/:courseId/lecture/:lectureId',

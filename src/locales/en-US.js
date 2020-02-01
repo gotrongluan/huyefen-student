@@ -13,7 +13,7 @@ export default {
 	'route.learning.forum.thread': 'Thread',
 	'route.learning.lecture': 'Lecture',
 	'route.learning.announcements': 'Announcements',
-	'route.learning.reviews': 'Reviews',
+	'route.learning.review': 'Review',
 	'route.basic': 'Hanjh',
 	'route.basic.home': 'Home page',
 	'route.basic.area': 'Area',
