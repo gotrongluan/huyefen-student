@@ -97,8 +97,8 @@ const LearningLayout = ({ children, match, location, history }) => {
                             <MenuItem key="/announcements">
                                 <Link to={`${match.url}/announcements`}>Announcements</Link>
                             </MenuItem>
-                            <MenuItem key="/reviews">
-                                <Link to={`${match.url}/reviews`}>Reviews</Link>
+                            <MenuItem key="/review">
+                                <Link to={`${match.url}/review`}>Review</Link>
                             </MenuItem>
                             {_.map(courseInfo.syllabus, chapter => (
                                 <SubMenu key={chapter._id} title={chapter.title} className={styles.chapter} popupClassName={styles.subMenuPopup}>
