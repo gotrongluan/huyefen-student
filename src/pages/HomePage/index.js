@@ -3,7 +3,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import Link from 'umi/link';
 import { Parallax } from 'react-parallax';
-import { Row, Col, Tabs, Carousel, Button, Tag } from 'antd';
+import { Row, Col, Tabs, Carousel, Tag, Icon } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Course from '@/components/CourseCarouselItem';
@@ -68,8 +68,8 @@ const Homepage = () => {
                 slidesToShow={5}
                 slidesToScroll={2}
                 speed={500}
-                prevArrow={<SlickButton><Button shape="circle" icon="left" size="large" /></SlickButton>}
-                nextArrow={<SlickButton><Button shape="circle" icon="right" size="large" /></SlickButton>}
+                prevArrow={<SlickButton><Icon type="left" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
+                nextArrow={<SlickButton><Icon type="right" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
             >
                 {_.map(courses, (course, i) => (
                     <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
@@ -109,8 +109,8 @@ const Homepage = () => {
                 slidesToShow={3}
                 slidesToScroll={1}
                 speed={500}
-                prevArrow={<SlickButton><Button shape="circle" icon="left" size="large" /></SlickButton>}
-                nextArrow={<SlickButton><Button shape="circle" icon="right" size="large" /></SlickButton>}
+                prevArrow={<SlickButton><Icon type="left" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
+                nextArrow={<SlickButton><Icon type="right" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
             >
                 {_.map(backCourses, backCourse => (
                     <div className={styles.backCourseItem} key={backCourse._id + _.uniqueId('backCourse_')}>

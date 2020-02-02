@@ -30,7 +30,7 @@ const Lecture = ({ match }) => {
             setLecture(LECTURE);
             setInitLoading(false);
         }, 2000);
-    }, [match.params.lectureId]);
+    }, [match.params, match.params.lectureId]);
     const handleCompleteLecture = () => {
         const { lectureId } = match.params;
         message.success(`Complete lecture with id ${lectureId}`);
@@ -153,7 +153,7 @@ const Lecture = ({ match }) => {
                                 <span>Lecture:</span>
                             </div>
                             <div className={styles.questionLectureWrapper}>
-                                {`${lecture.title} (${lecture.chapter.title})`}
+                                {`${lecture.title} -- ${lecture.chapter.title}`}
                             </div>
                             <div className={styles.questionContentTitle}>
                                 <span>Content:</span>

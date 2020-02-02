@@ -5,9 +5,10 @@ export default [
         authors: ['Luan Nguyen Trong', 'Ha Huynh Sam'],
         avatar: 'https://miro.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png',
         lastUpdated: '12/2019',
-        featured: [],
+        featured: 'course.bestseller',
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.javascript',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -17,17 +18,18 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.2,
-        price: 19.99
+        price: '19.99$'
     },
     {
         _id: 2,
-        name: 'Programming Java for Beginners - The Ultimate Java Tutorial (2019 Edition)',
+        name: 'Programming Java for Beginners - The Ultimate Java Tutorial',
         authors: ['Tin Dang Phu Trung', 'Duc La Hoang', 'Cuong Van Tien'],
         avatar: 'https://miro.medium.com/max/6996/1*xu1Ge_Cew0DHdSU6ETcpLQ.png',
         lastUpdated: '12/2019',
-        featured: [],
+        featured: 'course.highrated',
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs', 'cate.development.web-development.angular'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.javascript',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -37,7 +39,7 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.7,
-        price: 9.99
+        price: '9.99$'
     },
     {
         _id: 3,
@@ -45,9 +47,10 @@ export default [
         authors: ['Tan Dinh Minh', 'Duong Le Hoang', 'Tuan Vu Dao Anh', 'Duong Cao Chanh'],
         avatar: 'https://miro.medium.com/max/2400/1*c_fiB-YgbnMl6nntYGBMHQ.jpeg',
         lastUpdated: '12/2019',
-        featured: ['course.bestseller'],
+        featured: null,
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.javascript',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -57,7 +60,7 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.6,
-        price: 9.99
+        price: '9.99$'
     },
     {
         _id: 4,
@@ -65,9 +68,10 @@ export default [
         authors: ['Kiet Luong Tuan', 'Manh Le Duc'],
         avatar: 'https://nordvpn.com/wp-content/uploads/2019/09/NordVPN-app-update-Android-1200x675.png',
         lastUpdated: '12/2019',
-        featured: [],
+        featured: 'course.highrated',
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.react',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -77,7 +81,7 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.5,
-        price: 9.99
+        price: '9.99$'
     },
     {
         _id: 5,
@@ -85,9 +89,10 @@ export default [
         authors: ['Nhu Vo', 'Hanh Vuong'],
         avatar: 'https://finalstyle.com/pictures/news/xu_huong_thiet_ke_web_2020_1.png',
         lastUpdated: '12/2019',
-        featured: ['course.bestseller'],
+        featured: null,
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.angular',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -97,7 +102,7 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.5,
-        price: 9.99
+        price: '9.99$'
     },
     {
         _id: 6,
@@ -105,9 +110,10 @@ export default [
         authors: ['Luan Nguyen Trong', 'Ha Huynh Sam'],
         avatar: 'https://miro.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png',
         lastUpdated: '12/2019',
-        featured: ['course.bestseller'],
+        featured: null,
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.python',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -117,17 +123,18 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.2,
-        price: 19.99
+        price: '19.99$'
     },
     {
         _id: 7,
-        name: 'Programming Java for Beginners - The Ultimate Java Tutorial (2020)',
+        name: 'Programming Java for Beginners - The Ultimate Java Tutorial',
         authors: ['Tin Dang Phu Trung', 'Duc La Hoang', 'Cuong Van Tien'],
         avatar: 'https://miro.medium.com/max/6996/1*xu1Ge_Cew0DHdSU6ETcpLQ.png',
         lastUpdated: '12/2019',
-        featured: ['course.bestseller'],
+        featured: null,
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.python',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -137,8 +144,7 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.7,
-        price: 9.99,
-        //isRegistered: true
+        price: '9.99$'
     },
     {
         _id: 8,
@@ -146,9 +152,10 @@ export default [
         authors: ['Tan Dinh Minh', 'Duong Le Hoang', 'Tuan Vu Dao Anh', 'Duong Cao Chanh'],
         avatar: 'https://miro.medium.com/max/2400/1*c_fiB-YgbnMl6nntYGBMHQ.jpeg',
         lastUpdated: '12/2019',
-        featured: ['course.bestseller'],
+        featured: null,
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.python',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -158,7 +165,7 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.6,
-        price: 9.99
+        price: '9.99$'
     },
     {
         _id: 9,
@@ -166,9 +173,10 @@ export default [
         authors: ['Kiet Luong Tuan', 'Manh Le Duc'],
         avatar: 'https://nordvpn.com/wp-content/uploads/2019/09/NordVPN-app-update-Android-1200x675.png',
         lastUpdated: '12/2019',
-        featured: ['course.bestseller'],
+        featured: null,
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.python',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -178,7 +186,7 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.5,
-        price: 9.99
+        price: '9.99$'
     },
     {
         _id: 10,
@@ -186,9 +194,10 @@ export default [
         authors: ['Nhu Vo', 'Hanh Vuong'],
         avatar: 'https://finalstyle.com/pictures/news/xu_huong_thiet_ke_web_2020_1.png',
         lastUpdated: '12/2019',
-        featured: ['course.bestseller'],
+        featured: null,
         category: 'cate.development.web-development',
-        topics: ['cate.development.web-development.javascript', 'cate.development.web-development.python', 'cate.development.web-development.nodejs'],
+        area: 'cate.development',
+        topic: 'cate.development.web-development.python',
         numOfLectures: 114,
         level: 'course.alllevel',
         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
@@ -198,6 +207,6 @@ export default [
             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
         ],
         starRating: 4.5,
-        price: 9.99
+        price: '9.99$'
     },
 ]

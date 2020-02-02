@@ -151,6 +151,8 @@ export default {
 	'course.lastupdated': 'Last updated',
 	'course.bestseller': 'Bestseller',
 	'course.highrated': 'Highrated',
+	'course.hotandnew': 'Hot & new',
+	'course.bestsellerandhighrated': 'Bestseller & Highrated',
 	'course.lectures': 'Lectures',
 	'course.alllevel': 'All level',
 	'course.beginner': 'Beginner',

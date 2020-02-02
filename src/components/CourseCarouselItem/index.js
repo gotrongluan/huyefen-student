@@ -1,15 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
 import router from 'umi/router';
+import Link from 'umi/link';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Popover, Card, Button, Icon, Tag, Rate, Row, Col } from 'antd';
-import { tagColor, featuredColor } from '@/config/constants';
+import { Popover, Card, Button, Icon, Tag, Rate, Row, Col, Divider } from 'antd';
+import FeaturedBadge from '@/components/FeaturedBadge';
 import { truncate, transAuthors, roundStarRating } from '@/utils/utils';
 import styles from './index.less';
 
 const CourseCarouselItem = ({ course }) => {
-
-    const topics = [...course.topics, course.category];
 
     const content = (
         <div className={styles.content}>
@@ -19,18 +18,20 @@ const CourseCarouselItem = ({ course }) => {
             <div className={styles.name}>
                 {truncate(course.name, 100)}
             </div>
-            {course.featured && !_.isEmpty(course.featured) && (
-                <div className={styles.featured}>
-                    {_.map(course.featured, (featured, i) => (
-                        <Tag color={featuredColor(i)} key={_.uniqueId('course_feature_')}>{_.toUpper(formatMessage({ id: featured }))}</Tag>
-                    ))}
+            {course.featured ? (
+                <div className={styles.topic}>
+                    <FeaturedBadge type={course.featured} style={{ marginRight: '12px' }}/>
+                    in <Link to="/">{formatMessage({ id: course.topic })}</Link>
+                    <Divider type="vertical" style={{ background: 'white' }} />
+                    <span>{formatMessage({ id: course.category })}</span>
+                </div>
+            ) : (
+                <div className={styles.topic}>
+                    <Link to="/">{formatMessage({ id: course.topic })}</Link>
+                    <Divider type="vertical" style={{ background: 'white' }} />
+                    <span>{formatMessage({ id: course.category })}</span>
                 </div>
             )}
-            <div className={styles.topics}>
-                {_.map(topics, (topic, i) => (
-                    <Tag color={tagColor(i)} key={_.uniqueId('course_topic_')}>{formatMessage({ id: topic })}</Tag>
-                ))}
-            </div>
             <Row className={styles.lectureInfo}>
                 <Col className={styles.infoItem} span={12}>
                     <Icon type="container" theme="filled" />
@@ -65,8 +66,10 @@ const CourseCarouselItem = ({ course }) => {
             style={{ width: '100%' }}
             cover={(
                 <div className={styles.cover}>
-                    {course.featured && !_.isEmpty(course.featured) && (
-                        <Tag color={featuredColor(0)} key={_.uniqueId('course_feature_')}>{_.toUpper(formatMessage({ id: course.featured[0] }))}</Tag>
+                    {course.featured && (
+                        <div className={styles.featured}>
+                            <FeaturedBadge type={course.featured} />
+                        </div>
                     )}
                     <img alt="cover" src={course.avatar} />
                 </div>

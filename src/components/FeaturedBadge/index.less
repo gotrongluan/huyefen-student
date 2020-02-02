@@ -1,0 +1,45 @@
+.featuredBadge {
+    position: relative;
+    text-transform: uppercase;
+    border-radius: 3px;
+    font-size: 9px;
+    padding: 1px 8px;
+    background: #14171c;
+    border: none;
+    color: #fff;
+    min-width: inherit;
+    display: inline-block;
+    font-weight: 900;
+    line-height: 1.5;
+    text-align: center;
+    z-index: 2;
+    top: -1px;
+    vertical-align: baseline;
+    &::after {
+        background: inherit;
+        content: '';
+        height: 11px;
+        position: absolute;
+        top: 2px;
+        transform: rotate(45deg);
+        width: 11px;
+        z-index: 1;
+        display: block;
+        border-radius: 3px;
+        right: -4px;
+    } 
+}
+.bestseller {
+    color: #29303b;
+    background: #f4c150;
+}
+.hotandnew {
+    background: tomato;
+}
+.highrated {
+    color: #29303b;
+    background: #f59c49;
+}
+.bestsellerandhighrated {
+    background: #cf6808;
+}
