@@ -226,15 +226,20 @@
             }
             .topTopics {
                 margin-top: 10px;
-                padding: 40px 20px;
-                border: 1px solid @primary-color;
-                :global(.ant-tag) {
-                    padding: 10px 20px;
-                    font-size: 1.15em;
-                    border-radius: 10px;
-                    margin-top: 20px;
-                    margin-right: 13px;
-                    cursor: pointer;
+                .pairItem {
+                    .topic {
+                        padding-left: 10px;
+                        height: 54px;
+                        line-height: 54px;
+                        border: 1px solid rgb(20, 20, 20);
+                        font-size: 1.1em;
+                        color: white;
+                        background: @component-background;
+                        cursor: pointer;
+                        &:hover {
+                            opacity: 0.8;
+                        }
+                    }
                 }
             }
         }
@@ -256,7 +261,7 @@
                 }
             }
         }
-        .courseItem, .friendItem {
+        .courseItem, .friendItem, .pairItem {
             width: 96% !important;
         }
     }

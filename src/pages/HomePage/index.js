@@ -101,6 +101,28 @@ const Homepage = () => {
         )
     };
 
+    const topicsCarousel = topics => {
+        const topicsData = _.chunk(topics, 2);
+        return (
+            <Carousel
+                arrows
+                dots={false}
+                slidesToShow={5}
+                slidesToScroll={2}
+                speed={500}
+                prevArrow={<SlickButton><Icon type="left" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
+                nextArrow={<SlickButton><Icon type="right" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
+            >
+                {_.map(topicsData, (topicsPair, i) => (
+                    <div className={styles.pairItem} key={topicsPair[0]._id + _.uniqueId('topics_')}>
+                        <div className={styles.topic} style={{ marginBottom: '10px' }}>{formatMessage({ id: topicsPair[0].name })}</div>
+                        {topicsPair[1] && <div className={styles.topic}>{formatMessage({ id: topicsPair[1].name })}</div>}
+                    </div>
+                ))}
+                {_.map(range(5 - topicsData.length), n => (<div key={n} className={styles.pairItem} />))}
+            </Carousel>
+        )
+    }
     const backCoursesCarousel = backCourses => {
         return (
             <Carousel
@@ -179,11 +201,7 @@ const Homepage = () => {
                 <Row className={styles.topTopicsCont}>
                     <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.toptopics' })} `}</Row>
                     <Row className={styles.topTopics}>
-                        {_.map(topTopics, (topic, i) => (
-                            <Link to="/teaching" key={topic._id + _.uniqueId("topic_")}>
-                                <Tag color={tagColor(i)}>{formatMessage({ id: topic.name })}</Tag>
-                            </Link>
-                        ))}
+                        {topicsCarousel(topTopics)}
                     </Row>
                 </Row>
             </React.Fragment>
