@@ -23,7 +23,8 @@ const Thread = ({ match }) => {
             setThread(THREAD);
             setThreadLoading(false);
         }, 1400);
-    }, []);
+        //return clear thread
+    }, [match.params.threadId]);
 
     const handleLoadmoreAnswers = () => {
         setLoading(true);

@@ -22,7 +22,11 @@ const Review = ({ match }) => {
             });
             setInitLoading(false);
         }, 1200);
-    }, []);
+        return () => {
+            setStarVal(0);
+            setComment(EditorState.createEmpty());
+        };
+    }, [match.params.courseId]);
     const handleVoting = () => {
         const courseId = match.params.courseId;
         if (starVal === 0) return message.error('You must rate before submitting!');

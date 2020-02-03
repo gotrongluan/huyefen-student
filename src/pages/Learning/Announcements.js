@@ -42,7 +42,7 @@ const CommentInput = ({ onPressEnter }) => {
     )
 };
 
-const Announcements = () => {
+const Announcements = ({ match }) => {
     const [announcements, setAnnouncements] = useState(null);
     const [initLoading, setInitLoading] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ const Announcements = () => {
             setAnnouncements(ANNOUNCEMENTS);
             setInitLoading(false);
         }, 1200);
-    }, []);
+    }, [match.params.courseId]);
     const handleMoreAnnouncements = () => {
         setLoading(true);
         setTimeout(() => {

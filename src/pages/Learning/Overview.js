@@ -20,7 +20,7 @@ const InstructorMeta = ({ avatar, name, job }) => {
         </div>
     )
 } 
-const Overview = (props) => {
+const Overview = ({ match }) => {
     const [courseOverview, setCourseInfo] = useState(null);
     const [courseOverviewLoading, setCourseInfoLoading] = useState(false);
     const [instructors, setInstructors] = useState(null);
@@ -31,14 +31,14 @@ const Overview = (props) => {
             setCourseInfo(COURSE_OVERVIEW);
             setCourseInfoLoading(false);
         }, 1200);
-    }, []);
+    }, [match.params.courseId]);
     useEffect(() => {
         setInstructorsLoading(true);
         setTimeout(() => {
             setInstructors(INSTRUCTORS);
             setInstructorsLoading(false);
         }, 900);
-    }, []);
+    }, [match.params.courseId]);
     return (
         <div className={styles.overview}>
             <div className={styles.about}>

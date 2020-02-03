@@ -30,7 +30,7 @@ const Lecture = ({ match }) => {
             setLecture(LECTURE);
             setInitLoading(false);
         }, 2000);
-    }, [match.params, match.params.lectureId]);
+    }, [match.params, match.params.courseId, match.params.lectureId]);
     const handleCompleteLecture = () => {
         const { lectureId } = match.params;
         message.success(`Complete lecture with id ${lectureId}`);

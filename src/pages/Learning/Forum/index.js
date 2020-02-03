@@ -13,7 +13,7 @@ const { Option } = Select;
 const { Search, TextArea } = Input;
 const FormItem = Form.Item;
 
-const Forum = ({ location }) => {
+const Forum = ({ location, match }) => {
     const [forum, setForum] = useState({
         total: null,
         list: null,
@@ -50,7 +50,7 @@ const Forum = ({ location }) => {
             });
             setInitLoading(false);
         }, 1500);
-    }, []);
+    }, [forum]);
 
     useEffect(() => {
         if (!forum.lectureOptions) {
@@ -63,7 +63,7 @@ const Forum = ({ location }) => {
                 setLectureOptionsLoading(false);
             }, 1200);
         }
-    }, []);
+    }, [forum]);
 
     const handleSort = value => {
         setForum({
