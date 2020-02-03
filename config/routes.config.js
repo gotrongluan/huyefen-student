@@ -89,7 +89,7 @@ export default [
             {
                 path: '/courses/:areaTag',
                 title: 'route.basic.area',
-                component: './Courses/Category'
+                component: './Courses/Area'
             },
             {
                 path: '/courses/:areaTag/:cateTag',

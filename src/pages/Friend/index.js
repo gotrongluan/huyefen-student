@@ -10,52 +10,71 @@ import FRIENDS from '@/assets/fakers/friends';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
-
-const Friend= () => {
-    const [loading, setLoading] = useState(false);
-    const [friendLoading, setFriendLoading] = useState(false);
-    let [courses, setCourses] = useState(COURSES);
-    let [friends, setFriends] = useState(FRIENDS);
+const FRIEND = {
+    _id: 1,
+    name: 'Ngọc Hạnh Vương',
+    avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+    status: 3
+};
+const Friend= ({ match }) => {
+    const [friendsLoading, setFriendsLoading] = useState(false);
+    const [coursesLoading, setCoursesLoading] = useState(false);
+    const [friendsInitLoading, setFriendsInitLoading] = useState(false);
+    const [coursesInitLoading, setCoursesInitLoading] = useState(false);
+    const [friend, setFriend] = useState(null);
+    let [courses, setCourses] = useState(null);
+    let [friends, setFriends] = useState(null);
     const [infoLoading, setInfoLoading] = useState(true);
-    const initLoading = false;
-    const initFriendLoading = false;
     useEffect(() => {
+        setInfoLoading(true);
         setTimeout(() => {
+            setFriend(FRIEND);
             setInfoLoading(false);
-        }, 2000);
-    }, []);
-    const friend = {
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-        status: 3
-    };
+        }, 1200);
+    }, [match.params.friendId]);
+    useEffect(() => {
+        setFriendsInitLoading(true);
+        setTimeout(() => {
+            setCourses(COURSES);
+            setFriendsInitLoading(false);
+        }, 1600);
+    }, [match.params.friendId]);
+    useEffect(() => {
+        setCoursesInitLoading(true);
+        setTimeout(() => {
+            setFriends(FRIENDS);
+            setCoursesInitLoading(false);
+        }, 1400);
+    }, [match.params.friendId]);
     let icon;
     let relText;
-    switch (friend.status) {
-        case 1:             //no friend
-            icon = "user-add";
-            relText = "Add friend";
-            break;
-        case 2:
-            icon = "clock-circle";
-            relText = "Sented invitation"
-            break;
-        case 3:
-            icon = "user-delete";
-            relText = "Cancel friend";
-            break;
-        default:
-            icon = "user";
-    };
+    if (friend) {
+        switch (friend.status) {
+            case 1:             //no friend
+                icon = "user-add";
+                relText = "Add friend";
+                break;
+            case 2:
+                icon = "clock-circle";
+                relText = "Sented invitation"
+                break;
+            case 3:
+                icon = "user-delete";
+                relText = "Cancel friend";
+                break;
+            default:
+                icon = "user";
+        };
+    }
     const handleMoreCourses = () => {
-        setLoading(true);
+        setCoursesLoading(true);
         setTimeout(() => {
             setCourses([...courses, ...COURSES]);
-            setLoading(false);
+            setCoursesLoading(false);
         }, 2000);
     };
     const loadMore = (
-        !initLoading && !loading && courses ? (
+        !coursesInitLoading && !coursesLoading && courses ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreCourses}>More courses</Button>
                 <Button size="small" type="primary" style={{ marginLeft: 10 }}>All courses</Button>
@@ -63,27 +82,27 @@ const Friend= () => {
         ) : null
     );
     const handleMoreFriends = () => {
-        setFriendLoading(true);
+        setFriendsLoading(true);
         setTimeout(() => {
             setFriends([...friends, ...FRIENDS]);
-            setFriendLoading(false);
+            setFriendsLoading(false);
         }, 1500);
     };
     const loadMoreFriends = (
-        !friendLoading && !friendLoading && friends ? (
+        !friendsLoading && !friendsInitLoading && friends ? (
             <div className={styles.loadMoreFriends}>
                 <Button size="small" type="default" onClick={handleMoreFriends}>More friends</Button>
                 <Button size="small" type="primary" style={{ marginLeft: 10 }}>All friends</Button>
             </div>
         ) : null
     );
-    if (loading && courses) courses = _.concat(courses, [
+    if (coursesLoading && courses) courses = _.concat(courses, [
         { key: _.uniqueId('friend_course_loading_'), loading: true },
         { key: _.uniqueId('friend_course_loading_'), loading: true },
         { key: _.uniqueId('friend_course_loading_'), loading: true },
         { key: _.uniqueId('friend_course_loading_'), loading: true }
     ]);
-    if (friendLoading && friends) friends = _.concat(friends, [{
+    if (friendsLoading && friends) friends = _.concat(friends, [{
         key: _.uniqueId('friend_loading_'),
         loading: true
     }, {
@@ -136,14 +155,14 @@ const Friend= () => {
                         className={classNames(styles.tabPane, styles.courses)}  
                     >
                         <Row className={styles.courseContent}>
-                            <Spin spinning={!courses || initLoading} fontSize={8} isCenter>
+                            <Spin spinning={!courses || coursesInitLoading} fontSize={8} isCenter>
                                 <List
                                     grid={{
                                         gutter: 16,
                                         column: 4
                                     }}
                                     loadMore={loadMore}
-                                    dataSource={courses}
+                                    dataSource={!courses ? [] : courses}
                                     rowKey={course => (course._id || course.key) + _.uniqueId('friend_course_')}
                                     renderItem={course => (
                                         <List.Item>
@@ -169,9 +188,9 @@ const Friend= () => {
                         className={classNames(styles.tabPane, styles.friends)} 
                     >
                         <Row className={styles.friendsContent}>
-                            <Spin spinning={!friends || initFriendLoading} fontSize={8} isCenter>
+                            <Spin spinning={!friends || friendsInitLoading} fontSize={8} isCenter>
                                 <List
-                                    dataSource={friends}
+                                    dataSource={!friends ? [] : friends}
                                     rowKey={item => (item._id || item.key) + _.uniqueId('friend_')}
                                     loadMore={loadMoreFriends}
                                     itemLayout="horizontal"
