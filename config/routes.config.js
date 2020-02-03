@@ -87,17 +87,17 @@ export default [
                 component: './HomePage'
             },
             {
-                path: '/courses/:areaTag',
+                path: '/courses/area/:areaId',
                 title: 'route.basic.area',
                 component: './Courses/Area'
             },
             {
-                path: '/courses/:areaTag/:cateTag',
+                path: '/courses/category/:cateId',
                 title: 'route.basic.cate',
                 component: './Courses/Category'
             },
             {
-                path: '/courses/:areaTag/:cateTag/:topicTag',
+                path: '/courses/topic/:topicId',
                 title: 'route.basic.topic',
                 component: './Courses/Topic'
             },

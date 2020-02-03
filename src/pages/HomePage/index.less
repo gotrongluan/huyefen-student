@@ -27,6 +27,32 @@
         width: 100%;
         position: relative;
     }
+    .recommender {
+        :global {
+            .ant-carousel .slick-prev, .ant-carousel .slick-next {
+                top: calc(50% - 12px);
+            }
+            .ant-carousel .slick-next {
+                right: -7px;
+            }
+            .ant-carousel .slick-prev {
+                left: -40px;
+            }
+        }
+    }
+    .back {
+        :global {
+            .ant-carousel .slick-prev, .ant-carousel .slick-next {
+                top: calc(50% - 3px);
+            }
+            .ant-carousel .slick-next {
+                right: -7px;
+            }
+            .ant-carousel .slick-prev {
+                left: -25px;
+            }
+        }
+    }
     .back, .recommender {
         margin: auto;
         width: 78%;
@@ -51,13 +77,6 @@
                 }
                 border-radius: 50%;
                 border: none;
-                top: calc(50% - 12px);
-            }
-            .ant-carousel .slick-next {
-                right: -7px;
-            }
-            .ant-carousel .slick-prev {
-                left: -40px;
             }
         }
         .skeletonBox {

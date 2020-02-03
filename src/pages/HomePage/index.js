@@ -8,6 +8,7 @@ import Spin from '@/elements/spin/secondary';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Course from '@/components/CourseCarouselItem';
 import Friend from '@/components/Friend';
+import ArrowCarousel from '@/components/ArrowCarousel';
 import InProgressCourse from '@/components/InProgressCourse';
 import MOST_POPULAR from '@/assets/fakers/mostPopular';
 import TOP_RATING from '@/assets/fakers/topRating';
@@ -21,10 +22,6 @@ import { range } from '@/utils/utils';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
-
-const SlickButton = ({currentSlide, slideCount, children, ...props}) => (
-    <span {...props}>{children}</span>
-);
 
 const Homepage = () => {
     // let loading = false;
@@ -62,22 +59,18 @@ const Homepage = () => {
         //     </Carousel>
         // );
         return (
-            <Carousel
-                arrows
-                dots={false}
-                slidesToShow={5}
-                slidesToScroll={2}
+            <ArrowCarousel
+                pageSize={5}
                 speed={500}
-                prevArrow={<SlickButton><Icon type="left" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
-                nextArrow={<SlickButton><Icon type="right" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
-            >
-                {_.map(courses, (course, i) => (
+                buttonSize={34}
+                dataSource={courses}
+                renderItem={course => (
                     <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
                         <Course course={course} />
                     </div>
-                ))}
-                {_.map(range(5 - courses.length), n => (<div key={n} className={styles.courseItem} />))}
-            </Carousel>
+                )}
+                renderEmptyItem={() => <div className={styles.courseItem} />}
+            />
         )
     };
 
@@ -104,43 +97,35 @@ const Homepage = () => {
     const topicsCarousel = topics => {
         const topicsData = _.chunk(topics, 2);
         return (
-            <Carousel
-                arrows
-                dots={false}
-                slidesToShow={5}
-                slidesToScroll={2}
+            <ArrowCarousel
+                pageSize={5}
                 speed={500}
-                prevArrow={<SlickButton><Icon type="left" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
-                nextArrow={<SlickButton><Icon type="right" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
-            >
-                {_.map(topicsData, (topicsPair, i) => (
+                buttonSize={34}
+                dataSource={topicsData}
+                renderItem={topicsPair => (
                     <div className={styles.pairItem} key={topicsPair[0]._id + _.uniqueId('topics_')}>
                         <div className={styles.topic} style={{ marginBottom: '10px' }}>{formatMessage({ id: topicsPair[0].name })}</div>
                         {topicsPair[1] && <div className={styles.topic}>{formatMessage({ id: topicsPair[1].name })}</div>}
                     </div>
-                ))}
-                {_.map(range(5 - topicsData.length), n => (<div key={n} className={styles.pairItem} />))}
-            </Carousel>
+                )}
+                renderEmptyItem={() => <div className={styles.pairtem} />}
+            />
         )
     }
     const backCoursesCarousel = backCourses => {
         return (
-            <Carousel
-                arrows
-                dots={false}
-                slidesToShow={3}
-                slidesToScroll={1}
+            <ArrowCarousel
+                pageSize={3}
                 speed={500}
-                prevArrow={<SlickButton><Icon type="left" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
-                nextArrow={<SlickButton><Icon type="right" style={{ color: '#FADA5E', fontSize: 42 }}/></SlickButton>}
-            >
-                {_.map(backCourses, backCourse => (
+                buttonSize={24}
+                dataSource={backCourses}
+                renderItem={backCourse => (
                     <div className={styles.backCourseItem} key={backCourse._id + _.uniqueId('backCourse_')}>
                         <InProgressCourse course={backCourse} />
                     </div>
-                ))}
-                {_.map(range(3 - backCourses.length), n => (<div key={n} className={styles.backCourseItem} />))}
-            </Carousel>
+                )}
+                renderEmptyItem={() => <div className={styles.backCoursetem} />}
+            />
         )
     }
 
