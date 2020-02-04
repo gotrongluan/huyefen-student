@@ -105,8 +105,33 @@ export default {
                 },
                 {
                     _id: 4,
-                    title: 'Programming Languages',
+                    title: 'Programming languages and Basic developemnt',
                     count: 7
+                }
+            ]
+        },
+        level: {
+            select: ['all-level'],
+            list: [
+                {
+                    key: 'all-level',
+                    title: 'All level',
+                    count: 1548,
+                },
+                {
+                    key: 'beginner',
+                    title: 'Beginner',
+                    count: 200,
+                },
+                {
+                    key: 'intermediate',
+                    title: 'Intermediate',
+                    count: 36,
+                },
+                {
+                    key: 'expert',
+                    title: 'Expert',
+                    count: 2,
                 }
             ]
         },
@@ -171,21 +196,25 @@ export default {
                 {
                     key: '4-to-5',
                     title: '4.0 & up',
+                    star: 4,
                     count: 257
                 },
                 {
                     key: '3-to-4',
                     title: '3.0 to 4.0',
+                    star: 3,
                     count: 2140
                 },
                 {
                     key: '2-to-3',
                     title: '2.0 to 3.0',
+                    star: 2,
                     count: 119
                 },
                 {
                     key: '1-to-2',
                     title: '1.0 to 2.0',
+                    star: 1,
                     count: 2
                 }
             ]

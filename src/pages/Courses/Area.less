@@ -190,6 +190,37 @@
                         padding-top: 8px;
                         padding-bottom: 8px;
                     }
+                    .filterTitle {
+                        font-size: 1.2em;
+                        color: @primary-color;
+                    }
+                    .filterOptions {
+                        margin-top: 10px;
+                        .option {
+                            width: 100%;
+                            margin-bottom: 4px;
+                            .checkbox {
+                                max-width: 100%;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                .filterName {
+                                    color: white;
+                                }
+                                .count {
+                                    margin-left: 8px;
+                                    font-size: 0.9em;
+                                }
+                            }
+                            
+                        }
+                        .ratingOption {
+                            .checkbox .star {
+                                margin-right: 8px;
+                                font-size: 1.1em;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Collapse, Badge, message } from 'antd';
+import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col, message } from 'antd';
 import Loading from '@/elements/spin/secondary';
 import ArrowCarousel from '@/components/ArrowCarousel';
 import Course from '@/components/CourseCarouselItem';
@@ -85,6 +85,8 @@ const Area = ({ match }) => {
         }, 1300);
     };
 
+    const handleFilter = () => {};
+
     const coursesCarousel = (courses) => {
         return (
             <ArrowCarousel
@@ -159,6 +161,31 @@ const Area = ({ match }) => {
             />
         )
     };
+
+    const renderFilters = type => _.map(courses.filters[type].list, option => (
+        <div className={styles.option} key={(option._id || option.key) + _.uniqueId('option_')}>
+            <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
+                <Checkbox className={styles.checkbox} checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1} onChange={handleFilter}>
+                    <span className={styles.filterName}>{option.title}</span>
+                    <span className={styles.count}>{option.count}</span>
+                </Checkbox>
+            </Tooltip>
+        </div>
+    ));
+
+    const renderStarRatings = () => _.map(courses.filters['starRating'].list, option => (
+        <div className={classNames(styles.option, styles.ratingOption)} key={(option._id || option.key) + _.uniqueId('option_')}>
+            <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
+                <Checkbox className={styles.checkbox} checked={_.indexOf(courses.filters['starRating'].select, (option._id || option.key)) > -1} onChange={handleFilter}>
+                    <span>
+                        <Rate disabled value={option.star} className={styles.star}/>
+                    </span>
+                    <span className={styles.filterName}>{option.title}</span>
+                    <span className={styles.count}>{option.count}</span>
+                </Checkbox>
+            </Tooltip>
+        </div>
+    ));
 
     let isClearable;
     if (courses) isClearable = _.some(_.map(_.values(courses.filters), subFilter => subFilter.select.length > 0));
@@ -256,7 +283,66 @@ const Area = ({ match }) => {
                                         activeKey={filterOpen ? ['filter'] : null}
                                     >
                                         <Panel key="filter" showArrow={false} className={styles.filterPanel}>
-                                            aaaaa
+                                            <Row gutter={8}>
+                                                <Col span={6}>
+                                                    <div className={styles.filterTitle}>
+                                                        Topic
+                                                    </div>
+                                                    <div className={styles.filterOptions}>
+                                                        {renderFilters('topic')}
+                                                    </div>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <div className={styles.filterTitle}>
+                                                        Category
+                                                    </div>
+                                                    <div className={styles.filterOptions}>
+                                                        {renderFilters('category')}
+                                                    </div>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <div className={styles.filterTitle}>
+                                                        Level
+                                                    </div>
+                                                    <div className={styles.filterOptions}>
+                                                        {renderFilters('level')}
+                                                    </div>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <div className={styles.filterTitle}>
+                                                        Language
+                                                    </div>
+                                                    <div className={styles.filterOptions}>
+                                                        {renderFilters('language')}
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            <Row gutter={8} style={{ marginTop: '30px' }}>
+                                                <Col span={6}>
+                                                    <div className={styles.filterTitle}>
+                                                        Price
+                                                    </div>
+                                                    <div className={styles.filterOptions}>
+                                                        {renderFilters('price')}
+                                                    </div>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <div className={styles.filterTitle}>
+                                                        Rating
+                                                    </div>
+                                                    <div className={styles.filterOptions}>
+                                                        {renderStarRatings()}
+                                                    </div>
+                                                </Col>
+                                                <Col span={6}>
+                                                    <div className={styles.filterTitle}>
+                                                        Lecture
+                                                    </div>
+                                                    <div className={styles.filterOptions}>
+                                                        {renderFilters('lecture')}
+                                                    </div>
+                                                </Col>
+                                            </Row>
                                         </Panel>
                                     </Collapse>
                                 </div>
