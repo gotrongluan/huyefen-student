@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import Link from 'umi/link';
+import router from 'umi/router';
 import { Parallax } from 'react-parallax';
 import { Row, Col, Tabs, Carousel, Tag, Icon } from 'antd';
 import Spin from '@/elements/spin/secondary';
@@ -104,14 +104,14 @@ const Homepage = () => {
                 dataSource={topicsData}
                 renderItem={topicsPair => (
                     <div className={styles.pairItem} key={topicsPair[0]._id + _.uniqueId('topics_')}>
-                        <div className={styles.topic} style={{ marginBottom: '10px' }}>{formatMessage({ id: topicsPair[0].name })}</div>
-                        {topicsPair[1] && <div className={styles.topic}>{formatMessage({ id: topicsPair[1].name })}</div>}
+                        <div className={styles.topic} style={{ marginBottom: '10px' }} onClick={() => router.push(`/courses/topic/${topicsPair[0]._id}`)}>{formatMessage({ id: topicsPair[0].name })}</div>
+                        {topicsPair[1] && <div className={styles.topic} onClick={() => router.push(`/courses/topic/${topicsPair[1]._id}`)}>{formatMessage({ id: topicsPair[1].name })}</div>}
                     </div>
                 )}
                 renderEmptyItem={() => <div className={styles.pairtem} />}
             />
         )
-    }
+    };
     const backCoursesCarousel = backCourses => {
         return (
             <ArrowCarousel
