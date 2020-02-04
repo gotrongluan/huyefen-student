@@ -75,10 +75,10 @@ const Notifications = () => {
 
     }
 
-    let unread = 0;
+    let unread = 6;
     let count = 0;
     if (unread > 0)
-        count = <Avatar style={{ background: 'red', fontSize: '11px' }} size={16}>{unread > 99 ? '99+' : unread}</Avatar>;
+        count = <Avatar style={{ background: 'purple', fontSize: '11px' }} size={16}>{unread > 99 ? '99+' : unread}</Avatar>;
     const trigger = (
         <span className={styles.trigger}>
             <Badge

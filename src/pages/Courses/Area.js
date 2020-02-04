@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Tabs, List, Carousel, Spin, Icon } from 'antd';
+import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Collapse, Badge, message } from 'antd';
+import Loading from '@/elements/spin/secondary';
 import ArrowCarousel from '@/components/ArrowCarousel';
 import Course from '@/components/CourseCarouselItem';
 import Instructor from '@/components/Instructor';
@@ -10,12 +11,16 @@ import { range } from '@/utils/utils';
 import RECOMMEND from '@/assets/fakers/recommends';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
 import INSTRUCTORS from '@/assets/fakers/instructors1';
+import COURSES from '@/assets/fakers/coursesInArea';
 import styles from './Area.less';
 import router from 'umi/router';
 
 const { TabPane } = Tabs;
+const { Option } = Select;
+const { Panel } = Collapse;
 
 const Area = ({ match }) => {
+    const [filterOpen, setFilterOpen] = useState(false);
     const [areaInfo, setAreaInfo] = useState(null);
     const [recommend, setRecommend] = useState(null);
     const [recommendLoading, setRecommendLoading] = useState(false);
@@ -23,6 +28,8 @@ const Area = ({ match }) => {
     const [instructors, setInstructors] = useState(null);
     const [courses, setCourses] = useState(null);
     const [coursesLoading, setCoursesLoading] = useState(false);
+    const [sortByLoading, setSortByLoading] = useState(false);
+    const [filterLoading, setFilterLoading] = useState(false);
     useEffect(() => {
         setTimeout(() => {
             setAreaInfo({
@@ -48,6 +55,36 @@ const Area = ({ match }) => {
             setInstructors(INSTRUCTORS);
         }, 1900);
     }, [match.params.areaId]);
+    useEffect(() => {
+        setCoursesLoading(true);
+        setTimeout(() => {
+            setCourses(COURSES);
+            setCoursesLoading(false);
+        }, 2000);
+    }, [match.params.areaId]);
+
+    const handleSortBy = sortBy => {
+        setSortByLoading(true);
+        setTimeout(() => {
+            //handle with areaId, current filters, sortBy --> dispatch effect with (areaId, sortBy)
+            setCourses({
+                ...courses,
+                sortBy
+            })
+            setSortByLoading(false);
+        }, 1000);
+    };
+
+    const handleClear = () => {
+        //subset of handleChange
+        //filterLoading = loading.effects(['area/change', 'area/clear])!!!
+        setFilterLoading(true);
+        setTimeout(() => {
+            //call api with areaId, no filters.
+            setFilterLoading(false);
+        }, 1300);
+    };
+
     const coursesCarousel = (courses) => {
         return (
             <ArrowCarousel
@@ -121,7 +158,10 @@ const Area = ({ match }) => {
                 renderEmptyItem={() => <div className={styles.instructorItem} />}
             />
         )
-    }
+    };
+
+    let isClearable;
+    if (courses) isClearable = _.some(_.map(_.values(courses.filters), subFilter => subFilter.select.length > 0));
 
     return (
         <div className={styles.area}>
@@ -170,7 +210,71 @@ const Area = ({ match }) => {
                         <Spin indicator={<Icon type="loading" spin style={{ fontSize: 64 }} />} />
                     </div>
                 ) : (
-                    <div></div>
+                    <div className={styles.courses}>
+                        <div className={styles.title}>All courses in this area</div>
+                        <div className={styles.content}>
+                            <Loading isCenter fontSize={8} spinning={filterLoading}>
+                                <div className={styles.filter}>
+                                    <div className={styles.btns}>
+                                        {!filterOpen ? (
+                                            <Badge dot={isClearable} style={{ background: '#FE7F9C' }}>
+                                                <Button className={styles.filterOpen} onClick={() => setFilterOpen(true)}>
+                                                    <Icon type="filter" />
+                                                    Filter
+                                                </Button>
+                                            </Badge>
+                                        ) : (
+                                            <React.Fragment>
+                                                <Button className={styles.done} type="primary" onClick={() => setFilterOpen(false)}>
+                                                    <Icon type="check-circle" />
+                                                    Done
+                                                </Button>
+                                                {isClearable && (
+                                                    <Button className={styles.clear} onClick={handleClear}>
+                                                        <Icon type="close" />
+                                                        Clear
+                                                    </Button>
+                                                )}
+                                            </React.Fragment>
+                                        )}
+                                        <Select
+                                            className={styles.sortBy}
+                                            value={courses.sortBy}
+                                            onChange={val => handleSortBy(val)}
+                                            dropdownMatchSelectWidth={false}
+                                            loading={sortByLoading}
+                                        >
+                                            <Option value="highest-rated">Highest rated</Option>
+                                            <Option value="popularity">Popularity</Option>
+                                            <Option value="newest">Newest</Option>
+                                            <Option value="lowest-price">Lowest price</Option>
+                                            <Option value="highest-price">Highest price</Option>
+                                        </Select>
+                                    </div>
+                                    <Collapse
+                                        bordered={false}
+                                        activeKey={filterOpen ? ['filter'] : null}
+                                    >
+                                        <Panel key="filter" showArrow={false} className={styles.filterPanel}>
+                                            aaaaa
+                                        </Panel>
+                                    </Collapse>
+                                </div>
+                                <Loading fontSize={6} isCenter spinning={sortByLoading}>
+                                    <div className={styles.list}>
+                                        <div>1</div>
+                                        <div>1</div>
+                                        <div>1</div>
+                                        <div>1</div>
+                                        <div>1</div>
+                                        <div>1</div>
+                                        <div>1</div>
+                                    </div>
+                                </Loading>
+
+                            </Loading>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>
