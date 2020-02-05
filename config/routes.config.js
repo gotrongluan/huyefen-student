@@ -92,7 +92,7 @@ export default [
                 component: './Courses/Area'
             },
             {
-                path: '/courses/category/:cateId',
+                path: '/courses/category/:categoryId',
                 title: 'route.basic.cate',
                 component: './Courses/Category'
             },

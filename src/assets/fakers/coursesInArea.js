@@ -86,7 +86,7 @@ export default {
             ]
         },
         category: {
-            select: [],
+            select: [1],
             list: [
                 {
                     _id: 1,

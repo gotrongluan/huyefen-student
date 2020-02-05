@@ -61,6 +61,7 @@ const Category = ({ match }) => {
     useEffect(() => {
         setCoursesLoading(true);
         setTimeout(() => {
+            //call api with categoryId in filters.category
             setCourses(COURSES);
             setCoursesLoading(false);
         }, 2000);
@@ -69,7 +70,7 @@ const Category = ({ match }) => {
     const handleSortBy = sortBy => {
         setSortByLoading(true);
         setTimeout(() => {
-            //handle with categoryId, current filters, sortBy --> dispatch effect with (categoryId, sortBy)
+            //handle with current filters, sortBy --> dispatch effect with (sortBy)
             setCourses({
                 ...courses,
                 sortBy
@@ -83,7 +84,7 @@ const Category = ({ match }) => {
         //filterLoading = loading.effects(['category/change', 'category/clear])!!!
         setFilterLoading(true);
         setTimeout(() => {
-            //call api with categoryId, no filters.
+            //call api with only categoryId in filters.category
             setFilterLoading(false);
         }, 1300);
     };
@@ -96,7 +97,7 @@ const Category = ({ match }) => {
             // if (checked) filters[type].push(option);
             // else filters[type] = _.filter(filters[type], opt => opt !== option);
             // console.log(filters);
-            ///call api with filters;
+            ///call api with filters, ko can categoryId truyen len;
             const { checked } = e.target;
             message.success(`${checked}`);
             const coursesData = { ...courses };
@@ -111,6 +112,7 @@ const Category = ({ match }) => {
     const handleChangePage = page => {
         setChangePageLoading(true);
         setTimeout(() => {
+            //current filters, new pagination
             if (page % 2 === 0)
                 setCourses({
                     ...courses,
@@ -120,7 +122,7 @@ const Category = ({ match }) => {
                 setCourses(COURSES);
             setChangePageLoading(false);
         }, 1200);
-    }
+    };
 
     const coursesCarousel = (courses) => {
         return (
@@ -200,14 +202,26 @@ const Category = ({ match }) => {
     const renderFilters = type => _.map(courses.filters[type].list, option => (
         <div className={styles.option} key={(option._id || option.key) + _.uniqueId('option_')}>
             <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
-                <Checkbox 
-                    className={styles.checkbox}
-                    checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
-                    onChange={checked => handleFilter(type, (option._id || option.key), checked)}
-                >
-                    <span className={styles.filterName}>{option.title}</span>
-                    <span className={styles.count}>{option.count}</span>
-                </Checkbox>
+                {type === 'category' && option._id.toString() === match.params.categoryId ? (
+                    <Checkbox 
+                        className={styles.checkbox}
+                        disabled
+                        defaultChecked
+                    >
+                        <span className={styles.filterName}>{option.title}</span>
+                        <span className={styles.count}>{option.count}</span>
+                    </Checkbox>
+                ) : (
+                    <Checkbox 
+                        className={styles.checkbox}
+                        checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
+                        onChange={checked => handleFilter(type, (option._id || option.key), checked)}
+                    >
+                        <span className={styles.filterName}>{option.title}</span>
+                        <span className={styles.count}>{option.count}</span>
+                    </Checkbox>
+                )}
+                
             </Tooltip>
         </div>
     ));
