@@ -13,6 +13,7 @@ import RECOMMEND from '@/assets/fakers/recommends';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
 import INSTRUCTORS from '@/assets/fakers/instructors1';
 import COURSES from '@/assets/fakers/coursesInArea';
+import FOO_COURSES from '@/assets/fakers/fooCourses';
 import styles from './Area.less';
 import router from 'umi/router';
 
@@ -20,7 +21,7 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const Area = ({ match }) => {
+const Area = ({ match }) => { 
     const [filterOpen, setFilterOpen] = useState(false);
     const [areaInfo, setAreaInfo] = useState(null);
     const [recommend, setRecommend] = useState(null);
@@ -31,6 +32,7 @@ const Area = ({ match }) => {
     const [coursesLoading, setCoursesLoading] = useState(false);
     const [sortByLoading, setSortByLoading] = useState(false);
     const [filterLoading, setFilterLoading] = useState(false);
+    const [changePageLoading, setChangePageLoading] = useState(false);
     useEffect(() => {
         setTimeout(() => {
             setAreaInfo({
@@ -105,6 +107,20 @@ const Area = ({ match }) => {
             setFilterLoading(false);
         }, 1500);
     };
+
+    const handleChangePage = page => {
+        setChangePageLoading(true);
+        setTimeout(() => {
+            if (page % 2 === 0)
+                setCourses({
+                    ...courses,
+                    list: [...FOO_COURSES]
+                });
+            else 
+                setCourses(COURSES);
+            setChangePageLoading(false);
+        }, 1200);
+    }
 
     const coursesCarousel = (courses) => {
         return (
@@ -374,12 +390,18 @@ const Area = ({ match }) => {
                                         </Panel>
                                     </Collapse>
                                 </div>
-                                <Loading fontSize={6} isCenter spinning={sortByLoading}>
+                                <Loading fontSize={6} isCenter spinning={sortByLoading || changePageLoading}>
                                     <div className={styles.list}>
                                         <List
                                             itemLayout="horizontal"
                                             dataSource={courses.list}
                                             rowKey={course => course._id + _.uniqueId('course_')}
+                                            pagination={courses.pagination.total > 8 ? {
+                                                total: courses.pagination.total,
+                                                pageSize: 8,
+                                                defaultCurrent: 1,
+                                                onChange: handleChangePage
+                                            } : false}
                                             renderItem={course => (
                                                 <div className={styles.courseInList}>
                                                     <CourseInList course={course} />

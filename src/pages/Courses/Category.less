@@ -1,0 +1,243 @@
+.category {
+    padding: 0;
+    .jumpotron {
+        width: 100%;
+        height: 160px;
+        position: relative;
+        background: @primary-color;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, @primary-color, #F2994A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        overflow: hidden;
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(11%, -50%);
+            text-align: left;
+            width: 100%;
+            font-size: 4em;
+            color: rgba(40, 40, 40, 0.8);
+        }
+    }
+    .main {
+        padding: 60px 0 40px 0;
+        width: 78%;
+        margin: auto;
+        :global {
+            .ant-carousel .slick-prev, .ant-carousel .slick-next {
+                // color: @primary-color;
+                // border: 2px solid @primary-color;
+                button {
+                    background-color: @primary-color;
+                    opacity: 0.6;
+                    color: black;
+                    z-index: 10;
+                    
+                    &:hover {
+                        opacity: 0.9;
+                    }
+                }
+                border-radius: 50%;
+                border: none;
+                top: calc(50% - 12px);
+            }
+            .ant-carousel .slick-next {
+                right: -9px;
+            }
+            .ant-carousel .slick-prev {
+                left: -35px;
+            }
+            .ant-tabs {
+                overflow: visible;
+            }
+        }
+        .recommendLoading {
+            width: 100%;
+            margin-top: 40px;
+            .courseItem {
+                width: 96% !important;
+                .courseSkeleton {
+                    width: 100%;
+                    background-color: rgb(30, 30, 30);
+                    .avatar {
+                        height: 163px;
+                        width: 100%;
+                    }
+                    .info {
+                        padding: 15px;
+                        .name, .authors, .price {
+                            height: 25px;
+                            
+                            width: 100%;
+                            margin-bottom: 15px;
+                        }
+                        .price {
+                            margin-left: auto;
+                            margin-right: 0;
+                            width: 30%;
+                        }
+                    }
+                }
+            }
+            .skeletonBox {
+                background-color: rgb(20, 20, 20);
+                position: relative;
+                overflow: hidden;
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    transform: translateX(-100%);
+                    background-image: linear-gradient(
+                        90deg,
+                        rgba(transparent, 0) 0,
+                        rgba(rgba(40, 40, 40, 0.4), 0.2) 20%,
+                        rgba(rgba(40, 40, 40, 0.4), 0.5) 40%,
+                        rgba(transparent, 0)
+                    );
+                    animation: shimmer 1.5s infinite;
+                    content: '';
+                }
+                
+                @keyframes shimmer {
+                    100% {
+                      transform: translateX(100%);
+                    }
+                }
+            }
+        }
+        .recommend {
+            .title {
+                color: white;
+                font-size: 1.5em;
+            }
+            .content {
+                margin-top: 10px;
+                .courseItem {
+                    width: 96% !important;
+                }
+            }
+        }
+        .topics, .instructors {
+            margin-top: 60px;
+            .title {
+                font-size: 1.3em;
+                color: white;
+            }
+            .content {
+                margin-top: 20px;
+            }
+        }
+        .topics {
+            .content {
+                .pairItem {
+                    width: 96% !important;
+                    .topic {
+                        padding-left: 10px;
+                        height: 54px;
+                        line-height: 54px;
+                        border: 1px solid rgb(20, 20, 20);
+                        font-size: 1.1em;
+                        color: white;
+                        background: @component-background;
+                        cursor: pointer;
+                        &:hover {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+            }
+        }
+        .instructors {
+            .content {
+                .instructorItem {
+                    width: 96% !important;
+                    
+                }
+            }
+        }
+        .coursesLoading {
+            text-align: center;
+            padding: 200px 150px;
+        }
+        .courses {
+            margin-top: 60px;
+            .title {
+                color: white;
+                font-size: 1.5em;
+            }
+            .content {
+                margin-top: 20px;
+                .filter {
+                    .btns {
+                        padding: 16px;
+                        padding-bottom: 0;
+                        border-radius: 4px;
+                        background: @component-background;
+                        .sortBy, .clear {
+                            margin-left: 15px;
+                        }
+                    }
+                    .filterPanel {
+                        border-top-left-radius: 0;
+                        border-top-right-radius: 0;
+                        border: none;
+                        overflow: hidden;
+                        :global(.ant-collapse-header) {
+                            padding-top: 8px;
+                            padding-bottom: 8px;
+                        }
+                        .filterTitle {
+                            padding: 20px 16px 0;
+                            font-size: 1.2em;
+                            color: @primary-color;
+                        }
+                        .filterOptions {
+                            margin-top: 10px;
+                            padding: 0 16px;
+                            .option {
+                                width: 100%;
+                                margin-bottom: 4px;
+                                .checkbox {
+                                    max-width: 100%;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    .filterName {
+                                        color: white;
+                                    }
+                                    .count {
+                                        margin-left: 8px;
+                                        font-size: 0.9em;
+                                    }
+                                }
+                                
+                            }
+                            .ratingOption {
+                                .checkbox .star {
+                                    margin-right: 8px;
+                                    font-size: 1.1em;
+                                }
+                            }
+                        }
+                    }
+                }
+                .list {
+                    margin-top: 25px;
+                    .courseInList {
+                        border-top: 0.5px dashed rgba(255, 255, 255, 0.2);
+                        cursor: pointer;
+                        &:first-child {
+                            border-top: none;
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+    }
+
+}
