@@ -8,6 +8,7 @@ import Loading from '@/elements/spin/secondary';
 import ArrowCarousel from '@/components/ArrowCarousel';
 import CourseInCarousel from '@/components/CourseCarouselItem';
 import Instructor from '@/components/Instructor';
+import FilterOptionsList from '@/components/FilterOptionsList';
 import { range } from '@/utils/utils';
 import RECOMMEND from '@/assets/fakers/recommends';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
@@ -197,20 +198,40 @@ const Area = ({ match }) => {
         )
     };
 
-    const renderFilters = type => _.map(courses.filters[type].list, option => (
-        <div className={styles.option} key={(option._id || option.key) + _.uniqueId('option_')}>
-            <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
-                <Checkbox 
-                    className={styles.checkbox}
-                    checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
-                    onChange={checked => handleFilter(type, (option._id || option.key), checked)}
-                >
-                    <span className={styles.filterName}>{option.title}</span>
-                    <span className={styles.count}>{option.count}</span>
-                </Checkbox>
-            </Tooltip>
-        </div>
-    ));
+    const renderFilters = (type, initialCount = 100, stepCount = 1) => (
+        <FilterOptionsList
+            dataSource={courses.filters[type].list}
+            rowKey={option => (option._id || option.key) + _.uniqueId(`option_${type}_`)}
+            initialCount={initialCount}
+            stepCount={stepCount}
+            renderItem={option => (
+                <div className={styles.option}>
+                    <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
+                        {type === 'topic' && option._id.toString() === match.params.topicId ? (
+                            <Checkbox 
+                                className={styles.checkbox}
+                                disabled
+                                defaultChecked
+                            >
+                                <span className={styles.filterName}>{option.title}</span>
+                                <span className={styles.count}>{option.count}</span>
+                            </Checkbox>
+                        ) : (
+                            <Checkbox 
+                                className={styles.checkbox}
+                                checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
+                                onChange={checked => handleFilter(type, (option._id || option.key), checked)}
+                            >
+                                <span className={styles.filterName}>{option.title}</span>
+                                <span className={styles.count}>{option.count}</span>
+                            </Checkbox>
+                        )}
+                        
+                    </Tooltip>
+                </div>
+            )}
+        />
+    );
 
     const renderStarRatings = () => _.map(courses.filters['starRating'].list, option => (
         <div className={classNames(styles.option, styles.ratingOption)} key={(option._id || option.key) + _.uniqueId('option_')}>
@@ -333,15 +354,15 @@ const Area = ({ match }) => {
                                                         Topic
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('topic')}
+                                                        {renderFilters('topic', 10, 3)}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
                                                     <div className={styles.filterTitle}>
-                                                        Category
+                                                        Topic
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('category')}
+                                                        {renderFilters('category', 6, 3)}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
@@ -357,7 +378,7 @@ const Area = ({ match }) => {
                                                         Language
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('language')}
+                                                        {renderFilters('language', 12, 4)}
                                                     </div>
                                                 </Col>
                                             </Row>

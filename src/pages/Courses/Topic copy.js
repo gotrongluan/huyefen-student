@@ -403,7 +403,7 @@ const Topic = ({ match }) => {
                                                         Topic
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('topic', 18, 3)}
+                                                        {renderFilters('topic', 10, 3)}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
