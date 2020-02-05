@@ -1,124 +1,496 @@
 export default [
     {
-        label: 'development',
-        name: 'cate.development',
-        children: [
+        _id: 1,
+        title: 'cate.development',
+        categories: [
             {
-                label: 'all-dev',
-                name: 'cate.development.all-development'
+                _id: 1,
+                title: 'cate.development.all-development'
             },
             {
-                label: 'web-dev',
-                name: 'cate.development.web-development',
-                children: [
+                _id: 2,
+                title: 'cate.development.web-development',
+                topics: [
                     {
-                        label: 'all-web-dev',
-                        name: 'cate.development.web-development.all'
+                        _id: 1,
+                        title: 'cate.development.web-development.all'
                     },
                     {
-                        label: 'javascript',
-                        name: 'cate.development.web-development.javascript'
+                        _id: 2,
+                        title: 'cate.development.web-development.javascript'
                     },
                     {
-                        label: 'angular',
-                        name: 'cate.development.web-development.angular'
+                        _id: 3,
+                        title: 'cate.development.web-development.angular'
                     },
                     {
-                        label: 'react',
-                        name: 'cate.development.web-development.react'
+                        _id: 4,
+                        title: 'cate.development.web-development.react'
                     },
                     {
-                        label: 'css',
-                        name: 'cate.development.web-development.css'
+                        _id: 5,
+                        title: 'cate.development.web-development.css'
                     },
                     {
-                        label: 'nodejs',
-                        name: 'cate.development.web-development.nodejs'
+                        _id: 6,
+                        title: 'cate.development.web-development.nodejs'
                     }
                 ]
             },
             {
-                label: 'mobile-dev',
-                name: 'cate.development.mobile-development',
-                children: [
+                _id: 50,
+                title: 'cate.development.mobile-development',
+                topics: [
                     {
-                        label: 'all-mob-dev',
-                        name: 'cate.development.mobile-development.all'
+                        _id: 11,
+                        title: 'cate.development.mobile-development.all'
                     },
                     {
-                        label: 'android',
-                        name: 'cate.development.mobile-development.android'
+                        _id: 12,
+                        title: 'cate.development.mobile-development.android'
                     },
                     {
-                        label: 'ios',
-                        name: 'cate.development.mobile-development.ios'
+                        _id: 13,
+                        title: 'cate.development.mobile-development.ios'
                     },
                     {
-                        label: 'flutter',
-                        name: 'cate.development.mobile-development.flutter'
+                        _id: 14,
+                        title: 'cate.development.mobile-development.flutter'
                     },
                     {
-                        label: 'react-native',
-                        name: 'cate.development.mobile-development.react-native'
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        label: 'finace-accounting',
-        name: 'cate.finance-accounting'
-    },
-    {
-        label: 'design',
-        name: 'cate.design'
-    },
-    {
-        label: 'it-and-software',
-        name: 'cate.it-and-software',
-        children: [
-            {
-                label: 'all-it',
-                name: 'cate.it-and-software.all-it'
-            },
-            {
-                label: 'cryptography',
-                name: 'cate.it-and-software.crypto',
-                children: [
-                    {
-                        label: 'network',
-                        name: 'cate.it-and-software.crypto.network'
-                    },
-                    {
-                        label: 'system',
-                        name: 'cate.it-and-software.crypto.system'
-                    },
-                    {
-                        label: 'public-key',
-                        name: 'cate.it-and-software.crypto.public-key'
-                    },
-                    {
-                        label: 'private-key',
-                        name: 'cate.it-and-software.crypto.private-key'
+                        _id: 15,
+                        title: 'cate.development.mobile-development.react-native'
                     }
                 ]
             }
         ]
     },
     {
-        label: 'business',
-        name: 'cate.business'
+        _id: 2,
+        title: 'cate.finance-accounting',
+        categories: [
+            {
+                _id: 1,
+                title: 'cate.development.all-development'
+            },
+            {
+                _id: 2,
+                title: 'cate.development.web-development',
+                topics: [
+                    {
+                        _id: 1,
+                        title: 'cate.development.web-development.all'
+                    },
+                    {
+                        _id: 2,
+                        title: 'cate.development.web-development.javascript'
+                    },
+                    {
+                        _id: 3,
+                        title: 'cate.development.web-development.angular'
+                    },
+                    {
+                        _id: 4,
+                        title: 'cate.development.web-development.react'
+                    },
+                    {
+                        _id: 5,
+                        title: 'cate.development.web-development.css'
+                    },
+                    {
+                        _id: 6,
+                        title: 'cate.development.web-development.nodejs'
+                    }
+                ]
+            },
+            {
+                _id: 40,
+                title: 'cate.development.mobile-development',
+                topics: [
+                    {
+                        _id: 11,
+                        title: 'cate.development.mobile-development.all'
+                    },
+                    {
+                        _id: 12,
+                        title: 'cate.development.mobile-development.android'
+                    },
+                    {
+                        _id: 13,
+                        title: 'cate.development.mobile-development.ios'
+                    },
+                    {
+                        _id: 14,
+                        title: 'cate.development.mobile-development.flutter'
+                    },
+                    {
+                        _id: 15,
+                        title: 'cate.development.mobile-development.react-native'
+                    }
+                ]
+            }
+        ]
     },
     {
-        label: 'marketing',
-        name: 'cate.marketing'
+        _id: 3,
+        title: 'cate.design',
+        categories: [
+            {
+                _id: 1,
+                title: 'cate.development.all-development'
+            },
+            {
+                _id: 2,
+                title: 'cate.development.web-development',
+                topics: [
+                    {
+                        _id: 1,
+                        title: 'cate.development.web-development.all'
+                    },
+                    {
+                        _id: 2,
+                        title: 'cate.development.web-development.javascript'
+                    },
+                    {
+                        _id: 3,
+                        title: 'cate.development.web-development.angular'
+                    },
+                    {
+                        _id: 4,
+                        title: 'cate.development.web-development.react'
+                    },
+                    {
+                        _id: 5,
+                        title: 'cate.development.web-development.css'
+                    },
+                    {
+                        _id: 6,
+                        title: 'cate.development.web-development.nodejs'
+                    }
+                ]
+            },
+            {
+                _id: 30,
+                title: 'cate.development.mobile-development',
+                topics: [
+                    {
+                        _id: 11,
+                        title: 'cate.development.mobile-development.all'
+                    },
+                    {
+                        _id: 12,
+                        title: 'cate.development.mobile-development.android'
+                    },
+                    {
+                        _id: 13,
+                        title: 'cate.development.mobile-development.ios'
+                    },
+                    {
+                        _id: 14,
+                        title: 'cate.development.mobile-development.flutter'
+                    },
+                    {
+                        _id: 15,
+                        title: 'cate.development.mobile-development.react-native'
+                    }
+                ]
+            }
+        ]
     },
     {
-        label: 'music',
-        name: 'cate.music'
+        _id: 4,
+        title: 'cate.it-and-software',
+        categories: [
+            {
+                _id: 11,
+                title: 'cate.it-and-software.all-it'
+            },
+            {
+                _id: 12,
+                title: 'cate.it-and-software.crypto',
+                topics: [
+                    {
+                        _id: 1,
+                        title: 'cate.it-and-software.crypto.network'
+                    },
+                    {
+                        _id: 2,
+                        title: 'cate.it-and-software.crypto.system'
+                    },
+                    {
+                        _id: 3,
+                        title: 'cate.it-and-software.crypto.public-key'
+                    },
+                    {
+                        _id: 4,
+                        title: 'cate.it-and-software.crypto.private-key'
+                    }
+                ]
+            }
+        ]
     },
     {
-        label: 'lifestyle',
-        name: 'cate.lifestyle'
+        _id: 5,
+        title: 'cate.business',
+        categories: [
+            {
+                _id: 1,
+                title: 'cate.development.all-development'
+            },
+            {
+                _id: 2,
+                title: 'cate.development.web-development',
+                topics: [
+                    {
+                        _id: 1,
+                        title: 'cate.development.web-development.all'
+                    },
+                    {
+                        _id: 2,
+                        title: 'cate.development.web-development.javascript'
+                    },
+                    {
+                        _id: 3,
+                        title: 'cate.development.web-development.angular'
+                    },
+                    {
+                        _id: 4,
+                        title: 'cate.development.web-development.react'
+                    },
+                    {
+                        _id: 5,
+                        title: 'cate.development.web-development.css'
+                    },
+                    {
+                        _id: 6,
+                        title: 'cate.development.web-development.nodejs'
+                    }
+                ]
+            },
+            {
+                _id: 20,
+                title: 'cate.development.mobile-development',
+                topics: [
+                    {
+                        _id: 11,
+                        title: 'cate.development.mobile-development.all'
+                    },
+                    {
+                        _id: 12,
+                        title: 'cate.development.mobile-development.android'
+                    },
+                    {
+                        _id: 13,
+                        title: 'cate.development.mobile-development.ios'
+                    },
+                    {
+                        _id: 14,
+                        title: 'cate.development.mobile-development.flutter'
+                    },
+                    {
+                        _id: 15,
+                        title: 'cate.development.mobile-development.react-native'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        _id: 6,
+        title: 'cate.marketing',
+        categories: [
+            {
+                _id: 1,
+                title: 'cate.development.all-development'
+            },
+            {
+                _id: 2,
+                title: 'cate.development.web-development',
+                topics: [
+                    {
+                        _id: 1,
+                        title: 'cate.development.web-development.all'
+                    },
+                    {
+                        _id: 2,
+                        title: 'cate.development.web-development.javascript'
+                    },
+                    {
+                        _id: 3,
+                        title: 'cate.development.web-development.angular'
+                    },
+                    {
+                        _id: 4,
+                        title: 'cate.development.web-development.react'
+                    },
+                    {
+                        _id: 5,
+                        title: 'cate.development.web-development.css'
+                    },
+                    {
+                        _id: 6,
+                        title: 'cate.development.web-development.nodejs'
+                    }
+                ]
+            },
+            {
+                _id: 60,
+                title: 'cate.development.mobile-development',
+                topics: [
+                    {
+                        _id: 11,
+                        title: 'cate.development.mobile-development.all'
+                    },
+                    {
+                        _id: 12,
+                        title: 'cate.development.mobile-development.android'
+                    },
+                    {
+                        _id: 13,
+                        title: 'cate.development.mobile-development.ios'
+                    },
+                    {
+                        _id: 14,
+                        title: 'cate.development.mobile-development.flutter'
+                    },
+                    {
+                        _id: 15,
+                        title: 'cate.development.mobile-development.react-native'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        _id: 7,
+        title: 'cate.music',
+        categories: [
+            {
+                _id: 1,
+                title: 'cate.development.all-development'
+            },
+            {
+                _id: 2,
+                title: 'cate.development.web-development',
+                topics: [
+                    {
+                        _id: 1,
+                        title: 'cate.development.web-development.all'
+                    },
+                    {
+                        _id: 2,
+                        title: 'cate.development.web-development.javascript'
+                    },
+                    {
+                        _id: 3,
+                        title: 'cate.development.web-development.angular'
+                    },
+                    {
+                        _id: 4,
+                        title: 'cate.development.web-development.react'
+                    },
+                    {
+                        _id: 5,
+                        title: 'cate.development.web-development.css'
+                    },
+                    {
+                        _id: 6,
+                        title: 'cate.development.web-development.nodejs'
+                    }
+                ]
+            },
+            {
+                _id: 70,
+                title: 'cate.development.mobile-development',
+                topics: [
+                    {
+                        _id: 11,
+                        title: 'cate.development.mobile-development.all'
+                    },
+                    {
+                        _id: 12,
+                        title: 'cate.development.mobile-development.android'
+                    },
+                    {
+                        _id: 13,
+                        title: 'cate.development.mobile-development.ios'
+                    },
+                    {
+                        _id: 14,
+                        title: 'cate.development.mobile-development.flutter'
+                    },
+                    {
+                        _id: 15,
+                        title: 'cate.development.mobile-development.react-native'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        _id: 8,
+        title: 'cate.lifestyle',
+        categories: [
+            {
+                _id: 1,
+                title: 'cate.development.all-development'
+            },
+            {
+                _id: 2,
+                title: 'cate.development.web-development',
+                topics: [
+                    {
+                        _id: 1,
+                        title: 'cate.development.web-development.all'
+                    },
+                    {
+                        _id: 2,
+                        title: 'cate.development.web-development.javascript'
+                    },
+                    {
+                        _id: 3,
+                        title: 'cate.development.web-development.angular'
+                    },
+                    {
+                        _id: 4,
+                        title: 'cate.development.web-development.react'
+                    },
+                    {
+                        _id: 5,
+                        title: 'cate.development.web-development.css'
+                    },
+                    {
+                        _id: 6,
+                        title: 'cate.development.web-development.nodejs'
+                    }
+                ]
+            },
+            {
+                _id: 80,
+                title: 'cate.development.mobile-development',
+                topics: [
+                    {
+                        _id: 11,
+                        title: 'cate.development.mobile-development.all'
+                    },
+                    {
+                        _id: 12,
+                        title: 'cate.development.mobile-development.android'
+                    },
+                    {
+                        _id: 13,
+                        title: 'cate.development.mobile-development.ios'
+                    },
+                    {
+                        _id: 14,
+                        title: 'cate.development.mobile-development.flutter'
+                    },
+                    {
+                        _id: 15,
+                        title: 'cate.development.mobile-development.react-native'
+                    }
+                ]
+            }
+        ]
     }
 ]

@@ -1,24 +1,49 @@
 import React from 'react';
 import _ from 'lodash';
+import router from 'umi/router'
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Button, Popover, Dropdown, Menu, Empty } from 'antd';
+import { Button, Popover, Empty, Cascader } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import CATEGORIES from '@/assets/fakers/categories';
 import styles from './index.less';
 
-const { SubMenu } = Menu;
-const MenuItem = Menu.Item;
-
 const Categories = () => {
 
-    let categories = CATEGORIES;
+    let areas = CATEGORIES;
     let loading = false;
+    const steps = [
+        {
+            plural: 'areas',
+            singular: 'area'
+        }, 
+        {
+            plural: 'categories',
+            singular: 'category'
+        },
+        {
+            plural: 'topics',
+            singular: 'topic'
+        }
+    ];
+
+    const getCascaderOptions = (list, typeIndex) => {
+        const nextIndex = typeIndex + 1;
+        const nextType = steps[nextIndex] && steps[nextIndex].plural;
+        return _.map(list, item => {
+            const childrenObj = nextType && item[nextType] ? { children: getCascaderOptions(item[nextType], nextIndex) } : {};
+            return {
+                label: formatMessage({ id: item.title }),
+                value: `${steps[typeIndex].singular}/${item._id}`,
+                ...childrenObj
+            };
+        });
+    };
 
     const trigger = (
         <Button type="primary" icon="down" size="default">{formatMessage({ id: 'header.cate.trigger' })}</Button>
     );
 
-    if (!categories || _.isEmpty(categories) || loading) {
+    if (!areas || _.isEmpty(areas) || loading) {
         let content;
         if (loading)
             content = (
@@ -49,31 +74,17 @@ const Categories = () => {
             </Popover>
         )
     }
-
-    const parseCategories = categories => {
-        if (!categories) return null;
-        return categories.map(cate => cate.children ? (
-            <SubMenu key={cate.label} title={formatMessage({ id: cate.name })} className={styles.cateItem}>
-                {parseCategories(cate.children)}
-            </SubMenu>
-        ) : (
-            <MenuItem key={cate.label} className={styles.cateItem}>{formatMessage({ id: cate.name })}</MenuItem>
-        ));
-    };
-
     return (
-        <Dropdown
-            trigger={['click']}
-            overlayClassName={styles.overlay}
-            overlay={(
-                <Menu>
-                    {parseCategories(categories)}
-                </Menu>
-            )}
+        <Cascader
+            options={getCascaderOptions(areas, 0)}
+            expandTrigger='hover'
+            onChange={value => { console.log(value); router.push(`/courses/${value[value.length - 1]}`); } }
+            popupClassName={styles.cascader}
+            changeOnSelect
         >
             {trigger}
-        </Dropdown>
-    );
+        </Cascader>
+    )
 }
 
 export default Categories;

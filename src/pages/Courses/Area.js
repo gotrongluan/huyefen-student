@@ -28,7 +28,9 @@ const Area = ({ match }) => {
     const [recommend, setRecommend] = useState(null);
     const [recommendLoading, setRecommendLoading] = useState(false);
     const [topics, setTopics] = useState(null);
+    const [topicsLoading, setTopicsLoading] = useState(false);
     const [instructors, setInstructors] = useState(null);
+    const [instructorsLoading, setInstructorsLoading] = useState(false);
     const [courses, setCourses] = useState(null);
     const [coursesLoading, setCoursesLoading] = useState(false);
     const [sortByLoading, setSortByLoading] = useState(false);
@@ -50,13 +52,17 @@ const Area = ({ match }) => {
         }, 2000);
     }, [match.params.areaId]);
     useEffect(() => {
+        setTopicsLoading(true);
         setTimeout(() => {
             setTopics(TOP_TOPICS);
+            setTopicsLoading(false);
         }, 1600);
     }, [match.params.areaId]);
     useEffect(() => {
+        setInstructorsLoading(true);
         setTimeout(() => {
             setInstructors(INSTRUCTORS);
+            setInstructorsLoading(false);
         }, 1900);
     }, [match.params.areaId]);
     useEffect(() => {
@@ -280,7 +286,7 @@ const Area = ({ match }) => {
                         </div>
                     </div>
                 )}
-                {topics && !_.isEmpty(topics) && (
+                {!topicsLoading && topics && !_.isEmpty(topics) && (
                     <div className={styles.topics}>
                         <div className={styles.title}>Most popular topics</div>
                         <div className={styles.content}>
@@ -288,7 +294,7 @@ const Area = ({ match }) => {
                         </div>
                     </div>
                 )}
-                {instructors && !_.isEmpty(instructors) && (
+                {!instructorsLoading && instructors && !_.isEmpty(instructors) && (
                     <div className={styles.instructors}>
                         <div className={styles.title}>Popular instructors</div>
                         <div className={styles.content}>
