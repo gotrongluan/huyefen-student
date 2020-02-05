@@ -231,11 +231,11 @@ export default {
             featured: 'course.hotandnew',
             category: 'cate.development.web-development',
             area: 'cate.development',
-            topic: 'cate.development.web-development.angular',
+            topic: 'cate.development.web-development.javascript',
             numOfLectures: 114,
             numOfStarRatings: 234503,
             level: 'course.alllevel',
-            summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
+            summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it! Please tell me why? I think my love my Ngoc Hanh forever. I will love her forever! I will be a rich man!!!',
             whatLearn: [
                 'Use TypeScript and its Features like Types, ES6 Support, Classes, Modules, Interfaces and much more in any of their Projects',
                 'Learn to build reactive, performant, large scale applications like a senior developer',
@@ -321,6 +321,7 @@ export default {
             area: 'cate.development',
             topic: 'cate.development.web-development.css',
             numOfLectures: 114,
+            numOfStarRatings: 234503,
             level: 'course.alllevel',
             summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
             whatLearn: [
@@ -540,6 +541,7 @@ export default {
             area: 'cate.development',
             topic: 'cate.development.web-development.python',
             numOfLectures: 114,
+            numOfStarRatings: 234503,
             level: 'course.alllevel',
             summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
             whatLearn: [
@@ -563,7 +565,7 @@ export default {
             numOfLectures: 114,
             numOfStarRatings: 234503,
             level: 'course.alllevel',
-            summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
+            summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it! Please tell me why? I think my love my Ngoc Hanh forever. I will love her forever!',
             whatLearn: [
                 'Use TypeScript and its Features like Types, ES6 Support, Classes, Modules, Interfaces and much more in any of their Projects',
                 'Learn to build reactive, performant, large scale applications like a senior developer',

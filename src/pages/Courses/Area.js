@@ -3,9 +3,10 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col, message } from 'antd';
+import CourseInList from '@/components/CourseInList';
 import Loading from '@/elements/spin/secondary';
 import ArrowCarousel from '@/components/ArrowCarousel';
-import Course from '@/components/CourseCarouselItem';
+import CourseInCarousel from '@/components/CourseCarouselItem';
 import Instructor from '@/components/Instructor';
 import { range } from '@/utils/utils';
 import RECOMMEND from '@/assets/fakers/recommends';
@@ -85,7 +86,25 @@ const Area = ({ match }) => {
         }, 1300);
     };
 
-    const handleFilter = () => {};
+    const handleFilter = (type, option, e) => {
+        setFilterLoading(true);
+        setTimeout(() => {
+            // let { filters } = courses;
+            // filters = _.mapValues(filters, 'select');
+            // if (checked) filters[type].push(option);
+            // else filters[type] = _.filter(filters[type], opt => opt !== option);
+            // console.log(filters);
+            ///call api with filters;
+            const { checked } = e.target;
+            message.success(`${checked}`);
+            const coursesData = { ...courses };
+            if (checked)
+                coursesData.filters[type].select.push(option);
+            else coursesData.filters[type].select = _.filter(coursesData.filters[type].select, opt => opt !== option);
+            setCourses({ ...coursesData });
+            setFilterLoading(false);
+        }, 1500);
+    };
 
     const coursesCarousel = (courses) => {
         return (
@@ -96,7 +115,7 @@ const Area = ({ match }) => {
                 dataSource={courses}
                 renderItem={course => (
                     <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
-                        <Course course={course} />
+                        <CourseInCarousel course={course} />
                     </div>
                 )}
                 renderEmptyItem={() => <div className={styles.courseItem} />}
@@ -165,7 +184,11 @@ const Area = ({ match }) => {
     const renderFilters = type => _.map(courses.filters[type].list, option => (
         <div className={styles.option} key={(option._id || option.key) + _.uniqueId('option_')}>
             <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
-                <Checkbox className={styles.checkbox} checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1} onChange={handleFilter}>
+                <Checkbox 
+                    className={styles.checkbox}
+                    checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
+                    onChange={checked => handleFilter(type, (option._id || option.key), checked)}
+                >
                     <span className={styles.filterName}>{option.title}</span>
                     <span className={styles.count}>{option.count}</span>
                 </Checkbox>
@@ -176,7 +199,11 @@ const Area = ({ match }) => {
     const renderStarRatings = () => _.map(courses.filters['starRating'].list, option => (
         <div className={classNames(styles.option, styles.ratingOption)} key={(option._id || option.key) + _.uniqueId('option_')}>
             <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
-                <Checkbox className={styles.checkbox} checked={_.indexOf(courses.filters['starRating'].select, (option._id || option.key)) > -1} onChange={handleFilter}>
+                <Checkbox
+                    className={styles.checkbox}
+                    checked={_.indexOf(courses.filters['starRating'].select, (option._id || option.key)) > -1}
+                    onChange={checked => handleFilter('starRating', (option._id || option.key), checked)}
+                >
                     <span>
                         <Rate disabled value={option.star} className={styles.star}/>
                     </span>
@@ -264,6 +291,7 @@ const Area = ({ match }) => {
                                                 )}
                                             </React.Fragment>
                                         )}
+                                        <span style={{ marginLeft: '20px' }}>Sort by:</span>
                                         <Select
                                             className={styles.sortBy}
                                             value={courses.sortBy}
@@ -317,7 +345,7 @@ const Area = ({ match }) => {
                                                     </div>
                                                 </Col>
                                             </Row>
-                                            <Row gutter={8} style={{ marginTop: '30px' }}>
+                                            <Row gutter={8} style={{ marginTop: '10px' }}>
                                                 <Col span={6}>
                                                     <div className={styles.filterTitle}>
                                                         Price
@@ -348,13 +376,16 @@ const Area = ({ match }) => {
                                 </div>
                                 <Loading fontSize={6} isCenter spinning={sortByLoading}>
                                     <div className={styles.list}>
-                                        <div>1</div>
-                                        <div>1</div>
-                                        <div>1</div>
-                                        <div>1</div>
-                                        <div>1</div>
-                                        <div>1</div>
-                                        <div>1</div>
+                                        <List
+                                            itemLayout="horizontal"
+                                            dataSource={courses.list}
+                                            rowKey={course => course._id + _.uniqueId('course_')}
+                                            renderItem={course => (
+                                                <div className={styles.courseInList}>
+                                                    <CourseInList course={course} />
+                                                </div>
+                                            )}
+                                        />
                                     </div>
                                 </Loading>
 

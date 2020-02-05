@@ -65,7 +65,7 @@ export default {
 	'cate.development.all-development': 'All Development',
 	'cate.development.web-development': 'Web Development',
 	'cate.development.web-development.all': 'All Web Development',
-	'cate.development.web-development.javascript': 'Javascript',
+	'cate.development.web-development.javascript': 'Vanilla Javascript',
 	'cate.development.web-development.python': 'Python',
 	'cate.development.web-development.angular': 'Angular',
 	'cate.development.web-development.react': 'React',
