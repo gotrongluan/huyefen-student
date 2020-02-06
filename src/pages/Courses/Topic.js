@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col, message } from 'antd';
+import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col } from 'antd';
 import CourseInList from '@/components/CourseInList';
 import Loading from '@/elements/spin/secondary';
 import ArrowCarousel from '@/components/ArrowCarousel';
@@ -10,196 +11,103 @@ import CourseInCarousel from '@/components/CourseCarouselItem';
 import Instructor from '@/components/Instructor';
 import FilterOptionsList from '@/components/FilterOptionsList';
 import { range } from '@/utils/utils';
-import RECOMMEND from '@/assets/fakers/recommends';
-import INSTRUCTORS from '@/assets/fakers/instructors1';
-import COURSES from '@/assets/fakers/coursesInArea';
-import FOO_COURSES from '@/assets/fakers/fooCourses';
 import styles from './Topic.less';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const Topic = ({ match }) => { 
+const Topic = ({ match, dispatch, ...props }) => { 
     const [filterOpen, setFilterOpen] = useState(false);
-    const [topicInfo, setTopicInfo] = useState(null);
-    const [recommend, setRecommend] = useState(null);
-    const [recommendLoading, setRecommendLoading] = useState(false);
-    const [instructors, setInstructors] = useState(null);
-    const [instructorsLoading, setInstructorsLoading] = useState(false);
-    const [courses, setCourses] = useState(null);
-    const [coursesLoading, setCoursesLoading] = useState(false);
-    const [sortByLoading, setSortByLoading] = useState(false);
-    const [filterLoading, setFilterLoading] = useState(false);
-    const [changePageLoading, setChangePageLoading] = useState(false);
+    const { topicId } = match.params;
+    const {
+        infoLoading,
+        recommendLoading,
+        instructorsLoading,
+        coursesLoading,
+        filterLoading,
+        sortByLoading,
+        changePageLoading,
+        topicInfo,
+        recommend,
+        instructors,
+        courses
+    } = props;
     useEffect(() => {
-        setTimeout(() => {
-            setTopicInfo({
-                _id: 1,
-                title: 'Javascript'
-            })
-        }, 1000)
-    }, [match.params.topicId]);
+        dispatch({
+            type: 'topic/fetchInfo',
+            payload: topicId
+        });
+        return () => dispatch({
+            type: 'topic/resetInfo'
+        });
+    }, [topicId]);
     useEffect(() => {
-        setRecommendLoading(true);
-        setTimeout(() => {
-            setRecommend(RECOMMEND);
-            setRecommendLoading(false);
-        }, 2000);
-    }, [match.params.topicId]);
+        dispatch({
+            type: 'topic/fetchRecommendCourses',
+            payload: topicId
+        });
+        return () => dispatch({
+            type: 'topic/resetRecommend'
+        });
+    }, [topicId]);
     useEffect(() => {
-        setInstructorsLoading(true);
-        setTimeout(() => {
-            setInstructors(INSTRUCTORS);
-            setInstructorsLoading(false);
-        }, 1900);
-    }, [match.params.topicId]);
+        dispatch({
+            type: 'topic/fetchTopTopics',
+            payload: topicId
+        });
+        return () => dispatch({
+            type: 'topic/resetTopics'
+        });
+    }, [topicId]);
     useEffect(() => {
-        setCoursesLoading(true);
-        setTimeout(() => {
-            //call api with topicId in filters.topic
-            setCourses(COURSES);
-            setCoursesLoading(false);
-        }, 2000);
-    }, [match.params.topicId]);
+        dispatch({
+            type: 'topic/fetchTopInstructors',
+            payload: topicId
+        });
+        return () => dispatch({
+            type: 'topic/resetInstructors'
+        });
+    }, [topicId]);
+    useEffect(() => {
+        dispatch({
+            type: 'topic/fetchCourses',
+            payload: topicId
+        });
+        return () => dispatch({
+            type: 'topic/resetCourses'
+        });
+    }, [topicId]);
 
     const handleSortBy = sortBy => {
-        setSortByLoading(true);
-        setTimeout(() => {
-            //handle with current filters, sortBy --> dispatch effect with (sortBy)
-            setCourses({
-                ...courses,
-                sortBy
-            })
-            setSortByLoading(false);
-        }, 1000);
+        dispatch({
+            type: 'topic/sortCourses',
+            payload: sortBy
+        });
     };
 
     const handleClear = () => {
-        //subset of handleChange
-        //filterLoading = loading.effects(['topic/change', 'topic/clear])!!!
-        setFilterLoading(true);
-        setTimeout(() => {
-            //call api with only topicId in filters.topic
-            setFilterLoading(false);
-        }, 1300);
+        dispatch({
+            type: 'topic/clear',
+            payload: topicId
+        });
     };
 
     const handleFilter = (type, option, e) => {
-        setFilterLoading(true);
-        setTimeout(() => {
-            // let { filters } = courses;
-            // filters = _.mapValues(filters, 'select');
-            // if (checked) filters[type].push(option);
-            // else filters[type] = _.filter(filters[type], opt => opt !== option);
-            // console.log(filters);
-            ///call api with filters, ko can topicId truyen len;
-            const { checked } = e.target;
-            message.success(`${checked}`);
-            const coursesData = { ...courses };
-            if (checked)
-                coursesData.filters[type].select.push(option);
-            else coursesData.filters[type].select = _.filter(coursesData.filters[type].select, opt => opt !== option);
-            coursesData.filters['topic'].list = _.concat(coursesData.filters['topic'].list, [
-                {
-                    _id: 1,
-                    title: 'Javascript',
-                    count: 564,
-                },
-                {
-                    _id: 2,
-                    title: 'jQuery',
-                    count: 5,
-                },
-                {
-                    _id: 3,
-                    title: 'PHP',
-                    count: 3,
-                },
-                {
-                    _id: 4,
-                    title: 'Angular',
-                    count: 11,
-                },
-                {
-                    _id: 5,
-                    title: 'VueJS',
-                    count: 103,
-                },
-                {
-                    _id: 6,
-                    title: 'React',
-                    count: 2399,
-                },
-                {
-                    _id: 7,
-                    title: 'Typescript',
-                    count: 20,
-                },
-                {
-                    _id: 8,
-                    title: 'Java',
-                    count: 54,
-                },
-                {
-                    _id: 9,
-                    title: 'HTML5',
-                    count: 55,
-                },
-                {
-                    _id: 10,
-                    title: 'CSS3',
-                    count: 7,
-                },
-                {
-                    _id: 11,
-                    title: 'Laravel',
-                    count: 18,
-                },
-                {
-                    _id: 12,
-                    title: 'NodeJS',
-                    count: 1,
-                },
-                {
-                    _id: 13,
-                    title: 'ExpressJS',
-                    count: 3,
-                },
-                {
-                    _id: 14,
-                    title: 'Wordpress',
-                    count: 33,
-                },
-                {
-                    _id: 15,
-                    title: 'Firebase',
-                    count: 34,
-                },
-                {
-                    _id: 16,
-                    title: 'Django',
-                    count: 33,
-                },
-            ]);
-            setCourses({ ...coursesData });
-            setFilterLoading(false);
-        }, 1500);
+        const checked = e.target.checked;
+        dispatch({
+            type: 'topic/filter',
+            payload: {
+                type, option, checked
+            }
+        });
     };
 
     const handleChangePage = page => {
-        setChangePageLoading(true);
-        setTimeout(() => {
-            //current filters, new pagination
-            if (page % 2 === 0)
-                setCourses({
-                    ...courses,
-                    list: [...FOO_COURSES]
-                });
-            else 
-                setCourses(COURSES);
-            setChangePageLoading(false);
-        }, 1200);
+        dispatch({
+            type: 'topic/changePage',
+            payload: page
+        });
     };
 
     const coursesCarousel = (courses) => {
@@ -316,7 +224,7 @@ const Topic = ({ match }) => {
 
     return (
         <div className={styles.topic}>
-            {topicInfo && (
+            {!infoLoading && topicInfo && (
                 <div className={styles.jumpotron}>
                     <div className={styles.title}>{`${topicInfo.title} courses`}</div>
                 </div>
@@ -356,7 +264,7 @@ const Topic = ({ match }) => {
                     <div className={styles.courses}>
                         <div className={styles.title}>All courses in this topic</div>
                         <div className={styles.content}>
-                            <Loading isCenter fontSize={8} spinning={filterLoading}>
+                            <Loading isCenter fontSize={8} spinning={!!filterLoading}>
                                 <div className={styles.filter}>
                                     <div className={styles.btns}>
                                         {!filterOpen ? (
@@ -414,7 +322,7 @@ const Topic = ({ match }) => {
                                                         Topic
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('category', 6, 3)}
+                                                        {renderFilters('topic', 6, 3)}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
@@ -463,7 +371,7 @@ const Topic = ({ match }) => {
                                         </Panel>
                                     </Collapse>
                                 </div>
-                                <Loading fontSize={6} isCenter spinning={sortByLoading || changePageLoading}>
+                                <Loading fontSize={6} isCenter spinning={!!sortByLoading || !!changePageLoading}>
                                     <div className={styles.list}>
                                         <List
                                             itemLayout="horizontal"
@@ -493,4 +401,18 @@ const Topic = ({ match }) => {
     )
 };
 
-export default Topic;
+export default connect(
+    ({ topic, loading }) => ({
+        infoLoading: loading.effects['topic/fetchInfo'],
+        recommendLoading: loading.effects['topic/fetchRecommendCourses'],
+        instructorsLoading: loading.effects['topic/fetchTopInstructors'],
+        coursesLoading: loading.effects['topic/fetchCourses'],
+        filterLoading: loading.effects['topic/filter'] || loading.effects['topic/clear'],
+        sortByLoading: loading.effects['topic/sortCourses'],
+        changePageLoading: loading.effects['topic/changePage'],
+        topicInfo: topic.info,
+        recommend: topic.recommend,
+        instructors: topic.instructors,
+        courses: topic.courses
+    })
+)(Topic);
