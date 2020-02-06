@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col, message } from 'antd';
 import CourseInList from '@/components/CourseInList';
@@ -10,11 +11,6 @@ import CourseInCarousel from '@/components/CourseCarouselItem';
 import Instructor from '@/components/Instructor';
 import FilterOptionsList from '@/components/FilterOptionsList';
 import { range } from '@/utils/utils';
-import RECOMMEND from '@/assets/fakers/recommends';
-import TOP_TOPICS from '@/assets/fakers/topTopics';
-import INSTRUCTORS from '@/assets/fakers/instructors1';
-import COURSES from '@/assets/fakers/coursesInArea';
-import FOO_COURSES from '@/assets/fakers/fooCourses';
 import styles from './Category.less';
 import router from 'umi/router';
 
@@ -22,113 +18,99 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const Category = ({ match }) => { 
+const Category = ({ match, dispatch, ...props }) => { 
     const [filterOpen, setFilterOpen] = useState(false);
-    const [categoryInfo, setCategoryInfo] = useState(null);
-    const [recommend, setRecommend] = useState(null);
-    const [recommendLoading, setRecommendLoading] = useState(false);
-    const [topics, setTopics] = useState(null);
-    const [topicsLoading, setTopicsLoading] = useState(false);
-    const [instructors, setInstructors] = useState(null);
-    const [instructorsLoading, setInstructorsLoading] = useState(false);
-    const [courses, setCourses] = useState(null);
-    const [coursesLoading, setCoursesLoading] = useState(false);
-    const [sortByLoading, setSortByLoading] = useState(false);
-    const [filterLoading, setFilterLoading] = useState(false);
-    const [changePageLoading, setChangePageLoading] = useState(false);
+    const { categoryId } = match.params;
+    const {
+        infoLoading,
+        recommendLoading,
+        topicsLoading,
+        instructorsLoading,
+        coursesLoading,
+        filterLoading,
+        sortByLoading,
+        changePageLoading,
+        categoryInfo,
+        recommend,
+        topics,
+        instructors,
+        courses
+    } = props;
     useEffect(() => {
-        setTimeout(() => {
-            setCategoryInfo({
-                _id: 1,
-                title: 'Web Development'
-            })
-        }, 1000)
-    }, [match.params.categoryId]);
+        dispatch({
+            type: 'category/fetchInfo',
+            payload: categoryId
+        });
+        return () => dispatch({
+            type: 'category/resetInfo'
+        });
+    }, [categoryId]);
     useEffect(() => {
-        setRecommendLoading(true);
-        setTimeout(() => {
-            setRecommend(RECOMMEND);
-            setRecommendLoading(false);
-        }, 2000);
-    }, [match.params.categoryId]);
+        dispatch({
+            type: 'category/fetchRecommendCourses',
+            payload: categoryId
+        });
+        return () => dispatch({
+            type: 'category/resetRecommend'
+        });
+    }, [categoryId]);
     useEffect(() => {
-        setTopicsLoading(true);
-        setTimeout(() => {
-            setTopics(TOP_TOPICS);
-            setTopicsLoading(false);
-        }, 1600);
-    }, [match.params.categoryId]);
+        dispatch({
+            type: 'category/fetchTopTopics',
+            payload: categoryId
+        });
+        return () => dispatch({
+            type: 'category/resetTopics'
+        });
+    }, [categoryId]);
     useEffect(() => {
-        setInstructorsLoading(true);
-        setTimeout(() => {
-            setInstructors(INSTRUCTORS);
-            setInstructorsLoading(false);
-        }, 1900);
-    }, [match.params.categoryId]);
+        dispatch({
+            type: 'category/fetchTopInstructors',
+            payload: categoryId
+        });
+        return () => dispatch({
+            type: 'category/resetInstructors'
+        });
+    }, [categoryId]);
     useEffect(() => {
-        setCoursesLoading(true);
-        setTimeout(() => {
-            //call api with categoryId in filters.category
-            setCourses(COURSES);
-            setCoursesLoading(false);
-        }, 2000);
-    }, [match.params.categoryId]);
+        dispatch({
+            type: 'category/fetchCourses',
+            payload: categoryId
+        });
+        return () => dispatch({
+            type: 'category/resetCourses'
+        });
+    }, [categoryId]);
 
     const handleSortBy = sortBy => {
-        setSortByLoading(true);
-        setTimeout(() => {
-            //handle with current filters, sortBy --> dispatch effect with (sortBy)
-            setCourses({
-                ...courses,
-                sortBy
-            })
-            setSortByLoading(false);
-        }, 1000);
+        dispatch({
+            type: 'category/sortCourses',
+            payload: sortBy
+        });
     };
 
     const handleClear = () => {
-        //subset of handleChange
-        //filterLoading = loading.effects(['category/change', 'category/clear])!!!
-        setFilterLoading(true);
-        setTimeout(() => {
-            //call api with only categoryId in filters.category
-            setFilterLoading(false);
-        }, 1300);
+        dispatch({
+            type: 'category/clear',
+            payload: categoryId
+        });
     };
 
     const handleFilter = (type, option, e) => {
-        setFilterLoading(true);
-        setTimeout(() => {
-            // let { filters } = courses;
-            // filters = _.mapValues(filters, 'select');
-            // if (checked) filters[type].push(option);
-            // else filters[type] = _.filter(filters[type], opt => opt !== option);
-            // console.log(filters);
-            ///call api with filters, ko can categoryId truyen len;
-            const { checked } = e.target;
-            message.success(`${checked}`);
-            const coursesData = { ...courses };
-            if (checked)
-                coursesData.filters[type].select.push(option);
-            else coursesData.filters[type].select = _.filter(coursesData.filters[type].select, opt => opt !== option);
-            setCourses({ ...coursesData });
-            setFilterLoading(false);
-        }, 1500);
+        const checked = e.target.checked;
+        dispatch({
+            type: 'category/filter',
+            payload: {
+                type, option, checked
+            }
+        });
     };
 
     const handleChangePage = page => {
-        setChangePageLoading(true);
-        setTimeout(() => {
-            //current filters, new pagination
-            if (page % 2 === 0)
-                setCourses({
-                    ...courses,
-                    list: [...FOO_COURSES]
-                });
-            else 
-                setCourses(COURSES);
-            setChangePageLoading(false);
-        }, 1200);
+        dispatch({
+            type: 'category/changePage',
+            payload: page
+        });
     };
 
     const coursesCarousel = (courses) => {
@@ -215,7 +197,7 @@ const Category = ({ match }) => {
             renderItem={option => (
                 <div className={styles.option}>
                     <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
-                        {type === 'topic' && option._id.toString() === match.params.topicId ? (
+                        {type === 'category' && option._id.toString() === match.params.categoryId ? (
                             <Checkbox 
                                 className={styles.checkbox}
                                 disabled
@@ -264,7 +246,7 @@ const Category = ({ match }) => {
 
     return (
         <div className={styles.category}>
-            {categoryInfo && (
+            {!infoLoading && categoryInfo && (
                 <div className={styles.jumpotron}>
                     <div className={styles.title}>{`${categoryInfo.title} courses`}</div>
                 </div>
@@ -312,7 +294,7 @@ const Category = ({ match }) => {
                     <div className={styles.courses}>
                         <div className={styles.title}>All courses in this category</div>
                         <div className={styles.content}>
-                            <Loading isCenter fontSize={8} spinning={filterLoading}>
+                            <Loading isCenter fontSize={8} spinning={!!filterLoading}>
                                 <div className={styles.filter}>
                                     <div className={styles.btns}>
                                         {!filterOpen ? (
@@ -419,7 +401,7 @@ const Category = ({ match }) => {
                                         </Panel>
                                     </Collapse>
                                 </div>
-                                <Loading fontSize={6} isCenter spinning={sortByLoading || changePageLoading}>
+                                <Loading fontSize={6} isCenter spinning={!!sortByLoading || !!changePageLoading}>
                                     <div className={styles.list}>
                                         <List
                                             itemLayout="horizontal"
@@ -449,4 +431,20 @@ const Category = ({ match }) => {
     )
 };
 
-export default Category;
+export default connect(
+    ({ category, loading }) => ({
+        infoLoading: loading.effects['category/fetchInfo'],
+        recommendLoading: loading.effects['category/fetchRecommendCourses'],
+        topicsLoading: loading.effects['category/fetchTopTopics'],
+        instructorsLoading: loading.effects['category/fetchTopInstructors'],
+        coursesLoading: loading.effects['category/fetchCourses'],
+        filterLoading: loading.effects['category/filter'] || loading.effects['category/clear'],
+        sortByLoading: loading.effects['category/sortCourses'],
+        changePageLoading: loading.effects['category/changePage'],
+        categoryInfo: category.info,
+        recommend: category.recommend,
+        topics: category.topics,
+        instructors: category.instructors,
+        courses: category.courses
+    })
+)(Category);
