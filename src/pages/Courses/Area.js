@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col, message } from 'antd';
 import CourseInList from '@/components/CourseInList';
@@ -10,11 +11,6 @@ import CourseInCarousel from '@/components/CourseCarouselItem';
 import Instructor from '@/components/Instructor';
 import FilterOptionsList from '@/components/FilterOptionsList';
 import { range } from '@/utils/utils';
-import RECOMMEND from '@/assets/fakers/recommends';
-import TOP_TOPICS from '@/assets/fakers/topTopics';
-import INSTRUCTORS from '@/assets/fakers/instructors1';
-import COURSES from '@/assets/fakers/coursesInArea';
-import FOO_COURSES from '@/assets/fakers/fooCourses';
 import styles from './Area.less';
 import router from 'umi/router';
 
@@ -22,112 +18,99 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const Area = ({ match }) => { 
+const Area = ({ match, dispatch, ...props }) => { 
     const [filterOpen, setFilterOpen] = useState(false);
-    const [areaInfo, setAreaInfo] = useState(null);
-    const [recommend, setRecommend] = useState(null);
-    const [recommendLoading, setRecommendLoading] = useState(false);
-    const [topics, setTopics] = useState(null);
-    const [topicsLoading, setTopicsLoading] = useState(false);
-    const [instructors, setInstructors] = useState(null);
-    const [instructorsLoading, setInstructorsLoading] = useState(false);
-    const [courses, setCourses] = useState(null);
-    const [coursesLoading, setCoursesLoading] = useState(false);
-    const [sortByLoading, setSortByLoading] = useState(false);
-    const [filterLoading, setFilterLoading] = useState(false);
-    const [changePageLoading, setChangePageLoading] = useState(false);
+    const { areaId } = match.params;
+    const {
+        infoLoading,
+        recommendLoading,
+        topicsLoading,
+        instructorsLoading,
+        coursesLoading,
+        filterLoading,
+        sortByLoading,
+        changePageLoading,
+        areaInfo,
+        recommend,
+        topics,
+        instructors,
+        courses
+    } = props;
     useEffect(() => {
-        setTimeout(() => {
-            setAreaInfo({
-                _id: 1,
-                title: 'Development'
-            })
-        }, 1000)
-    }, [match.params.areaId]);
+        dispatch({
+            type: 'area/fetchInfo',
+            payload: areaId
+        });
+        return () => dispatch({
+            type: 'area/resetInfo'
+        });
+    }, [areaId]);
     useEffect(() => {
-        setRecommendLoading(true);
-        setTimeout(() => {
-            setRecommend(RECOMMEND);
-            setRecommendLoading(false);
-        }, 2000);
-    }, [match.params.areaId]);
+        dispatch({
+            type: 'area/fetchRecommendCourses',
+            payload: areaId
+        });
+        return () => dispatch({
+            type: 'area/resetRecommend'
+        });
+    }, [areaId]);
     useEffect(() => {
-        setTopicsLoading(true);
-        setTimeout(() => {
-            setTopics(TOP_TOPICS);
-            setTopicsLoading(false);
-        }, 1600);
-    }, [match.params.areaId]);
+        dispatch({
+            type: 'area/fetchTopTopics',
+            payload: areaId
+        });
+        return () => dispatch({
+            type: 'area/resetTopics'
+        });
+    }, [areaId]);
     useEffect(() => {
-        setInstructorsLoading(true);
-        setTimeout(() => {
-            setInstructors(INSTRUCTORS);
-            setInstructorsLoading(false);
-        }, 1900);
-    }, [match.params.areaId]);
+        dispatch({
+            type: 'area/fetchTopInstructors',
+            payload: areaId
+        });
+        return () => dispatch({
+            type: 'area/resetInstructors'
+        });
+    }, [areaId]);
     useEffect(() => {
-        setCoursesLoading(true);
-        setTimeout(() => {
-            setCourses(COURSES);
-            setCoursesLoading(false);
-        }, 2000);
-    }, [match.params.areaId]);
+        dispatch({
+            type: 'area/fetchCourses',
+            payload: areaId
+        });
+        return () => dispatch({
+            type: 'area/resetCourses'
+        });
+    }, [areaId]);
 
     const handleSortBy = sortBy => {
-        setSortByLoading(true);
-        setTimeout(() => {
-            //handle with areaId, current filters, sortBy --> dispatch effect with (areaId, sortBy)
-            setCourses({
-                ...courses,
-                sortBy
-            })
-            setSortByLoading(false);
-        }, 1000);
+        dispatch({
+            type: 'area/sortCourses',
+            payload: sortBy
+        });
     };
 
     const handleClear = () => {
-        //subset of handleChange
-        //filterLoading = loading.effects(['area/change', 'area/clear])!!!
-        setFilterLoading(true);
-        setTimeout(() => {
-            //call api with areaId, no filters.
-            setFilterLoading(false);
-        }, 1300);
+        dispatch({
+            type: 'area/clear'
+        });
     };
 
     const handleFilter = (type, option, e) => {
-        setFilterLoading(true);
-        setTimeout(() => {
-            // let { filters } = courses;
-            // filters = _.mapValues(filters, 'select');
-            // if (checked) filters[type].push(option);
-            // else filters[type] = _.filter(filters[type], opt => opt !== option);
-            // console.log(filters);
-            ///call api with filters;
-            const { checked } = e.target;
-            message.success(`${checked}`);
-            const coursesData = { ...courses };
-            if (checked)
-                coursesData.filters[type].select.push(option);
-            else coursesData.filters[type].select = _.filter(coursesData.filters[type].select, opt => opt !== option);
-            setCourses({ ...coursesData });
-            setFilterLoading(false);
-        }, 1500);
+        const checked = e.target.checked;
+        dispatch({
+            type: 'area/filter',
+            payload: {
+                type, option, checked
+            }
+        });
     };
 
     const handleChangePage = page => {
-        setChangePageLoading(true);
-        setTimeout(() => {
-            if (page % 2 === 0)
-                setCourses({
-                    ...courses,
-                    list: [...FOO_COURSES]
-                });
-            else 
-                setCourses(COURSES);
-            setChangePageLoading(false);
-        }, 1200);
-    }
+        dispatch({
+            type: 'area/changePage',
+            payload: page
+        });
+    };
 
     const coursesCarousel = (courses) => {
         return (
@@ -213,26 +196,14 @@ const Area = ({ match }) => {
             renderItem={option => (
                 <div className={styles.option}>
                     <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
-                        {type === 'topic' && option._id.toString() === match.params.topicId ? (
-                            <Checkbox 
-                                className={styles.checkbox}
-                                disabled
-                                defaultChecked
-                            >
-                                <span className={styles.filterName}>{option.title}</span>
-                                <span className={styles.count}>{option.count}</span>
-                            </Checkbox>
-                        ) : (
-                            <Checkbox 
-                                className={styles.checkbox}
-                                checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
-                                onChange={checked => handleFilter(type, (option._id || option.key), checked)}
-                            >
-                                <span className={styles.filterName}>{option.title}</span>
-                                <span className={styles.count}>{option.count}</span>
-                            </Checkbox>
-                        )}
-                        
+                        <Checkbox 
+                            className={styles.checkbox}
+                            checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
+                            onChange={checked => handleFilter(type, (option._id || option.key), checked)}
+                        >
+                            <span className={styles.filterName}>{option.title}</span>
+                            <span className={styles.count}>{option.count}</span>
+                        </Checkbox>
                     </Tooltip>
                 </div>
             )}
@@ -262,7 +233,7 @@ const Area = ({ match }) => {
 
     return (
         <div className={styles.area}>
-            {areaInfo && (
+            {!infoLoading && areaInfo && (
                 <div className={styles.jumpotron}>
                     <div className={styles.title}>{`${areaInfo.title} courses`}</div>
                 </div>
@@ -310,7 +281,7 @@ const Area = ({ match }) => {
                     <div className={styles.courses}>
                         <div className={styles.title}>All courses in this area</div>
                         <div className={styles.content}>
-                            <Loading isCenter fontSize={8} spinning={filterLoading}>
+                            <Loading isCenter fontSize={8} spinning={!!filterLoading}>
                                 <div className={styles.filter}>
                                     <div className={styles.btns}>
                                         {!filterOpen ? (
@@ -417,7 +388,7 @@ const Area = ({ match }) => {
                                         </Panel>
                                     </Collapse>
                                 </div>
-                                <Loading fontSize={6} isCenter spinning={sortByLoading || changePageLoading}>
+                                <Loading fontSize={6} isCenter spinning={!!sortByLoading || !!changePageLoading}>
                                     <div className={styles.list}>
                                         <List
                                             itemLayout="horizontal"
@@ -447,4 +418,20 @@ const Area = ({ match }) => {
     )
 };
 
-export default Area;
+export default connect(
+    ({ area, loading }) => ({
+        infoLoading: loading.effects['area/fetchInfo'],
+        recommendLoading: loading.effects['area/fetchRecommendCourses'],
+        topicsLoading: loading.effects['area/fetchTopTopics'],
+        instructorsLoading: loading.effects['area/fetchTopInstructors'],
+        coursesLoading: loading.effects['area/fetchCourses'],
+        filterLoading: loading.effects['area/filter'] || loading.effects['area/clear'],
+        sortByLoading: loading.effects['area/sortCourses'],
+        changePageLoading: loading.effects['area/changePage'],
+        areaInfo: area.info,
+        recommend: area.recommend,
+        topics: area.topics,
+        instructors: area.instructors,
+        courses: area.courses
+    })
+)(Area);
