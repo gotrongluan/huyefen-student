@@ -23,9 +23,35 @@
 }
 
 .cascader {
-    ul {
+    background: transparent;
+    overflow: visible;
+    &::before {
+        background: #1e1e1e;
+        content: '';
+        height: 18px;
+        position: absolute;
+        top: 2.5px;
+        transform: rotate(45deg);
+        width: 18px;
+        z-index: -1;
+        display: block;
+        border-radius: 3px;
+        left: 13px;
+    };
+    & > div {
+        position: relative;
+        top: 10px;
+        background: rgb(30, 30, 30);
+    }
+    :global(.ant-cascader-menu) {
         height: auto;
         width: auto;
         min-width: 220px;
+        :global(.ant-cascader-menu-item):hover {
+            background: rgb(25, 25, 25);
+        }
+        :global(.ant-cascader-menu-item-active) {
+            background: rgba(25, 25, 25, 0.8);
+        }
     }
 }

@@ -62,7 +62,7 @@ export default [
                         title: 'cate.development.mobile-development.react-native'
                     }
                 ]
-            }
+            },
         ]
     },
     {
