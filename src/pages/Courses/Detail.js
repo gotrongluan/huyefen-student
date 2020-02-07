@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
+import { connect } from 'dva';
 import classNames from 'classnames';
 import TimeAgo from 'react-timeago';
 import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
@@ -8,12 +9,6 @@ import TeacherCourse from '@/components/TeacherCourse';
 import ViewMore from '@/components/ViewMore';
 import Sticky from 'react-sticky-el';
 import { roundStarRating, numberWithCommas, minutesToHour } from '@/utils/utils';
-import COURSE_INFO from '@/assets/fakers/courseInfo';
-import OVERVIEW from '@/assets/fakers/overview';
-import SYLLABUS from '@/assets/fakers/syllabus';
-import RELATED_COURSES from '@/assets/fakers/relatedCourses';
-import INSTRUCTORS from '@/assets/fakers/instructors';
-import REVIEWS from '@/assets/fakers/reviews';
 import styles from './Detail.less';
 
 const { TabPane } = Tabs;
@@ -94,11 +89,13 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
 };
 
 const RelatedCourses = ({ data }) => {
-    if (!data.alsoBought && !data.frequent && !data.sameAuthors) {
+    const [alsoBoughtCount, setAlsoBoughtCount] = useState(_.min([data.alsoBought.length, 5]));
+    if (_.isEmpty(data.alsoBought) && _.isEmpty(data.frequent.list) && _.isEmpty(data.sameAuthors)) {
         return (
             <div>Empty.</div>
         )
     };
+
     const renderAlsoBoughtCourse = course => {
         const { lastUpdated, name, numOfLectures, avatar } = course;
         return (
@@ -170,16 +167,20 @@ const RelatedCourses = ({ data }) => {
                 <Row className={styles.alsoBought}>
                     <div className={styles.title}>People also bought</div>
                     <div className={styles.main}>
-                        <ViewMore height={400}>
-                            <Table
-                                columns={alsoBoughtColumns}
-                                dataSource={data.alsoBought}
-                                rowKey={item => item._id + _.uniqueId('also_course_')}
-                                showHeader={false}
-                                className={styles.table}
-                                pagination={false}
-                            />
-                        </ViewMore>
+                        <Table
+                            columns={alsoBoughtColumns}
+                            dataSource={_.slice(data.alsoBought, 0, alsoBoughtCount)}
+                            rowKey={item => item._id + _.uniqueId('also_course_')}
+                            showHeader={false}
+                            className={styles.table}
+                            pagination={false}
+                        />
+                        {data.alsoBought.length > alsoBoughtCount && (
+                            <div className={styles.seeMore} onClick={() => setAlsoBoughtCount(_.min([data.alsoBought.length, alsoBoughtCount + 3]))}>
+                                <Icon type="plus" />
+                                <span className={styles.text}>See more</span>
+                            </div>
+                        )}
                     </div>
                 </Row>
             )}
@@ -192,7 +193,7 @@ const RelatedCourses = ({ data }) => {
                                 gutter: 16,
                                 column: 4
                             }}
-                            dataSource={data.frequent}
+                            dataSource={data.frequent.list}
                             rowKey={course => (course._id || course.key) + _.uniqueId('freq_course_')}
                             renderItem={course => (
                                 <List.Item>
@@ -204,7 +205,7 @@ const RelatedCourses = ({ data }) => {
                             <Icon type="gift" theme="filled" />
                         </div>
                         <div className={styles.total}>
-                            {`Total: $${_.round(_.sumBy(data.frequent, 'price'), 2)}`}
+                            {`Total: $${_.round(data.frequent.discountTotal, 2)}`}
                         </div>
                         <div className={styles.addToCart}>
                             <Button type="primary" icon="shopping" size="large">Add all to cart</Button>
@@ -302,7 +303,7 @@ const Review = ({ data: review, handleVoting }) => {
     );
 };
 
-const Reviews = ({ data, handleVoting, handleMoreReviews, reviewsLoading }) => {
+const Reviews = ({ data: reviews, handleVoting, handleMoreReviews, reviewsLoading }) => {
     const loadMore = (
         !reviewsLoading ? (
             <div className={styles.loadMore}>
@@ -310,7 +311,7 @@ const Reviews = ({ data, handleVoting, handleMoreReviews, reviewsLoading }) => {
             </div>
         ) : null
     );
-    const reviewsList = !reviewsLoading ? data.data : _.concat(data.data, [
+    const reviewsList = !reviewsLoading ? reviews.list : _.concat(reviews.list, [
         {
             _id: _.uniqueId('review_loading_'),
             loading: true
@@ -323,17 +324,17 @@ const Reviews = ({ data, handleVoting, handleMoreReviews, reviewsLoading }) => {
     let count = 0;
     return (
         <React.Fragment>
-            {data.featured && !_.isEmpty(data.featured) && (
+            {reviews.featured && !_.isEmpty(reviews.featured) && (
                 <Row className={styles.featured}>
                     <div className={styles.title}>Featured reviews</div>
                     <div className={styles.main}>
-                        {_.map(data.featured, (review, i) => (
-                            <>
+                        {_.map(reviews.featured, (review, i) => (
+                            <React.Fragment key={review._id + _.uniqueId('feature_review_')}>
                                 {i > 0 && (
                                     <Divider dashed className={styles.divider} />
                                 )}
                                 <FeaturedReview data={review} key={review._id + _.uniqueId('featured_review_')} handleVoting={handleVoting}/>
-                            </>
+                            </React.Fragment>
                         ))}
                     </div>
                 </Row>
@@ -403,103 +404,69 @@ const Instructors = ({ instructors }) => {
     )
 };
 
-const DetailCourse = () => {
+const DetailCourse = ({ match, dispatch, ...props }) => {
     const [sticky, setSticky] = useState(false);
-    const [courseInfo, setCourseInfo] = useState(null);
-    const [courseInfoLoading, setCourseInfoLoading] = useState(false);
-    const [overview, setOverview] = useState(null);
-    const [overviewLoading, setOverviewLoading] = useState(false);
-    const [syllabus, setSyllabus] = useState(null);
-    const [syllabusLoading, setSyllabusLoading] = useState(false);
-    const [relatedCourses, setRelatedCourses] = useState(null);
-    const [relatedCoursesLoading, setRelatedCoursesLoading] = useState(false);
-    const [instructors, setInstructors] = useState(null);
-    const [instructorsLoading, setInstructorsLoading] = useState(false);
-    const [reviews, setReviews] = useState(null);
-    const [reviewsLoading, setReviewsLoading] = useState(false);
-    const [moreReviewsLoading, setMoreReviewsLoading] = useState(false);
+    const { courseId } = match.params;
+    const {
+        courseInfo,
+        courseInfoLoading,
+        overview,
+        overviewLoading,
+        syllabus,
+        syllabusLoading,
+        relatedCourses,
+        relatedCoursesLoading,
+        instructors,
+        instructorsLoading,
+        reviews,
+        reviewsLoading,
+        moreReviewsLoading
+    } = props;
+
     useEffect(() => {
-        setCourseInfoLoading(true);
-        setOverviewLoading(true);
-        setTimeout(() => {
-            setCourseInfo(COURSE_INFO);
-            setCourseInfoLoading(false);
-            setOverview(OVERVIEW);
-            setOverviewLoading(false);
-        }, 1500);
-    }, []);
+        setSticky(false);
+        dispatch({
+            type: 'detail/fetchInfo',
+            payload: courseId
+        });
+        dispatch({
+            type: 'detail/fetchOverview',
+            payload: courseId
+        });
+        dispatch({
+            type: 'detail/fetchSyllabus',
+            payload: courseId
+        });
+        dispatch({
+            type: 'detail/fetchRelatedCourses',
+            payload: courseId
+        });
+        dispatch({
+            type: 'detail/fetchInstructors',
+            payload: courseId
+        });
+        dispatch({
+            type: 'detail/fetchReviews',
+            payload: courseId
+        });
+        return () => dispatch({
+            type: 'detail/reset'
+        });
+    }, [courseId, dispatch]);
+
     const handleVoting = (reviewId, val) => {
         message.info('Voting review ' + reviewId + ' with ' + val);
     };
-    const fetchSyllabus = courseId => {
-        setSyllabusLoading(true);
-        setTimeout(() => {
-            setSyllabus(SYLLABUS);
-            setSyllabusLoading(false);
-        }, 1200);
-    };
-    const fetchRelatedCourses = courseId => {
-        setRelatedCoursesLoading(true);
-        setTimeout(() => {
-            setRelatedCourses(RELATED_COURSES);
-            setRelatedCoursesLoading(false);
-        }, 1000);
-    };
-    const fetchInstructors = courseId => {
-        setInstructorsLoading(true);
-        setTimeout(() => {
-            setInstructors(INSTRUCTORS);
-            setInstructorsLoading(false);
-        }, 1000);
-    };
-    const fetchReviews = courseId => {
-        setReviewsLoading(true);
-        setTimeout(() => {
-            setReviews(REVIEWS);
-            setReviewsLoading(false);
-        }, 1000);
-    };
-    const handleChangeTabs = activeKey => {
-        if (activeKey === 'overview') {
 
-        }
-        else if (activeKey === 'syllabus') {
-            if (!syllabus) {
-                fetchSyllabus(courseInfo._id);
-            }
-        }
-        else if (activeKey === 'relatedCourses') {
-            if (!relatedCourses) {
-                fetchRelatedCourses(courseInfo._id);
-            }
-        }
-        else if (activeKey === 'reviews') {
-            if (!reviews) {
-                fetchReviews(courseInfo._id);
-            }
-        }
-        else if (activeKey === 'instructors') {
-            if (!instructors) {
-                fetchInstructors(courseInfo._id);
-            }
-        }
-    };
     const handlePreview = lectureId => {
         message.success(`review lecture ${lectureId}`);
     };
     const handleMoreReviews = () => {
-        setMoreReviewsLoading(true);
-        setTimeout(() => {
-            setReviews({
-                ...reviews,
-                data: [
-                    ...reviews.data,
-                    ...REVIEWS.data
-                ]
-            });
-            setMoreReviewsLoading(false);
-        }, 5400);
+        dispatch({
+            type: 'detail/moreReviews'
+        });
     };
+
     return (
         <div className={styles.detail}>
             <Row className={styles.jumpotron}>
@@ -627,7 +594,6 @@ const DetailCourse = () => {
                             textAlign: 'center'
                         }}
                         size="large"
-                        onChange={handleChangeTabs}
                     >
                         <TabPane
                             tab="Overview"
@@ -732,4 +698,21 @@ const DetailCourse = () => {
     )
 };
 
-export default DetailCourse;
+export default connect(
+    ({ detail, loading }) => ({
+        courseInfo: detail.info,
+        syllabus: detail.syllabus,
+        overview: detail.overview,
+        relatedCourses: detail.relatedCourses,
+        instructors: detail.instructors,
+        reviews: detail.reviews,
+        courseInfoLoading: loading.effects['detail/fetchInfo'],
+        overviewLoading: loading.effects['detail/fetchOverview'],
+        syllabusLoading: loading.effects['detail/fetchSyllabus'],
+        reviewsLoading: loading.effects['detail/fetchReviews'],
+        instructorsLoading: loading.effects['detail/fetchInstructors'],
+        relatedCoursesLoading: loading.effects['detail/fetchRelatedCourses'],
+        moreReviewsLoading: loading.effects['detail/moreReviews'],
+        previewLoading: loading.effects['detail/preview']
+    })
+)(DetailCourse);

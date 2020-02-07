@@ -10,7 +10,7 @@ import styles from './index.less';
 
 const TeacherCourse = ({ course }) => {
     return (
-        <Link to="/course/123">
+        <Link to={`/course/${course._id}`}>
             <Card
                 className={course.isRegistered ? classNames(styles.course, styles.isRegistered) : styles.course}
                 hoverable
