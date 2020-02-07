@@ -6,7 +6,7 @@ const ScrollLayout = ({ children }) => {
     return (
         <Scrollbars
             autoHeight
-            autoHeightMax={window.innerHeight - 64}
+            autoHeightMax={window.outerHeight - 64}
             style={{ marginTop: 64 }}
             renderView={props => <div {...props} id="mainScrollbar"/>}
         >

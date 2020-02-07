@@ -150,7 +150,7 @@ export default {
 	'home.subtitle.topfriends': 'Friends recommended for you',
 	'course.lastupdated': 'Last updated',
 	'course.bestseller': 'Bestseller',
-	'course.highrated': 'Highrated',
+	'course.highrated': 'Highest rated',
 	'course.hotandnew': 'Hot & new',
 	'course.bestsellerandhighrated': 'Bestseller & Highrated',
 	'course.lectures': 'Lectures',
