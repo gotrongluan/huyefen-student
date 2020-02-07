@@ -51,36 +51,11 @@ const MyCourse = ({ course }) => {
                 hoverable
                 cover={
                     <div className={styles.cover}>
-                        <Dropdown
-                            className={styles.dropdown}
-                            trigger={['click']}
-                            placement="bottomRight"
-                            overlayClassName={styles.overlay}
-                            overlay={(
-                                <Menu>
-                                    <Menu.Item key="edit-rating" onClick={() => router.push('/course/123')}>
-                                        <span>
-                                            <Icon type="edit" />
-                                            <span>Edit rating</span>
-                                        </span>
-                                    </Menu.Item>
-                                    <Menu.Divider />
-                                    <Menu.Item key="recommend" onClick={() => setVisibleModal(true)}>
-                                        <span>
-                                            <Icon type="share-alt" />
-                                            <span>Recommend to Friend</span>
-                                        </span>
-                                    </Menu.Item>
-                                </Menu>
-                            )}
-                        >
-                            <div className={styles.optionsBtn}><Icon type="more" /></div>
-                        </Dropdown>
-                        <img alt="avatar" src={course.avatar} onClick={() => router.push('/course/123')}/>
+                        <img alt="avatar" src={course.avatar} onClick={() => router.push(`/course/${course._id}`)}/>
                     </div>
                 }
             >
-                <div className={styles.info} onClick={() => router.push('/course/123')}>
+                <div className={styles.info} onClick={() => router.push(`/course/${course._id}`)}>
                     <div className={styles.name}>{truncate(course.name, 35)}</div>
                     <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                     <div className={styles.progress}>
@@ -92,6 +67,31 @@ const MyCourse = ({ course }) => {
                         {`(Register on ${moment(course.registerTime).format('MM/YY')})`}
                     </div>
                 </div>
+                <Dropdown
+                    className={styles.dropdown}
+                    trigger={['hover']}
+                    placement="topLeft"
+                    overlayClassName={styles.overlay}
+                    overlay={(
+                        <Menu>
+                            <Menu.Item key="edit-rating" onClick={() => router.push(`/learning/${course._id}/review`)}>
+                                <span>
+                                    <Icon type="edit" />
+                                    <span>Edit rating</span>
+                                </span>
+                            </Menu.Item>
+                            <Menu.Divider />
+                            <Menu.Item key="recommend" onClick={() => setVisibleModal(true)}>
+                                <span>
+                                    <Icon type="share-alt" />
+                                    <span>Recommend to Friend</span>
+                                </span>
+                            </Menu.Item>
+                        </Menu>
+                    )}
+                >
+                    <div className={styles.optionsBtn}><Icon type="more" /></div>
+                </Dropdown>
             </Card>
             <Modal
                 className={styles.recommendFriendModal}
