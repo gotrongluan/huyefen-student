@@ -14,5 +14,6 @@ export default {
     '@popover-bg': 'rgb(30, 30, 30)',
     '@primary-5': 'yellow',
     '@primary-7': 'yellow',
-    '@primary-2': 'rgba(250, 218, 94, 0.7)'
+    '@primary-2': 'rgba(250, 218, 94, 0.7)',
+    '@table-selected-row-bg': 'rgb(30, 30, 30)'
 };
