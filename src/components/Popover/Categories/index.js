@@ -1,31 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
-import router from 'umi/router'
+import router from 'umi/router';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Button, Popover, Empty, Cascader } from 'antd';
+import { Button, Popover, Empty, Cascader, message } from 'antd';
 import Spin from '@/elements/spin/secondary';
-import CATEGORIES from '@/assets/fakers/categories';
 import styles from './index.less';
 
-const Categories = () => {
+const steps = [
+    {
+        plural: 'areas',
+        singular: 'area'
+    }, 
+    {
+        plural: 'categories',
+        singular: 'category'
+    },
+    {
+        plural: 'topics',
+        singular: 'topic'
+    }
+];
 
-    let areas = CATEGORIES;
-    let loading = false;
-    const steps = [
-        {
-            plural: 'areas',
-            singular: 'area'
-        }, 
-        {
-            plural: 'categories',
-            singular: 'category'
-        },
-        {
-            plural: 'topics',
-            singular: 'topic'
-        }
-    ];
-
+const Categories = ({ dispatch, ...props}) => {
+    const [popupVisible, setPopupVisible] = useState(false);
+    const { areas, loading } = props;
     const getCascaderOptions = (list, typeIndex) => {
         const nextIndex = typeIndex + 1;
         const nextType = steps[nextIndex] && steps[nextIndex].plural;
@@ -65,10 +64,12 @@ const Categories = () => {
             );
         return (
             <Popover
-                placement="bottomRight"
+                placement="bottomLeft"
                 content={content}
                 popupClassName={styles.popover}
-                trigger="click"    
+                trigger="click"
+                visible={popupVisible}
+                onVisibleChange={setPopupVisible}  
             >
                 {trigger}
             </Popover>
@@ -81,10 +82,17 @@ const Categories = () => {
             onChange={value => { console.log(value); router.push(`/courses/${value[value.length - 1]}`); } }
             popupClassName={styles.cascader}
             changeOnSelect
+            popupVisible={popupVisible}
+            onPopupVisibleChange={setPopupVisible}
         >
             {trigger}
         </Cascader>
     )
 }
 
-export default Categories;
+export default connect(
+    ({ settings, loading }) => ({
+        areas: settings.areasMenu,
+        loading: loading.effects['settings/fetch']
+    })
+)(Categories);

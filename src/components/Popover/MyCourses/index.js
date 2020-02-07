@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
@@ -8,20 +9,28 @@ import Scrollbars from 'react-custom-scrollbars';
 import Spin from '@/elements/spin/secondary';
 import { truncate, transAuthors } from '@/utils/utils';
 import { linearColorTheme } from '@/config/constants';
-import MYCOURSES from '@/assets/fakers/mycourses';
 import styles from './index.less';
 
-const MyCourses = () => {
-
+const MyCourses = ({ dispatch, myCourses, loading }) => {
     const [visible, setVisible] = useState(false);
 
     const handleVisibleChange = visible => {
         setVisible(visible);
+        if (visible) {
+            dispatch({
+                type: 'myCourses/fetch'
+            });
+        }
+        else {
+            dispatch({
+                type: 'myCourses/clear'
+            });
+        }
     };
 
-    const handleGotoCourse = name => {
-        message.success(`Go to course ${name}`);
-        router.push('/course/123');
+    const handleGotoCourse = courseId=> {
+        router.push(`/course/${courseId}`);
+        handleVisibleChange(false);
     };
 
     const handleViewAll = () => {
@@ -29,9 +38,7 @@ const MyCourses = () => {
     };
 
     const getContent = () => {
-        let myCourses = _.take(MYCOURSES, 4);
-        const loading = false;
-        return loading ? (
+        return !myCourses || loading ? (
             <Spin
                 spinning
                 fontSize={8}
@@ -51,7 +58,7 @@ const MyCourses = () => {
                         dataSource={myCourses}
                         rowKey={item => item._id + _.uniqueId("mycourse_")}
                         renderItem={item => (
-                            <Row className={styles.courseItem} onClick={() => handleGotoCourse(item.name)}>
+                            <Row className={styles.courseItem} onClick={() => handleGotoCourse(item._id)}>
                                 <Col span={6} className={styles.avatar}>
                                     <img alt="course avatar" src={item.avatar} />
                                 </Col>
@@ -99,4 +106,9 @@ const MyCourses = () => {
     )
 };
 
-export default MyCourses;
+export default connect(
+    ({ myCourses, loading }) => ({
+        myCourses,
+        loading: loading.effects['myCourses/fetch']
+    })
+)(MyCourses);
