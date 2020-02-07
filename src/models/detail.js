@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { delay } from '@/utils/utils';
 import COURSE_INFO from '@/assets/fakers/courseInfo';
 import OVERVIEW from '@/assets/fakers/overview';
@@ -74,6 +75,21 @@ export default {
         },
         *preview() {
 
+        },
+        *vote({ payload }, { call, put, select }) {
+            const { type, reviewId, value, oldValue } = payload;
+            yield put({
+                type: 'saveVote',
+                payload: {
+                    type,
+                    reviewId,
+                    value
+                }
+            });
+            yield delay(1000);
+            //if (error) yield put({ saveVote, oldValue })
+            //call api (reviewId, value);
+            //after finish, update 
         }
     },
     reducers: {
@@ -116,6 +132,20 @@ export default {
                     ]
                 }
             };
+        },
+        saveVote(state, { payload }) {
+            const { reviewId, type, value } = payload;
+            const attr = type === 'default' ? 'list' : 'featured';
+            const list = [...state.reviews[attr]];
+            const index = _.findIndex(list, ['_id', reviewId]);
+            list[index].status = value;
+            return {
+                ...state,
+                reviews: {
+                    ...state.reviews,
+                    [type]: [...list]
+                }
+            }
         }
     }
 }

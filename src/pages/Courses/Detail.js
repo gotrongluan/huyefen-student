@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import { connect } from 'dva';
+import router from 'umi/router';
 import classNames from 'classnames';
 import TimeAgo from 'react-timeago';
 import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
@@ -97,9 +98,9 @@ const RelatedCourses = ({ data }) => {
     };
 
     const renderAlsoBoughtCourse = course => {
-        const { lastUpdated, name, numOfLectures, avatar } = course;
+        const { _id, lastUpdated, name, numOfLectures, avatar } = course;
         return (
-            <Row className={styles.course}>
+            <Row className={styles.course} onClick={() => router.push(`/course/${_id}`)}>
                 <Col span={8} className={styles.avatar}>
                     <img alt="course-ava" src={avatar} />
                     <div className={styles.numOfLectures}>{`${numOfLectures} lectures`}</div>
@@ -262,8 +263,22 @@ const FeaturedReview = ({ data: review, handleVoting }) => {
             </div>
             <div className={styles.voting}>
                 <span className={styles.text}>Was this review helpful?</span>
-                <span className={styles.like} onClick={() => handleVoting(review._id, 1)}><Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/></span>
-                <span className={styles.dislike} onClick={() => handleVoting(review._id, 0)}><Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/></span>
+                <span
+                    className={styles.like}
+                    onClick={() => {
+                        if (review.status !== 1) handleVoting('featured', review._id, 1, review.status);
+                    }}
+                >
+                    <Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/>
+                </span>
+                <span
+                    className={styles.dislike}
+                    onClick={() => {
+                        if (review.status !== 0) handleVoting('featured', review._id, 0, review.status);
+                    }}
+                >
+                    <Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/>
+                </span>
             </div>
         </div>
     )
@@ -295,8 +310,21 @@ const Review = ({ data: review, handleVoting }) => {
                 </div>
                 <div className={styles.voting}>
                     <span className={styles.text}>Was this review helpful?</span>
-                    <span className={styles.like} onClick={() => handleVoting(review._id, 1)}><Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/></span>
-                    <span className={styles.dislike} onClick={() => handleVoting(review._id, 0)}><Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/></span>
+                    <span
+                        className={styles.like}
+                        onClick={() => {
+                            if (review.status !== 1) handleVoting('default', review._id, 1, review.status);
+                        }}>
+                            <Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/>
+                        </span>
+                    <span
+                        className={styles.dislike}
+                        onClick={() => {
+                            if (review.status !== 0) handleVoting('default', review._id, 0, review.status);
+                        }}
+                    >
+                        <Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/>
+                    </span>
                 </div>
             </Col>
         </Row>
@@ -406,6 +434,7 @@ const Instructors = ({ instructors }) => {
 
 const DetailCourse = ({ match, dispatch, ...props }) => {
     const [sticky, setSticky] = useState(false);
+    const [previewVisible, setPreviewVisible] = useState(false);
     const { courseId } = match.params;
     const {
         courseInfo,
@@ -454,12 +483,20 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         });
     }, [courseId]);
 
-    const handleVoting = (reviewId, val) => {
-        message.info('Voting review ' + reviewId + ' with ' + val);
+    const handleVoting = (type, reviewId, value, oldValue) => {
+        dispatch({
+            type: 'detail/vote',
+            payload: {
+                type,
+                reviewId,
+                value,
+                oldValue
+            }
+        });
     };
 
     const handlePreview = lectureId => {
-        message.success(`review lecture ${lectureId}`);
+        
     };
     const handleMoreReviews = () => {
         dispatch({
@@ -511,7 +548,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             ) : courseInfo.isRegistered ? (
                                 <React.Fragment>
                                     <div className={styles.goToCourse}>
-                                        <Button type="primary" icon="play-circle" size="large">Go to course</Button>
+                                        <Button type="primary" icon="play-circle" size="large" onClick={() => router.push(`/learning/${courseId}/overview`)}>Go to course</Button>
                                     </div>
                                     {courseInfo.refundable && (
                                         <div className={styles.refund}>

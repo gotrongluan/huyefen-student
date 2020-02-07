@@ -50,7 +50,7 @@ const Forum = ({ location, match }) => {
             });
             setInitLoading(false);
         }, 1500);
-    }, [forum]);
+    }, []);
 
     useEffect(() => {
         if (!forum.lectureOptions) {
@@ -63,7 +63,7 @@ const Forum = ({ location, match }) => {
                 setLectureOptionsLoading(false);
             }, 1200);
         }
-    }, [forum]);
+    }, []);
 
     const handleSort = value => {
         setForum({
