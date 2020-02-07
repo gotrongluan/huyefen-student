@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import MY_COURSES from '@/assets/fakers/mycourses';
+import FRIENDS from '@/assets/fakers/topFriends';
 import { delay } from '@/utils/utils';
 
 const CATEGORIES = [
@@ -64,6 +65,10 @@ const INSTRUCTORS = [
 ];
 
 const initialState = {
+    friends: {
+        total: null,
+        list: null
+    },
     sortBy: 'a-z',
     category: null,
     progress: null,
@@ -87,6 +92,16 @@ export default {
                 type: 'save',
                 payload: MY_COURSES
             })
+        },
+        *fetchFriends(action, { call, put }) {
+            yield delay(3000);
+            yield put({
+                type: 'saveFriends',
+                payload: {
+                    total: 49,
+                    list: FRIENDS
+                }
+            });
         },
         *fetchOptions(action, { call, put }) {
             yield delay(1000);
@@ -218,6 +233,25 @@ export default {
                 type: 'saveInstructors',
                 payload: _.slice(INSTRUCTORS, 0, 4)
             });
+        },
+        *addFriends({ payload }, { call, put }) {
+            const { start, end, callback } = payload;
+            const skip = start * 5;
+            const limit = (end - start) * 5;
+            let fooArr = [];
+            for (let i = 0; i < (end - start); ++i)
+                fooArr = _.concat(fooArr, FRIENDS);
+            yield delay(1500);
+            yield put({
+                type: 'pushFriends',
+                payload: fooArr         //replace by friends result
+            });
+            if (callback) callback();
+        },
+        *recommend({ payload }, { call, put }) {
+            const { selectedFriendIds, courseId, callback } = payload;
+            yield delay(2500);
+            if (callback) callback();
         }
     },
     reducers: {
@@ -272,6 +306,24 @@ export default {
                 filters: {
                     ...state.filters,
                     instructors
+                }
+            }
+        },
+        saveFriends(state, { payload }) {
+            return {
+                ...state,
+                friends: { ...payload }
+            };
+        },
+        pushFriends(state, { payload: newFriends }) {
+            return {
+                ...state,
+                friends: {
+                    ...state.friends,
+                    list: [
+                        ...state.friends.list,
+                        ...newFriends
+                    ]
                 }
             }
         }

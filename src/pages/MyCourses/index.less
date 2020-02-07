@@ -102,3 +102,39 @@
         display: none;
     }
 }
+.recommendFriendModal {
+    
+    :global(.ant-modal-header) {
+        background-color: rgba(20, 20, 20, 0.5);
+        .title {
+            color: @primary-color;
+            text-align: center;
+        }
+    }
+    :global(.ant-modal-footer) {
+        background-color: rgba(20, 20, 20, 0.5);
+    }
+    .table {
+        background: rgb(35, 35, 41);
+        :global(.ant-table-row-selected) {
+            &, td {
+                background: #1e1e1e;
+                &:hover {
+                    background-color: #1e1e1e;
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}
+.recommendLoadingModal {
+    .icon {
+        padding: 15px 0;
+        text-align: center;
+    }
+    .text {
+        text-align: center;
+        color: @primary-color;
+        padding-bottom: 15px;
+    }
+}

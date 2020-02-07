@@ -2,16 +2,34 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import { connect } from 'dva';
-import { List, Row, Form, Select, Button, Col, message, Icon } from 'antd';
+import { List, Row, Form, Select, Button, Col, Modal, Table, Avatar, message, Icon, Spin as Loading } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
 import MyCourse from '@/components/MyCourse';
-import MY_COURSES from '@/assets/fakers/mycourses';
 import styles from './index.less';
 
 const { Option } = Select;
 
+const columns = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        width: '425px'
+    },
+    {
+        title: 'Avatar',
+        dataIndex: 'avatar',
+        render: avatar => <Avatar alt="avatar" shape="circle" size={36} src={avatar} />,
+        width: '90px'
+    }
+];
+
 const MyCourses = ({ dispatch, ...props }) => {
+    const [friendVisible, setFriendVisible] = useState(false);
+    const [selectedFriendIds, setSelectedFriendIds] = useState([]);
+    const [currentCourse, setCurrentCourse] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [maxPage, setMaxPage] = useState(1);
     const [currentTraceCount, setCurrentTraceCount] = useState(0);
     const [trace, setTrace] = useState({
         category: 0,
@@ -24,6 +42,7 @@ const MyCourses = ({ dispatch, ...props }) => {
     const [instructor, setInstructor] = useState(undefined);
     let {
         myCourses,
+        friends,
         moreable,
         categories,
         progresses,
@@ -36,11 +55,17 @@ const MyCourses = ({ dispatch, ...props }) => {
         categoriesLoading,
         progressesLoading,
         instructorsLoading,
+        friendsLoading,
+        addFriendsLoading,
+        recommendLoading,
         loading
     } = props;
     useEffect(() => {
         dispatch({
             type: 'courses/fetch'
+        });
+        dispatch({
+            type: 'courses/fetchFriends'
         });
         dispatch({
             type: 'courses/fetchOptions'
@@ -234,6 +259,47 @@ const MyCourses = ({ dispatch, ...props }) => {
             type: 'courses/allCourses'
         });
     };
+    const handleRecommend = courseId => {
+        setCurrentCourse(courseId);
+        setFriendVisible(true);
+    };
+    const handleCancelRecommend = () => {
+        setCurrentPage(1);
+        setFriendVisible(false);
+        setSelectedFriendIds([]);
+        setCurrentCourse(null);
+    };
+    const handleOkRecommend = () => {
+        if (_.isEmpty(selectedFriendIds)) return message.error('Please select friends!');
+        if (currentCourse) {
+            dispatch({
+                type: 'courses/recommend',
+                payload: {
+                    selectedFriendIds,
+                    courseId: currentCourse,
+                    callback: handleCancelRecommend
+                }
+            });
+        }
+    };
+    const handleSelectFriends = friendIds => {
+
+        setSelectedFriendIds(friendIds);
+    }
+    const handleChangeFriendsPage = page => {
+        if (page <= maxPage) setCurrentPage(page);
+        else {
+            setMaxPage(page);
+            dispatch({
+                type: 'courses/addFriends',
+                payload: {
+                    start: maxPage,
+                    end: page,
+                    callback: () => setCurrentPage(page)
+                }
+            });
+        }
+    }
     const loadMore = (
         !initLoading && !loading && myCourses && moreable ? (
             <div className={styles.loadMore}>
@@ -373,7 +439,7 @@ const MyCourses = ({ dispatch, ...props }) => {
                             rowKey={course => (course._id || course.key) + _.uniqueId('my_course_')}
                             renderItem={course => (
                                 <List.Item>
-                                    {!course.loading ? (<MyCourse course={course} />) : (
+                                    {!course.loading ? (<MyCourse course={course} handleRecommend={handleRecommend}/>) : (
                                         <div className={styles.courseSkeleton}>
                                             <div className={classnames(styles.avatar, styles.skeletonBox)} />
                                             <div className={styles.info}>
@@ -388,6 +454,62 @@ const MyCourses = ({ dispatch, ...props }) => {
                         />
                     </Spin>
                 </Row>
+                <Modal
+                    className={styles.recommendFriendModal}
+                    title={<div className={styles.title}>Recommend to friends</div>}
+                    width={605}
+                    centered
+                    okText="Recommend"
+                    cancelText="Cancel"
+                    visible={friendVisible}
+                    onOk={handleOkRecommend}
+                    onCancel={handleCancelRecommend}
+                    bodyStyle={{
+                        padding: '10px'
+                    }}
+                >
+                    <div className={styles.friends}>
+                        <Table
+                            className={styles.table}
+                            columns={columns}
+                            dataSource={!friends.list ? [] : friends.list}
+                            loading={friendsLoading || addFriendsLoading}
+                            rowKey={friend => friend._id}       //please remove _.uniqueId
+                            showHeader={false}
+                            scroll={{ x: 581 }}
+                            rowSelection={{
+                                columnWidth: '60px',
+                                // fixed: true,
+                                onChange: handleSelectFriends,
+                                selectedRowKeys: selectedFriendIds
+                            }}
+                            pagination={friends.total && friends.total > 5 ? {
+                                total: friends.total,
+                                pageSize: 5,
+                                current: currentPage,
+                                simple: true,
+                                small: true,
+                                onChange: handleChangeFriendsPage
+                            } : false}
+                        />
+                    </div>
+                </Modal>
+                <Modal
+                    className={styles.recommendLoadingModal}
+                    width={180}
+                    visible={recommendLoading}
+                    footer={null}
+                    closable={false}
+                    maskClosable={false}
+                    title={null}
+                    centered
+                    bodyStyle={{ 
+                        padding: '10px'
+                    }}
+                >
+                    <div className={styles.icon}><Loading /></div>
+                    <div className={styles.text}>Recommeding...</div>
+                </Modal>
             </div>
         </Wrapper>
     )
@@ -396,6 +518,7 @@ const MyCourses = ({ dispatch, ...props }) => {
 export default connect(
     ({ courses, loading }) => ({
         myCourses: courses.list,
+        friends: courses.friends,
         moreable: courses.loadMore,
         categories: courses.filters.categories,
         progresses: courses.filters.progresses,
@@ -408,6 +531,9 @@ export default connect(
         optionsLoading: !!loading.effects['courses/fetchOptions'],
         categoriesLoading: !!loading.effects['courses/fetchCategories'],
         progressesLoading: !!loading.effects['courses/fetchProgresses'],
-        instructorsLoading: !!loading.effects['courses/fetchInstructors']
+        instructorsLoading: !!loading.effects['courses/fetchInstructors'],
+        friendsLoading: !!loading.effects['courses/fetchFriends'],
+        addFriendsLoading: !!loading.effects['courses/addFriends'],
+        recommendLoading: !!loading.effects['courses/recommend']
     })
 )(MyCourses);
