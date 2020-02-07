@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import { connect } from 'dva';
+import Link from 'umi/link';
 import router from 'umi/router';
 import classNames from 'classnames';
 import TimeAgo from 'react-timeago';
 import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
 import TeacherCourse from '@/components/TeacherCourse';
+import FeaturedBadge from '@/components/FeaturedBadge';
 import ViewMore from '@/components/ViewMore';
 import Sticky from 'react-sticky-el';
 import { roundStarRating, numberWithCommas, minutesToHour } from '@/utils/utils';
@@ -515,6 +517,14 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             <div>
                                 <div className={styles.name}>{courseInfo.name}</div>
                                 <div className={styles.summary}>{courseInfo.summary}</div>
+                                {courseInfo.featured && (
+                                    <div className={styles.featured}>
+                                        <FeaturedBadge type={courseInfo.featured} style={{ marginRight: '12px' }}/>
+                                        in <Link to="/">{courseInfo.topic}</Link>
+                                        <Divider type="vertical" style={{ background: 'white' }} />
+                                        <span>{courseInfo.category}</span>
+                                    </div>
+                                )}
                                 <div className={styles.statistic}>
                                     <Rate allowHalf value={roundStarRating(courseInfo.starRating)} disabled className={styles.stars} />
                                     <span className={styles.ratingVal}>{courseInfo.starRating}</span>
