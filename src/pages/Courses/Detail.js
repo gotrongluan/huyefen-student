@@ -452,7 +452,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         return () => dispatch({
             type: 'detail/reset'
         });
-    }, [courseId, dispatch]);
+    }, [courseId]);
 
     const handleVoting = (reviewId, val) => {
         message.info('Voting review ' + reviewId + ' with ' + val);
