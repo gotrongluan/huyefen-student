@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import Link from 'umi/link';
 import router from 'umi/router';
 import { Popover, List, Badge, Avatar, Icon, Empty, Spin as Loading } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Spin from '@/elements/spin/secondary';
 import { fromNow, truncate } from '@/utils/utils';
-import NOTIFICATIONS from '@/assets/fakers/notifications';
 import styles from './index.less';
 
-const Notifications = () => {
+const Notifications = ({ dispatch, ...props }) => {
+    const scrollEleRef = useRef(null);
     const [visible, setVisible] = useState(false);
-
+    useEffect(() => {
+        return () => dispatch({
+            type: 'notifications/reset'
+        });
+    }, []);
     const getContent = () => {
-        let notifications = NOTIFICATIONS;
-        let loading = false;
-        let oldLoading = true; 
+        const {
+            notifications,
+            loading,
+            initLoading
+        } = props;
 
         const content = (notifications === null || _.isEmpty(notifications)) ? (
             <div className={styles.empty}>
@@ -25,7 +31,7 @@ const Notifications = () => {
                 </div>
             </div>
         ) : (
-            <Scrollbars autoHeight autoHeightMax={474} onScroll={handleScroll} className={styles.scrollEle}>
+            <Scrollbars ref={scrollEleRef} autoHeight autoHeightMax={474} onScroll={handleScroll} className={styles.scrollEle}>
                 <List
                     dataSource={notifications}
                     rowKey={item => item._id + _.uniqueId("notification_")}
@@ -41,7 +47,7 @@ const Notifications = () => {
                         </div>
                     )}
                 />
-                {oldLoading && (
+                {loading && (
                     <div className={styles.oldLoading}>
                         <Loading indicator={<Icon type="loading" style={{ fontSize: 18 }} spin />} />
                     </div>
@@ -50,26 +56,44 @@ const Notifications = () => {
         );
         return (
             <Spin
-                spinning={loading || notifications === null}
+                spinning={initLoading || notifications === null}
                 fontSize={8}
                 isCenter
             >
                 <div>{content}</div>
-                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/notifications">{formatMessage({ id: 'header.notifications.viewall' })}</Link></div>
+                <div className={styles.viewAll} onClick={handleViewAll}>{formatMessage({ id: 'header.notifications.viewall' })}</div>
             </Spin>
         );
     }
 
-    const handleVisibleChange = visible => setVisible(visible);
+    const handleVisibleChange = visible => {
+        const { notifications } = props;
+        setVisible(visible);
+        if (visible && !notifications) {
+            dispatch({
+                type: 'notifications/fetch'
+            });
+        }
+        else if (!visible) {
+            if (scrollEleRef.current) scrollEleRef.current.scrollToTop();
+        }
+    };
 
     const handleScroll = e => {
+        const { initLoading, loading, hasMore } = props;
         const element = e.srcElement;
         if (element.scrollTop === element.scrollHeight - 474) {
-            
+            if (!initLoading && !loading && hasMore)
+                dispatch({
+                    type: 'notifications/more'
+                });
         }
     }
 
-    const handleViewAll = () => setVisible(false);
+    const handleViewAll = () => {
+        handleVisibleChange(false);
+        router.push('/notifications');
+    };
 
     const handleViewNotify = item => {
 
@@ -110,4 +134,11 @@ const Notifications = () => {
     );
 };
 
-export default Notifications;
+export default connect(
+    ({ notifications, loading }) => ({
+        loading: !!loading.effects['notifications/more'],
+        initLoading: !!loading.effects['notifications/fetch'],
+        hasMore: notifications.hasMore,
+        notifications: notifications.list,
+    })
+)(Notifications);

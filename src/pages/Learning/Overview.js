@@ -133,7 +133,7 @@ const Overview = ({ match }) => {
                     ) : (
                         <div className={styles.content}>
                             {_.map(instructors, (instructor, i) => (
-                                <>
+                                <React.Fragment key={instructor._id}>
                                     {i > 0 && (<Divider dashed className={styles.divider} />)}
                                     <Row className={styles.instructor}>
                                         <Row className={styles.info}>
@@ -149,7 +149,7 @@ const Overview = ({ match }) => {
                                             </ViewMore>
                                         </Row>
                                     </Row>
-                                </>
+                                </React.Fragment>
                             ))}
                         </div>
                     )}
