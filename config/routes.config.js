@@ -98,6 +98,9 @@ export default [
                 component: './Messenger/index.js',
                 title: 'route.messenger.chat',
                 Routes: ['./src/routes/Authenticate']
+            },
+            {
+                redirect: '/exception/404'
             }
         ]
     },

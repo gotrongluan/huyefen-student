@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Layout, Row, Col, Input, Popover, Divider, Avatar, message } from 'antd';
 import Categories from '@/components/Popover/Categories';
@@ -15,20 +14,12 @@ import styles from './index.less';
 const { Header: AntdHeader } = Layout;
 const { Search } = Input;
 
-const Header = ({ dispatch, settings }) => {
-    useEffect(() => {
-        if (!settings.areasMenu) {
-            dispatch({
-                type: 'settings/fetch'
-            });
-        }
-    }, []);
+const Header = () => {
     const handleLogout = () => {
         //
         message.success('Log out!');
         router.push('/user/login');
     };
-
     return (
         <AntdHeader className={styles.header}>
             <div className={styles.leftContent}>
@@ -120,4 +111,4 @@ const Header = ({ dispatch, settings }) => {
     )
 }
 
-export default connect(({ settings }) => ({ settings }))(Header);
+export default Header;
