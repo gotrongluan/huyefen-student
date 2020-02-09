@@ -2,7 +2,7 @@ export default [
     {
         _id: 1,
         type: 1,
-        content: 'Hanh2112 vừa theo dõi bạn. Tương tác với cô ấy ngay!',
+        content: 'I love you Ngoc Hanh. Tương tác với cô ấy ngay!',
         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
         createdAt: 1567476499584,
         seen: false,

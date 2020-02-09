@@ -13,7 +13,7 @@ export default {
         *fetch(action, { call, put, fork, take, cancel, cancelled }) {
             const task = yield fork(function*() {
                 try {
-                    yield delay(3000);
+                    yield delay(10000);
                     yield put({
                         type: 'save',
                         payload: {
@@ -21,15 +21,15 @@ export default {
                             hasMore: true
                         }
                     });
-                    yield put({ type: 'messages/fetchOk' });
+                    yield put({ type: 'messagesFetchOk' });
                 }
                 finally {
                     if (yield cancelled())
                         yield put({ type: 'clear' });
                 }
             });
-            const _action = yield take(['messages/fetchOk', 'messages/fetchError', 'messages/resetted']);
-            if (_action.type === 'messages/resetted')
+            const _action = yield take(['messagesFetchOk', 'messagesFetchError', 'messagesResetted']);
+            if (_action.type === 'messagesResetted')
                 yield cancel(task);
         },
         *more(action, { call, put, select, fork, take, cancel, cancelled }) {
@@ -45,19 +45,19 @@ export default {
                             hasMore: false
                         }
                     });
-                    yield put({ type: 'messages/moreOk' });
+                    yield put({ type: 'messagesMoreOk' });
                 }
                 finally {
                     if (yield cancelled())
                         yield put({ type: 'clear' });
                 }
             });
-            const _action = yield take(['messages/moreOk', 'messages/moreError', 'messages/resetted']);
-            if (_action.type === 'messages/resetted')
+            const _action = yield take(['messagesMoreOk', 'messagesMoreError', 'messagesResetted']);
+            if (_action.type === 'resetted')
                 yield cancel(task);
         },
         *reset(action, { put }) {
-            yield put({ type: 'messages/resetted' });
+            yield put({ type: 'messagesResetted' });
             yield put({ type: 'clear' });
         }
     },

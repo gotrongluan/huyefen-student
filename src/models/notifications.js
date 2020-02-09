@@ -1,6 +1,7 @@
 import { delay } from '@/utils/utils';
 import NOTIFICATIONS from '@/assets/fakers/notifications';
 import { message } from 'antd';
+import _ from 'lodash';
 
 export default {
     namespace: 'notifications',
@@ -12,7 +13,7 @@ export default {
         *fetch(action, { call, put, fork, take, cancel, cancelled }) {
             const task = yield fork(function*() {
                 try {
-                    yield delay(14000);
+                    yield delay(2000);
                     yield put({
                         type: 'save',
                         payload: {
@@ -20,15 +21,15 @@ export default {
                             hasMore: true
                         }
                     });
-                    yield put({ type: 'notifications/fetchOk' });
+                    yield put({ type: 'notificationsFetchOk' });
                 }
                 finally {
                     if (yield cancelled())
                         yield put({ type: 'clear' });
                 }
             });
-            const _action = yield take(['notifications/fetchOk', 'notifications/fetchError', 'notifications/resetted']);
-            if (_action.type === 'notifications/resetted')
+            const _action = yield take(['notificationsFetchOk', 'notificationsFetchError', 'notificationsResetted']);
+            if (_action.type === 'notificationsResetted')
                 yield cancel(task);
         },
         *more(action, { call, put, select, fork, take, cancel, cancelled }) {
@@ -36,7 +37,7 @@ export default {
                 try {
                     const { list } = yield select(state => state.notifications);
                     //
-                    yield delay(1100);
+                    yield delay(1300);
                     yield put({
                         type: 'push',
                         payload: {
@@ -44,19 +45,40 @@ export default {
                             hasMore: false
                         }
                     });
-                    yield put({ type: 'notifications/moreOk' });
+                    yield put({ type: 'notificationsMoreOk' });
                 }
                 finally {
                     if (yield cancelled())
                         yield put({ type: 'clear' });
                 }
             });
-            const _action = yield take(['notifications/moreOk', 'notifications/moreError', 'notifications/resetted']);
-            if (_action.type === 'notifications/resetted')
+            const _action = yield take(['notificationsMoreOk', 'notificationsMoreError', 'notificationsResetted']);
+            if (_action.type === 'notificationsResetted')
                 yield cancel(task);
         },
+        *read({ payload: notifyId }, { call, put }) {
+            yield put({
+                type: 'seen',
+                payload: {
+                    notifyId,
+                    seen: true
+                }
+            });
+            //yield put({ 'user/setNoOF...' });
+            yield delay(1000);
+            //response with status Ok --> not do anything
+            //reseponse with status Err --> unseen, setNoOfUnseenNoti...
+        },
+        *maskAllAsRead(action, { call, put }) {
+            yield delay(1600);
+            //yield put({ type: 'user/saveNoOfUnseenNotification' });
+            //receive response only with OK status, and unseen num.
+            yield put({
+                type: 'allSeen'
+            });
+        },
         *reset(action, { put }) {
-            yield put({ type: 'notifications/resetted' });
+            yield put({ type: 'notificationsResetted' });
             yield put({ type: 'clear' });
         }
     },
@@ -79,6 +101,31 @@ export default {
                     ...state.list,
                     ...data
                 ]
+            };
+        },
+        seen(state, { payload }) {
+            const { notifyId, seen } = payload;
+            const notifications = [...state.list];
+            const index = _.findIndex(notifications, ['_id', notifyId]);
+            notifications[index] = {
+                ...notifications[index],
+                seen
+            };
+            return {
+                ...state,
+                list: [...notifications]
+            };
+        },
+        allSeen(state) {
+            if (!state.list) return { ...state };
+            let notifications = [...state.list];
+            notifications = _.map(notifications, data => ({
+                ...data,
+                seen: true
+            }));
+            return {
+                ...state,
+                list: [...notifications]
             };
         },
         clear() {

@@ -1,27 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
-import { List, Button, Avatar, Skeleton } from 'antd';
+import { connect } from 'dva';
+import { List, Button, Avatar, Skeleton, message } from 'antd';
 import Wrapper from '@/components/JumpotronWrapper';
 import Spin from '@/elements/spin/secondary';
 import { fromNow } from '@/utils/utils';
-import NOTIFICATIONS from '@/assets/fakers/notifications';
 import styles from './index.less';
 
-const Notifications = () => {
-    const [loading, setLoading] = useState(false);
-    let [notifications, setNotifications] = useState(NOTIFICATIONS);
-    const initLoading = true;
-    const handleViewNotify = item => {};
+const Notifications = ({ dispatch, ...props }) => {
+    let {
+        initLoading,
+        loading,
+        maskLoading,
+        hasMore,
+        notifications
+    } = props;
+    useEffect(() => {
+        if (!initLoading && !notifications) {
+            dispatch({
+                type: 'notifications/fetch'
+            });
+        }
+    }, []);
+    const handleViewNotify = item => {
+        //switch(item.type) router.push(..);
+        if (!item.seen)
+            dispatch({
+                type: 'notifications/read',
+                payload: item._id
+            });
+    };
     const handleLoadmore = () => {
-        //fetch api;
-        setLoading(true);    //fetch api
-        setTimeout(() => {
-            setNotifications([...notifications, ...NOTIFICATIONS]);
-            setLoading(false);
-        }, 1400);
+        dispatch({
+            type: 'notifications/more'
+        });
+    };
+    const handleMaskAllAsRead = () => {
+        if (notifications && !maskLoading && !loading) {
+            dispatch({
+                type: 'notifications/maskAllAsRead'
+            });
+        }
     };
     const loadMore = (
-        !initLoading && !loading ? (
+        !initLoading && !loading && notifications && hasMore ? (
             <div className={styles.loadMore}>
                 <Button type="default" size="small" onClick={handleLoadmore}>More notifications</Button>
             </div>
@@ -31,12 +53,12 @@ const Notifications = () => {
         const skeletonData = [
             {
                 key: _.uniqueId('noti_loading_'),
-                seen: false,
+                seen: true,
                 loading: true
             },
             {
                 key: _.uniqueId('noti_loading_'),
-                seen: false,
+                seen: true,
                 loading: true
             }
         ]
@@ -48,12 +70,12 @@ const Notifications = () => {
         <Wrapper title="Notifications">
             <div className={styles.notifications}>
                 <div className={styles.markAllAsRead}>
-                    <Button type="primary" disabled={!notifications}>Mark all as read</Button>
+                    <Button type="primary" onClick={handleMaskAllAsRead}>Mark all as read</Button>
                 </div>
                 <div className={styles.listCont}>
-                    <Spin spinning={initLoading} isCenter fontSize={8}>
+                    <Spin spinning={initLoading || maskLoading} isCenter fontSize={8}>
                         <List
-                            dataSource={notifications}
+                            dataSource={!notifications ? [] : notifications}
                             itemLayout="horizontal"
                             loadMore={loadMore}
                             rowKey={item => (item._id || item.key) + _.uniqueId('noti_')}
@@ -84,4 +106,12 @@ const Notifications = () => {
     )
 };
 
-export default Notifications;
+export default connect(
+    ({ notifications, loading }) => ({
+        notifications: notifications.list,
+        hasMore: notifications.hasMore,
+        loading: !!loading.effects['notifications/more'],
+        initLoading: !!loading.effects['notifications/fetch'],
+        maskLoading: !!loading.effects['notifications/maskAllAsRead']
+    })
+)(Notifications);

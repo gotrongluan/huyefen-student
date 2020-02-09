@@ -21,7 +21,8 @@ const Notifications = ({ dispatch, ...props }) => {
         const {
             notifications,
             loading,
-            initLoading
+            initLoading,
+            maskLoading
         } = props;
 
         const content = (notifications === null || _.isEmpty(notifications)) ? (
@@ -56,7 +57,7 @@ const Notifications = ({ dispatch, ...props }) => {
         );
         return (
             <Spin
-                spinning={initLoading || notifications === null}
+                spinning={maskLoading || initLoading || notifications === null}
                 fontSize={8}
                 isCenter
             >
@@ -67,9 +68,9 @@ const Notifications = ({ dispatch, ...props }) => {
     }
 
     const handleVisibleChange = visible => {
-        const { notifications } = props;
+        const { notifications, initLoading } = props;
         setVisible(visible);
-        if (visible && !notifications) {
+        if (visible && !notifications && !initLoading) {
             dispatch({
                 type: 'notifications/fetch'
             });
@@ -96,8 +97,13 @@ const Notifications = ({ dispatch, ...props }) => {
     };
 
     const handleViewNotify = item => {
-
-    }
+        //switch(item.type)...
+        if (!item.seen)
+            dispatch({
+                type: 'notifications/read',
+                payload: item._id
+            });
+    };
 
     let unread = 6;
     let count = 0;
@@ -138,6 +144,7 @@ export default connect(
     ({ notifications, loading }) => ({
         loading: !!loading.effects['notifications/more'],
         initLoading: !!loading.effects['notifications/fetch'],
+        maskLoading: !!loading.effects['notifications/maskAllAsRead'],
         hasMore: notifications.hasMore,
         notifications: notifications.list,
     })
