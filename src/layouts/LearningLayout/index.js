@@ -13,13 +13,13 @@ const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
 const MenuItemGroup = Menu.ItemGroup;
 
-const Header = ({ loading, name, authors }) => {
+const Header = ({ loading, name, authors, courseId }) => {
     return (
         <div className={styles.header}>
             <Row className={styles.info}>
                 <div className={styles.name}>
                     <Skeleton loading={loading} active title={false} paragraph={{ rows: 1, width: '25%' }} className={styles.skeleton}>
-                        {name}
+                        <Link to={`/course/${courseId}`}>{name}</Link>
                     </Skeleton>
                 </div>
                 <div className={styles.authors}>
@@ -71,7 +71,7 @@ const LearningLayout = ({ children, match, location, history }) => {
     }
     return (
         <Layout className={styles.learningLayout}>
-            <Header loading={!courseInfo || courseInfo.loading} name={courseInfo && courseInfo.name} authors={courseInfo && courseInfo.authors} />
+            <Header loading={!courseInfo || courseInfo.loading} name={courseInfo && courseInfo.name} authors={courseInfo && courseInfo.authors} courseId={courseInfo && courseInfo._id} />
             <ScrollLayout>
                 <Sider 
                     className={styles.sider}
