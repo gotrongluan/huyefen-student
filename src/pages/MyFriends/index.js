@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import router from 'umi/router';
 import { List, Avatar, Skeleton, Button } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
-import FRIENDS from '@/assets/fakers/friends';
 import styles from './index.less';
 
-const MyFriends = () => {
-    const [loading, setLoading] = useState(false);                  ///temp
-    let [friends, setFriends] = useState(FRIENDS);
-    const initLoading = false;
+const MyFriends = ({ dispatch, ...props }) => {
+    let {
+        friends,
+        loading,
+        initLoading,
+        hasMore
+    } = props;
+    useEffect(() => {
+        dispatch({
+            type: 'friends/fetch'
+        });
+        return () => dispatch({
+            type: 'friends/reset'
+        });
+    }, []);
     const handleMoreFriends = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setFriends([...friends, ...FRIENDS]);
-            setLoading(false);
-        }, 1500);
+        dispatch({
+            type: 'friends/more'
+        });
     };
     const loadMore = (
-        !loading && !initLoading && friends ? (
+        !loading && !initLoading && friends && hasMore ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreFriends}>More friends</Button>
                 <Button size="small" type="primary" style={{ marginLeft: 10 }}>All friends</Button>
@@ -41,12 +50,12 @@ const MyFriends = () => {
             <div className={styles.myFriends}>
                 <Spin spinning={initLoading} fontSize={8} isCenter>
                     <List
-                        dataSource={friends}
+                        dataSource={!friends ? [] : friends}
                         rowKey={item => (item._id || item.key) + _.uniqueId('friend_')}
                         loadMore={loadMore}
                         grid={{
                             column: 3,
-                            gutter: 8
+                            gutter: 16
                         }}
                         split
                         renderItem={item => (
@@ -77,4 +86,11 @@ const MyFriends = () => {
     )
 };
 
-export default MyFriends;
+export default connect(
+    ({ friends, loading }) => ({
+        friends: friends.list,
+        hasMore: friends.hasMore,
+        loading: !!loading.effects['friends/more'],
+        initLoading: !!loading.effects['friends/fetch']
+    })
+)(MyFriends);
