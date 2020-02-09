@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import Link from 'umi/link';
+import router from 'umi/router';
 import { Popover, List, Badge, Avatar, Icon, Empty, Spin as Loading } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Spin from '@/elements/spin/secondary';
 import { fromNow, truncate } from '@/utils/utils';
-import CONVERSATIONS from '@/assets/fakers/conversations';
 import styles from './index.less';
 
-const Messenger = () => {
+const Messenger = ({ dispatch, ...props }) => {
+    const scrollEleRef = useRef(null);
     const [visible, setVisible] = useState(false);
-
+    useEffect(() => {
+        return () => dispatch({
+            type: 'messages/reset'
+        });
+    }, []);
     const getContent = () => {
-        // let {
-        //     messengerPopover: conversations,
-        //     loading,
-        //     //oldLoading
-        // } = this.props;
-        let conversations = CONVERSATIONS;
-        let loading = false;
-        let oldLoading = false;
+        let {
+            conversations,
+            loading,
+            initLoading
+        } = props;
         //sort conversations
         conversations = conversations === null ? conversations : _.orderBy(conversations, ['updatedAt'], ['desc']);
         //conversations = conversations ? _.take(conversations, 5) : null;
@@ -31,7 +33,7 @@ const Messenger = () => {
                 </div>
             </div>
         ) : (
-            <Scrollbars autoHeight autoHeightMax={437} onScroll={handleScroll} className={styles.scrollEle}>
+            <Scrollbars ref={scrollEleRef} autoHeight autoHeightMax={437} onScroll={handleScroll} className={styles.scrollEle}>
                 <List
                     className={styles.conversationsList}
                     dataSource={conversations}
@@ -49,7 +51,7 @@ const Messenger = () => {
                         </List.Item>
                     )}
                 />
-                {oldLoading && (
+                {loading && (
                     <div className={styles.oldLoading}>
                         <Loading indicator={<Icon type="loading" style={{ fontSize: 18 }} spin />} />
                     </div>
@@ -58,26 +60,45 @@ const Messenger = () => {
         );
         return (
             <Spin
-                spinning={loading || conversations === null}
+                spinning={initLoading || conversations === null}
                 fontSize={8}
                 isCenter
             >
                 <div>{content}</div>
-                <div className={styles.viewAll} onClick={handleViewAll}><Link to="/messenger">{formatMessage({ id: 'header.messenger.viewall' })}</Link></div>
+                <div className={styles.viewAll} onClick={handleViewAll}>{formatMessage({ id: 'header.messenger.viewall' })}</div>
             </Spin>
         );
     };
 
-    const handleVisibleChange = visible => setVisible(visible);
+    const handleVisibleChange = visible => {
+        const { conversations } = props;
+        setVisible(visible);
+        if (visible && !conversations) {
+            dispatch({
+                type: 'messages/fetch'
+            });
+        }
+        else if (!visible) {
+            if (scrollEleRef.current) scrollEleRef.current.scrollToTop();
+        }
+    };
 
     const handleScroll = e => {
+        const { initLoading, hasMore, loading } = props;
         const element = e.srcElement;
         if (element.scrollTop === element.scrollHeight - 437) {
-            
+            if (!initLoading && !loading && hasMore) {
+                dispatch({
+                    type: 'messages/more'
+                });
+            }
         }
-    }
+    };
 
-    const handleViewAll = () => setVisible(false);
+    const handleViewAll = () => {
+        router.push('/messenger');
+        handleVisibleChange(false);
+    };
 
     const unread = 14;
     let count = 0;
@@ -113,4 +134,11 @@ const Messenger = () => {
     );
 }
 
-export default Messenger;
+export default connect(
+    ({ loading, messages }) => ({
+        initLoading: !!loading.effects['messages/fetch'],
+        loading: !!loading.effects['messages/more'],
+        conversations: messages.list,
+        hasMore: messages.hasMore
+    })
+)(Messenger);
