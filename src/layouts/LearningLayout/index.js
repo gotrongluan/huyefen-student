@@ -46,6 +46,7 @@ const LearningLayout = ({ children, match, location, history }) => {
     const [loading, setLoading] = useState(false);
     const [courseInfo, setCourseInfo] = useState(null);
     useEffect(() => {
+        message.success('Learning');
         setTimeout(() => {
             setVerification(true);
             //call api fetch course
@@ -54,7 +55,7 @@ const LearningLayout = ({ children, match, location, history }) => {
                 setCourseInfo(COURSE_INFO);
                 setLoading(false);
             }, 1000);
-        }, 1000);
+        }, 3000);
     }, []);
     const handleChangeLectureStatus = (lectureId, status) => {
         message.success(`You save ${lectureId} with ${status}`);
@@ -64,7 +65,6 @@ const LearningLayout = ({ children, match, location, history }) => {
             <PageLoading />
         );
     }
-    
     let openKeys;
     if (courseInfo) {
         openKeys = _.map(courseInfo.syllabus, chapter => chapter._id);

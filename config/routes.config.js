@@ -12,18 +12,30 @@ export default [
                 path: '/user/register',
                 component: './User/Register',
                 title: 'route.user.register'
+            },
+            {
+                path: '/user/exception/404',
+                component: './User/Exception/404',
+                title: 'router.user.exception.404'
+            },
+            {
+                redirect: '/user/exception/404'
             }
         ]
     },
     {
-        path: '/messenger', component: '../layouts/MessengerLayout',
-        title: 'route.messenger',
+        path: '/error', component: '../layouts/ErrorLayout',
+        title: 'route.error',
         routes: [
             {
-                path: '/messenger/:converId?',
-                component: './Messenger/index.js',
-                title: 'route.messenger.chat',
-                Routes: ['./src/routes/Authenticate']
+                path: '/error/404',
+                component: './Error/404',
+                title: 'route.error.404'
+            },
+            {
+                path: '/error/403',
+                component: './Error/403',
+                title: 'route.error.403'
             }
         ]
     },
@@ -53,7 +65,7 @@ export default [
                         title: 'route.learning.forum.thread'
                     },
                     {
-                        redirect: '/exception/404'
+                        component: '404'
                     }
                 ]
             },
@@ -73,7 +85,19 @@ export default [
                 title: 'route.learning.lecture'
             },
             {
-                redirect: '/exception/404'
+                component: '404'
+            }
+        ]
+    },
+    {
+        path: '/messenger', component: '../layouts/MessengerLayout',
+        title: 'route.messenger',
+        routes: [
+            {
+                path: '/messenger/:converId?',
+                component: './Messenger/index.js',
+                title: 'route.messenger.chat',
+                Routes: ['./src/routes/Authenticate']
             }
         ]
     },

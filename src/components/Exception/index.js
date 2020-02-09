@@ -36,8 +36,8 @@ class Exception extends React.PureComponent {
                     <div
                         className={styles.imgEle}
                         style={{ backgroundImage: `url(${img || config[pageType].img})` }}
-                        />
-                    </div>
+                    />
+                </div>
                 <div className={styles.content}>
                     <h1>{title || config[pageType].title}</h1>
                     <div className={styles.desc}>{desc || config[pageType].desc}</div>
