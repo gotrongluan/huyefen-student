@@ -34,9 +34,12 @@ const Friend= ({ match, dispatch, ...props }) => {
         dispatch({
             type: 'friend/fetchCourses'
         });
-        return () => dispatch({
-            type: 'friend/reset'
-        });
+        return () => {
+            dispatch({
+                type: 'friend/reset'
+            });
+            Modal.destroyAll();
+        };
     }, [friendId]);
 
     let icon;
@@ -64,6 +67,7 @@ const Friend= ({ match, dispatch, ...props }) => {
         };
     }
     const handleRelation = (status, friendId) => {
+        let modal;
         if (status === 1) {
             //no friend
             dispatch({
@@ -73,39 +77,51 @@ const Friend= ({ match, dispatch, ...props }) => {
         }
         else if (status === 2) {
             //pending
-            Modal.confirm({
+            modal = Modal.confirm({
                 content: 'Do you want to cancel the inviation?',
-                onOk: () => dispatch({
-                    type: 'friend/cancelInvitation',
-                    payload: friendId
-                })
+                onOk: () => {
+                    dispatch({
+                        type: 'friend/cancelInvitation',
+                        payload: friendId
+                    });
+                    modal.destroy();
+                }
             });
         }
         else if (status === 3) {
             //he send to you invitation
-            Modal.confirm({
+            modal = Modal.confirm({
                 maskClosable: true,
                 content: 'Do you accept this invitation?',
                 okText: 'Yes',
                 cancelText: 'No',
-                onOk: () => dispatch({
-                    type: 'friend/acceptInvitaion',
-                    payload: friendId
-                }),
-                onCancel: () => dispatch({
-                    type: 'friend/rejectInvitation',
-                    payload: friendId
-                })
+                onOk: () => {
+                    dispatch({
+                        type: 'friend/acceptInvitaion',
+                        payload: friendId
+                    });
+                    modal.destroy();
+                },
+                onCancel: () => {
+                    dispatch({
+                        type: 'friend/rejectInvitation',
+                        payload: friendId
+                    });
+                    modal.destroy();
+                }
             })
         }
         else {
             //status === 4 --> friend
-            Modal.confirm({
+            modal = Modal.confirm({
                 content: 'Do you want to unfriend?',
-                onOk: () => dispatch({
-                    type: 'friend/unfriend',
-                    payload: friendId
-                })
+                onOk: () => {
+                    dispatch({
+                        type: 'friend/unfriend',
+                        payload: friendId
+                    });
+                    modal.destroy();
+                }
             });
         }
     };
