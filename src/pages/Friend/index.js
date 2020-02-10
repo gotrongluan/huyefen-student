@@ -97,7 +97,7 @@ const Friend= ({ match, dispatch, ...props }) => {
                 cancelText: 'No',
                 onOk: () => {
                     dispatch({
-                        type: 'friend/acceptInvitaion',
+                        type: 'friend/acceptInvitation',
                         payload: friendId
                     });
                     modal.destroy();
