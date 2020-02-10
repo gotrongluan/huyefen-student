@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import router from 'umi/router';
 import classNames from 'classnames';
-import { Row, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon } from 'antd';
+import { Row, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon, Modal } from 'antd';
 import FriendCourse from '@/components/FriendCourse';
 import styles from './index.less';
 
@@ -59,6 +59,55 @@ const Friend= ({ match, dispatch, ...props }) => {
                 icon = "user";
         };
     }
+    const handleRelation = (status, friendId) => {
+        if (status === 1) {
+            //no friend
+            dispatch({
+                type: 'friend/addFriend',
+                payload: friendId
+            });
+        }
+        else if (status === 2) {
+            //pending
+            Modal.confirm({
+                content: 'Do you want to cancel the inviation?',
+                onOk: () => dispatch({
+                    type: 'friend/cancelInvitation',
+                    payload: friendId
+                })
+            });
+        }
+        else if (status === 3) {
+            //he send to you invitation
+            Modal.confirm({
+                maskClosable: true,
+                content: 'Do you accept this invitation?',
+                okText: 'Yes',
+                cancelText: 'No',
+                onOk: () => dispatch({
+                    type: 'friend/acceptInvitaion',
+                    payload: friendId
+                }),
+                onCancel: () => dispatch({
+                    type: 'friend/rejectInvitation',
+                    payload: friendId
+                })
+            })
+        }
+        else {
+            //status === 4 --> friend
+            Modal.confirm({
+                content: 'Do you want to unfriend?',
+                onOk: () => dispatch({
+                    type: 'friend/unfriend',
+                    payload: friendId
+                })
+            });
+        }
+    };
+    const handleChat = friendId => {
+
+    };
     const handleMoreCourses = () => {
         dispatch({
             type: 'friend/moreCourses'
@@ -127,10 +176,10 @@ const Friend= ({ match, dispatch, ...props }) => {
                             <Loading indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
                         ) : (
                             <Button.Group>
-                                <Button type="primary" icon={icon} shape="round">
+                                <Button type="primary" icon={icon} shape="round" onClick={() => handleRelation(info.status, info._id)}>
                                     {relText}
                                 </Button>
-                                <Button type="primary" icon="message" shape="round">
+                                <Button type="primary" icon="message" shape="round" onClick={() => handleChat(info._id)}>
                                     Chat
                                 </Button>
                             </Button.Group>

@@ -93,6 +93,21 @@ export default {
                     data: COURSES
                 }
             });
+        },
+        *addFriend({ payload: friendId }, { call, put }) {
+            
+        },
+        *cancelInvitation({ payload: friendId }, { call, put }) {
+
+        },
+        *acceptInvitation({ payload: friendId }, { call, put }) {
+
+        },
+        *rejectInvitation({ payload: friendId }, { call, put }) {
+
+        },
+        *unfriend({ payload: friendId }, { call, put }) {
+
         }
     },
     reducers: {
