@@ -23,14 +23,14 @@ export default {
     namespace: 'friend',
     state: initialState,
     effects: {
-        *fetch(action, { call, put }) {
+        *fetch({ payload: friendId }, { call, put }) {
             yield delay(1500);
             yield put({
                 type: 'save',
                 payload: FRIEND
             });
         },
-        *fetchCourses(action, { call, put }) {
+        *fetchCourses({ payload: friendId }, { call, put }) {
             yield delay(2000);
             yield put({
                 type: 'saveCourses',
@@ -40,7 +40,7 @@ export default {
                 }
             });
         },
-        *fetchFriends(action, { call, put }) {
+        *fetchFriends({ payload: friendId }, { call, put }) {
             yield delay(2300);
             yield put({
                 type: 'saveFriends',
@@ -50,7 +50,7 @@ export default {
                 }
             });
         },
-        *moreCourses(action, { call, put, select }) {
+        *moreCourses({ payload: friendId }, { call, put, select }) {
             const { courses: { list } } = yield select(state => state.friend);
             yield delay(1800);
             yield put({
@@ -61,7 +61,7 @@ export default {
                 }
             });
         },
-        *moreFriends(action, { call, put, select }) {
+        *moreFriends({ payload: friendId }, { call, put, select }) {
             const { courses: { list } } = yield select(state => state.friend);
             yield delay(1800);
             yield put({
@@ -72,7 +72,7 @@ export default {
                 }
             });
         },
-        *allFriends(action, { call, put, select }) {
+        *allFriends({ payload: friendId }, { call, put, select }) {
             const { courses: { list } } = yield select(state => state.friend);
             yield delay(1800);
             yield put({
@@ -83,7 +83,7 @@ export default {
                 }
             });
         },
-        *allCourses(action, { call, put, select }) {
+        *allCourses({ payload: friendId }, { call, put, select }) {
             const { courses: { list } } = yield select(state => state.friend);
             yield delay(1800);
             yield put({

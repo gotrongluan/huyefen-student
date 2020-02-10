@@ -26,13 +26,16 @@ const Friend= ({ match, dispatch, ...props }) => {
     useEffect(() => {
         setActiveKey('courses');
         dispatch({
-            type: 'friend/fetch'
+            type: 'friend/fetch',
+            payload: friendId
         });
         dispatch({
-            type: 'friend/fetchFriends'
+            type: 'friend/fetchFriends',
+            payload: friendId
         });
         dispatch({
-            type: 'friend/fetchCourses'
+            type: 'friend/fetchCourses',
+            payload: friendId
         });
         return () => {
             dispatch({
@@ -130,12 +133,14 @@ const Friend= ({ match, dispatch, ...props }) => {
     };
     const handleMoreCourses = () => {
         dispatch({
-            type: 'friend/moreCourses'
+            type: 'friend/moreCourses',
+            payload: friendId
         });
     };
     const handleAllCourses = () => {
         dispatch({
-            type: 'friend/allCourses'
+            type: 'friend/allCourses',
+            payload: friendId
         });
     };
     const loadMoreCourses = (
@@ -148,12 +153,14 @@ const Friend= ({ match, dispatch, ...props }) => {
     );
     const handleMoreFriends = () => {
         dispatch({
-            type: 'friend/moreFriends'
+            type: 'friend/moreFriends',
+            payload: friendId
         });
     };
     const handleAllFriends = () => {
         dispatch({
-            type: 'friend/allFriends'
+            type: 'friend/allFriends',
+            payload: friendId
         });
     };
     const loadMoreFriends = (
