@@ -1,8 +1,8 @@
+import TEACHERS from '@/assets/fakers/teachers';
 import { delay } from '@/utils/utils';
-import FRIENDS from '@/assets/fakers/friends';
 
 export default {
-    namespace: 'friends',
+    namespace: 'teachers',
     state: {
         hasMore: true,
         list: null
@@ -14,7 +14,7 @@ export default {
                 type: 'save',
                 payload: {
                     hasMore: true,
-                    data: FRIENDS
+                    data: TEACHERS
                 }
             });
         },
@@ -24,7 +24,7 @@ export default {
                 type: 'push',
                 payload: {
                     hasMore: false,
-                    data: FRIENDS
+                    data: TEACHERS
                 }
             })
         }

@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import router from 'umi/router';
 import { List, Avatar, Skeleton, Button } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
-import TEACHERS from '@/assets/fakers/teachers';
 import styles from './index.less';
 
-const MyTeachers = () => {
-    const [loading, setLoading] = useState(false);                  ///temp
-    let [teachers, setTeachers] = useState(TEACHERS);
-    const initLoading = false;
+const MyTeachers = ({ dispatch, ...props }) => {
+    let {
+        hasMore,
+        teachers,
+        initLoading,
+        loading
+    } = props;
+    useEffect(() => {
+        dispatch({
+            type: 'teachers/fetch'
+        });
+        return () => dispatch({
+            type: 'teachers/reset'
+        });
+    }, []);
     const handleMoreTeachers = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setTeachers([...teachers, ...TEACHERS]);
-            setLoading(false);
-        }, 1500);
+        dispatch({
+            type: 'teachers/more'
+        });
     };
     const loadMore = (
-        !loading && !initLoading && teachers ? (
+        !loading && !initLoading && teachers && hasMore ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreTeachers}>More teachers</Button>
                 <Button size="small" type="primary" style={{ marginLeft: 10 }}>All teachers</Button>
@@ -41,7 +50,7 @@ const MyTeachers = () => {
             <div className={styles.myTeachers}>
                 <Spin spinning={initLoading} fontSize={8} isCenter>
                     <List
-                        dataSource={teachers}
+                        dataSource={!teachers ? [] : teachers}
                         rowKey={item => (item._id || item.key) + _.uniqueId('teacher_')}
                         loadMore={loadMore}
                         grid={{
@@ -78,4 +87,11 @@ const MyTeachers = () => {
     )
 };
 
-export default MyTeachers;
+export default connect(
+    ({ teachers, loading }) => ({
+        teachers: teachers.list,
+        hasMore: teachers.hasMore,
+        initLoading: !!loading.effects['teachers/fetch'],
+        loading: !!loading.effects['teachers/more']
+    })
+)(MyTeachers);
