@@ -121,6 +121,7 @@ export default {
             // });
         },
         *acceptInvitation({ payload: friendId }, { call, put }) {
+            //for backend --> send notification to friend.
             yield put({
                 type: 'saveStatus',
                 payload: 4
@@ -132,7 +133,15 @@ export default {
             // });
         },
         *rejectInvitation({ payload: friendId }, { call, put }) {
-
+            yield put({
+                type: 'saveStatus',
+                payload: 1
+            });
+            yield delay(1200);
+            // yield put({
+            //     type: 'saveStatus',
+            //     payload: 3
+            // });
         },
         *unfriend({ payload: friendId }, { call, put }) {
 
