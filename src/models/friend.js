@@ -5,7 +5,7 @@ const FRIEND = {
     _id: 1,
     name: 'Ngọc Hạnh Vương',
     avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-    status: 3
+    status: 1
 };
 
 const initialState = {
@@ -95,7 +95,19 @@ export default {
             });
         },
         *addFriend({ payload: friendId }, { call, put }) {
-            
+            //change status
+            //call api
+            //if ok --> dont do anything
+            //if fail --> reset status to 1
+            yield put({
+                type: 'saveStatus',
+                payload: 2
+            });
+            yield delay(1000);
+            // yield put({
+            //     type: 'saveStatus',
+            //     payload: 1
+            // });
         },
         *cancelInvitation({ payload: friendId }, { call, put }) {
 
@@ -124,6 +136,15 @@ export default {
                 courses: {
                     hasMore,
                     list: [...data]
+                }
+            };
+        },
+        saveStatus(state, { payload: status }) {
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    status
                 }
             };
         },

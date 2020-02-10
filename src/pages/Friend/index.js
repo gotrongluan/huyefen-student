@@ -52,6 +52,10 @@ const Friend= ({ match, dispatch, ...props }) => {
                 relText = "Sented invitation"
                 break;
             case 3:
+                icon = "sync";
+                relText = "Invited you";
+                break;
+            case 4:
                 icon = "user-delete";
                 relText = "Cancel friend";
                 break;
