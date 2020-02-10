@@ -7,7 +7,7 @@ import styles from './index.less';
 
 const FriendCourse = ({ course }) => {
     return (
-        <Link to="/course/133">
+        <Link to={`/course/${course._id}`}>
             <Card
                 className={course.isRegistered ? classNames(styles.course, styles.registered) : styles.course}
                 style={{ width: '100%' }}

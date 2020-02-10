@@ -5,18 +5,11 @@ import router from 'umi/router';
 import classNames from 'classnames';
 import { Row, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon } from 'antd';
 import FriendCourse from '@/components/FriendCourse';
-import COURSES from '@/assets/fakers/friendCourses';
-import FRIENDS from '@/assets/fakers/friends';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
-const FRIEND = {
-    _id: 1,
-    name: 'Ngọc Hạnh Vương',
-    avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-    status: 3
-};
 const Friend= ({ match, dispatch, ...props }) => {
+    const [activeKey, setActiveKey] = useState('courses');
     let {
         info,
         friends,
@@ -31,6 +24,7 @@ const Friend= ({ match, dispatch, ...props }) => {
     } = props;
     const { friendId } = match.params;
     useEffect(() => {
+        setActiveKey('courses');
         dispatch({
             type: 'friend/fetch'
         });
@@ -146,13 +140,14 @@ const Friend= ({ match, dispatch, ...props }) => {
             </Row>
             <Row className={styles.content}>
                 <Tabs
-                    defaultActiveKey="courses"
+                    activeKey={activeKey}
                     className={styles.tabs}
                     tabBarStyle={{
                         height: 40,
                         textAlign: 'center',
                         borderBottom: 'none'
                     }}
+                    onChange={activeKey => setActiveKey(activeKey)}
                 >
                     <TabPane
                         tab={`Courses`}
