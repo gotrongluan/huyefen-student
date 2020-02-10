@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import router from 'umi/router';
 import classNames from 'classnames';
 import { Row, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon } from 'antd';
 import FriendCourse from '@/components/FriendCourse';
-import Spin from '@/elements/spin/secondary';
 import COURSES from '@/assets/fakers/friendCourses';
 import FRIENDS from '@/assets/fakers/friends';
 import styles from './index.less';
@@ -16,40 +16,39 @@ const FRIEND = {
     avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
     status: 3
 };
-const Friend= ({ match }) => {
-    const [friendsLoading, setFriendsLoading] = useState(false);
-    const [coursesLoading, setCoursesLoading] = useState(false);
-    const [friendsInitLoading, setFriendsInitLoading] = useState(false);
-    const [coursesInitLoading, setCoursesInitLoading] = useState(false);
-    const [friend, setFriend] = useState(null);
-    let [courses, setCourses] = useState(null);
-    let [friends, setFriends] = useState(null);
-    const [infoLoading, setInfoLoading] = useState(true);
+const Friend= ({ match, dispatch, ...props }) => {
+    let {
+        info,
+        friends,
+        courses,
+        hasMoreCourses,
+        hasMoreFriends,
+        infoLoading,
+        friendsInitLoading,
+        coursesInitLoading,
+        friendsLoading,
+        coursesLoading
+    } = props;
+    const { friendId } = match.params;
     useEffect(() => {
-        setInfoLoading(true);
-        setTimeout(() => {
-            setFriend(FRIEND);
-            setInfoLoading(false);
-        }, 1200);
-    }, [match.params.friendId]);
-    useEffect(() => {
-        setFriendsInitLoading(true);
-        setTimeout(() => {
-            setCourses(COURSES);
-            setFriendsInitLoading(false);
-        }, 1600);
-    }, [match.params.friendId]);
-    useEffect(() => {
-        setCoursesInitLoading(true);
-        setTimeout(() => {
-            setFriends(FRIENDS);
-            setCoursesInitLoading(false);
-        }, 1400);
-    }, [match.params.friendId]);
+        dispatch({
+            type: 'friend/fetch'
+        });
+        dispatch({
+            type: 'friend/fetchFriends'
+        });
+        dispatch({
+            type: 'friend/fetchCourses'
+        });
+        return () => dispatch({
+            type: 'friend/reset'
+        });
+    }, [friendId]);
+
     let icon;
     let relText;
-    if (friend) {
-        switch (friend.status) {
+    if (info) {
+        switch (info.status) {
             case 1:             //no friend
                 icon = "user-add";
                 relText = "Add friend";
@@ -67,32 +66,38 @@ const Friend= ({ match }) => {
         };
     }
     const handleMoreCourses = () => {
-        setCoursesLoading(true);
-        setTimeout(() => {
-            setCourses([...courses, ...COURSES]);
-            setCoursesLoading(false);
-        }, 2000);
+        dispatch({
+            type: 'friend/moreCourses'
+        });
     };
-    const loadMore = (
-        !coursesInitLoading && !coursesLoading && courses ? (
+    const handleAllCourses = () => {
+        dispatch({
+            type: 'friend/allCourses'
+        });
+    };
+    const loadMoreCourses = (
+        !coursesInitLoading && !coursesLoading && courses && hasMoreCourses ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreCourses}>More courses</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }}>All courses</Button>
+                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllCourses}>All courses</Button>
             </div>
         ) : null
     );
     const handleMoreFriends = () => {
-        setFriendsLoading(true);
-        setTimeout(() => {
-            setFriends([...friends, ...FRIENDS]);
-            setFriendsLoading(false);
-        }, 1500);
+        dispatch({
+            type: 'friend/moreFriends'
+        });
+    };
+    const handleAllFriends = () => {
+        dispatch({
+            type: 'friend/allFriends'
+        });
     };
     const loadMoreFriends = (
-        !friendsLoading && !friendsInitLoading && friends ? (
+        !friendsLoading && !friendsInitLoading && friends && hasMoreFriends ? (
             <div className={styles.loadMoreFriends}>
                 <Button size="small" type="default" onClick={handleMoreFriends}>More friends</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }}>All friends</Button>
+                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllFriends}>All friends</Button>
             </div>
         ) : null
     );
@@ -118,13 +123,13 @@ const Friend= ({ match }) => {
             <Row className={styles.jumpotron}>
                 <div className={styles.info}>
                     <div className={styles.avatarCont}>
-                        {infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (<Avatar alt="friend-avatar" size={120} shape="circle" className={styles.avatar} src={friend.avatar} />)}
+                        {!info || infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (<Avatar alt="friend-avatar" size={120} shape="circle" className={styles.avatar} src={info.avatar} />)}
                     </div>
                     <div className={styles.name}>
-                        {!infoLoading && friend.name}
+                        {info && !infoLoading && info.name}
                     </div>
                     <div className={styles.actions}>
-                        {infoLoading ? (
+                        {!info || infoLoading ? (
                             <Loading indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
                         ) : (
                             <Button.Group>
@@ -155,14 +160,18 @@ const Friend= ({ match }) => {
                         className={classNames(styles.tabPane, styles.courses)}  
                     >
                         <Row className={styles.courseContent}>
-                            <Spin spinning={!courses || coursesInitLoading} fontSize={8} isCenter>
+                            {!courses || coursesInitLoading ? (
+                                <div className={styles.loading}>
+                                    <Loading indicator={<Icon type="loading" style={{ fontSize: 64 }} spin/>} />
+                                </div>
+                            ) : (
                                 <List
                                     grid={{
                                         gutter: 16,
                                         column: 4
                                     }}
-                                    loadMore={loadMore}
-                                    dataSource={!courses ? [] : courses}
+                                    loadMore={loadMoreCourses}
+                                    dataSource={courses}
                                     rowKey={course => (course._id || course.key) + _.uniqueId('friend_course_')}
                                     renderItem={course => (
                                         <List.Item>
@@ -179,7 +188,7 @@ const Friend= ({ match }) => {
                                         </List.Item>
                                     )}
                                 />
-                            </Spin>
+                            )}
                         </Row>
                     </TabPane>
                     <TabPane
@@ -188,9 +197,13 @@ const Friend= ({ match }) => {
                         className={classNames(styles.tabPane, styles.friends)} 
                     >
                         <Row className={styles.friendsContent}>
-                            <Spin spinning={!friends || friendsInitLoading} fontSize={8} isCenter>
+                            {!friends || friendsInitLoading ? (
+                                <div className={styles.loading}>
+                                    <Loading indicator={<Icon type="loading" style={{ fontSize: 64 }} spin/>} /> 
+                                </div>
+                            ) : (
                                 <List
-                                    dataSource={!friends ? [] : friends}
+                                    dataSource={friends}
                                     rowKey={item => (item._id || item.key) + _.uniqueId('friend_')}
                                     loadMore={loadMoreFriends}
                                     itemLayout="horizontal"
@@ -219,7 +232,7 @@ const Friend= ({ match }) => {
                                         </div>
                                     )}
                                 />
-                            </Spin>
+                            )}
                         </Row>
                         
                     </TabPane>
@@ -229,4 +242,17 @@ const Friend= ({ match }) => {
     )
 };
 
-export default Friend;
+export default connect(
+    ({ friend, loading }) => ({
+        info: friend.info,
+        courses: friend.courses.list,
+        friends: friend.friends.list,
+        hasMoreCourses: friend.courses.hasMore,
+        hasMoreFriends: friend.friends.hasMore,
+        infoLoading: !!loading.effects['friend/fetch'],
+        coursesInitLoading: !!loading.effects['friend/fetchCourses'],
+        friendsInitLoading: !!loading.effects['friend/fetchFriends'],
+        coursesLoading: !!loading.effects['friend/moreCourses'] || !!loading.effects['friend/allCourses'],
+        friendsLoading: !!loading.effects['friend/moreFriends'] || !!loading.effects['friend/allFriends']
+    })
+)(Friend);
