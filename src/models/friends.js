@@ -18,7 +18,19 @@ export default {
                 }
             });
         },
-        *more(action, { call, put }) {
+        *more(action, { call, put, select }) {
+            const { list } = yield select(state => state.friends);
+            yield delay(1300);
+            yield put({
+                type: 'push',
+                payload: {
+                    hasMore: true,
+                    data: FRIENDS
+                }
+            });
+        },
+        *all(action, { call, put, select }) {
+            const { list } = yield select(state => state.friends);
             yield delay(1300);
             yield put({
                 type: 'push',
@@ -26,7 +38,7 @@ export default {
                     hasMore: false,
                     data: FRIENDS
                 }
-            })
+            });
         }
     },
     reducers: {

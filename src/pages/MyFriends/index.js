@@ -27,11 +27,16 @@ const MyFriends = ({ dispatch, ...props }) => {
             type: 'friends/more'
         });
     };
+    const handleAllFriends = () => {
+        dispatch({
+            type: 'friends/all'
+        });
+    };
     const loadMore = (
         !loading && !initLoading && friends && hasMore ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreFriends}>More friends</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }}>All friends</Button>
+                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllFriends}>All friends</Button>
             </div>
         ) : null
     );
@@ -90,7 +95,7 @@ export default connect(
     ({ friends, loading }) => ({
         friends: friends.list,
         hasMore: friends.hasMore,
-        loading: !!loading.effects['friends/more'],
+        loading: !!loading.effects['friends/more'] || !!loading.effects['friends/all'],
         initLoading: !!loading.effects['friends/fetch']
     })
 )(MyFriends);

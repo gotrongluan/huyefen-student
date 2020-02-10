@@ -27,11 +27,16 @@ const MyTeachers = ({ dispatch, ...props }) => {
             type: 'teachers/more'
         });
     };
+    const handleAllTeachers = () => {
+        dispatch({
+            type: 'teachers/all'
+        });
+    };
     const loadMore = (
         !loading && !initLoading && teachers && hasMore ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreTeachers}>More teachers</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }}>All teachers</Button>
+                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllTeachers}>All teachers</Button>
             </div>
         ) : null
     );
@@ -92,6 +97,6 @@ export default connect(
         teachers: teachers.list,
         hasMore: teachers.hasMore,
         initLoading: !!loading.effects['teachers/fetch'],
-        loading: !!loading.effects['teachers/more']
+        loading: !!loading.effects['teachers/more'] || !!loading.effects['teachers/all']
     })
 )(MyTeachers);
