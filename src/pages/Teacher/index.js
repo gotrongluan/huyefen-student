@@ -205,7 +205,7 @@ const Teacher = ({ match, dispatch, ...props }) => {
                                 </Row>
                                 <Divider dashed className={styles.divider} />
                                 <div className={styles.social}>
-                                    <div className={styles.title} onClick={() => router.push('/teacher/1122')}>
+                                    <div className={styles.title}>
                                         Contact
                                     </div>
                                     <div className={styles.links}>

@@ -72,10 +72,18 @@ export default {
             });
         },
         *follow({ payload: teacherId }, { call, put }) {
-
+            yield put({
+                type: 'saveStatus',
+                payload: true
+            });
+            yield delay(1500);
         },
         *unfollow({ payload: teacherId }, { call, put }) {
-
+            yield put({
+                type: 'saveStatus',
+                payload: false
+            });
+            yield delay(1200);
         }
     },
     reducers: {
@@ -86,7 +94,13 @@ export default {
             };
         },
         saveStatus(state, { payload: status }) {
-
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    isFollowed: status
+                }
+            };
         },
         saveCourses(state, { payload }) {
             const { hasMore, data } = payload;
