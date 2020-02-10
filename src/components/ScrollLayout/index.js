@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import withRouter from 'umi/withRouter';
 import { Layout } from 'antd';
 import Scrollbars from 'react-custom-scrollbars';
 
-const ScrollLayout = ({ children }) => {
+const ScrollLayout = ({ children, location }) => {
+    const scrollElRef = useRef(null);
+    const { pathname } = location;
+    useEffect(() => {
+        const element = scrollElRef.current;
+        if (element) element.scrollToTop();
+    }, [pathname]);
     return (
         <Scrollbars
+            ref={scrollElRef}
             autoHeight
             autoHeightMax={window.outerHeight - 64}
             style={{ marginTop: 64 }}
@@ -17,4 +25,4 @@ const ScrollLayout = ({ children }) => {
     )
 };
 
-export default ScrollLayout;
+export default withRouter(ScrollLayout);
