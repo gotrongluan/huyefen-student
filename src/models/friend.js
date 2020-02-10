@@ -5,7 +5,7 @@ const FRIEND = {
     _id: 1,
     name: 'Ngọc Hạnh Vương',
     avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-    status: 3
+    status: 4
 };
 
 const initialState = {
@@ -144,7 +144,15 @@ export default {
             // });
         },
         *unfriend({ payload: friendId }, { call, put }) {
-
+            yield put({
+                type: 'saveStatus',
+                payload: 1
+            });
+            yield delay(1300);
+            // yield put({
+            //     type: 'saveStatus',
+            //     payload: 4
+            // });
         }
     },
     reducers: {
