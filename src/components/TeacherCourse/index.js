@@ -1,10 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
-import { Card, Rate, Tag } from 'antd';
-import { featuredColor } from '@/config/constants';
+import FeaturedBadge from '@/components/FeaturedBadge';
+import { Card, Rate } from 'antd';
 import { truncate, transAuthors, roundStarRating } from '@/utils/utils';
 import styles from './index.less';
 
@@ -17,8 +16,10 @@ const TeacherCourse = ({ course }) => {
                 style={{ width: '100%' }}
                 cover={(
                     <div className={styles.cover}>
-                        {course.featured && !_.isEmpty(course.featured) && (
-                            <Tag color={featuredColor(0)} key={_.uniqueId('course_feature_')}>{_.toUpper(formatMessage({ id: course.featured[0] }))}</Tag>
+                        {course.featured && (
+                            <div className={styles.featured}>
+                                <FeaturedBadge type={course.featured} />
+                            </div>
                         )}
                         <img alt="cover" src={course.avatar} />
                     </div>

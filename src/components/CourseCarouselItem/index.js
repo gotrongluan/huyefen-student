@@ -3,7 +3,7 @@ import _ from 'lodash';
 import router from 'umi/router';
 import Link from 'umi/link';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Popover, Card, Button, Icon, Tag, Rate, Row, Col, Divider } from 'antd';
+import { Popover, Card, Button, Icon, Rate, Row, Col, Divider } from 'antd';
 import FeaturedBadge from '@/components/FeaturedBadge';
 import { truncate, transAuthors, roundStarRating } from '@/utils/utils';
 import styles from './index.less';
