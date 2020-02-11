@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import { Descriptions, Divider, Avatar, Skeleton, Spin, Icon, List, Row } from 'antd';
 import ViewMore from '@/components/ViewMore';
 import { numberWithCommas, minutesToHour } from '@/utils/utils';
-import COURSE_OVERVIEW from '@/assets/fakers/courseOverview';
-import INSTRUCTORS from '@/assets/fakers/instructors';
 import styles from './Overview.less';
 
 const InstructorMeta = ({ avatar, name, job }) => {
@@ -20,31 +19,34 @@ const InstructorMeta = ({ avatar, name, job }) => {
         </div>
     )
 } 
-const Overview = ({ match }) => {
-    const [courseOverview, setCourseInfo] = useState(null);
-    const [courseOverviewLoading, setCourseInfoLoading] = useState(false);
-    const [instructors, setInstructors] = useState(null);
-    const [instructorsLoading, setInstructorsLoading] = useState(false);
+const Overview = ({ match, dispatch, ...props }) => {
+    const { courseId } = match.params;
+    const {
+        overview,
+        instructors,
+        overviewLoading,
+        instructorsLoading
+    } = props;
     useEffect(() => {
-        setCourseInfoLoading(true);
-        setTimeout(() => {
-            setCourseInfo(COURSE_OVERVIEW);
-            setCourseInfoLoading(false);
-        }, 1200);
-    }, [match.params.courseId]);
+        dispatch({
+            type: 'learning/fetchOverview',
+            payload: courseId
+        });
+        return () => dispatch({ type: 'learning/resetOverview'});
+    }, [courseId]);
     useEffect(() => {
-        setInstructorsLoading(true);
-        setTimeout(() => {
-            setInstructors(INSTRUCTORS);
-            setInstructorsLoading(false);
-        }, 900);
-    }, [match.params.courseId]);
+        dispatch({
+            type: 'learning/fetchInstructors',
+            payload: courseId
+        });
+        return () => dispatch({ type: 'learning/resetInstructors' });
+    }, [courseId]);
     return (
         <div className={styles.overview}>
             <div className={styles.about}>
                 <div className={styles.title}>About this course</div>
                 <div className={styles.main}>
-                    {!courseOverview || courseOverviewLoading ? (
+                    {!overview || overviewLoading ? (
                         <div className={styles.loading}>
                             <div className={styles.inlineDiv}>
                                 <Spin indicator={<Icon type="loading-3-quarters" style={{ fontSize: 36 }} spin/>} />
@@ -53,7 +55,7 @@ const Overview = ({ match }) => {
                     ) : (
                         <>
                             <div className={styles.summary}>
-                                {courseOverview.summary}
+                                {overview.summary}
                             </div>
                             <Descriptions
                                 bordered
@@ -63,26 +65,26 @@ const Overview = ({ match }) => {
                                 className={styles.table}
                             >
                                 <Descriptions.Item label="Level">
-                                    {courseOverview.level}
+                                    {overview.level}
                                 </Descriptions.Item>
-                                <Descriptions.Item label="Lectures">{courseOverview.numOfLectures}</Descriptions.Item>
-                                <Descriptions.Item label="Estimate time">{minutesToHour(courseOverview.totalTime)}</Descriptions.Item>
-                                <Descriptions.Item label="Languages">{courseOverview.language}</Descriptions.Item>
-                                <Descriptions.Item label="Students">{numberWithCommas(courseOverview.numOfEnrolled)}</Descriptions.Item>
+                                <Descriptions.Item label="Lectures">{overview.numOfLectures}</Descriptions.Item>
+                                <Descriptions.Item label="Estimate time">{minutesToHour(overview.totalTime)}</Descriptions.Item>
+                                <Descriptions.Item label="Languages">{overview.language}</Descriptions.Item>
+                                <Descriptions.Item label="Students">{numberWithCommas(overview.numOfEnrolled)}</Descriptions.Item>
                                 <Descriptions.Item label="Ratings">
-                                    <span className={styles.value}>{courseOverview.starRating}</span>
+                                    <span className={styles.value}>{overview.starRating}</span>
                                     <Icon type="star" theme="filled" style={{ color: '#fada5e', marginLeft: 7 }} />
                                 </Descriptions.Item>
                                 <Descriptions.Item span={3} label="Description">
                                     <ViewMore height={400}>
-                                        <div className={styles.description} dangerouslySetInnerHTML={{ __html: courseOverview.description }} />
+                                        <div className={styles.description} dangerouslySetInnerHTML={{ __html: overview.description }} />
                                     </ViewMore>
                                 </Descriptions.Item>
                                 <Descriptions.Item span={3} label="What you'll learn">
                                     <ViewMore height={300}>
                                         <List
                                             className={styles.whatLearn}
-                                            dataSource={courseOverview.whatLearn}
+                                            dataSource={overview.whatLearn}
                                             itemLayout="horizontal"
                                             split={false}
                                             renderItem={item => (
@@ -101,7 +103,7 @@ const Overview = ({ match }) => {
                                     <ViewMore height={300}>
                                         <List
                                             className={styles.requirements}
-                                            dataSource={courseOverview.requirements}
+                                            dataSource={overview.requirements}
                                             itemLayout="horizontal"
                                             split={false}
                                             renderItem={item => (
@@ -159,4 +161,11 @@ const Overview = ({ match }) => {
     ) 
 };
 
-export default Overview;
+export default connect(
+    ({ learning, loading }) => ({
+        overview: learning.overview,
+        instructors: learning.instructors,
+        overviewLoading: !!loading.effects['learning/fetchOverview'],
+        instructorsLoading: !!loading.effects['learning/fetchInstructors']
+    })
+)(Overview);
