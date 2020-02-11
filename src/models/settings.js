@@ -1,5 +1,6 @@
 import { delay } from '@/utils/utils';
 import AREAS_MENU from '@/assets/fakers/areasMenu';
+import JOBS from '@/assets/fakers/jobs';
 
 export default {
     namespace: 'settings',
@@ -14,7 +15,8 @@ export default {
             yield put({
                 type: 'save',
                 payload: {
-                    areasMenu: AREAS_MENU
+                    areasMenu: AREAS_MENU,
+                    jobs: JOBS
                 }
             });
         }

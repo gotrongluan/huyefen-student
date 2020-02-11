@@ -1,21 +1,26 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import { Row, Col, Form, Input, Button, Select, DatePicker, message } from 'antd';
 import Spin from '@/elements/spin/secondary';
-//import * as globalActions from '_redux/actions/global';
 import styles from './Register.less';
 
 const { Option } = Select;
 
-const Register = (props) => {
-
+const Register = ({ dispatch, ...props }) => {
+    const { jobs, jobsLoading, loading } = props;
+    useEffect(() => {
+        if (!jobs)
+            dispatch({
+                type: 'settings/fetch'
+            });
+    }, []);
     const handleSubmit = e => {
         e.preventDefault();
         const {
-            //signup,
             form,
         } = props;
         const errors = form.getFieldsError();
@@ -31,12 +36,12 @@ const Register = (props) => {
             name, password, phone, gender, email,
             birthday: birthday.format("DD/MM/YYYY")
         };
-        message.success('success');
-        //signup(info);
+        dispatch({
+            type: 'user/register',
+            payload: info
+        });
     }
-
     const { getFieldDecorator } = props.form;
-    const { loading } = props;
     return (
         <Row className={styles.register}>
             <div className={styles.title}>Register</div>
@@ -109,11 +114,13 @@ const Register = (props) => {
                                 }
                                 size="large"
                                 style={{ width: '100%' }}
+                                disabled={!jobs || jobsLoading}
+                                loading={!jobs || jobsLoading}
+                                dropdownClassName={styles.jobDropdown}
                             >
-                                <Option value="student">Student</Option>
-                                <Option value="teacher">Teacher</Option>
-                                <Option value="doctor">Doctor</Option>
-                                <Option value="others">Others</Option>
+                                {_.map(jobs, job => (
+                                    <Option key={job.key}>{job.title}</Option>
+                                ))}
                             </Select>
                         )}
                     </Form.Item>
@@ -169,4 +176,12 @@ const Register = (props) => {
 //     signup: info => dispatch(globalActions.signup(info))
 // });
 
-export default Form.create()(Register);
+export default Form.create()(
+    connect(
+        ({ settings, loading }) => ({
+            jobs: settings.jobs,
+            jobsLoading: !!loading.effects['settings/fetch'],
+            loading: !!loading.effects['user/register']
+        })
+    )(Register)
+);
