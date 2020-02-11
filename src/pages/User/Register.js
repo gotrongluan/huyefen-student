@@ -21,17 +21,16 @@ const Register = (props) => {
         const errors = form.getFieldsError();
 
         if (_.some(errors, err => err)) return message.error(formatMessage({ id: 'register.invalidinput' }));
-        const { name, phone, address, password, gender, birthday, job } = form.getFieldsValue();
+        const { name, phone, email, password, gender, birthday, job } = form.getFieldsValue();
         if (!phone || phone.trim().length === 0) return message.error(formatMessage({ id: 'register.emptyphone' }));
         if (!password || password.trim().length === 0) return message.error(formatMessage({ id: 'register.emptypassword' }));
         if (!name || name.trim().length === 0) return message.error(formatMessage({ id: 'register.emptyname' }));
+        if (!email || email.trim().length === 0) return message.error(formatMessage({ id: 'register.emptyemail' }));
         if (!job) return message.error('You must select your job!');
-        let info = {
-            name, password, phone, gender,
+        const info = {
+            name, password, phone, gender, email,
             birthday: birthday.format("DD/MM/YYYY")
         };
-        if (address !== '')
-            info = { ...info, address };
         message.success('success');
         //signup(info);
     }
@@ -119,9 +118,14 @@ const Register = (props) => {
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator('address')(
+                        {getFieldDecorator('email', {
+                            rules: [
+                                { required: true, message: formatMessage({ id: 'register.email.rules.required' }) },
+                                { pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: formatMessage({ id: 'register.email.rules.pattern' })}
+                            ]
+                        })(
                             <Input
-                                placeholder={formatMessage({ id: 'register.address.placeholder' })}
+                                placeholder={formatMessage({ id: 'register.email.placeholder' })}
                                 size="large"
                             />,
                         )}
