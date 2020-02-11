@@ -20,7 +20,8 @@ const Friend= ({ match, dispatch, ...props }) => {
         friendsInitLoading,
         coursesInitLoading,
         friendsLoading,
-        coursesLoading
+        coursesLoading,
+        chatLoading
     } = props;
     const { friendId } = match.params;
     useEffect(() => {
@@ -128,8 +129,26 @@ const Friend= ({ match, dispatch, ...props }) => {
             });
         }
     };
-    const handleChat = friendId => {
-
+    const handleChat = (friendId, name, avatar)  => {
+        dispatch({
+            type: 'friend/chat',
+            payload: {
+                friendId,
+                onYes: converId => router.push(`/messenger/${converId}`),
+                onNo: () => {
+                    dispatch({
+                        type: 'messenger/saveFirstConversation',
+                        payload: {
+                            _id: 'new_conver',
+                            avatar,
+                            name,
+                            lastMessage: 'Typing message...'
+                        }
+                    });
+                    router.push('/messenger');
+                }
+            }
+        })
     };
     const handleMoreCourses = () => {
         dispatch({
@@ -206,7 +225,7 @@ const Friend= ({ match, dispatch, ...props }) => {
                                 <Button type="primary" icon={icon} shape="round" onClick={() => handleRelation(info.status, info._id)}>
                                     {relText}
                                 </Button>
-                                <Button type="primary" icon="message" shape="round" onClick={() => handleChat(info._id)}>
+                                <Button type="primary" icon={chatLoading ? "loading" : "message"} shape="round" onClick={() => handleChat(info._id, info.name, info.avatar)}>
                                     Chat
                                 </Button>
                             </Button.Group>
@@ -324,6 +343,7 @@ export default connect(
         coursesInitLoading: !!loading.effects['friend/fetchCourses'],
         friendsInitLoading: !!loading.effects['friend/fetchFriends'],
         coursesLoading: !!loading.effects['friend/moreCourses'] || !!loading.effects['friend/allCourses'],
-        friendsLoading: !!loading.effects['friend/moreFriends'] || !!loading.effects['friend/allFriends']
+        friendsLoading: !!loading.effects['friend/moreFriends'] || !!loading.effects['friend/allFriends'],
+        chatLoading: !!loading.effects['friend/chat']
     })
 )(Friend);
