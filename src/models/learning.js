@@ -3,6 +3,9 @@ import { message } from 'antd';
 import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
 import COURSE_OVERVIEW from '@/assets/fakers/courseOverview';
 import INSTRUCTORS from '@/assets/fakers/instructors';
+import ANNOUNCEMENTS from '@/assets/fakers/announcements';
+import OLD_ANNOUNCEMENTS from '@/assets/fakers/oldAnnouncements';
+import COMMENTS from '@/assets/fakers/answers';
 
 const REVIEW = {
     _id: 1,
@@ -15,7 +18,11 @@ const initialState = {
     info: null,
     overview: null,
     instructors: null,
-    review: null
+    review: null,
+    announcements: {
+        hasMore: true,
+        list: null
+    }
 };
 
 export default {
@@ -51,6 +58,30 @@ export default {
                 type: 'saveReview',
                 payload: REVIEW
             });
+        },
+        *fetchAnnouncements({ payload: courseId }, { call, put }) {
+            yield delay(1500);
+            yield put({
+                type: 'saveAnnouncements',
+                payload: {
+                    hasMore: true,
+                    data: ANNOUNCEMENTS
+                }
+            })
+        },
+        *moreAnnouncements({ payload: courseId }, { call, put, select }) {
+            const { announcements: { list } } = yield select(state => state.learning);
+            yield delay(1200);
+            yield put({
+                type: 'pushAnnouncements',
+                payload: {
+                    hasMore: false,
+                    data: OLD_ANNOUNCEMENTS
+                }
+            });
+        },
+        *moreComments({ payload: announcementId }, { call, put }) {
+
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
@@ -98,6 +129,29 @@ export default {
         },
         resetReview(state) {
             return { ...state, review: null };
+        },
+        saveAnnouncements(state, { payload }) {
+            const { hasMore, data } = payload;
+            return {
+                ...state,
+                announcements: {
+                    hasMore,
+                    list: { ...data }
+                }
+            };
+        },
+        pushAnnouncements(state, { payload }) {
+            const { hasMore, data } = payload;
+            return {
+                ...state,
+                announcements: {
+                    hasMore,
+                    list: {
+                        ...state.announcements.list,
+                        ...data
+                    }
+                }
+            };
         }
     }
 }

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import { Skeleton, Avatar, Row, Col, Input, List, Button, Divider, Icon, message } from 'antd';
 import TimeAgo from 'react-timeago';
 import ViewMore from '@/components/ViewMore';
-import ANNOUNCEMENTS from '@/assets/fakers/announcements';
-import OLD_ANNOUNCEMENTS from '@/assets/fakers/oldAnnouncements';
-import COMMENTS from '@/assets/fakers/answers';
 import { avatarSrc } from '@/config/constants';
 import styles from './Announcements.less';
 
@@ -20,7 +18,6 @@ const LoadingAnnouncement = () => {
 const CommentInput = ({ onPressEnter }) => {
     const [value, setValue] = useState('');
     const handlePressEnter = e => {
-        
         if (!e.shiftKey) {
             e.preventDefault();
             onPressEnter(value);
@@ -42,58 +39,58 @@ const CommentInput = ({ onPressEnter }) => {
     )
 };
 
-const Announcements = ({ match }) => {
-    const [announcements, setAnnouncements] = useState(null);
-    const [initLoading, setInitLoading] = useState(false);
-    const [loading, setLoading] = useState(false);
+const Announcements = ({ match, dispatch, ...props }) => {
+    const {
+        announcements,
+        loading,
+        initLoading,
+        hasMore
+    } = props;
+    const { courseId } = match.params;
     useEffect(() => {
-        setInitLoading(true);
-        setTimeout(() => {
-            setAnnouncements(ANNOUNCEMENTS);
-            setInitLoading(false);
-        }, 1200);
-    }, [match.params.courseId]);
+        dispatch({
+            type: 'learning/fetchAnnouncements',
+            payload: courseId
+        });
+    }, [courseId]);
     const handleMoreAnnouncements = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setAnnouncements({
-                ...announcements,
-                list: {
-                    ...announcements.list,
-                    ...OLD_ANNOUNCEMENTS
-                }
-            })
-            setLoading(false);
-        }, 1000);
+        dispatch({
+            type: 'learning/moreAnnouncements',
+            payload: courseId
+        });
     };
     const handleMoreComments = announcementId => {
-        setAnnouncements({
-            ...announcements,
-            list: {
-                ...announcements.list,
-                [announcementId]: {
-                    ...announcements.list[announcementId],
-                    commentsLoading: true
-                }
-            }
+        dispatch({
+            type: 'learning/moreComments',
+            payload: announcementId
         });
+        // setAnnouncements({
+        //     ...announcements,
+        //     list: {
+        //         ...announcements.list,
+        //         [announcementId]: {
+        //             ...announcements.list[announcementId],
+        //             commentsLoading: true
+        //         }
+        //     }
+        // });
 
-        setTimeout(() => {
-            setAnnouncements({
-                ...announcements,
-                list: {
-                    ...announcements.list,
-                    [announcementId]: {
-                        ...announcements.list[announcementId],
-                        comments: [
-                            ...announcements.list[announcementId]['comments'],
-                            ...COMMENTS
-                        ],
-                        commentsLoading: false
-                    }
-                }
-            });
-        }, 1200);
+        // setTimeout(() => {
+        //     setAnnouncements({
+        //         ...announcements,
+        //         list: {
+        //             ...announcements.list,
+        //             [announcementId]: {
+        //                 ...announcements.list[announcementId],
+        //                 comments: [
+        //                     ...announcements.list[announcementId]['comments'],
+        //                     ...COMMENTS
+        //                 ],
+        //                 commentsLoading: false
+        //             }
+        //         }
+        //     });
+        // }, 1200);
     };
     const handleComment = (annoucementId, comment) => {
         if (comment !== '') {
@@ -101,14 +98,14 @@ const Announcements = ({ match }) => {
         }
     };
     const loadMore = (
-        (!initLoading && !loading && announcements && announcements.loadMore) ? (
+        (!initLoading && !loading && announcements && hasMore) ? (
             <div className={styles.loadMore}>
                 <Button size="small" onClick={handleMoreAnnouncements}>More announcements</Button>
             </div>
         ) : null
     );
 
-    let announcementData = announcements ? _.orderBy(announcements.list, ['createdAt'], ['desc']) : null;
+    let announcementData = announcements ? _.orderBy(announcements, ['createdAt'], ['desc']) : null;
     if (loading && announcementData) {
         announcementData = _.concat(announcementData, [
             {
@@ -223,4 +220,11 @@ const Announcements = ({ match }) => {
     )
 };
 
-export default Announcements;
+export default connect(
+    ({ learning, loading }) => ({
+        initLoading: !!loading.effects['learning/fetchAnnouncements'],
+        loading: !!loading.effects['learning/moreAnnouncements'],
+        announcements: learning.announcements.list,
+        hasMore: learning.announcements.hasMore
+    })
+)(Announcements);
