@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash'
+import _ from 'lodash';
+import { connect } from 'dva';
 import { Layout, Menu, Checkbox, Skeleton, Row, message, Spin, Icon, Button } from 'antd';
 import router from 'umi/router';
 import Link from 'umi/link';
-import PageLoading from '@/components/PageLoading';
 import ScrollLayout from '@/components/ScrollLayout';
-import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
 import styles from './index.less';
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
-const MenuItemGroup = Menu.ItemGroup;
 
 const Header = ({ loading, name, authors, courseId }) => {
     return (
@@ -41,30 +39,22 @@ const Header = ({ loading, name, authors, courseId }) => {
 };
 
 
-const LearningLayout = ({ children, match, location, history }) => {
-    const [verified, setVerification] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [courseInfo, setCourseInfo] = useState(null);
+const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
+    const { courseId } = match.params;
+    const {
+        courseInfo,
+        loading
+    } = props;
     useEffect(() => {
-        message.success('Learning');
-        setTimeout(() => {
-            setVerification(true);
-            //call api fetch course
-            setLoading(true);
-            setTimeout(() => {
-                setCourseInfo(COURSE_INFO);
-                setLoading(false);
-            }, 1000);
-        }, 3000);
-    }, []);
+        dispatch({
+            type: 'learning/fetchInfo',
+            payload: courseId
+        });
+        return () => dispatch({ type: 'learning/resetInfo' });
+    }, [courseId]);
     const handleChangeLectureStatus = (lectureId, status) => {
         message.success(`You save ${lectureId} with ${status}`);
     };
-    if (!verified) {
-        return (
-            <PageLoading />
-        );
-    }
     let openKeys;
     if (courseInfo) {
         openKeys = _.map(courseInfo.syllabus, chapter => chapter._id);
@@ -130,4 +120,9 @@ const LearningLayout = ({ children, match, location, history }) => {
     )
 };
 
-export default LearningLayout;
+export default connect(
+    ({ learning, loading }) => ({
+        courseInfo: learning.info,
+        loading: !!loading.effects['learning/fetchInfo']
+    })
+)(LearningLayout);

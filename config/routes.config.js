@@ -42,7 +42,7 @@ export default [
     {
         path: '/learning/:courseId', component: '../layouts/LearningLayout',
         title: 'route.learning',
-        Routes: ['./src/routes/Authorized', './src/routes/Authenticate'],
+        Routes: ['./src/routes/Authorized', './src/routes/Authenticate', './src/routes/ValidCourse'],
         routes: [
             {
                 path: '/learning/:courseId/overview',
