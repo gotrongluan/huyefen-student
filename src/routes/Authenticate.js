@@ -1,31 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import withRouter from 'umi/withRouter';
 import Redirect from 'umi/redirect';
 import { connect } from 'dva';
-import PageLoading from '@/components/PageLoading';
-import storage from '@/utils/storage';
 
-const Authenticate = ({ dispatch, children, ...props }) => {
-    const [status, setStatus] = useState('pending');
+const Authenticate = ({ children, ...props }) => {
     const { user, location } = props;
-    useEffect(() => {
-        if (user)
-            setStatus('authenticated');
-        else {
-            const token = storage.getToken();
-            if (token)
-                dispatch({
-                    type: 'user/fetch',
-                    payload: {
-                        callback: () => setStatus('authenticated')
-                    }
-                });
-            else setStatus('unauthorized');
-        }
-    }, []);
-    if (status === 'pending') return <PageLoading />;
-    if (status === 'authenticated') return <div>{children}</div>;
-    return (
+    return user ? (
+        <div>{children}</div>
+    ) : (
         <Redirect 
             to={{
                 pathname: '/user/login',
@@ -34,8 +16,7 @@ const Authenticate = ({ dispatch, children, ...props }) => {
                 }
             }}
         />
-    )
-
+    );
 };
 
 export default withRouter(connect(

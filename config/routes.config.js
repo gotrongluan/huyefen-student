@@ -42,7 +42,7 @@ export default [
     {
         path: '/learning/:courseId', component: '../layouts/LearningLayout',
         title: 'route.learning',
-        Routes: ['./src/routes/Authenticate'],
+        Routes: ['./src/routes/Authorized', './src/routes/Authenticate'],
         routes: [
             {
                 path: '/learning/:courseId/overview',
@@ -97,7 +97,7 @@ export default [
                 path: '/messenger/:converId?',
                 component: './Messenger/index.js',
                 title: 'route.messenger.chat',
-                Routes: ['./src/routes/Authenticate']
+                Routes: ['./src/routes/Authorized', './src/routes/Authenticate']
             },
             {
                 redirect: '/exception/404'
@@ -106,6 +106,7 @@ export default [
     },
     {
         path: '/', component: '../layouts/BasicLayout',
+        Routes: ['./src/routes/Authorized'],
         title: 'route.basic',
         routes: [
             {

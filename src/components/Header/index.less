@@ -29,7 +29,7 @@
         }
     }
     .rightContent {
-        &, .account, .messenger, .notifications, .cart, .teaching, .myCourses{ 
+        &, .account, .messenger, .notifications, .cart, .teaching, .myCourses, .login{ 
             float: right;
             cursor: pointer;
         }
@@ -49,6 +49,16 @@
         }
         .cart {
             padding: 0 7.5px 0 15px;
+        }
+        .login {
+            color: @primary-color;
+            .text {
+                margin-left: 5px;
+            }
+            &:hover {
+                opacity: 0.75;
+                background-color: rgba(0, 21, 41, 0.6);
+            }
         }
         .teaching {
             .teachingText {
