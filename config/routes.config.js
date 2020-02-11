@@ -149,35 +149,31 @@ export default [
                 path: '/settings',
                 title: 'route.basic.settings',
                 component: '../layouts/SettingsLayout',
+                Routes: ['./src/routes/Authenticate'],
                 routes: [
                     {
                         path: '/settings/profile',
                         title: 'route.basic.settings.profile',
-                        Routes: ['./src/routes/Authenticate'],
                         component: './Settings/Profile'
                     },
                     {
                         path: '/settings/change-password',
                         title: 'route.basic.settings.changepass',
-                        Routes: ['./src/routes/Authenticate'],
                         component: './Settings/ChangePassword'
                     },
                     {
                         path: '/settings/payment-methods',
                         title: 'route.basic.settings.paymentmethods',
-                        Routes: ['./src/routes/Authenticate'],
                         component: './Settings/PaymentMethods'
                     },
                     {
                         path: '/settings/email',
                         title: 'route.basic.settings.email',
-                        Routes: ['./src/routes/Authenticate'],
                         component: './Settings/Email'
                     },
                     {
                         path: '/settings/note-highlight',
                         title: 'route.basic.settings.notehighlight',
-                        Routes: ['./src/routes/Authenticate'],
                         component: './Settings/NoteHighlight'
                     },
                     {

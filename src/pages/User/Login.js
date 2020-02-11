@@ -1,14 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import withRouter from 'umi/withRouter';
 import { Row, Form, Input, Button, Checkbox, Icon, message } from 'antd';
-import Spin from '@/elements/spin/secondary';
 //import * as GlobalActions from '_redux/actions/global';
 import styles from './Login.less';
 
-const Login = (props) => {
+const Login = ({ dispatch, ...props }) => {
+    const { loading, location } = props;
     const handleSubmit = e => {
         e.preventDefault();
         const { form } = props;
@@ -18,13 +19,19 @@ const Login = (props) => {
         const { phone, password } = form.getFieldsValue();
         if (!phone || phone.trim().length === 0) return message.error(formatMessage({ id: 'login.emptyphone' }));
         if (!password || password.trim().length === 0) return message.error(formatMessage({ id: 'login.emptypassword' }));
-        return message.success(formatMessage({ id: 'login.success' }));
+        const from = (location.state && location.state.from) || '/';
+        dispatch({
+            type: 'user/login',
+            from,
+            payload: {
+                phone, password
+            }
+        });
         // const { from } = location.state || { from: { pathname: '/home' } };
         //login(phone, password, from);
     }
 
     const { getFieldDecorator } = props.form;
-    const { loading } = props;
     return (
         <Row className={styles.login}>
             <div className={styles.title}>{formatMessage({ id: 'login.title' })}</div>
@@ -85,4 +92,4 @@ const Login = (props) => {
 // });
 
 // export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form.create()(Login)));
-export default withRouter(Form.create()(Login));
+export default withRouter(Form.create()(connect(({ loading }) => ({ loading: !!loading.effects['user/login'] }))(Login)));

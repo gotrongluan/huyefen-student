@@ -24,11 +24,13 @@ export default {
     state: null,
     effects: {
         *fetch({ payload }, { call, put }) {
+            const { callback } = payload;
             yield delay(1400);
             yield put({
                 type: 'save',
                 payload: USER
             });
+            if (callback) callback();
             //set FCM token.
         },
         *login({ from, payload }, { call, put }) {
