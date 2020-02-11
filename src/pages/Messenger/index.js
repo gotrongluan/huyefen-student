@@ -2,42 +2,41 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import moment from 'moment';
+import { connect } from 'dva';
 import router from 'umi/router';
 import withRouter from 'umi/withRouter';
 import { Row, Col, Avatar, List, Collapse, Input, Button, Icon, Spin as Loading, message as messagePopup, Skeleton } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import MessageView from './MessageView';
-import Spin from '@/elements/spin/secondary';
 import PaperPlane from '@/elements/icon/PaperPlane';
 import { truncate, fromNow } from '@/utils/utils';
 import { usePrevious } from '@/utils/hooks';
-import OLD_MESSAGES from '@/assets/fakers/oldMessages';
-import MESSAGES from '@/assets/fakers/messages';
-import CONVERSATIONS from '@/assets/fakers/conversations';
-import OLD_CONVERSATIONS from '@/assets/fakers/oldConversations';
 import styles from './index.less';
 
 
 const { Panel } = Collapse;
 
-const Messenger = (props) => {
+const Messenger = ({ dispatch, match, ...props }) => {
     const [firstUser, setFirstUser] = useState(null);
     const [curConverId, setCurrentConverId] = useState(null);
     const [message, setMessage] = useState('');
-    const [conversations, setConversations] = useState(null);
-    let [messages, setMessages] = useState([]);
-    const [currentUser, setCurrentUser] = useState(null);
-    const [conversationsInitLoading, setConversationsInitLoading] = useState(false);
-    const [messagesInitLoading, setMessagesInitLoading] = useState(false);
-    const [currentUserLoading, setCurrentUserLoading] = useState(false);
-    const [messagesLoading, setMessagesLoading] = useState(false);
-    const [conversationsLoading, setConversationsLoading] = useState(false);
+    const {
+        firstConversation,
+        conversations,
+        currentUser,
+        hasMoreConversations,
+        hasMoreMessages,
+        conversationsInitLoading,
+        messagesInitLoading,
+        currentUserLoading,
+        messagesLoading,
+        conversationsLoading
+    } = props;
+    let { messages } = props;
     const prevConversations = usePrevious(conversations);
-    const { match: {
-        params: { converId } 
-    } } = props;
+    const { converId } = match.params;
 
-    const firstConversation = null;
+    //const firstConversation = null;
     // const firstConversation = {
     //     _id: 'new_conver',
     //     avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0',
@@ -46,26 +45,24 @@ const Messenger = (props) => {
     // };
 
     useEffect(() => {
-        fetchConversations();
-        return () => {
-            resetConversations();
-            resetMessages();
-            resetCurrentUser();
-        };
+        dispatch({
+            type: 'messenger/fetchConversations'
+        });
+        return () => dispatch({
+            type: 'messenger/reset'
+        });
     }, []);
 
     useEffect(() => {
-        //fetchMessages
         if (converId) {
-            fetchMessages(converId);
-            //return () => resetMessages();
-        }
-    }, [converId]);
-
-    useEffect(() => {
-        if (converId) {
-            fetchCurrentUser(converId);
-            //return () => resetCurrentUser();
+            dispatch({
+                type: 'messenger/fetchMessages',
+                payload: converId
+            });
+            dispatch({
+                type: 'messenger/fetchUser',
+                payload: converId
+            });
         }
     }, [converId]);
 
@@ -77,7 +74,10 @@ const Messenger = (props) => {
                     _id: 1,
                     converId: firstConversation._id
                 };
-                setCurrentUser({ ...user });
+                dispatch({
+                    type: 'messenger/saveUser',
+                    payload: { ...user }
+                });
                 setFirstUser({ ...user });
             }
             else {
@@ -88,70 +88,27 @@ const Messenger = (props) => {
                 }
             }
         }
-    }, [converId, conversations, prevConversations]);
+    }, [conversations]);
 
     const fetchOldMessages = converId => {
-        setMessagesLoading(true);
-        setTimeout(() => {
-            setMessages([...OLD_MESSAGES, ...messages]);
-            setMessagesLoading(false);
-        }, 1200);
-    };
-
-    const fetchMessages = converId => {
-        setMessagesInitLoading(true);
-        setTimeout(() => {
-            setMessages(MESSAGES);
-            setMessagesInitLoading(false);
-        }, 1800);
-    };
-
-    const fetchCurrentUser = converId => {
-        setCurrentUserLoading(true);
-        setTimeout(() => {
-            setCurrentUser({
-                converId,
-                _id: 1,
-                name: 'Ngoc Hanh Vuong',
-                avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0'
+        if (hasMoreMessages)
+            dispatch({
+                type: 'messenger/moreMessages',
+                payload: converId
             });
-            setCurrentUserLoading(false);
-        }, 2000);
     };
-
-    const fetchConversations = () => {
-        setConversationsInitLoading(true);
-        setTimeout(() => {
-            setConversations(CONVERSATIONS);
-            setConversationsInitLoading(false);
-        }, 2000);
-    };
-
-    const fetchOldConversations = () => {
-        setConversationsLoading(true);
-        setTimeout(() => {
-            setConversations({
-                ...conversations,
-                ...OLD_CONVERSATIONS
-            });
-            setConversationsLoading(false);
-        }, 1500);
-    };
-
-    const resetCurrentUser = () => setCurrentUser(null);
-
-    const resetConversations = () => setConversations(null);
-
-    const resetMessages = () => setMessages([]);
 
     const handleScrollConverList = e => {
         const element = e.srcElement;
         if (element.scrollTop === element.scrollHeight - (window.innerHeight - 128)) {
-            if (!conversationsInitLoading && !conversationsLoading) fetchOldConversations();
+            if (!conversationsInitLoading && !conversationsLoading && hasMoreConversations)
+                dispatch({
+                    type: 'messenger/moreConversations'
+                });
         }
     };
 
-    const handleClickConver = converId => {
+    const handleClickConver = newConverId => {
         // const { fetchMessages, fetchCurrentUser, currentUser, saveCurrentUser, resetMessages, userId } = this.props;
         // const { curConverId } = this.state;
         // if (currentUser.converId !== converId) {
@@ -177,15 +134,22 @@ const Messenger = (props) => {
         //         });
         //     }
         // }
-        if (currentUser.converId !== converId) {
-            if (converId === 'new_conver') {
-                resetMessages();
-                setCurrentUser({
-                    ...firstUser
-                });
-                router.push('/messenger');
+        if (converId !== newConverId) {
+            if (newConverId === 'new_conver') {
+                if (converId) {
+                    dispatch({
+                        type: 'messenger/resetMessages'
+                    });
+                    dispatch({
+                        type: 'messenger/saveUser',
+                        payload: {
+                            ...firstUser
+                        }
+                    })
+                    router.push('/messenger');
+                }
             }
-            else router.push(`/messenger/${converId}`);
+            else router.push(`/messenger/${newConverId}`);
         }
     };
 
@@ -319,7 +283,7 @@ const Messenger = (props) => {
                         ) : (
                             <MessageView 
                                 messages={messagesData}
-                                converId={(currentUser && currentUser.converId) || null}
+                                converId={converId}
                                 fetchOldMessages={fetchOldMessages}
                                 oldLoading={messagesLoading}
                             />
@@ -400,4 +364,20 @@ const Messenger = (props) => {
     );
 };
 
-export default withRouter(Messenger);
+export default withRouter(
+    connect(
+        ({ messenger, loading }) => ({
+            conversations: messenger.conversations.list,
+            messages: _.concat(messenger.messages.list, messenger.messages.sending),
+            currentUser: messenger.user,
+            firstConversation: messenger.conversations.first,
+            hasMoreConversations: messenger.conversations.hasMore,
+            hasMoreMessages: messenger.messages.hasMore,
+            conversationsInitLoading: !!loading.effects['messenger/fetchConversations'],
+            conversationsLoading: !!loading.effects['messenger/moreConversations'],
+            messagesInitLoading: !!loading.effects['messenger/fetchMessages'],
+            messagesLoading: !!loading.effects['messenger/moreMessages'],
+            currentUserLoading: !!loading.effects['messenger/fetchUser']
+        })
+    )(Messenger)
+);
