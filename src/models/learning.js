@@ -4,10 +4,18 @@ import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
 import COURSE_OVERVIEW from '@/assets/fakers/courseOverview';
 import INSTRUCTORS from '@/assets/fakers/instructors';
 
+const REVIEW = {
+    _id: 1,
+    starRating: 3.5,
+    comment: '<p>Hi Nick, This is a really good beginner\'s Django 2.2 course. I have bought your advanced one as I want to know about CRUD functions in Django and forms. Your explanations are clear and precise. I like your sense of humour in the course. If you can please produce courses on more frameworks of python like flask and using different databases for example MongoDB. Well Done Nick on creating this course.</p><div>This is a very good course. I think if I want to fuck my love, I will learn this course. Thao is my ex-girl friend. I put my pennis into her and she feel very very Oh oh.</div><div>I will be here today. See you again!!</div>',
+    createdAt: 1578813445900
+};
+
 const initialState = {
     info: null,
     overview: null,
-    instructors: null
+    instructors: null,
+    review: null
 };
 
 export default {
@@ -34,6 +42,14 @@ export default {
             yield put({
                 type: 'saveInstructors',
                 payload: INSTRUCTORS
+            });
+        },
+        *fetchReview({ payload: courseId }, { call, put }) {
+            yield delay(1100);
+            //empty review = {}
+            yield put({
+                type: 'saveReview',
+                payload: REVIEW
             });
         },
         *validCourse({ payload }, { call }) {
@@ -73,6 +89,15 @@ export default {
         },
         resetInstructors(state) {
             return { ...state, instructors: null };
+        },
+        saveReview(state, { payload }) {
+            return {
+                ...state,
+                review: { ...payload }
+            }
+        },
+        resetReview(state) {
+            return { ...state, review: null };
         }
     }
 }

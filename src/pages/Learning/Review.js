@@ -1,34 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import { Rate, Input, Button, Spin, Icon, message } from 'antd';
+import { connect } from 'dva';
+import { Rate, Button, Spin, Icon, message } from 'antd';
 import { Editor, EditorState } from 'draft-js';
 import { exportToHTML } from '@/utils/editor';
 import TimeAgo from 'react-timeago';
 import styles from './Review.less';
 
-const Review = ({ match }) => {
-    const [review, setReview] = useState(null);
-    const [initLoading, setInitLoading] = useState(false);
+const Review = ({ match, dispatch, ...props }) => {
     const [starVal, setStarVal] = useState(0);
     const [comment, setComment] = useState(EditorState.createEmpty());
+    const {
+        review,
+        loading
+    } = props;
+    const { courseId } = match.params;
     useEffect(() => {
-        setInitLoading(true);
-        setTimeout(() => {
-            setReview({
-                _id: 1,
-                starRating: 3.5,
-                comment: '<p>Hi Nick, This is a really good beginner\'s Django 2.2 course. I have bought your advanced one as I want to know about CRUD functions in Django and forms. Your explanations are clear and precise. I like your sense of humour in the course. If you can please produce courses on more frameworks of python like flask and using different databases for example MongoDB. Well Done Nick on creating this course.</p><div>This is a very good course. I think if I want to fuck my love, I will learn this course. Thao is my ex-girl friend. I put my pennis into her and she feel very very Oh oh.</div><div>I will be here today. See you again!!</div>',
-                createdAt: 1578813445900
-            });
-            setInitLoading(false);
-        }, 1200);
+        dispatch({
+            type: 'learning/fetchReview',
+            payload: courseId
+        });
         return () => {
+            dispatch({ type: 'learning/resetReview '});
             setStarVal(0);
             setComment(EditorState.createEmpty());
         };
-    }, [match.params.courseId]);
+    }, [courseId]);
     const handleVoting = () => {
-        const courseId = match.params.courseId;
         if (starVal === 0) return message.error('You must rate before submitting!');
         setStarVal(0);
         setComment(EditorState.createEmpty());
@@ -36,7 +34,7 @@ const Review = ({ match }) => {
     };
     return (
         <div className={styles.review}>
-            {!review || initLoading ? (
+            {!review || loading ? (
                 <div className={styles.loading}>
                     <div className={styles.inlineDiv}>
                         <Spin indicator={<Icon type="loading" style={{ fontSize: 64, color: '#FADA5E' }} spin/>} />
@@ -80,4 +78,9 @@ const Review = ({ match }) => {
     )
 };
 
-export default Review;
+export default connect(
+    ({ learning, loading }) => ({
+        review: learning.review,
+        loading: !!loading.effects['learning/fetchReview']
+    })
+)(Review);
