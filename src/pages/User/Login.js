@@ -65,8 +65,8 @@ const Login = (props) => {
                     <Link className={styles.forgot} to="/">
                         {formatMessage({ id: 'login.forgotpass' })}
                     </Link>
-                    <Button type="primary" htmlType="submit" className={styles.btn} size="large">
-                        {loading ? (<Spin fontSize={4} isCenter={false} color="white"/>) : formatMessage({ id: 'login.btn' })}
+                    <Button type="primary" htmlType="submit" className={styles.btn} size="large" icon={loading ? "loading" : null}>
+                        {formatMessage({ id: 'login.btn' })}
                     </Button>
                     {formatMessage({ id: 'login.or' })} <Link to="/user/register">{formatMessage({ id: 'login.registernow' })}</Link>
                     </Form.Item>

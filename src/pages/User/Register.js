@@ -157,8 +157,8 @@ const Register = ({ dispatch, ...props }) => {
                         )}
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className={styles.btn} size="large">
-                            {loading ? (<Spin fontSize={4} isCenter={false} color="white"/>) : formatMessage({ id: 'register.btn' })}
+                        <Button type="primary" htmlType="submit" className={styles.btn} size="large" icon={loading ? "loading" : null}>
+                            {formatMessage({ id: 'register.btn' })}
                         </Button>
                         {formatMessage({ id: 'register.or' })} <Link to="/user/login">{formatMessage({ id: 'register.already' })}</Link>
                     </Form.Item>
