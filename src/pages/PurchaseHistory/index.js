@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
+import { connect } from 'dva';
 import Link from 'umi/link';
 import { Table, Row, Col } from 'antd';
 import Wrapper from '@/components/JumpotronWrapper';
 import darkLogo from '@/assets/images/dark_logo.jpg';
-import funcPurchase from '@/assets/fakers/purchaseHistory';
 import styles from './index.less';
 
 const CoursePurchaseItem = ({ avatar, name }) => {
@@ -29,32 +29,37 @@ const BundlePurchaseItem = ({ courses }) => {
     );
 };
 
-const PurchaseHistory = () => {
+const PurchaseHistory = ({ dispatch, ...props }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [maxPage, setMaxPage] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState(funcPurchase(1)); 
+    const {
+        loading,
+        data,
+        total
+    } = props;
+    useEffect(() => {
+        dispatch({
+            type: 'purchase/fetch'
+        });
+        return () => dispatch({ type: 'purchase/reset' });
+    }, []);
+
     const handleChangeCurrentPage = page => {
         if (page <= maxPage) {
             setCurrentPage(page);
         }
         else {
             setMaxPage(page);
-            //call api
-            setLoading(true);
-            setTimeout(() => {
-                const skip = page - maxPage;
-                let newData = [];
-                for (let i = 1; i <= skip; ++i) {
-                    newData = _.concat(newData, funcPurchase(maxPage + i));
+            dispatch({
+                type: 'purchase/more',
+                payload: {
+                    start: maxPage,
+                    end: page,
+                    callback: () => setCurrentPage(page)
                 }
-                setData([...data, ...newData]);
-                setLoading(false);
-                setCurrentPage(page);
-            }, 1600);
+            });
         }
     };
-    const total = 44;
     //const data = PURCHASE_HISTORY;
     const renderItems = items => {
         if (!items || _.isEmpty(items) === 0) return null;
@@ -141,12 +146,18 @@ const PurchaseHistory = () => {
                     } : false}
                     rowKey={order => order._id + _.uniqueId('order_')}
                     columns={columns}
-                    dataSource={data}
-                    loading={loading}
+                    dataSource={!data ? [] : data}
+                    loading={!data || loading}
                 />
             </div>
         </Wrapper>
     )
 };
 
-export default PurchaseHistory;
+export default connect(
+    ({ purchase, loading }) => ({
+        loading: !!loading.effects['purchase/fetch'] || !!loading.effects['purchase/more'],
+        data: purchase.list,
+        total: purchase.total
+    })
+)(PurchaseHistory);
