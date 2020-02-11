@@ -100,10 +100,10 @@ const Messenger = ({ dispatch, ...props }) => {
         handleVisibleChange(false);
     };
 
-    const unread = 14;
+    const { unseen } = props;
     let count = 0;
-    if (unread > 0)
-        count = <Avatar style={{ background: '#FE7F9C', fontSize: '11px' }} size={16}>{unread > 9 ? '9+' : unread}</Avatar>;
+    if (unseen > 0)
+        count = <Avatar style={{ background: '#FE7F9C', fontSize: '11px' }} size={16}>{unseen > 9 ? '9+' : unseen}</Avatar>;
     const trigger = (
         <span className={styles.trigger}>
             <Badge
@@ -135,10 +135,11 @@ const Messenger = ({ dispatch, ...props }) => {
 }
 
 export default connect(
-    ({ loading, messages }) => ({
+    ({ loading, messages, user }) => ({
         initLoading: !!loading.effects['messages/fetch'],
         loading: !!loading.effects['messages/more'],
         conversations: messages.list,
-        hasMore: messages.hasMore
+        hasMore: messages.hasMore,
+        unseen: user.noOfUsMessage
     })
 )(Messenger);

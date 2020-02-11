@@ -94,4 +94,9 @@ export const checkValidLink = link => {
         '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
         '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
     return !!pattern.test(link);
+};
+
+export const capitalText = name => {
+    const matches = name.match(/\b(\w)/g); // ['J','S','O','N']
+    return _.join(_.takeRight(matches, 2), '');
 }

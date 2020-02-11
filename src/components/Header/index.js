@@ -9,6 +9,7 @@ import MyCourses from '@/components/Popover/MyCourses';
 import Cart from '@/components/Popover/Cart';
 import Messenger from '@/components/Popover/Messenger';
 import Notifications from '@/components/Popover/Notifications';
+import { capitalText } from '@/utils/utils';
 import logo from '@/assets/images/logo_trans.png';
 import styles from './index.less';
 
@@ -46,11 +47,15 @@ const Header = ({ dispatch, user }) => {
                                     <div>
                                         <Row className={styles.info}>
                                             <Col span={4}>
-                                                <Avatar style={{ backgroundColor: '#fada5e', color: 'white' }} size={39}>NH</Avatar>
+                                                {user.avatar ? (
+                                                    <Avatar size={39} src={user.avatar} alt="user-avatar" />
+                                                ) : (
+                                                    <Avatar style={{ backgroundColor: '#fada5e', color: 'white' }} size={39}>{capitalText(user.name)}</Avatar>
+                                                )}
                                             </Col>
                                             <Col span={20}>
-                                                <div className={styles.name}><b>Ngoc Hanh V</b></div>
-                                                <div className={styles.mail}>ngochanhvuong@gmail.com</div>
+                                                <div className={styles.name}><b>{user.name}</b></div>
+                                                <div className={styles.mail}>{user.email}</div>
                                             </Col>
                                         </Row>
                                         <div className={styles.item} onClick={() => router.push('/settings')}>
@@ -76,7 +81,11 @@ const Header = ({ dispatch, user }) => {
                                 )}
                             >
                                 <div className={styles.accountText}>
-                                    <Avatar style={{ backgroundColor: '#fada5e', color: 'white' }} size={32}>NH</Avatar>
+                                    {user.avatar ? (
+                                        <Avatar size={32} src={user.avatar} alt="user-avatar" />
+                                    ) : (
+                                        <Avatar style={{ backgroundColor: '#fada5e', color: 'white' }} size={32}>{capitalText(user.name)}</Avatar>
+                                    )}
                                 </div>
                             </Popover>
                         </div>

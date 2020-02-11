@@ -105,10 +105,10 @@ const Notifications = ({ dispatch, ...props }) => {
             });
     };
 
-    let unread = 6;
+    const { unseen } = props;
     let count = 0;
-    if (unread > 0)
-        count = <Avatar style={{ background: 'purple', fontSize: '11px' }} size={16}>{unread > 99 ? '99+' : unread}</Avatar>;
+    if (unseen > 0)
+        count = <Avatar style={{ background: 'purple', fontSize: '11px' }} size={16}>{unseen > 99 ? '99+' : unseen}</Avatar>;
     const trigger = (
         <span className={styles.trigger}>
             <Badge
@@ -141,11 +141,12 @@ const Notifications = ({ dispatch, ...props }) => {
 };
 
 export default connect(
-    ({ notifications, loading }) => ({
+    ({ notifications, loading, user }) => ({
         loading: !!loading.effects['notifications/more'],
         initLoading: !!loading.effects['notifications/fetch'],
         maskLoading: !!loading.effects['notifications/maskAllAsRead'],
         hasMore: notifications.hasMore,
         notifications: notifications.list,
+        unseen: user.noOfUsNotification
     })
 )(Notifications);

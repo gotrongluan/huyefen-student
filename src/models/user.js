@@ -4,7 +4,7 @@ import router from 'umi/router';
 
 const USER = {
     token: 'foo-token',
-    name: 'Ngọc Hạnh Vương',
+    name: 'Ngoc Hanh Vuong',
     avatar: null,
     email: 'ngochanhvuong@gmail.com',
     phone: '0919079306',
@@ -12,7 +12,9 @@ const USER = {
     birthday: '21/12/1997',
     facebook: 'facebook.com/ngochanhvuong',
     linkedin: null,
-    job: 'student'
+    job: 'student',
+    noOfUsMessage: 7,
+    noOfUsNotification: 2
 };
 
 const response = {
