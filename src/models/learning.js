@@ -80,8 +80,33 @@ export default {
                 }
             });
         },
-        *moreComments({ payload: announcementId }, { call, put }) {
-
+        *moreComments({ payload: announcementId }, { call, put, select }) {
+            yield put({
+                type: 'saveCommentsLoading',
+                payload: {
+                    announcementId,
+                    value: true
+                }
+            });
+            const { announcements } = yield select(state => state.learning);
+            const comments = announcements.list[announcementId].comments;
+            //
+            yield delay(1200);
+            yield put({
+                type: 'pushComments',
+                payload: {
+                    announcementId,
+                    hasMore: false,
+                    data: COMMENTS
+                }
+            })
+            yield put({
+                type: 'saveCommentsLoading',
+                payload: {
+                    announcementId,
+                    value: false
+                }
+            });
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
@@ -149,6 +174,42 @@ export default {
                     list: {
                         ...state.announcements.list,
                         ...data
+                    }
+                }
+            };
+        },
+        pushComments(state, { payload }) {
+            const { hasMore, data, announcementId } = payload;
+            return {
+                ...state,
+                announcements: {
+                    ...state.announcements,
+                    list: {
+                        ...state.announcements.list,
+                        [announcementId]: {
+                            ...state.announcements.list[announcementId],
+                            moreComments: hasMore,
+                            comments: [
+                                ...state.announcements.list[announcementId].comments,
+                                ...data
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        saveCommentsLoading(state, { payload }) {
+            const { announcementId, value } = payload;
+            return {
+                ...state,
+                announcements: {
+                    ...state.announcements,
+                    list: {
+                        ...state.announcements.list,
+                        [announcementId]: {
+                            ...state.announcements.list[announcementId],
+                            commentsLoading: value
+                        }
                     }
                 }
             };
