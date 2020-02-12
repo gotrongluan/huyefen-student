@@ -294,6 +294,33 @@ export default {
             });
             yield delay(900);
         },
+        *answer({ payload }, { call, put }) {
+            const { threadId, answer } = payload;
+            yield delay(1200);
+            //call api with threadId, answer --> response --> answer
+            const response = {
+                data: {
+                    _id: 'new_answer',
+                    user: {
+                        _id: 1,
+                        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+                        name: 'Hanjh Cute',
+                        isInstructor: false
+                    },
+                    createdAt: 1578818445997,
+                    content: answer,
+                    numOfVotings: 1,
+                    isVoted: true
+                }
+            };
+            const {
+                data: answerData
+            } = response;
+            yield put({
+                type: 'shiftAnswer',
+                payload: answerData
+            });
+        },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
             yield delay(1000);
@@ -481,11 +508,23 @@ export default {
                 }
             };
         },
-        toggleVoting(state) {
+        shiftAnswer(state, { payload: answer }) {
             return {
                 ...state,
                 thread: {
                     ...state.thread,
+                    totalAnswers: state.thread.totalAnswers + 1,
+                    answers: [answer, ...state.thread.answers]
+                }
+            };
+        },
+        toggleVoting(state) {
+            const numOfVotings = state.thread.isVoted ? state.thread.numOfVotings - 1 : state.thread.numOfVotings + 1;
+            return {
+                ...state,
+                thread: {
+                    ...state.thread,
+                    numOfVotings,
                     isVoted: !state.thread.isVoted
                 }
             };
@@ -502,6 +541,8 @@ export default {
         toggleAnswerVoting(state, { payload: answerId }) {
             const answersData = [...state.thread.answers];
             const index = _.findIndex(answersData, ['_id', answerId]);
+            if (answersData[index].isVoted) answersData[index].numOfVotings -= 1;
+            else answersData[index].numOfVotings += 1;
             answersData[index].isVoted = !answersData[index].isVoted;
             return {
                 ...state,

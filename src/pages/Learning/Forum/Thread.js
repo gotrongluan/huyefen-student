@@ -60,6 +60,13 @@ const Thread = ({ match, dispatch, ...props }) => {
         if (!yourAnswer.getCurrentContent().hasText()) return message.error('You must enter answer!');
         //threadId, 
         const html = exportToHTML(yourAnswer);
+        dispatch({
+            type: 'learning/answer',
+            payload: {
+                threadId,
+                answer: html
+            }
+        });
         // setYourAnswerLoading(true);
         // setTimeout(() => {
         //     setThread({

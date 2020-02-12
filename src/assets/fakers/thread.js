@@ -13,7 +13,6 @@ export default {
     createdAt: 1578813445999,
     title: 'What is difference between PWA and SPA?',
     content: `<div><p>Hi, </p><p>so i had to take a long break from this class but I tried to jump back in at the Product clone page where I'd left off. </p><p>I have a problem however (not due to the course I must add):</p><p>so after a bunch of system udpates in my distro, I&nbsp;can no longer login to postgresql, my password (which is saved in a password manager) is not recognised. </p><p><br></p><p>I've tried to follow instructions to reset my postgresql password but with no success.</p><p>So I'm not asking you to troubleshoot that for me as it's probably a user error from my end, but my question is this:</p><p><br></p><p>Can I just uninstall postgresql and delete the files in /var/lib/postgres/data/ and then start a clean install ?</p><p><br></p><p>if this seems like a brutal solution, it's because I've not found any other way to recuperate this db... </p><p><br></p><p>it seems like I always mess up databases!!</p></div>`,
-    numOfAnswers: 2,
     numOfVotings: 3,
     isFollowed: true,
     isVoted: true,
