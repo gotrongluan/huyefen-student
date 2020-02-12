@@ -6,6 +6,8 @@ import INSTRUCTORS from '@/assets/fakers/instructors';
 import ANNOUNCEMENTS from '@/assets/fakers/announcements';
 import OLD_ANNOUNCEMENTS from '@/assets/fakers/oldAnnouncements';
 import COMMENTS from '@/assets/fakers/answers';
+import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
+import QUESTIONS from '@/assets/fakers/questions';
 
 const REVIEW = {
     _id: 1,
@@ -19,6 +21,17 @@ const initialState = {
     overview: null,
     instructors: null,
     review: null,
+    forum: {
+        total: null,
+        list: null,
+        lectureOptions: null,
+        hasMore: null,
+        filters: {
+            lecture: 'all',
+            sortBy: "recommend",
+            questionTypes: []
+        }
+    },
     announcements: {
         hasMore: true,
         list: null
@@ -107,6 +120,52 @@ export default {
                     value: false
                 }
             });
+        },
+        *fetchQuestions({ payload: courseId }, { call, put }) {
+            yield delay(2000);
+            yield put({
+                type: 'saveQuestions',
+                payload: {
+                    hasMore: true,
+                    total: 4197,
+                    data: QUESTIONS
+                }
+            });
+        },
+        *moreQuestions({ payload: courseId }, { call, put, select }) {
+            const { forum } = yield select(state => state.learning);
+            const {
+                filters: {
+                    sortBy,
+                    lecture,
+                    questionTypes
+                },
+                list
+            } = forum;
+            //base on list and filters values.
+            yield delay(1500);
+            yield put({
+                type: 'pushQuestions',
+                payload: {
+                    hasMore: false,
+                    data: QUESTIONS
+                }
+            });
+        },
+        *fetchLectureOpts({ payload: courseId }, { call, put }) {
+
+        },
+        *sortQuestions({ payload }, { call, put, select }) {
+
+        },
+        *filterQuestionsByLecture({ payload }, { call, put, select }) {
+
+        },
+        *filterQuestionsByTypes({ payload }, { call, put, select }) {
+
+        },
+        *askQuestion({ payload }, { call, put }){
+
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
@@ -210,6 +269,45 @@ export default {
                             ...state.announcements.list[announcementId],
                             commentsLoading: value
                         }
+                    }
+                }
+            };
+        },
+        saveQuestions(state, { payload }) {
+            const { hasMore, total, data } = payload;
+            return {
+                ...state,
+                forum: {
+                    ...state.forum,
+                    total,
+                    hasMore,
+                    list: [...data]
+                }
+            };
+        },
+        pushQuestions(state, { payload }) {
+            const { hasMore, data } = payload;
+            return {
+                ...state,
+                forum: {
+                    ...state.forum,
+                    hasMore,
+                    list: [...state.forum.list, ...data]
+                }
+            };
+        },
+        resetForum(state) {
+            return {
+                ...state,
+                forum: {
+                    total: null,
+                    list: null,
+                    lectureOptions: null,
+                    hasMore: null,
+                    filters: {
+                        lectures: 'all',
+                        sortBy: "recommend",
+                        questionTypes: []
                     }
                 }
             };

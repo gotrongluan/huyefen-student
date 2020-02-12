@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { connect } from 'dva';
 import router from 'umi/router';
 import { Divider, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton, Modal, message } from 'antd';
 import { EditorState } from 'draft-js';
 import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
-import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
-import QUESTIONS from '@/assets/fakers/questions';
+import Loading from '@/elements/spin/secondary';
 import styles from './index.less';
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
 const FormItem = Form.Item;
 
-const Forum = ({ location, match }) => {
-    const [forum, setForum] = useState({
-        total: null,
-        list: null,
-        lectureOptions: null,
-        loadMore: null,
-        filters: {
-            lectures: 'all',
-            sortBy: "recommend",
-            questionTypes: []
-        }
-    });
+const Forum = ({ location, match, dispatch, ...props }) => {
     const [visibleModal, setVisibleModal] = useState(false);
     const [questionTitle, setQuestionTitle] = useState({
         value: '',
@@ -33,64 +22,42 @@ const Forum = ({ location, match }) => {
     });
     const [questionContent, setQuestionContent] = useState(EditorState.createEmpty());
     const [newQuestionLecture, setNewQuestionLecture] = useState(undefined);
-    const [initLoading, setInitLoading] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [lectureOptionsLoading, setLectureOptionsLoading] = useState(false);
-
-    useEffect(() => {
-        setInitLoading(true);
-        setTimeout(() => {
-            setForum({
-                ...forum,
-                // list: QUESTIONS,
-                total: 2149,
-                lectureOptions: LECTURE_OPTIONS,
-                list: QUESTIONS,
-                loadMore: true
-            });
-            setInitLoading(false);
-        }, 1500);
-    }, []);
-
-    useEffect(() => {
-        if (!forum.lectureOptions) {
-            setLectureOptionsLoading(true);
-            setTimeout(() => {
-                setForum({
-                    ...forum,
-                    lectureOptions: LECTURE_OPTIONS
-                });
-                setLectureOptionsLoading(false);
-            }, 1200);
-        }
-    }, []);
-
+    const {
+        forum,
+        initLoading,
+        loading,
+        lectureOptionsLoading,
+        sortLoading,
+        filterByLectureLoading,
+        filterByTypesLoading
+    } = props;
+    const { courseId } = match.params;
     const handleSort = value => {
-        setForum({
-            ...forum,
-            filters: {
-                ...forum.filters,
-                sortBy: value
+        dispatch({
+            type: 'learning/sortQuestions',
+            payload: {
+                courseId,
+                value
             }
         });
     };
 
     const handleQuestionTypes = values => {
-        setForum({
-            ...forum,
-            filters: {
-                ...forum.filters,
-                questionTypes: [...values]
+        dispatch({
+            type: 'learning/filterQuestionsByTypes',
+            payload: {
+                courseId,
+                values
             }
         });
     };
 
     const handleLecture = value => {
-        setForum({
-            ...forum,
-            filters: {
-                ...forum.filters,
-                lectures: value
+        dispatch({
+            type: 'learning/filterQuestionsByLecture',
+            payload: {
+                courseId,
+                value
             }
         });
     };
@@ -112,14 +79,10 @@ const Forum = ({ location, match }) => {
     };
 
     const handleMoreThreads = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setForum({
-                ...forum,
-                list: [...forum.list, ...QUESTIONS]
-            });
-            setLoading(false);
-        }, 1000);
+        dispatch({
+            type: 'learning/moreQuestions',
+            payload: courseId
+        });
     };
 
     const handleCancelAskQuestion = () => {
@@ -146,7 +109,7 @@ const Forum = ({ location, match }) => {
     };
 
     const loadMore = (
-        !initLoading && !loading && forum.loadMore ? (
+        !initLoading && !loading && forum.list && forum.hasMore ? (
             <div className={styles.loadMore}>
                 <Button size="small" onClick={handleMoreThreads}>More questions</Button>
             </div>
@@ -186,7 +149,7 @@ const Forum = ({ location, match }) => {
                                     disabled={!forum.lectureOptions || lectureOptionsLoading}
                                     style={{ width: '100%' }}
                                     onChange={handleLecture}
-                                    value={forum.filters.lectures}
+                                    value={forum.filters.lecture}
                                     dropdownClassName={styles.forumTreeSelect}
                                     dropdownStyle={{ maxHeight: 360, overflow: 'auto' }}
                                     size="large"
@@ -251,41 +214,45 @@ const Forum = ({ location, match }) => {
                             <Spin indicator={<Icon type="loading" spin style={{ fontSize: 64 }} />} />
                         </div>
                     </div>
-                ) : (_.map(threadsData, (thread, i) => (
-                    <React.Fragment key={thread._id + _.uniqueId('thread_')}>
-                        {i > 0 && (<Divider className={styles.divider} dashed key={_.uniqueId('thread_divider_')} />)}
-                        {thread.loading ? (
-                            <Skeleton active avatar={{ size: 40, shape: 'circle' }} title={false} key={thread._id + _.uniqueId('thread_')} paragraph={{ rows: 3, width: ['40%', '90%', '45%']}} />
-                        ) : (
-                            <Row className={styles.thread} key={thread._id + _.uniqueId('thread_')} onClick={() => router.push(`${location.pathname}/thread/${thread._id}`)}>
-                                <Col span={2} className={styles.avatarCont}>
-                                    <img alt="ava-user" src={thread.user.avatar} className={styles.avatar} />
-                                </Col>
-                                <Col span={18} className={styles.info}>
-                                    <div className={styles.title}>{thread.title}</div>
-                                    <div className={styles.content}>{thread.content}</div>
-                                    <div className={styles.extra}>
-                                        <span className={styles.name}>{thread.user.name}</span>
-                                        <span className={styles.order}>{`Lecture ${thread.lecture.order}`}</span>
-                                        <span className={styles.time}>
-                                            <TimeAgo date={thread.createdAt}/>
-                                        </span>
-                                    </div>
-                                </Col>
-                                <Col span={4} className={styles.statistic}>
-                                    <div className={styles.votings}>
-                                        <span className={styles.value}>{thread.numOfVotings}</span>
-                                        <Icon type="arrow-up" />
-                                    </div>
-                                    <div className={styles.answers}>
-                                        <span className={styles.value}>{thread.numOfAnswers}</span>
-                                        <Icon type="message" />
-                                    </div>
-                                </Col>
-                            </Row>
-                        )}
-                    </React.Fragment>
-                )))}
+                ) : (
+                    <Loading spinning={sortLoading || filterByLectureLoading || filterByTypesLoading} fontSize={8} isCenter>
+                        {_.map(threadsData, (thread, i) => (
+                            <React.Fragment key={thread._id + _.uniqueId('thread_')}>
+                                {i > 0 && (<Divider className={styles.divider} dashed key={_.uniqueId('thread_divider_')} />)}
+                                {thread.loading ? (
+                                    <Skeleton active avatar={{ size: 40, shape: 'circle' }} title={false} key={thread._id + _.uniqueId('thread_')} paragraph={{ rows: 3, width: ['40%', '90%', '45%']}} />
+                                ) : (
+                                    <Row className={styles.thread} key={thread._id + _.uniqueId('thread_')} onClick={() => router.push(`${location.pathname}/thread/${thread._id}`)}>
+                                        <Col span={2} className={styles.avatarCont}>
+                                            <img alt="ava-user" src={thread.user.avatar} className={styles.avatar} />
+                                        </Col>
+                                        <Col span={18} className={styles.info}>
+                                            <div className={styles.title}>{thread.title}</div>
+                                            <div className={styles.content}>{thread.content}</div>
+                                            <div className={styles.extra}>
+                                                <span className={styles.name}>{thread.user.name}</span>
+                                                <span className={styles.order}>{`Lecture ${thread.lecture.order}`}</span>
+                                                <span className={styles.time}>
+                                                    <TimeAgo date={thread.createdAt}/>
+                                                </span>
+                                            </div>
+                                        </Col>
+                                        <Col span={4} className={styles.statistic}>
+                                            <div className={styles.votings}>
+                                                <span className={styles.value}>{thread.numOfVotings}</span>
+                                                <Icon type="arrow-up" />
+                                            </div>
+                                            <div className={styles.answers}>
+                                                <span className={styles.value}>{thread.numOfAnswers}</span>
+                                                <Icon type="message" />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </Loading>
+                )}
                 {loadMore}
             </div>
             <Modal
@@ -340,4 +307,14 @@ const Forum = ({ location, match }) => {
     
 };
 
-export default Forum;
+export default connect(
+    ({ learning, loading }) => ({
+        forum: learning.forum,
+        initLoading: loading.effects['learning/fetchQuestions'],
+        loading: !!loading.effects['learning/moreQuestions'],
+        lectureOptionsLoading: !!loading.effects['learning/fetchLectureOpts'],
+        sortLoading: !!loading.effects['learning/sortQuestions'],
+        filterByLectureLoading: !!loading.effects['learning/filterQuestionsByLecture'],
+        filterByTypesLoading: !!loading.effects['learning/filterQuestionsByTypes']
+    })
+)(Forum);

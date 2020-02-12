@@ -64,33 +64,6 @@ const Announcements = ({ match, dispatch, ...props }) => {
             type: 'learning/moreComments',
             payload: announcementId
         });
-        // setAnnouncements({
-        //     ...announcements,
-        //     list: {
-        //         ...announcements.list,
-        //         [announcementId]: {
-        //             ...announcements.list[announcementId],
-        //             commentsLoading: true
-        //         }
-        //     }
-        // });
-
-        // setTimeout(() => {
-        //     setAnnouncements({
-        //         ...announcements,
-        //         list: {
-        //             ...announcements.list,
-        //             [announcementId]: {
-        //                 ...announcements.list[announcementId],
-        //                 comments: [
-        //                     ...announcements.list[announcementId]['comments'],
-        //                     ...COMMENTS
-        //                 ],
-        //                 commentsLoading: false
-        //             }
-        //         }
-        //     });
-        // }, 1200);
     };
     const handleComment = (annoucementId, comment) => {
         if (comment !== '') {

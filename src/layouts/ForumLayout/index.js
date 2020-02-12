@@ -1,17 +1,23 @@
 import React, { useEffect } from 'react';
+import { connect } from 'dva';
 import { message } from 'antd';
 
-const ForumLayout = ({ children }) => {
+const ForumLayout = ({ match, children, dispatch }) => {
+    const { courseId } = match.params;
     useEffect(() => {
-        message.success('AAAA');
-        return () => message.warning('Unmount forum layout');
-        //clear select boxes values: filter, sort....
+        dispatch({
+            type: 'learning/fetchQuestions',
+            payload: courseId
+        });
+        dispatch({
+            type: 'learning/fetchLectureOpts',
+            payload: courseId
+        });
+        return () => dispatch({
+            type: 'learning/resetForum'
+        });
     }, []);
-    return (
-        <>
-            {children}
-        </>
-    )
+    return children;
 };
 
-export default ForumLayout;
+export default connect()(ForumLayout);
