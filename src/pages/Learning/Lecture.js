@@ -23,6 +23,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
     const {
         lecture,
         initLoading,
+        askQuestionLoading
     } = props;
     const { lectureId, courseId } = match.params;
     useEffect(() => {
@@ -186,6 +187,22 @@ const Lecture = ({ match, dispatch, ...props }) => {
                             </div>
                         </Form>
                     </Modal>
+                    <Modal
+                        className={styles.askQuestionLoadingModal}
+                        width={180}
+                        visible={askQuestionLoading}
+                        footer={null}
+                        closable={false}
+                        maskClosable={false}
+                        title={null}
+                        centered
+                        bodyStyle={{ 
+                            padding: '10px'
+                        }}
+                    >
+                        <div className={styles.icon}><Spin /></div>
+                        <div className={styles.text}>Submitting...</div>
+                    </Modal>
                 </React.Fragment>
             )}
         </div>
@@ -195,6 +212,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
 export default connect(
     ({ learning, loading }) => ({
         initLoading: !!loading.effects['learning/fetchLecture'],
+        askQuestionLoading: !!loading.effects['learning/askQuestionDirectly'],
         lecture: learning.lecture
     })
 )(Lecture);

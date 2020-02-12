@@ -382,6 +382,18 @@ export default {
             });
             yield delay(1000);
         },
+        *askQuestionDirectly({ payload }, { call, put }) {
+            const {
+                courseId,
+                title,
+                lecture,
+                content,
+                callback
+            } = payload;
+            //call api with 4 above variables 
+            yield delay(1400);
+            if (callback) callback();
+        },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
             yield delay(1000);

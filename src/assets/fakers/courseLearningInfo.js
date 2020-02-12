@@ -28,7 +28,7 @@ export default {
                     type: 1,
                     title: 'Course Files',
                     time: 2,
-                    isCompleted: true,
+                    isCompleted: false,
                 },
                 {
                     _id: 'lecture-3',
@@ -48,20 +48,20 @@ export default {
                     type: 0,
                     title: 'What is VueJS? And how to create simple VueJS app',
                     time: 4,
-                    isCompleted: true,
+                    isCompleted: false,
                 },
                 {
                     _id: 'lecture-5',
                     type: 0,
                     title: 'The Vue instance',
                     time: 5,
-                    isCompleted: true,
+                    isCompleted: false,
                 },
                 {
                     _id: 'lecture-6',
                     type: 0,
                     title: 'Method',
-                    isCompleted: true,
+                    isCompleted: false,
                     time: 3
                 },
                 {
