@@ -1,6 +1,7 @@
 import { delay } from '@/utils/utils';
 import { message } from 'antd';
 import _ from 'lodash';
+import router from 'umi/router';
 import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
 import COURSE_OVERVIEW from '@/assets/fakers/courseOverview';
 import INSTRUCTORS from '@/assets/fakers/instructors';
@@ -9,6 +10,8 @@ import OLD_ANNOUNCEMENTS from '@/assets/fakers/oldAnnouncements';
 import COMMENTS from '@/assets/fakers/answers';
 import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
 import QUESTIONS from '@/assets/fakers/questions';
+import THREAD from '@/assets/fakers/thread';
+import ANSWERS from '@/assets/fakers/answers';
 
 const REVIEW = {
     _id: 1,
@@ -33,6 +36,7 @@ const initialState = {
             questionTypes: []
         }
     },
+    thread: null,
     announcements: {
         hasMore: true,
         list: null
@@ -244,6 +248,32 @@ export default {
         *askQuestion({ payload }, { call, put }){
 
         },
+        *fetchThread({ payload: threadId }, { call, put }) {
+            //call api with threadId
+            yield delay(1400);
+            const status = 0;
+            if (status === 0)
+                yield put({
+                    type: 'saveThread',
+                    payload: THREAD
+                });
+            else router.replace('/error/404');
+        },
+        *moreAnswers({ payload: threadId }, { call, put, select }) {
+            const { thread } = yield select(state => state.learning);
+            const {
+                answers
+            } = thread;
+            //more answers baseon threadId, answers
+            yield delay(1200);
+            yield put({
+                type: 'pushAnswers',
+                payload: {
+                    hasMore: true,
+                    data: ANSWERS
+                }
+            });
+        },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
             yield delay(1000);
@@ -410,6 +440,29 @@ export default {
                     }
                 }
             };
+        },
+        saveThread(state, { payload }) {
+            return {
+                ...state,
+                thread: { ...payload }
+            }
+        },
+        pushAnswers(state, { payload }) {
+            const { hasMore, data } = payload;
+            return {
+                ...state,
+                thread: {
+                    ...state.thread,
+                    moreAnswers: hasMore,
+                    answers: [
+                        ...state.thread.answers,
+                        ...data
+                    ]
+                }
+            };
+        },
+        resetThread(state) {
+            return { ...state, thread: null };
         }
     }
 }

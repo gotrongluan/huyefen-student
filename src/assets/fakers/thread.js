@@ -18,6 +18,7 @@ export default {
     isFollowed: true,
     isVoted: true,
     totalAnswers: 11,
+    moreAnswers: true,
     answers: [
         {
             _id: 1,

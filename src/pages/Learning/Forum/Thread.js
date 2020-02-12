@@ -1,43 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import router from 'umi/router';
+import { connect } from 'dva';
 import { EditorState } from 'draft-js';
 import { Skeleton, Divider, Row, Col, Avatar, Icon, message, Spin, Button } from 'antd';
 import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
 import ViewMore from '@/components/ViewMore';
 import { exportToHTML } from '@/utils/editor';
-import THREAD from '@/assets/fakers/thread';
-import ANSWERS from '@/assets/fakers/answers';
 import styles from './Thread.less';
 
-const Thread = ({ match }) => {
-    const [thread, setThread] = useState(null);
-    const [threadLoading, setThreadLoading] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [yourAnswerLoading, setYourAnswerLoading] = useState(false);
+const Thread = ({ match, dispatch, ...props }) => {
     const [yourAnswer, setYourAnswer] = useState(EditorState.createEmpty());
+    const { threadId } = match.params;
+    const {
+        thread,
+        initLoading,
+        loading,
+    } = props;
     useEffect(() => {
-        setThreadLoading(true);
-        setTimeout(() => {
-            setThread(THREAD);
-            setThreadLoading(false);
-        }, 1400);
-        //return clear thread
-    }, [match.params.threadId]);
+        dispatch({
+            type: 'learning/fetchThread',
+            payload: threadId
+        });
+        return () => dispatch({
+            type: 'learning/resetThread'
+        });
+    }, [threadId]);
 
     const handleLoadmoreAnswers = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setThread({
-                ...thread,
-                answers: [
-                    ...thread.answers,
-                    ...ANSWERS
-                ]
-            });
-            setLoading(false);
-        }, 3200);
+        dispatch({
+            type: 'learning/moreAnswers',
+            payload: threadId
+        });
     };
 
     const handleToggleVoting = threadId => {
@@ -54,34 +49,34 @@ const Thread = ({ match }) => {
         if (!yourAnswer.getCurrentContent().hasText()) return message.error('You must enter answer!');
         //threadId, 
         const html = exportToHTML(yourAnswer);
-        setYourAnswerLoading(true);
-        setTimeout(() => {
-            setThread({
-                ...thread,
-                answers: [
-                    {
-                        _id: _.uniqueId('answer_'),
-                        user: {
-                            _id: 1,
-                            avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-                            name: 'Hanjh Cute',
-                            isInstructor: false
-                        },
-                        createdAt: 1578818445997,
-                        content: html,
-                        numOfVotings: 0,
-                        isVoted: false
-                    },
-                    ...thread.answers,
-                ]
-            })
-            setYourAnswerLoading(false);
-        }, 1000);
+        // setYourAnswerLoading(true);
+        // setTimeout(() => {
+        //     setThread({
+        //         ...thread,
+        //         answers: [
+        //             {
+        //                 _id: _.uniqueId('answer_'),
+        //                 user: {
+        //                     _id: 1,
+        //                     avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        //                     name: 'Hanjh Cute',
+        //                     isInstructor: false
+        //                 },
+        //                 createdAt: 1578818445997,
+        //                 content: html,
+        //                 numOfVotings: 0,
+        //                 isVoted: false
+        //             },
+        //             ...thread.answers,
+        //         ]
+        //     })
+        //     setYourAnswerLoading(false);
+        // }, 1000);
         setYourAnswer(EditorState.createEmpty());
     };
 
     const loadMore = (
-        !threadLoading && !loading && thread ? (
+        !initLoading && !loading && thread && thread.moreAnswers ? (
             <div className={styles.loadMore}>
                 <Button size="small" onClick={handleLoadmoreAnswers}>More answers</Button>
             </div>
@@ -103,7 +98,7 @@ const Thread = ({ match }) => {
                     <span className={styles.text}>Back to forum</span>
                 </span>
             </div>
-            {!thread || threadLoading ? (
+            {!thread ||initLoading ? (
                 <div className={styles.loading}>
                     <div className={styles.inlineDiv}>
                         <Spin indicator={<Icon type="loading" spin style={{ fontSize: 64 }} />}/>
@@ -132,13 +127,13 @@ const Thread = ({ match }) => {
                 </Row>
             )}
             <Row className={styles.beginAnswers}>
-                <Col span={12} className={styles.total}>{!thread || threadLoading ? 'Loading...' : `${thread.totalAnswers} ${thread.totalAnswers < 2 ? 'answer' : 'answers'}`}</Col>
+                <Col span={12} className={styles.total}>{!thread ||initLoading ? 'Loading...' : `${thread.totalAnswers} ${thread.totalAnswers < 2 ? 'answer' : 'answers'}`}</Col>
                 <Col span={12} className={styles.follow}>
                     {thread && (<span style={{ color: thread.isFollowed ? '#fada5e' : 'inherit' }} onClick={() => handleToggleFollow(thread._id)}>{thread.isFollowed ? 'Unfollow' : 'Follow'}</span>)}
                 </Col>
             </Row>
             <Divider className={styles.divider} />
-            {!thread || threadLoading ? (
+            {!thread ||initLoading ? (
                 <div className={styles.answersLoading}>
                     <Skeleton active avatar={{ size: 48, shape: 'circle' }} title={{ width: '25%' }} paragraph={{ rows: 2, width: ['60%', '96%']}}/>
                 </div>
@@ -199,4 +194,10 @@ const Thread = ({ match }) => {
     )
 };
 
-export default Thread;
+export default connect(
+    ({ learning, loading }) => ({
+        thread: learning.thread,
+        initLoading: !!loading.effects['learning/fetchThread'],
+        loading: !!loading.effects['learning/moreAnswers']
+    })
+)(Thread);
