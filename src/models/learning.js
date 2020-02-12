@@ -368,9 +368,19 @@ export default {
             if (status === 0)
                 yield put({
                     type: 'saveLecture',
-                    payload: LECTURE
+                    payload: {
+                        ...LECTURE,
+                        _id: lectureId
+                    }
                 });
             else router.replace('/error/404');
+        },
+        *toggleComplete({ payload: lectureId }, { call, put }) {
+            yield put({
+                type: 'toggleCompleteStatus',
+                payload: lectureId
+            });
+            yield delay(1000);
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
@@ -610,6 +620,24 @@ export default {
             return {
                 ...state,
                 lecture: { ...payload }
+            };
+        },
+        toggleCompleteStatus(state, { payload: lectureId }) {
+            let lectureData = state.lecture && { ...state.lecture };
+            let syllabusData = [...state.info.syllabus];
+            if (lectureData && lectureData._id === lectureId) {
+                lectureData.isCompleted = !lectureData.isCompleted;
+            }
+            let lectureIndex;
+            const chapterIndex = _.findIndex(syllabusData, chapter => (lectureIndex = _.findIndex(chapter.lectures, lecture => lecture._id === lectureId)) > -1);
+            syllabusData[chapterIndex].lectures[lectureIndex].isCompleted = !syllabusData[chapterIndex].lectures[lectureIndex].isCompleted;
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    syllabus: [...syllabusData]
+                },
+                lecture: { ...lectureData }
             };
         },
         resetLecture(state) {

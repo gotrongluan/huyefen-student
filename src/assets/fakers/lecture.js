@@ -1,5 +1,5 @@
 export default {
-    _id: 1,
+    _id: 'lecture-1',
     title: 'Understand What Analytics data to Collect (Tip 1)',
     time: 12,
     createdAt: 1578813445900,

@@ -96,7 +96,7 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                                         <MenuItem key={`/lecture/${lecture._id}`} className={styles.lecture}>
                                             <div>
                                                 <Link className={styles.name} to={`${match.url}/lecture/${lecture._id}`}>{lecture.title}</Link>
-                                                <Checkbox checked={lecture.isFinished} className={styles.status} onChange={e => handleChangeLectureStatus(lecture._id, e.target.value)}/>
+                                                <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleChangeLectureStatus(lecture._id, e.target.value)}/>
                                             </div>
                                             
                                                 
