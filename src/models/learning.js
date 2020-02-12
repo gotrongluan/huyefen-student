@@ -12,6 +12,7 @@ import LECTURE_OPTIONS from '@/assets/fakers/syllabus';
 import QUESTIONS from '@/assets/fakers/questions';
 import THREAD from '@/assets/fakers/thread';
 import ANSWERS from '@/assets/fakers/answers';
+import LECTURE from '@/assets/fakers/lecture';
 
 const REVIEW = {
     _id: 1,
@@ -40,7 +41,8 @@ const initialState = {
     announcements: {
         hasMore: true,
         list: null
-    }
+    },
+    lecture: null
 };
 
 export default {
@@ -284,8 +286,9 @@ export default {
             router.push(`/learning/${courseId}/forum/thread/new-question`);
 
         },
-        *fetchThread({ payload: threadId }, { call, put }) {
-            //call api with threadId
+        *fetchThread({ payload }, { call, put }) {
+            const { courseId, threadId } = payload;
+            //call api with threadId, courseId --> check for thread belong course
             yield delay(1400);
             const status = 0;
             if (status === 0)
@@ -356,6 +359,18 @@ export default {
                 type: 'shiftAnswer',
                 payload: answerData
             });
+        },
+        *fetchLecture({ payload }, { call, put }) {
+            const { courseId, lectureId } = payload;
+            yield delay(1500);
+            //call api with courseId, lectureId --> for checking whether lecture belong to the course, is exist lecture
+            const status = 0;
+            if (status === 0)
+                yield put({
+                    type: 'saveLecture',
+                    payload: LECTURE
+                });
+            else router.replace('/error/404');
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
@@ -590,6 +605,18 @@ export default {
         },
         resetThread(state) {
             return { ...state, thread: null };
+        },
+        saveLecture(state, { payload }) {
+            return {
+                ...state,
+                lecture: { ...payload }
+            };
+        },
+        resetLecture(state) {
+            return {
+                ...state,
+                lecture: null
+            };
         }
     }
 }

@@ -12,7 +12,7 @@ import styles from './Thread.less';
 
 const Thread = ({ match, dispatch, ...props }) => {
     const [yourAnswer, setYourAnswer] = useState(EditorState.createEmpty());
-    const { threadId } = match.params;
+    const { threadId, courseId } = match.params;
     const {
         thread,
         initLoading,
@@ -21,7 +21,10 @@ const Thread = ({ match, dispatch, ...props }) => {
     useEffect(() => {
         dispatch({
             type: 'learning/fetchThread',
-            payload: threadId
+            payload: {
+                courseId,
+                threadId
+            }
         });
         return () => dispatch({
             type: 'learning/resetThread'

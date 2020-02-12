@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import router from 'umi/router';
+import { connect } from 'dva';
 import { EditorState } from 'draft-js';
 import Editor from '@/components/editor/ImageEditor';
 import { Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message } from 'antd';
-import LECTURE from '@/assets/fakers/lecture';
 import { exportToHTML } from '@/utils/editor';
 import { minutesToHour } from '@/utils/utils';
 import styles from './Lecture.less';
@@ -12,9 +12,7 @@ import styles from './Lecture.less';
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
-const Lecture = ({ match }) => {
-    const [lecture, setLecture] = useState(null);
-    const [initLoading, setInitLoading] = useState(false);
+const Lecture = ({ match, dispatch, ...props }) => {
     const [questionVisible, setQuestionVisible] = useState(false);
     const [questionTitle, setQuestionTitle] = useState({
         value: '',
@@ -22,18 +20,28 @@ const Lecture = ({ match }) => {
         help: ''
     });
     const [questionContent, setQuestionContent] = useState(EditorState.createEmpty());
+    const {
+        lecture,
+        initLoading,
+    } = props;
+    const { lectureId, courseId } = match.params;
     useEffect(() => {
-        const { lectureId } = match.params;
-        message.success(`Fetch lecture with id ${lectureId}`);
-        setInitLoading(true);
-        setTimeout(() => {
-            setLecture(LECTURE);
-            setInitLoading(false);
-        }, 2000);
-    }, [match.params.courseId, match.params.lectureId]);
+        dispatch({
+            type: 'learning/fetchLecture',
+            payload: {
+                courseId,
+                lectureId
+            }
+        });
+        return () => dispatch({ 
+            type: 'learning/resetLecture'
+        });
+    }, [courseId, lectureId]);
     const handleCompleteLecture = () => {
-        const { lectureId } = match.params;
-        message.success(`Complete lecture with id ${lectureId}`);
+        dispatch({
+            type: 'learning/toggleComplete',
+            payload: lectureId
+        });
     };
     const handleAskQuestion = () => setQuestionVisible(true);
     const goToLecture = lectureId => {
@@ -72,6 +80,17 @@ const Lecture = ({ match }) => {
         };
         //do something
         //call exportToHTML
+        const html = exportToHTML(questionContent);
+        dispatch({
+            type: 'learning/askQuestionDirectly',
+            payload: {
+                courseId,
+                title: questionTitle.value,
+                lecture: lectureId,
+                content: html,
+                callback: () => message.success('Your question submitted successfully!')
+            }
+        });
         handleCancelAskQuestion();
     };
     return (
@@ -109,16 +128,16 @@ const Lecture = ({ match }) => {
                     <div className={styles.options}>
                         <ButtonGroup>
                             {lecture.prevLectureId && (
-                                <Button  onClick={() => goToLecture(lecture.prevLectureId)}>
+                                <Button onClick={() => goToLecture(lecture.prevLectureId)}>
                                     <Icon type="left" />
                                     Prev
                                 </Button>
                             )}
-                            <Button  onClick={handleAskQuestion}>
+                            <Button onClick={handleAskQuestion}>
                                 Ask a question
                             </Button>
-                            <Button  onClick={handleCompleteLecture}>
-                                Completed
+                            <Button onClick={handleCompleteLecture} icon={lecture.isCompleted ? "check" : null}>
+                                {lecture.isCompleted ? "Completed" : "Mask complete"}
                             </Button>
                             {lecture.nextLectureId && (
                                 <Button  onClick={() => goToLecture(lecture.nextLectureId)}>
@@ -173,4 +192,9 @@ const Lecture = ({ match }) => {
     )
 };
 
-export default Lecture;
+export default connect(
+    ({ learning, loading }) => ({
+        initLoading: !!loading.effects['learning/fetchLecture'],
+        lecture: learning.lecture
+    })
+)(Lecture);

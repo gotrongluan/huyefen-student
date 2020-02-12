@@ -8,6 +8,7 @@ export default {
         _id: 1,
         title: 'The Vue Router'
     },
+    isCompleted: false,
     content: `<div><p role="heading" aria-level="5"><strong>A “Small” Definition of Big Data </strong></p><p>The term ‘big
     data’ seems to be popping up everywhere these days. And there seems to be as
     many uses of this term as there are contexts in which you find it: ‘big data’
