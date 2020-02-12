@@ -49,7 +49,12 @@ const Thread = ({ match, dispatch, ...props }) => {
         });
     };
 
-    const handleToggleAnswerVoting = answerId => message.info(`You toggled voting of answer ${answerId}`);
+    const handleToggleAnswerVoting = answerId => {
+        dispatch({
+            type: 'learning/toggleAnswerVote',
+            payload: answerId
+        });
+    };
 
     const handleAddAnswer = threadId => {
         if (!yourAnswer.getCurrentContent().hasText()) return message.error('You must enter answer!');

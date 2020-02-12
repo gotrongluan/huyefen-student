@@ -287,6 +287,13 @@ export default {
             });
             yield delay(800);
         },
+        *toggleAnswerVote({ payload: answerId }, { call, put }) {
+            yield put({
+                type: 'toggleAnswerVoting',
+                payload: answerId
+            });
+            yield delay(900);
+        },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
             yield delay(1000);
@@ -489,6 +496,18 @@ export default {
                 thread: {
                     ...state.thread,
                     isFollowed: !state.thread.isFollowed
+                }
+            };
+        },
+        toggleAnswerVoting(state, { payload: answerId }) {
+            const answersData = [...state.thread.answers];
+            const index = _.findIndex(answersData, ['_id', answerId]);
+            answersData[index].isVoted = !answersData[index].isVoted;
+            return {
+                ...state,
+                thread: {
+                    ...state.thread,
+                    answers: [...answersData]
                 }
             };
         },
