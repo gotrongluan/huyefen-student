@@ -215,7 +215,31 @@ export default {
             });
         },
         *filterQuestionsByTypes({ payload }, { call, put, select }) {
-
+            const { courseId, values } = payload;
+            yield put({
+                type: 'saveFilters',
+                payload: {
+                    type: 'questionTypes',
+                    value: values
+                }
+            });
+            const { forum } = yield select(state => state.learning);
+            const {
+                filters: {
+                    sortBy,
+                    lecture
+                }
+            } = forum;
+            //sort with lecture, types and value == lecture
+            yield delay(1500);
+            yield put({
+                type: 'saveQuestions',
+                payload: {
+                    hasMore: true,
+                    total: 4197,
+                    data: QUESTIONS
+                }
+            });
         },
         *askQuestion({ payload }, { call, put }){
 
