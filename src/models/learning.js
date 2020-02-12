@@ -183,12 +183,36 @@ export default {
                 payload: {
                     hasMore: true,
                     total: 4197,
-                    data: _.reverse(QUESTIONS)
+                    data: QUESTIONS
                 }
             });
         },
         *filterQuestionsByLecture({ payload }, { call, put, select }) {
-
+            const { courseId, value } = payload;
+            yield put({
+                type: 'saveFilters',
+                payload: {
+                    type: 'lecture',
+                    value
+                }
+            });
+            const { forum } = yield select(state => state.learning);
+            const {
+                filters: {
+                    sortBy,
+                    questionTypes
+                }
+            } = forum;
+            //sort with lecture, types and value == lecture
+            yield delay(1500);
+            yield put({
+                type: 'saveQuestions',
+                payload: {
+                    hasMore: true,
+                    total: 4197,
+                    data: QUESTIONS
+                }
+            });
         },
         *filterQuestionsByTypes({ payload }, { call, put, select }) {
 
@@ -316,7 +340,6 @@ export default {
         },
         pushQuestions(state, { payload }) {
             const { hasMore, data } = payload;
-            console.log(data);
             return {
                 ...state,
                 forum: {
