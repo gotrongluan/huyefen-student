@@ -269,10 +269,17 @@ export default {
             yield put({
                 type: 'pushAnswers',
                 payload: {
-                    hasMore: true,
+                    hasMore: false,
                     data: ANSWERS
                 }
             });
+        },
+        *toggleVote({ payload: threadId }, { call, put }) {
+            yield put({
+                type: 'toggleVoting'
+            });
+            yield delay(1000);
+            //call api
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
@@ -458,6 +465,15 @@ export default {
                         ...state.thread.answers,
                         ...data
                     ]
+                }
+            };
+        },
+        toggleVoting(state) {
+            return {
+                ...state,
+                thread: {
+                    ...state.thread,
+                    isVoted: !state.thread.isVoted
                 }
             };
         },

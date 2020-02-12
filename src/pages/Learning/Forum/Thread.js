@@ -36,7 +36,10 @@ const Thread = ({ match, dispatch, ...props }) => {
     };
 
     const handleToggleVoting = threadId => {
-        message.info(`You toggled vote of thread ${threadId}`);
+        dispatch({
+            type: 'learning/toggleVote',
+            payload: threadId
+        });
     };
 
     const handleToggleFollow = threadId => {
