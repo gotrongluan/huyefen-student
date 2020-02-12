@@ -153,7 +153,11 @@ export default {
             });
         },
         *fetchLectureOpts({ payload: courseId }, { call, put }) {
-
+            yield delay(1200);
+            yield put({
+                type: 'saveLectureOpts',
+                payload: LECTURE_OPTIONS
+            });
         },
         *sortQuestions({ payload }, { call, put, select }) {
 
@@ -293,6 +297,15 @@ export default {
                     ...state.forum,
                     hasMore,
                     list: [...state.forum.list, ...data]
+                }
+            };
+        },
+        saveLectureOpts(state, { payload }) {
+            return {
+                ...state,
+                forum: {
+                    ...state.forum,
+                    lectureOptions: [...payload]
                 }
             };
         },
