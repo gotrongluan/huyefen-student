@@ -12,7 +12,7 @@ export default [
             title: 'What is Django?'
         },
         createdAt: 1578813445999,
-        title: 'What is difference between PWA and SPA?',
+        title: 'What is difference between Java and Javascript?',
         content: 'I followed your code and the len(wordlist) does not show up in http://127.0.0.1:8000/count/?fulltext=this+is+cool+website',
         numOfAnswers: 2,
         numOfVotings: 3
@@ -30,7 +30,7 @@ export default [
             title: 'What is Django?'
         },
         createdAt: 1578813445999,
-        title: 'What is difference between PWA and SPA?',
+        title: 'What is difference between PHP and Python?',
         content: 'I followed your code and the len(wordlist) does not show up in http://127.0.0.1:8000/count/?fulltext=this+is+cool+website',
         numOfAnswers: 2,
         numOfVotings: 3
@@ -48,7 +48,7 @@ export default [
             title: 'What is Django?'
         },
         createdAt: 1578813445999,
-        title: 'What is difference between PWA and SPA?',
+        title: 'What is difference between Golang and NodeJS?',
         content: 'I followed your code and the len(wordlist) does not show up in http://127.0.0.1:8000/count/?fulltext=this+is+cool+website',
         numOfAnswers: 2,
         numOfVotings: 3

@@ -1,5 +1,6 @@
 import { delay } from '@/utils/utils';
 import { message } from 'antd';
+import _ from 'lodash';
 import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
 import COURSE_OVERVIEW from '@/assets/fakers/courseOverview';
 import INSTRUCTORS from '@/assets/fakers/instructors';
@@ -160,7 +161,31 @@ export default {
             });
         },
         *sortQuestions({ payload }, { call, put, select }) {
-
+            const { courseId, value } = payload;
+            yield put({
+                type: 'saveFilters',
+                payload: {
+                    type: 'sortBy',
+                    value
+                }
+            });
+            const { forum } = yield select(state => state.learning);
+            const {
+                filters: {
+                    lecture,
+                    questionTypes
+                }
+            } = forum;
+            //sort with lecture, types and value == sortBy
+            yield delay(1500);
+            yield put({
+                type: 'saveQuestions',
+                payload: {
+                    hasMore: true,
+                    total: 4197,
+                    data: _.reverse(QUESTIONS)
+                }
+            });
         },
         *filterQuestionsByLecture({ payload }, { call, put, select }) {
 
@@ -291,6 +316,7 @@ export default {
         },
         pushQuestions(state, { payload }) {
             const { hasMore, data } = payload;
+            console.log(data);
             return {
                 ...state,
                 forum: {
@@ -306,6 +332,19 @@ export default {
                 forum: {
                     ...state.forum,
                     lectureOptions: [...payload]
+                }
+            };
+        },
+        saveFilters(state, { payload }) {
+            const { type, value } = payload;
+            return {
+                ...state,
+                forum: {
+                    ...state.forum,
+                    filters: {
+                        ...state.forum.filters,
+                        [type]: value
+                    }
                 }
             };
         },
