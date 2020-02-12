@@ -108,6 +108,14 @@
         .yourAnswer {
             margin-top: 50px;
             position: relative;
+            .editor {
+                height: auto;
+                max-height: 220px;
+                overflow-y: auto;
+                &::-webkit-scrollbar {
+                    width: 0;
+                }
+            }
         }
     }
     .beginAnswers {

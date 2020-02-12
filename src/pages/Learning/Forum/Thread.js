@@ -199,11 +199,13 @@ const Thread = ({ match, dispatch, ...props }) => {
                         </React.Fragment>
                     )}
                     <div className={styles.yourAnswer}>
-                        <Editor
-                            editorState={yourAnswer}
-                            onChange={editorState => setYourAnswer(editorState)}
-                            placeholder="Enter answer..."
-                        />
+                        <div className={styles.editor}>
+                            <Editor
+                                editorState={yourAnswer}
+                                onChange={editorState => setYourAnswer(editorState)}
+                                placeholder="Enter answer..."
+                            />
+                        </div>
                         <Button type="primary" style={{ marginTop: 20 }} onClick={() => handleAddAnswer(thread._id)}>Add an answer</Button>
                     </div>
                 </div>
