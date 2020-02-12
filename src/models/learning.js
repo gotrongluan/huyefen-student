@@ -281,6 +281,12 @@ export default {
             yield delay(1000);
             //call api
         },
+        *toggleFollow({ payload: threadId }, { call, put }) {
+            yield put({
+                type: 'toggleFollowing',
+            });
+            yield delay(800);
+        },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
             yield delay(1000);
@@ -474,6 +480,15 @@ export default {
                 thread: {
                     ...state.thread,
                     isVoted: !state.thread.isVoted
+                }
+            };
+        },
+        toggleFollowing(state) {
+            return {
+                ...state,
+                thread: {
+                    ...state.thread,
+                    isFollowed: !state.thread.isFollowed
                 }
             };
         },
