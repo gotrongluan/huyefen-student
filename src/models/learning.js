@@ -157,6 +157,27 @@ export default {
                 }
             });
         },
+        *fetchQuestionsAgain({ payload: courseId }, { call, put, select }) {
+            const {
+                forum: {
+                    filters: {
+                        lecture,
+                        sortBy,
+                        questionTypes
+                    }
+                }
+            } = yield select(state => state.learning);
+            //fetch again with all above params, courseId
+            yield delay(1300);
+            yield put({
+                type: 'saveQuestions',
+                payload: {
+                    hasMore: true,
+                    total: 243,
+                    data: QUESTIONS
+                }
+            });
+        },
         *fetchLectureOpts({ payload: courseId }, { call, put }) {
             yield delay(1200);
             yield put({
@@ -186,7 +207,7 @@ export default {
                 type: 'saveQuestions',
                 payload: {
                     hasMore: true,
-                    total: 4197,
+                    total: 2197,
                     data: QUESTIONS
                 }
             });
@@ -213,7 +234,7 @@ export default {
                 type: 'saveQuestions',
                 payload: {
                     hasMore: true,
-                    total: 4197,
+                    total: 702,
                     data: QUESTIONS
                 }
             });
@@ -240,12 +261,27 @@ export default {
                 type: 'saveQuestions',
                 payload: {
                     hasMore: true,
-                    total: 4197,
+                    total: 1643,
                     data: QUESTIONS
                 }
             });
         },
         *askQuestion({ payload }, { call, put }){
+            const {
+                courseId,
+                title,
+                lecture,
+                content
+            } = payload;
+            //call api with 4 above variables 
+            yield delay(1400);
+            //get question from response
+            //if no error -> redirect to thread/${questionId}
+            yield put({
+                type: 'fetchQuestionsAgain',
+                payload: courseId
+            });
+            router.push(`/learning/${courseId}/forum/thread/new-question`);
 
         },
         *fetchThread({ payload: threadId }, { call, put }) {
@@ -309,8 +345,8 @@ export default {
                     },
                     createdAt: 1578818445997,
                     content: answer,
-                    numOfVotings: 1,
-                    isVoted: true
+                    numOfVotings: 0,
+                    isVoted: false
                 }
             };
             const {

@@ -8,6 +8,7 @@ import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
 import Loading from '@/elements/spin/secondary';
 import styles from './index.less';
+import { exportToHTML } from '@/utils/editor';
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
@@ -29,7 +30,8 @@ const Forum = ({ location, match, dispatch, ...props }) => {
         lectureOptionsLoading,
         sortLoading,
         filterByLectureLoading,
-        filterByTypesLoading
+        filterByTypesLoading,
+        askQuestionLoading
     } = props;
     const { courseId } = match.params;
     const handleSort = value => {
@@ -103,6 +105,16 @@ const Forum = ({ location, match, dispatch, ...props }) => {
             const contentState = questionContent.getCurrentContent();
             if (!contentState.hasText()) return message.error('You must enter question!');
         };
+        const html = exportToHTML(questionContent);
+        dispatch({
+            type: 'learning/askQuestion',
+            payload: {
+                courseId,
+                title: questionTitle.value,
+                lecture: newQuestionLecture,
+                content: html
+            }
+        });
         //do something
         //call exportToHTML
         handleCancelAskQuestion();
@@ -302,6 +314,22 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                     </div>
                 </Form>
             </Modal>
+            <Modal
+                className={styles.askQuestionLoadingModal}
+                width={180}
+                visible={askQuestionLoading}
+                footer={null}
+                closable={false}
+                maskClosable={false}
+                title={null}
+                centered
+                bodyStyle={{ 
+                    padding: '10px'
+                }}
+            >
+                <div className={styles.icon}><Spin /></div>
+                <div className={styles.text}>Submitting...</div>
+            </Modal>
         </div>
     )
     
@@ -310,11 +338,12 @@ const Forum = ({ location, match, dispatch, ...props }) => {
 export default connect(
     ({ learning, loading }) => ({
         forum: learning.forum,
-        initLoading: loading.effects['learning/fetchQuestions'],
+        initLoading: !!loading.effects['learning/fetchQuestions'] || !!loading.effects['learning/fetchQuestionsAgain'],
         loading: !!loading.effects['learning/moreQuestions'],
         lectureOptionsLoading: !!loading.effects['learning/fetchLectureOpts'],
         sortLoading: !!loading.effects['learning/sortQuestions'],
         filterByLectureLoading: !!loading.effects['learning/filterQuestionsByLecture'],
-        filterByTypesLoading: !!loading.effects['learning/filterQuestionsByTypes']
+        filterByTypesLoading: !!loading.effects['learning/filterQuestionsByTypes'],
+        askQuestionLoading: !!loading.effects['learning/askQuestion']
     })
 )(Forum);
