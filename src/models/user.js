@@ -5,14 +5,14 @@ import router from 'umi/router';
 const USER = {
     token: 'foo-token',
     name: 'Ngoc Hanh Vuong',
-    avatar: null,
+    avatar: "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-9/44998607_1955450574549727_4051671426044788736_o.jpg?_nc_cat=101&_nc_ohc=m01qO3I_974AX8WBWi3&_nc_ht=scontent.fdad2-1.fna&oh=afa498f2c4556fbb6e345b2d9e6d633b&oe=5EBA7BE5",
     email: 'ngochanhvuong@gmail.com',
     phone: '0919079306',
-    gender: 'developer',
+    gender: 'female',
     birthday: '1997/12/21',
-    facebook: 'facebook.com/ngochanhvuong',
+    facebook: 'ngochanhvuong',
     linkedin: null,
-    job: 'student',
+    job: 'developer',
     noOfUsMessage: 7,
     noOfUsNotification: 2,
     catesOfConcern: [4, 13]             //list of categoriy Ids
@@ -35,6 +35,15 @@ export default {
             });
             if (callback) callback();
             //set FCM token.
+        },
+        *update({ payload }, { call, put }) {
+            //call api with all params in payload
+            yield delay(2000);
+            //only return info part of user in reponse
+            yield put({
+                type: 'updateUser',
+                payload
+            });
         },
         *login({ from, payload }, { call, put }) {
             const { phone, password } = payload;
@@ -75,6 +84,12 @@ export default {
             return {
                 ...state,
                 noUsNotification: payload
+            };
+        },
+        updateUser(state, { payload }) {
+            return {
+                ...state,
+                ...payload
             };
         },
         reset() {
