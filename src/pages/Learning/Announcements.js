@@ -33,8 +33,8 @@ const CommentInput = ({ onPressEnter, disabled }) => {
             placeholder="Enter comment..."
             disabled={disabled}
             autoSize={{
-                minRows: 2,
-                maxRows: 5
+                minRows: 1,
+                maxRows: 2
             }}
         />
     )
@@ -186,7 +186,9 @@ const Announcements = ({ match, dispatch, ...props }) => {
                                                 <Avatar shape="circle" className={styles.avatar} src={avatarSrc} alt="your-avar" size={48}/>
                                             </Col>
                                             <Col span={22} className={styles.input}>
-                                                <CommentInput onPressEnter={value => handleComment(announcement._id, value)} />
+                                                <div className={styles.inline}>
+                                                    <CommentInput onPressEnter={value => handleComment(announcement._id, value)} />
+                                                </div>
                                             </Col>
                                         </Row>
                                     </div>
