@@ -15,7 +15,7 @@ const LoadingAnnouncement = () => {
     )
 };
 
-const CommentInput = ({ onPressEnter }) => {
+const CommentInput = ({ onPressEnter, disabled }) => {
     const [value, setValue] = useState('');
     const handlePressEnter = e => {
         if (!e.shiftKey) {
@@ -31,6 +31,7 @@ const CommentInput = ({ onPressEnter }) => {
             onChange={e => setValue(e.target.value)}
             onPressEnter={handlePressEnter}
             placeholder="Enter comment..."
+            disabled={disabled}
             autoSize={{
                 minRows: 2,
                 maxRows: 5
@@ -44,6 +45,7 @@ const Announcements = ({ match, dispatch, ...props }) => {
         announcements,
         loading,
         initLoading,
+        commentLoading,
         hasMore
     } = props;
     const { courseId } = match.params;
@@ -65,9 +67,15 @@ const Announcements = ({ match, dispatch, ...props }) => {
             payload: announcementId
         });
     };
-    const handleComment = (annoucementId, comment) => {
+    const handleComment = (announcementId, comment) => {
         if (comment !== '') {
-            message.success(comment);
+            dispatch({
+                type: 'learning/comment',
+                payload: {
+                    announcementId,
+                    content: comment,
+                }
+            });
         }
     };
     const loadMore = (
@@ -178,7 +186,7 @@ const Announcements = ({ match, dispatch, ...props }) => {
                                                 <Avatar shape="circle" className={styles.avatar} src={avatarSrc} alt="your-avar" size={48}/>
                                             </Col>
                                             <Col span={22} className={styles.input}>
-                                                <CommentInput onPressEnter={value => handleComment(announcement._id, value)}/>
+                                                <CommentInput onPressEnter={value => handleComment(announcement._id, value)} />
                                             </Col>
                                         </Row>
                                     </div>
@@ -196,6 +204,7 @@ const Announcements = ({ match, dispatch, ...props }) => {
 export default connect(
     ({ learning, loading }) => ({
         initLoading: !!loading.effects['learning/fetchAnnouncements'],
+        commentLoading: !!loading.effects['learning/comment'],
         loading: !!loading.effects['learning/moreAnnouncements'],
         announcements: learning.announcements.list,
         hasMore: learning.announcements.hasMore
