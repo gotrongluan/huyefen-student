@@ -66,6 +66,21 @@ export default {
             if (status === 0) onOk();
             else onIncorrect();
         },
+        *uploadAvatar({ payload }, { call, put }) {
+            const { file, callback } = payload;
+            //call api to upload file (Base64) to cloud, get url
+            yield delay(1000);
+            //after get Url, call api to update avatar of user.
+            yield delay(1000);
+            //response only return avatar part
+            yield put({
+                type: 'updateUser',
+                payload: {
+                    avatar: file
+                }
+            });
+            callback();
+        },
         *login({ from, payload }, { call, put }) {
             const { phone, password } = payload;
             yield delay(1600);

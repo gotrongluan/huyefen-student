@@ -17,10 +17,12 @@ const Profile = ({ form, dispatch, ...props }) => {
         categories,
         jobs,
         profileLoading,
-        catesOfConcernLoading
+        catesOfConcernLoading,
     } = props;
     const { getFieldDecorator } = form;
     const [avatar, setAvatar] = useState(null);
+    const [avatarLoading, setAvatarLoading] = useState(false);
+    const [fileList, setFileList] = useState([]);
     const [targetKeys, setTargetKeys] = useState([...user.catesOfConcern]);
     const handleChangeInfo = e => {
         e.preventDefault();
@@ -52,17 +54,43 @@ const Profile = ({ form, dispatch, ...props }) => {
         });
     };
 
-    const handleBeforeUpload = file => {
+    const handleBeforeUpload = (file, fileList) => {
         setAvatar(file);
+        setFileList(fileList);
         return false;
     };
 
-    const handleRemoveAvatar = () => setAvatar(null);
+    const handleRemoveAvatar = () => {
+        setAvatar(null);
+        setFileList([]);
+    };
+
+    const handleUploadAvatar = e => {
+        setAvatarLoading(true);
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(avatar);
+        fileReader.onload = () => {
+            dispatch({
+                type: 'user/uploadAvatar',
+                payload: {
+                    file: fileReader.result,
+                    callback: () => {
+                        setAvatar(null);
+                        setAvatarLoading(false);
+                    }
+                }
+            });
+        };
+        setFileList([]);
+        e.preventDefault();
+    };
 
     const avatarProps = {
+        accept: 'image/*',
         name: 'avatarfile',
         beforeUpload: handleBeforeUpload,
         onRemove: handleRemoveAvatar,
+        fileList: fileList,
         openFileDialogOnClick: !avatar,
         showUploadList: {
             showRemoveIcon: true
@@ -84,19 +112,16 @@ const Profile = ({ form, dispatch, ...props }) => {
                     )}
                 </div>
                 <div className={styles.uploader}>
-                    <Form layout="vertical" onSubmit={(e) => {
-                        message.success('Change avatar!');
-                        e.preventDefault();
-                    }}>
+                    <Form layout="vertical" onSubmit={handleUploadAvatar}>
                         <Form.Item>
-                            <Upload {...avatarProps} accept="image/*">
+                            <Upload {...avatarProps}>
                                 {!avatar ? (
                                     <Button className={styles.upBtn}>
                                         <Icon type="upload" /> New avatar
                                     </Button>
                                 ) : (
                                     <Button type="primary" htmlType="submit">
-                                        <Icon type="check" /> Let's change                    
+                                        <Icon type={avatarLoading ? "loading" : "check"} /> Let's change                    
                                     </Button>
                                 )}
                             </Upload>
