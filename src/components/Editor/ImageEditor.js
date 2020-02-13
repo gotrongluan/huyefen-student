@@ -61,7 +61,7 @@ const Anchor = ({ contentState, entityKey, children }) => {
     const { href } = contentState.getEntity(entityKey).getData();
     const link = `https://${href}`;
 	return (
-		<Tooltip placement="top" title={`Shift+Click to ${link}`}>
+		<Tooltip placement="bottom" title={`Shift+Click to ${link}`} >
             <span 
                 className={styles.link}
                 onClick={e => {
@@ -79,7 +79,7 @@ const Anchor = ({ contentState, entityKey, children }) => {
 
 const ImageEditor = ({ dispatch, editorState, onChange, placeholder }) => {
     const editorRef = useRef(null);
-    const [colorVisible, setColorVisible] = useState(false);
+    //const [colorVisible, setColorVisible] = useState(false);
     const [imageVisible, setImageVisible] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [imageList, setImageList] = useState([]);
@@ -134,42 +134,42 @@ const ImageEditor = ({ dispatch, editorState, onChange, placeholder }) => {
         e.preventDefault();
         onChange(RichUtils.toggleBlockType(editorState, blockType));
     };
-    const handleToggleColor = color => e => {
-		e.preventDefault();
-		const selection = editorState.getSelection();
+    // const handleToggleColor = color => e => {
+	// 	e.preventDefault();
+	// 	const selection = editorState.getSelection();
 
-		// Let's just allow one color at a time. Turn off all active colors.
-		const nextContentState = _.keys(customColorMap)
-		.reduce((contentState, color) => {
-			return Modifier.removeInlineStyle(contentState, selection, color)
-		}, editorState.getCurrentContent());
+	// 	// Let's just allow one color at a time. Turn off all active colors.
+	// 	const nextContentState = _.keys(customColorMap)
+	// 	.reduce((contentState, color) => {
+	// 		return Modifier.removeInlineStyle(contentState, selection, color)
+	// 	}, editorState.getCurrentContent());
 
-		let nextEditorState = EditorState.push(
-			editorState,
-			nextContentState,
-			'change-inline-style'
-		);
+	// 	let nextEditorState = EditorState.push(
+	// 		editorState,
+	// 		nextContentState,
+	// 		'change-inline-style'
+	// 	);
 
-		const currentStyle = editorState.getCurrentInlineStyle();
+	// 	const currentStyle = editorState.getCurrentInlineStyle();
 
-		// Unset style override for current color.
-		if (selection.isCollapsed()) {
-			nextEditorState = currentStyle.reduce((state, color) => {
-				return !!customColorMap[color] ? RichUtils.toggleInlineStyle(state, color) : state;
-			}, nextEditorState);
-		}
+	// 	// Unset style override for current color.
+	// 	if (selection.isCollapsed()) {
+	// 		nextEditorState = currentStyle.reduce((state, color) => {
+	// 			return !!customColorMap[color] ? RichUtils.toggleInlineStyle(state, color) : state;
+	// 		}, nextEditorState);
+	// 	}
 
-		// If the color is being toggled on, apply it.
-		if (!currentStyle.has(color)) {
-			nextEditorState = RichUtils.toggleInlineStyle(
-				nextEditorState,
-				color
-			);
-		}
+	// 	// If the color is being toggled on, apply it.
+	// 	if (!currentStyle.has(color)) {
+	// 		nextEditorState = RichUtils.toggleInlineStyle(
+	// 			nextEditorState,
+	// 			color
+	// 		);
+	// 	}
 
-		onChange(nextEditorState);
-		setColorVisible(false);
-    };
+	// 	onChange(nextEditorState);
+	// 	setColorVisible(false);
+    // };
     const handleAddLink = () => {
         const selection = editorState.getSelection();
 		const contentState = editorState.getCurrentContent();
@@ -265,21 +265,21 @@ const ImageEditor = ({ dispatch, editorState, onChange, placeholder }) => {
             showRemoveIcon: true
         }
     };
-    const customColorMapKeys = _.keys(customColorMap);
-	let colorData = _.map(customColorMapKeys, colorKey => ({
-		key: colorKey,
-		...customColorMap[colorKey]
-	}));
-	colorData = _.chunk(colorData, 5);
-	const currentInlineStyle = editorState.getCurrentInlineStyle();
-	let activeKey;
-	for (let i = 0; i < customColorMapKeys.length; ++i) {
-		if (currentInlineStyle.has(customColorMapKeys[i])) {
-			activeKey = customColorMapKeys[i];
-			break;
-		}
-	}
-	if (!activeKey) activeKey = 'SILVER';
+    // const customColorMapKeys = _.keys(customColorMap);
+	// let colorData = _.map(customColorMapKeys, colorKey => ({
+	// 	key: colorKey,
+	// 	...customColorMap[colorKey]
+	// }));
+	// colorData = _.chunk(colorData, 5);
+	// const currentInlineStyle = editorState.getCurrentInlineStyle();
+	// let activeKey;
+	// for (let i = 0; i < customColorMapKeys.length; ++i) {
+	// 	if (currentInlineStyle.has(customColorMapKeys[i])) {
+	// 		activeKey = customColorMapKeys[i];
+	// 		break;
+	// 	}
+	// }
+	// if (!activeKey) activeKey = 'SILVER';
     return (
         <div className={styles.imageEditor}>
             <div className={styles.buttons}>
@@ -295,7 +295,7 @@ const ImageEditor = ({ dispatch, editorState, onChange, placeholder }) => {
                 <Tooltip placement="top" title="Highlight | Cmd+H">
                     <span className={inlineStyleBtnClass('HIGHLIGHT')} onMouseDown={handleInlineStyle('HIGHLIGHT')}><Icon type="highlight" /></span>
                 </Tooltip>
-                <Popover
+                {/* <Popover
                     placement="top"
                     content={(
                         <div>
@@ -323,7 +323,7 @@ const ImageEditor = ({ dispatch, editorState, onChange, placeholder }) => {
                     onVisibleChange={setColorVisible}
                 >
                     <span className={styles.btn} ><Icon type="font-colors" /></span>
-                </Popover>
+                </Popover> */}
                 <Popover
                     placement="top"
                     popupClassName={styles.linkPopover}

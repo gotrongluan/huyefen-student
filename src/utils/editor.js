@@ -48,10 +48,6 @@ export const exportToHTML = editorState => {
                     target: '_blank',
                 },
                 style: {
-                    background: 'rgba(255, 255, 255, 0.2)',
-                    padding: '1px',
-                    borderRadius: '2px',
-                    border: 'white',
                     cursor: 'pointer',
                     color: '#FADA5E'
                 }

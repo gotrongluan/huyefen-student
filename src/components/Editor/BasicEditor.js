@@ -43,7 +43,7 @@ const Anchor = ({ contentState, entityKey, children }) => {
 
 const BasicEditor = ({ editorState, onChange, placeholder }) => {
     const editorRef = useRef(null);
-    const [colorVisible, setColorVisible] = useState(false);
+    //const [colorVisible, setColorVisible] = useState(false);
     const [link, setLink] = useState('');
     const [linkVisible, setLinkVisible] = useState(false);
     const decorators = [
@@ -93,42 +93,42 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
         e.preventDefault();
         onChange(RichUtils.toggleBlockType(editorState, blockType));
     };
-    const handleToggleColor = color => e => {
-		e.preventDefault();
-		const selection = editorState.getSelection();
+    // const handleToggleColor = color => e => {
+	// 	e.preventDefault();
+	// 	const selection = editorState.getSelection();
 
-		// Let's just allow one color at a time. Turn off all active colors.
-		const nextContentState = _.keys(customColorMap)
-		.reduce((contentState, color) => {
-			return Modifier.removeInlineStyle(contentState, selection, color)
-		}, editorState.getCurrentContent());
+	// 	// Let's just allow one color at a time. Turn off all active colors.
+	// 	const nextContentState = _.keys(customColorMap)
+	// 	.reduce((contentState, color) => {
+	// 		return Modifier.removeInlineStyle(contentState, selection, color)
+	// 	}, editorState.getCurrentContent());
 
-		let nextEditorState = EditorState.push(
-			editorState,
-			nextContentState,
-			'change-inline-style'
-		);
+	// 	let nextEditorState = EditorState.push(
+	// 		editorState,
+	// 		nextContentState,
+	// 		'change-inline-style'
+	// 	);
 
-		const currentStyle = editorState.getCurrentInlineStyle();
+	// 	const currentStyle = editorState.getCurrentInlineStyle();
 
-		// Unset style override for current color.
-		if (selection.isCollapsed()) {
-			nextEditorState = currentStyle.reduce((state, color) => {
-				return !!customColorMap[color] ? RichUtils.toggleInlineStyle(state, color) : state;
-			}, nextEditorState);
-		}
+	// 	// Unset style override for current color.
+	// 	if (selection.isCollapsed()) {
+	// 		nextEditorState = currentStyle.reduce((state, color) => {
+	// 			return !!customColorMap[color] ? RichUtils.toggleInlineStyle(state, color) : state;
+	// 		}, nextEditorState);
+	// 	}
 
-		// If the color is being toggled on, apply it.
-		if (!currentStyle.has(color)) {
-			nextEditorState = RichUtils.toggleInlineStyle(
-				nextEditorState,
-				color
-			);
-		}
+	// 	// If the color is being toggled on, apply it.
+	// 	if (!currentStyle.has(color)) {
+	// 		nextEditorState = RichUtils.toggleInlineStyle(
+	// 			nextEditorState,
+	// 			color
+	// 		);
+	// 	}
 
-		onChange(nextEditorState);
-		setColorVisible(false);
-    };
+	// 	onChange(nextEditorState);
+	// 	setColorVisible(false);
+    // };
     const handleAddLink = () => {
         const selection = editorState.getSelection();
 		const contentState = editorState.getCurrentContent();
@@ -174,21 +174,21 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
         if (getBlockType() === blockType) return classNames(styles.btn, styles.btnActive);
         return styles.btn;
     };
-    const customColorMapKeys = _.keys(customColorMap);
-	let colorData = _.map(customColorMapKeys, colorKey => ({
-		key: colorKey,
-		...customColorMap[colorKey]
-	}));
-	colorData = _.chunk(colorData, 5);
-	const currentInlineStyle = editorState.getCurrentInlineStyle();
-	let activeKey;
-	for (let i = 0; i < customColorMapKeys.length; ++i) {
-		if (currentInlineStyle.has(customColorMapKeys[i])) {
-			activeKey = customColorMapKeys[i];
-			break;
-		}
-	}
-	if (!activeKey) activeKey = 'SILVER';
+    //const customColorMapKeys = _.keys(customColorMap);
+	// let colorData = _.map(customColorMapKeys, colorKey => ({
+	// 	key: colorKey,
+	// 	...customColorMap[colorKey]
+	// }));
+	// colorData = _.chunk(colorData, 5);
+	// const currentInlineStyle = editorState.getCurrentInlineStyle();
+	// let activeKey;
+	// for (let i = 0; i < customColorMapKeys.length; ++i) {
+	// 	if (currentInlineStyle.has(customColorMapKeys[i])) {
+	// 		activeKey = customColorMapKeys[i];
+	// 		break;
+	// 	}
+	// }
+	// if (!activeKey) activeKey = 'SILVER';
     return (
         <div className={styles.basicEditor}>
             <div className={styles.buttons}>
@@ -204,7 +204,7 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                 <Tooltip placement="top" title="Highlight | Cmd+H">
                     <span className={inlineStyleBtnClass('HIGHLIGHT')} onMouseDown={handleInlineStyle('HIGHLIGHT')}><Icon type="highlight" /></span>
                 </Tooltip>
-                <Popover
+                {/* <Popover
                     placement="top"
                     content={(
                         <div>
@@ -232,7 +232,7 @@ const BasicEditor = ({ editorState, onChange, placeholder }) => {
                     onVisibleChange={setColorVisible}
                 >
                     <span className={styles.btn} ><Icon type="font-colors" /></span>
-                </Popover>
+                </Popover> */}
                 <Popover
                     placement="top"
                     popupClassName={styles.linkPopover}
