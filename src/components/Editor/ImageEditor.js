@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { Button, Tooltip, Popover, Icon, Input, Tabs, Upload } from 'antd';
+import { connect } from 'dva';
+import { Button, Tooltip, Popover, Form, Icon, Input, Tabs, Upload, message } from 'antd';
 import { Modifier, EditorState, RichUtils, KeyBindingUtil, getDefaultKeyBinding } from 'draft-js';
 import { customStyleMap, customColorMap } from '@/config/constants';
 import Editor, { composeDecorators } from 'draft-js-plugins-editor';
@@ -76,11 +77,13 @@ const Anchor = ({ contentState, entityKey, children }) => {
 	);
 };
 
-const ImageEditor = ({ editorState, onChange, placeholder }) => {
+const ImageEditor = ({ dispatch, editorState, onChange, placeholder }) => {
     const editorRef = useRef(null);
     const [colorVisible, setColorVisible] = useState(false);
     const [imageVisible, setImageVisible] = useState(false);
     const [imageFile, setImageFile] = useState(null);
+    const [imageList, setImageList] = useState([]);
+    const [imageLoading, setImageLoading] = useState(false);
     const [imageLink, setImageLink] = useState('');
     const [link, setLink] = useState('');
     const [linkVisible, setLinkVisible] = useState(false);
@@ -221,18 +224,42 @@ const ImageEditor = ({ editorState, onChange, placeholder }) => {
     };
     const handleAddImage = () => {
         onChange(addImage(editorState, imageLink));
-        setImageLink('');
         handleImageVisibleChange(false);
     };
-    const handleBeforeUpload = file => {
+    const handleBeforeUpload = (file, fileList) => {
         setImageFile(file);
+        setImageList(fileList);
         return false;
     };
-    const handleRemove = () => setImageFile(null);
+    const handleRemove = () => {
+        setImageFile(null);
+        setImageList([]);
+    };
+    const handleUploadImage = () => {
+        setImageLoading(true);
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(imageFile);
+        fileReader.onload = () => {
+            dispatch({
+                type: 'common/upload',
+                payload: {
+                    file: fileReader.result,
+                    callback: link => {
+                        onChange(addImage(editorState, link));
+                        handleImageVisibleChange(false);
+                        setImageLoading(false);
+                    }
+                }
+            });
+        };
+        setImageList([]);
+    };
     const imageUploadProps = {
+        accept: 'images/*',
         name: 'avatarfile',
         beforeUpload: handleBeforeUpload,
         onRemove: handleRemove,
+        fileList: imageList,
         openFileDialogOnClick: !imageFile,
         showUploadList: {
             showRemoveIcon: true
@@ -349,14 +376,14 @@ const ImageEditor = ({ editorState, onChange, placeholder }) => {
                                 >
                                     <div className={styles.tabPane}>
                                         <div className={styles.inlineDiv}>
-                                            <Upload {...imageUploadProps} accept="image/*">
+                                            <Upload {...imageUploadProps}>
                                                 {!imageFile ? (
                                                     <Button className={styles.upBtn} >
                                                         <Icon type="upload" /> Add image
                                                     </Button>
                                                 ) : (
-                                                    <Button type="primary" htmlType="submit" >
-                                                        <Icon type="check" /> Let's upload                    
+                                                    <Button type="primary" onClick={handleUploadImage}>
+                                                        <Icon type={imageLoading ? "loading" : "check"} /> Let's upload                    
                                                     </Button>
                                                 )}
                                             </Upload>
@@ -408,4 +435,4 @@ const ImageEditor = ({ editorState, onChange, placeholder }) => {
     )
 };
 
-export default ImageEditor;
+export default connect()(ImageEditor);
