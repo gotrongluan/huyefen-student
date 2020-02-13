@@ -5,7 +5,7 @@ import router from 'umi/router';
 const USER = {
     token: 'foo-token',
     name: 'Ngoc Hanh Vuong',
-    avatar: "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-9/44998607_1955450574549727_4051671426044788736_o.jpg?_nc_cat=101&_nc_ohc=m01qO3I_974AX8WBWi3&_nc_ht=scontent.fdad2-1.fna&oh=afa498f2c4556fbb6e345b2d9e6d633b&oe=5EBA7BE5",
+    avatar: null,
     email: 'ngochanhvuong@gmail.com',
     phone: '0919079306',
     gender: 'female',
@@ -53,6 +53,18 @@ export default {
                     catesOfConcern: targetKeys
                 }
             })
+        },
+        *changePassword({ payload }, { call, put }) {
+            const {
+                oldPassword,
+                newPassword,
+                onOk,
+                onIncorrect
+            } = payload;
+            yield delay(2000);
+            const status = 1;
+            if (status === 0) onOk();
+            else onIncorrect();
         },
         *login({ from, payload }, { call, put }) {
             const { phone, password } = payload;
