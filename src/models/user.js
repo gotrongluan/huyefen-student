@@ -8,13 +8,14 @@ const USER = {
     avatar: null,
     email: 'ngochanhvuong@gmail.com',
     phone: '0919079306',
-    gender: 'female',
-    birthday: '21/12/1997',
+    gender: 'developer',
+    birthday: '1997/12/21',
     facebook: 'facebook.com/ngochanhvuong',
     linkedin: null,
     job: 'student',
     noOfUsMessage: 7,
-    noOfUsNotification: 2
+    noOfUsNotification: 2,
+    catesOfConcern: [4, 13]             //list of categoriy Ids
 };
 
 const response = {

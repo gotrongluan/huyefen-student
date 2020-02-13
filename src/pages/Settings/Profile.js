@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import moment from 'moment';
+import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Form, Input, DatePicker, Button, Avatar, Upload, Row, Col, Select, Divider, Icon, Transfer, message } from 'antd';
 import Spin from '@/elements/spin/secondary';
+import { capitalText } from '@/utils/utils';
 import CATES_OF_CONCERN from '@/assets/fakers/catesOfConcern';
 import styles from './Profile.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 
-const Profile = ({ form }) => {
+const Profile = ({ form, dispatch, ...props }) => {
+    const {
+        user,
+        initLoading,
+        categories,
+        jobs,
+        profileLoading,
+        catesOfConcernLoading
+    } = props;
     const { getFieldDecorator } = form;
     const data = CATES_OF_CONCERN;
     const [avatar, setAvatar] = useState(null);
@@ -47,11 +58,15 @@ const Profile = ({ form }) => {
                 ) : (
                     <>
                         <div className={styles.main}>
-                            <Avatar
-                                size={150}
-                                src={"https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56"}
-                                alt="avatar"
-                            />
+                            {user.avatar ? (
+                                <Avatar
+                                    size={150}
+                                    src={user.avatar}
+                                    alt="avatar"
+                                />
+                            ) : (
+                                <Avatar style={{ backgroundColor: '#fada5e', color: 'white', fontSize: '50px' }} size={150}>{capitalText(user.name)}</Avatar>
+                            )}
                         </div>
                         <div className={styles.uploader}>
                             <Form layout="vertical" onSubmit={(e) => {
@@ -109,7 +124,7 @@ const Profile = ({ form }) => {
                                                             message: 'Your name is invalid!'
                                                         }
                                                     ],
-                                                    initialValue: '',
+                                                    initialValue: user.name,
                                                 })(
                                                     <Input placeholder="Name" size="large" style={{ width: '100%' }}/>
                                                 )
@@ -133,7 +148,7 @@ const Profile = ({ form }) => {
                                                         message: 'Phone number must has length 10!'
                                                     },
                                                 ],
-                                                initialValue: ''
+                                                initialValue: user.phone
                                             })(<Input 
                                                 addonBefore={
                                                     <Select defaultValue={84}>
@@ -151,7 +166,7 @@ const Profile = ({ form }) => {
                                     <Col span={6}>
                                         <FormItem label="Gender">
                                             {getFieldDecorator('gender', {
-                                                initialValue: 'male',
+                                                initialValue: user.gender,
                                                 rules: [
                                                     {
                                                         required: true,
@@ -169,7 +184,7 @@ const Profile = ({ form }) => {
                                     <Col span={6}>
                                         <FormItem label="Birtday">
                                             {getFieldDecorator('birthday', {
-                                                initialValue: moment(),
+                                                initialValue: moment(user.birthday),
                                                 rules: [
                                                     {
                                                         required: true,
@@ -187,7 +202,8 @@ const Profile = ({ form }) => {
                                                         required: true,
                                                         message: 'Please enter your job!',
                                                     }
-                                                ]
+                                                ],
+                                                initialValue: user.job
                                             })(
                                                 <Select
                                                     showSearch
@@ -199,11 +215,12 @@ const Profile = ({ form }) => {
                                                     size="large"
                                                     style={{ width: '100%' }}
                                                     dropdownClassName={styles.dropdown}
+                                                    disabled={initLoading}
+                                                    loading={initLoading}
                                                 >
-                                                    <Option value="student">{formatMessage({ id: 'settings.profile.account.job.student' })}</Option>
-                                                    <Option value="teacher">Teacher</Option>
-                                                    <Option value="doctor">Doctor</Option>
-                                                    <Option value="others">Others</Option>
+                                                    {_.map(jobs, job => (
+                                                        <Option key={job.key}>{job.title}</Option>
+                                                    ))}
                                                 </Select>
                                             )}
                                         </FormItem>
@@ -214,7 +231,7 @@ const Profile = ({ form }) => {
                                         <FormItem label="Facebook">
                                             {
                                                 getFieldDecorator('facebook', {
-                                                    initialValue: '',
+                                                    initialValue: user.facebook || '',
                                                 })(
                                                     <Input addonAfter={<Icon type="facebook" />} addonBefore={"https://"} placeholder="Facebook link" size="large" style={{ width: '100%' }}/>
                                                 )
@@ -224,7 +241,7 @@ const Profile = ({ form }) => {
                                     <Col span={12}>
                                         <FormItem label="Linkedin">
                                             {getFieldDecorator('linkedin', {
-                                                initialValue: ''
+                                                initialValue: user.linkedin || ''
                                             })(<Input 
                                                 addonBefore={"https://"}
                                                 addonAfter={
@@ -286,4 +303,13 @@ const Profile = ({ form }) => {
     )
 };
 
-export default Form.create()(Profile);
+export default Form.create()(connect(
+    ({ user, settings, loading }) => ({
+        profileLoading: !!loading.effects['account/updateProfile'],
+        catesOfConcernLoading: !!loading.effects['account/updateCatesOfConcern'],
+        user: user,
+        categories: settings.categories,
+        jobs: settings.jobs,
+        initLoading: !!loading.effects['settings/fetch']
+    })
+)(Profile));

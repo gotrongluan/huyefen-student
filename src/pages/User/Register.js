@@ -34,7 +34,7 @@ const Register = ({ dispatch, ...props }) => {
         if (!job) return message.error('You must select your job!');
         const info = {
             name, password, phone, gender, email,
-            birthday: birthday.format("DD/MM/YYYY")
+            birthday: birthday.format("YYYY-MM-DD")
         };
         dispatch({
             type: 'user/register',

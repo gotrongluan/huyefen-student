@@ -1,6 +1,7 @@
 import { delay } from '@/utils/utils';
 import AREAS_MENU from '@/assets/fakers/areasMenu';
 import JOBS from '@/assets/fakers/jobs';
+import CATEGORIES from '@/assets/fakers/categories';
 
 export default {
     namespace: 'settings',
@@ -16,7 +17,8 @@ export default {
                 type: 'save',
                 payload: {
                     areasMenu: AREAS_MENU,
-                    jobs: JOBS
+                    jobs: JOBS,
+                    categories: CATEGORIES
                 }
             });
         }
