@@ -5,7 +5,6 @@ import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Form, Input, Spin, DatePicker, Button, Avatar, Upload, Row, Col, Select, Divider, Icon, Transfer, message } from 'antd';
 import { capitalText } from '@/utils/utils';
-import CATES_OF_CONCERN from '@/assets/fakers/catesOfConcern';
 import styles from './Profile.less';
 
 const FormItem = Form.Item;
@@ -21,10 +20,8 @@ const Profile = ({ form, dispatch, ...props }) => {
         catesOfConcernLoading
     } = props;
     const { getFieldDecorator } = form;
-    const data = CATES_OF_CONCERN;
     const [avatar, setAvatar] = useState(null);
-    const [mockData, setMockData] = useState([...data['mockData']])
-    const [targetKeys, setTargetKeys] = useState([...data['targetKeys']]);
+    const [targetKeys, setTargetKeys] = useState([...user.catesOfConcern]);
     const handleChangeInfo = e => {
         e.preventDefault();
         const errors = form.getFieldsError();
@@ -48,6 +45,13 @@ const Profile = ({ form, dispatch, ...props }) => {
     
     const handleChangeConcern = targetKeys => setTargetKeys(targetKeys);
     
+    const handleUpdateConcern = () => {
+        dispatch({
+            type: 'user/updateCatesOfConcern',
+            payload: targetKeys
+        });
+    };
+
     const handleBeforeUpload = file => {
         setAvatar(file);
         return false;
@@ -268,28 +272,36 @@ const Profile = ({ form, dispatch, ...props }) => {
                 <div className={styles.title}>
                     Categories of Concern
                 </div>
-                <div className={styles.main}>
-                    <Transfer
-                        className={styles.concernTransfer}
-                        operations={['concern', 'remove']}
-                        titles={['Remain', 'Concerned']}
-                        targetKeys={targetKeys}
-                        listStyle={{
-                            width: '40%',
-                            height: 340
-                        }}
-                        showSelectAll={false}
-                        dataSource={mockData}
-                        showSearch
-                        render={item => `${item.title}`}
-                        rowKey={item => item._id}
-                        onChange={handleChangeConcern}
-                        filterOption={(input, option) => option.title.toLowerCase().indexOf(input.toLowerCase()) > -1 || (option.description && option.description.toLowerCase().indexOf(input.toLowerCase()) > -1)}
-                    />
-                </div>
-                <div className={styles.btn}>
-                    <Button type="primary" size="large">Update concerned categories</Button>
-                </div>
+                {initLoading ? (
+                    <div className={styles.loading}>
+                        <Spin indicator={<Icon type="loading" style={{ fontSize: 44 }} spin/>}/>
+                    </div>
+                ) : (
+                    <Spin indicator={<Icon type="loading" style={{ fontSize: 32 }} spin/>} spinning={catesOfConcernLoading}>
+                        <div className={styles.main}>
+                            <Transfer
+                                className={styles.concernTransfer}
+                                operations={['concern', 'remove']}
+                                titles={['Remain', 'Concerned']}
+                                targetKeys={targetKeys}
+                                listStyle={{
+                                    width: '40%',
+                                    height: 340
+                                }}
+                                showSelectAll={false}
+                                dataSource={categories}
+                                showSearch
+                                render={item => `${item.title}`}
+                                rowKey={item => item._id}
+                                onChange={handleChangeConcern}
+                                filterOption={(input, option) => option.title.toLowerCase().indexOf(input.toLowerCase()) > -1 || (option.description && option.description.toLowerCase().indexOf(input.toLowerCase()) > -1)}
+                            />
+                        </div>
+                        <div className={styles.btn}>
+                            <Button type="primary" size="large" onClick={handleUpdateConcern}>Update concerned categories</Button>
+                        </div>
+                    </Spin>
+                )}
             </div>
         </div>
     )

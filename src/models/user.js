@@ -45,6 +45,15 @@ export default {
                 payload
             });
         },
+        *updateCatesOfConcern({ payload: targetKeys }, { call, put }) {
+            yield delay(1800);
+            yield put({
+                type: 'updateUser',
+                payload: {
+                    catesOfConcern: targetKeys
+                }
+            })
+        },
         *login({ from, payload }, { call, put }) {
             const { phone, password } = payload;
             yield delay(1600);
