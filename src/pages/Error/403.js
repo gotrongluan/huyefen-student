@@ -2,7 +2,7 @@ import React from 'react';
 import router from 'umi/router';
 import { Result, Button } from 'antd';
 
-const Exception404 = () => {
+const Exception403 = () => {
     return (
         <Result
             status="403"
@@ -13,4 +13,4 @@ const Exception404 = () => {
     )
 };
 
-export default Exception404;
+export default Exception403;

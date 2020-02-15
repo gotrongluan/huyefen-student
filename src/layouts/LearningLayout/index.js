@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import { Layout, Menu, Checkbox, Skeleton, Row, message, Spin, Icon, Button } from 'antd';
