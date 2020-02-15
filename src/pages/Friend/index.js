@@ -11,6 +11,7 @@ const { TabPane } = Tabs;
 const Friend= ({ match, dispatch, ...props }) => {
     const [activeKey, setActiveKey] = useState('courses');
     let {
+        user,
         info,
         friends,
         courses,
@@ -221,14 +222,16 @@ const Friend= ({ match, dispatch, ...props }) => {
                         {!info || infoLoading ? (
                             <Loading indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
                         ) : (
-                            <Button.Group>
-                                <Button type="primary" icon={icon} shape="round" onClick={() => handleRelation(info.status, info._id)}>
-                                    {relText}
-                                </Button>
-                                <Button type="primary" icon={chatLoading ? "loading" : "message"} shape="round" onClick={() => handleChat(info._id, info.name, info.avatar)}>
-                                    Chat
-                                </Button>
-                            </Button.Group>
+                            user ? (
+                                <Button.Group>
+                                    <Button type="primary" icon={icon} shape="round" onClick={() => handleRelation(info.status, info._id)}>
+                                        {relText}
+                                    </Button>
+                                    <Button type="primary" icon={chatLoading ? "loading" : "message"} shape="round" onClick={() => handleChat(info._id, info.name, info.avatar)}>
+                                        Chat
+                                    </Button>
+                                </Button.Group>
+                            ) : null
                         )}
                     </div>
                 </div>
@@ -333,7 +336,8 @@ const Friend= ({ match, dispatch, ...props }) => {
 };
 
 export default connect(
-    ({ friend, loading }) => ({
+    ({ user, friend, loading }) => ({
+        user: user,
         info: friend.info,
         courses: friend.courses.list,
         friends: friend.friends.list,

@@ -12,6 +12,7 @@ const { TabPane } = Tabs;
 const Teacher = ({ match, dispatch, ...props }) => {
     const [activeKey, setActiveKey] = useState('courses');
     let {
+        user,
         info,
         infoLoading,
         courses,
@@ -104,9 +105,11 @@ const Teacher = ({ match, dispatch, ...props }) => {
                         {!info || infoLoading ? (
                             <Loading indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />} />
                         ) : (
-                            <Button type="primary" icon={icon} shape="round" onClick={() => handleFollow(info.isFollowed, info._id)}>
-                                {relText}
-                            </Button>
+                            user ? (
+                                    <Button type="primary" icon={icon} shape="round" onClick={() => handleFollow(info.isFollowed, info._id)}>
+                                    {relText}
+                                </Button>
+                            ) : null
                         )}
                     </div>
                 </div>
@@ -225,7 +228,8 @@ const Teacher = ({ match, dispatch, ...props }) => {
 };
 
 export default connect(
-    ({ teacher, loading }) => ({
+    ({ user, teacher, loading }) => ({
+        user: user,
         info: teacher.info,
         infoLoading: !!loading.effects['teacher/fetch'],
         courses: teacher.courses.list,
