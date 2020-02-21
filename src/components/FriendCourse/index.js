@@ -1,24 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
 import Link from 'umi/link';
-import { Card, Rate, Icon } from 'antd';
+import { Card, Rate, Tooltip } from 'antd';
 import { truncate, transAuthors, roundStarRating } from '@/utils/utils';
+import Same from '@/elements/icon/same';
 import styles from './index.less';
 
 const FriendCourse = ({ course }) => {
     return (
         <Link to={`/course/${course._id}`}>
             <Card
-                className={course.isRegistered ? classNames(styles.course, styles.registered) : styles.course}
+                className={styles.course}
                 style={{ width: '100%' }}
                 hoverable
                 cover={
                     <div className={styles.cover}>
-                        {course.isRegistered && (
-                            <div className={styles.ticked}>
-                                <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" />
-                            </div>
-                        )}
                         <img alt="avatar" src={course.avatar} />
                     </div>
                 }
@@ -30,6 +26,11 @@ const FriendCourse = ({ course }) => {
                         <Rate allowHalf value={roundStarRating(course.starRating)} disabled className={styles.stars} />
                         <span className={styles.ratingVal}>{course.starRating}</span>
                     </div>
+                    {course.isRegistered && (
+                        <div className={styles.same}>
+                            <Tooltip placement="bottom" title="You and your friend bought this course together"><Same /></Tooltip>
+                        </div>
+                    )}
                 </div>
             </Card> 
         </Link>

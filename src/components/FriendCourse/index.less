@@ -5,14 +5,6 @@
             width: 100%;
             height: 163px;
             overflow: hidden;
-            .ticked {
-                position: absolute;
-                top: 6px;
-                right: 6px;
-                i {
-                    font-size: 2em;
-                }
-            }
             img {
                 width: 100%;
                 height: auto;
@@ -24,6 +16,12 @@
         padding: 15px;
         height: 160px;
         .info {
+            position: relative;
+            .same {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+            }
             .name {
                 font-size: 1.2em;
                 font-weight: bold;
@@ -46,8 +44,4 @@
             }
         }
     }
-}
-
-.registered {
-    opacity: 0.5;
 }
