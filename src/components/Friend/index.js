@@ -16,7 +16,7 @@ const Friend = ({ friend }) => {
             <Meta
                 avatar={<Avatar src={friend.avatar} alt="avatar" size={48} />}
                 title={<Link to="/teaching">{friend.name}</Link>}
-                description={friend.numOfMutualFriends ? `${friend.numOfMutualFriends} ${formatMessage({ id: 'friend.mutualfriends' })}` : ``}
+                description={friend.numOfMutualFriends ? `${friend.numOfMutualFriends} ${formatMessage({ id: 'friend.mutualfriends' })}` : friend.numOfFriends ? `${friend.numOfFriends} friends` : ``}
             />
         </Card>
     );

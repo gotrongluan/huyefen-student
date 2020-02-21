@@ -102,8 +102,8 @@ export default {
         },
         *logout(action, { put }) {
             storage.setToken(null);
-            yield put({ type: 'reset' });
             router.push('/user/login');
+            yield put({ type: 'reset' });
         }
     },
     reducers: {

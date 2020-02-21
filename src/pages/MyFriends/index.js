@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { List, Avatar, Skeleton, Button } from 'antd';
+import Friend from '@/components/Friend';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
 import styles from './index.less';
@@ -21,7 +22,7 @@ const MyFriends = ({ dispatch, ...props }) => {
         return () => dispatch({
             type: 'friends/reset'
         });
-    }, []);
+    }, [dispatch]);
     const handleMoreFriends = () => {
         dispatch({
             type: 'friends/more'
@@ -72,13 +73,7 @@ const MyFriends = ({ dispatch, ...props }) => {
                                             width: ['60%', '40%']
                                         }}
                                     >
-                                        <List.Item.Meta
-                                            avatar={<Avatar src={item.avatar} size={42} />}
-                                            title={<span>{item.name}</span>}
-                                            description={<span style={{ fontSize: 13, color: 'gray'}}>
-                                                {item.numOfMutualFriends > 0 ? `${item.numOfMutualFriends} mutual friends` : `${item.numOfFriends} friends`}
-                                            </span>}
-                                        />
+                                        <Friend friend={item} />
                                     </Skeleton>
                                 </List.Item>
                                 

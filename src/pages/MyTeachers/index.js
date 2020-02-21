@@ -1,11 +1,30 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
+import Link from 'umi/link';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { List, Avatar, Skeleton, Button } from 'antd';
+import { List, Avatar, Skeleton, Button, Card } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
 import styles from './index.less';
+
+const { Meta } = Card;
+
+const Teacher = ({ teacher }) => {
+    return (
+        <Card
+            className={styles.teacher}
+            hoverable
+            style={{ width: '100%', borderRadius: '6px' }}
+        >
+            <Meta
+                avatar={<Avatar src={teacher.avatar} alt="avatar" size={48} />}
+                title={<Link to="/teaching">{teacher.name}</Link>}
+                description={`${teacher.numOfCourses} courses, ${teacher.numOfStudents} students`}
+            />
+        </Card>
+    );
+};
 
 const MyTeachers = ({ dispatch, ...props }) => {
     let {
@@ -21,7 +40,7 @@ const MyTeachers = ({ dispatch, ...props }) => {
         return () => dispatch({
             type: 'teachers/reset'
         });
-    }, []);
+    }, [dispatch]);
     const handleMoreTeachers = () => {
         dispatch({
             type: 'teachers/more'
@@ -71,15 +90,7 @@ const MyTeachers = ({ dispatch, ...props }) => {
                                             width: ['60%', '40%']
                                         }}
                                     >
-                                        <List.Item.Meta
-                                            avatar={<Avatar src={item.avatar} size={42} />}
-                                            title={<span>{item.name}</span>}
-                                            description={
-                                                <span style={{ fontSize: 13, color: 'gray'}}>
-                                                    {`${item.numOfCourses} courses, ${item.numOfStudents} students`}
-                                                </span>
-                                            }
-                                        />
+                                        <Teacher teacher={item} />
                                     </Skeleton>
                                 </List.Item>
                                 
