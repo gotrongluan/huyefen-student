@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { List, Avatar, Skeleton, Button } from 'antd';
+import { List, Avatar, Skeleton, Button, Card } from 'antd';
 import Friend from '@/components/Friend';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
@@ -22,7 +22,7 @@ const MyFriends = ({ dispatch, ...props }) => {
         return () => dispatch({
             type: 'friends/reset'
         });
-    }, [dispatch]);
+    }, []);
     const handleMoreFriends = () => {
         dispatch({
             type: 'friends/more'
@@ -67,14 +67,20 @@ const MyFriends = ({ dispatch, ...props }) => {
                         renderItem={item => (
                             <div className={!item.loading ? styles.friendItem : styles.loadingItem} onClick={!item.loading ? () => router.push(`/friend/${item._id}` ) : () => {}}>
                                 <List.Item style={{ paddingLeft: 12, paddingRight: 12 }}>
-                                    <Skeleton active title={false} avatar loading={item.loading}
-                                        paragraph={{
-                                            rows: 2,
-                                            width: ['60%', '40%']
-                                        }}
-                                    >
+                                    {item.loading ? (
+                                        <Card
+                                            style={{ width: '100%', borderRadius: '6px' }}
+                                        >
+                                            <Skeleton active title={false} avatar loading={item.loading} className={styles.skeletonCard}
+                                                paragraph={{
+                                                    rows: 2,
+                                                    width: ['60%', '80%']
+                                                }}
+                                            />
+                                        </Card>
+                                    ) : (
                                         <Friend friend={item} />
-                                    </Skeleton>
+                                    )}     
                                 </List.Item>
                                 
                             </div>

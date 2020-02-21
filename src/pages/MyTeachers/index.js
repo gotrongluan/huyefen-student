@@ -40,7 +40,7 @@ const MyTeachers = ({ dispatch, ...props }) => {
         return () => dispatch({
             type: 'teachers/reset'
         });
-    }, [dispatch]);
+    }, []);
     const handleMoreTeachers = () => {
         dispatch({
             type: 'teachers/more'
@@ -84,14 +84,20 @@ const MyTeachers = ({ dispatch, ...props }) => {
                         renderItem={item => (
                             <div className={!item.loading ? styles.teacherItem : styles.loadingItem} onClick={!item.loading ? () => router.push(`/teacher/${item._id}` ) : () => {}}>
                                 <List.Item style={{ paddingLeft: 12, paddingRight: 12 }}>
-                                    <Skeleton active title={false} avatar loading={item.loading}
-                                        paragraph={{
-                                            rows: 2,
-                                            width: ['60%', '40%']
-                                        }}
-                                    >
+                                    {item.loading ? (
+                                        <Card
+                                            style={{ width: '100%', borderRadius: '6px' }}
+                                        >
+                                            <Skeleton active title={false} avatar loading={item.loading} className={styles.skeletonCard}
+                                                paragraph={{
+                                                    rows: 2,
+                                                    width: ['60%', '80%']
+                                                }}
+                                            />
+                                        </Card>
+                                    ) : (
                                         <Teacher teacher={item} />
-                                    </Skeleton>
+                                    )}                                    
                                 </List.Item>
                                 
                             </div>
