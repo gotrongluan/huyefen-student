@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import Link from 'umi/link';
 import { Table, Row, Col } from 'antd';
 import Wrapper from '@/components/JumpotronWrapper';
-import darkLogo from '@/assets/images/dark_logo.jpg';
+import whiteShopping from '@/assets/images/white_shopping.png';
 import styles from './index.less';
 
 const CoursePurchaseItem = ({ avatar, name }) => {
@@ -72,7 +72,7 @@ const PurchaseHistory = ({ dispatch, ...props }) => {
         }
         return (
             <div className={styles.items}>
-                <CoursePurchaseItem avatar={darkLogo} name={`${items.length} ${items.length > 1 ? 'Courses' : 'Course'} purchased`} />
+                <CoursePurchaseItem avatar={whiteShopping} name={`${items.length} ${items.length > 1 ? 'Courses' : 'Course'} purchased`} />
                 <div className={styles.subItems}>
                     {_.map(items, item => (
                         item.type === 1 ? (
