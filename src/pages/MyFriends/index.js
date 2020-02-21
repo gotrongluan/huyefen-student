@@ -63,7 +63,7 @@ const MyFriends = ({ dispatch, ...props }) => {
                             column: 3,
                             gutter: 16
                         }}
-                        split
+                        
                         renderItem={item => (
                             <div className={!item.loading ? styles.friendItem : styles.loadingItem} onClick={!item.loading ? () => router.push(`/friend/${item._id}` ) : () => {}}>
                                 <List.Item style={{ paddingLeft: 12, paddingRight: 12 }}>

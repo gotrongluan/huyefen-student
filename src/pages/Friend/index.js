@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import router from 'umi/router';
 import classNames from 'classnames';
-import { Row, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon, Modal } from 'antd';
+import { Row, Card, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon, Modal } from 'antd';
+import FriendItem from '@/components/Friend';
 import FriendCourse from '@/components/FriendCourse';
 import styles from './index.less';
 
@@ -299,27 +300,29 @@ const Friend= ({ match, dispatch, ...props }) => {
                                     dataSource={friends}
                                     rowKey={item => (item._id || item.key) + _.uniqueId('friend_')}
                                     loadMore={loadMoreFriends}
-                                    itemLayout="horizontal"
+                                    grid={{
+                                        column: 3,
+                                        gutter: 16
+                                    }}
                                     renderItem={item => (
                                         <div className={!item.loading ? styles.friendItem : styles.loadingItem} onClick={!item.loading ? () => router.push(`/friend/${item._id}` ) : () => {}}>
                                             <List.Item
                                                 style={{ paddingLeft: 12, paddingRight: 12 }}
-                                                extra={<span className={styles.extra}>{item.status === 2 ? 'Sented invitation' : item.status === 3 ? 'Friend' : ''}</span>}
                                             >
-                                                <Skeleton active title={false} avatar loading={item.loading}
-                                                    paragraph={{
-                                                        rows: 2,
-                                                        width: ['60%', '40%']
-                                                    }}
-                                                >
-                                                    <List.Item.Meta
-                                                        avatar={<Avatar src={item.avatar} size={42} />}
-                                                        title={<span>{item.name}</span>}
-                                                        description={<span style={{ fontSize: 13, color: 'gray'}}>
-                                                            {item.numOfMutualFriends > 0 ? `${item.numOfMutualFriends} mutual friends` : `${item.numOfFriends} friends`}
-                                                        </span>}
-                                                    />
-                                                </Skeleton>
+                                                {item.loading ? (
+                                                    <Card
+                                                        style={{ width: '100%', borderRadius: '6px' }}
+                                                    >
+                                                        <Skeleton active title={false} avatar loading={item.loading} className={styles.skeletonCard}
+                                                            paragraph={{
+                                                                rows: 2,
+                                                                width: ['60%', '80%']
+                                                            }}
+                                                        />
+                                                    </Card>
+                                                ) : (
+                                                    <FriendItem friend={item} isExtra />
+                                                )}
                                             </List.Item>
                                             
                                         </div>

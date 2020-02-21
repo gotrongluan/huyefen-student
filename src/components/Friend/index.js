@@ -2,11 +2,20 @@ import React from 'react';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import { Card, Avatar } from 'antd';
+import UserCheck from '@/elements/icon/userCheck';
+import UserSent from '@/elements/icon/userSent';
 import styles from './index.less';
 
 const { Meta } = Card;
 
-const Friend = ({ friend }) => {
+const Friend = ({ friend, isExtra }) => {
+    let extra;
+    if (isExtra) {
+        if (friend.status === 2) 
+            extra = <UserSent />;
+        else if (friend.status === 3)
+            extra = <UserCheck />
+    }
     return (
         <Card
             className={styles.friend}
@@ -18,6 +27,9 @@ const Friend = ({ friend }) => {
                 title={<Link to="/teaching">{friend.name}</Link>}
                 description={friend.numOfMutualFriends ? `${friend.numOfMutualFriends} ${formatMessage({ id: 'friend.mutualfriends' })}` : friend.numOfFriends ? `${friend.numOfFriends} friends` : ``}
             />
+            {isExtra && (
+                <span className={styles.extra}>{extra}</span>
+            )}
         </Card>
     );
 };
