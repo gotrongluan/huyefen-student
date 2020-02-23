@@ -3,7 +3,7 @@ export const linearColorTheme = {
     from: 'yellow',
     to: '#fada5e'
 };
-export const brand = 'Hanjh';
+export const brand = 'HuYeFen';
 export const tagColor = id => {
     const colors = [
         'green', 'geekblue', 'gold', 'volcano', 'cyan', 'magenta', 'lime', 'orange', 'blue', 'red', 'purple'

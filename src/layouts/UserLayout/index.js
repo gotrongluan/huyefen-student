@@ -10,7 +10,7 @@ const UserLayout = ({ children }) => {
         <Row className={styles.userLayout} style={{ background: `url(${background})` }}>
             <Row className={styles.inlineDiv}>
                 <div className={styles.title}>
-                    <div className={styles.hanjh} onClick={() => router.push('/')}>Hanjh</div>
+                    <div className={styles.huyefen} onClick={() => router.push('/')}>HuYeFen</div>
                     <div className={styles.slogan}>
                         {formatMessage({ id: 'userLayout.slogan1' })}
                     </div>

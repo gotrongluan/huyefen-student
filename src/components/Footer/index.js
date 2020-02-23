@@ -21,7 +21,7 @@ const Footer = () => {
                         {formatMessage({ id: 'footer.content.description' })}
                     </div>
                     <div className={styles.copyright}>
-                        © 2020 Hanjh Inc. All rights reserved.
+                        © 2020 HuYeFen Inc. All rights reserved.
                     </div>
                     <div className={styles.locale}>
                         <Select value={getLocale()} onChange={handleChangeLocale} style={{ width: 170, maxWidth: '100%' }}>

@@ -36,7 +36,7 @@ const plugins = [
                 ],
             },
             title: {
-                defaultTitle: 'Hanjh Student',
+                defaultTitle: 'HuYeFen Student',
                 useLocale: true,
                 format: '{current}{separator}{parent}'
             },

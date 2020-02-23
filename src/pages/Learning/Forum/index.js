@@ -188,7 +188,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                                     value={forum.filters.sortBy}
                                     style={{ width: '100%' }}
                                 >
-                                    <Option value="recommend">Sort by recommend</Option>
+                                    <Option value="relevance">Sort by relevance</Option>
                                     <Option value="recent">Sort by most recent</Option>
                                     <Option value="upvoted">Sort by most upvoted</Option>
                                 </Select>
