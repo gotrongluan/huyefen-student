@@ -10,8 +10,8 @@ export default [
     },
     {
         _id: 2,
-        name: 'Nguyễn Trọng Luân',
-        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0',
+        name: 'Nguyen Trong Luan',
+        avatar: null,
         numOfCourses: 31,
         numOfStudents: 468544,
         numOfReviews: 19203,

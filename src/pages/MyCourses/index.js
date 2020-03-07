@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import { connect } from 'dva';
-import { List, Row, Form, Select, Button, Col, Modal, Table, Avatar, message, Icon, Spin as Loading } from 'antd';
+import { List, Row, Form, Select, Button, Col, Modal, Table, message, Icon, Spin as Loading } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
 import MyCourse from '@/components/MyCourse';
@@ -19,7 +20,7 @@ const columns = [
     {
         title: 'Avatar',
         dataIndex: 'avatar',
-        render: avatar => <Avatar alt="avatar" shape="circle" size={36} src={avatar} />,
+        render: (avatar, friend) => <UserAvatar alt="avatar" textSize={36} size={36} src={avatar} text={friend.name} borderWidth={0} style={{ background: '#fada5e', color: 'white' }}/>,
         width: '90px'
     }
 ];

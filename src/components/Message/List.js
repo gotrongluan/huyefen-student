@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import { Avatar, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import Message from '@/components/Message';
 import styles from './List.less';
 
@@ -15,7 +16,7 @@ const MessagesList = (props) => {
                 //let flag = false;
                 if (message.userId !== current) {
                     current = message.userId;
-                    avatar = <Avatar src={message.avatar} alt="avatar" size={36} style={{ position: 'relative', top: '5px' }}/>;
+                    avatar = <UserAvatar src={message.avatar} text={message.userName} alt="avatar" size={36} textSize={36} borderWidth={0} style={{ background: 'white', color: 'black' }} extraStyle={{ position: 'relative', top: '5px' }}/>;
                     name = <div className={styles.userName}>{message.userName}</div>;
                     //flag = true;
                 }

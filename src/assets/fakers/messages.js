@@ -20,7 +20,7 @@ export default [
         createdAt: 1563690284182,
         seenAt: 1563690285105,
         receivedAt: 1563690284635,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -56,7 +56,7 @@ export default [
         createdAt: 1563690286770,
         seenAt: 1563690287692,
         receivedAt: 1563690287227,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -68,7 +68,7 @@ export default [
         createdAt: 1563690294624,
         seenAt: 1563690295615,
         receivedAt: 1563690295160,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -92,7 +92,7 @@ export default [
         createdAt: 1563690307662,
         seenAt: 1563690308523,
         receivedAt: 1563690308062,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -116,7 +116,7 @@ export default [
         createdAt: 1563690405856,
         seenAt: 1563690406854,
         receivedAt: 1563690406370,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -140,7 +140,7 @@ export default [
         createdAt: 1563690411245,
         seenAt: 1563690412396,
         receivedAt: 1563690411877,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -164,7 +164,7 @@ export default [
         createdAt: 1563690412655,
         seenAt: 1563690413599,
         receivedAt: 1563690413117,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -188,7 +188,7 @@ export default [
         createdAt: 1563690414390,
         seenAt: 1563690415279,
         receivedAt: 1563690414843,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -212,7 +212,7 @@ export default [
         createdAt: 1563690417226,
         seenAt: 1563690418147,
         receivedAt: 1563690417684,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -224,7 +224,7 @@ export default [
         createdAt: 1563690419320,
         seenAt: 0,
         receivedAt: 1563690419778,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {
@@ -248,7 +248,7 @@ export default [
         createdAt: 1563690426185,
         seenAt: -1,
         receivedAt: 1563690426644,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: null,
         userName: "bkuhardware"
     },
     {

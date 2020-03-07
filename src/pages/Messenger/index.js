@@ -6,6 +6,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import withRouter from 'umi/withRouter';
 import { Row, Col, Avatar, List, Collapse, Input, Button, Icon, Spin as Loading, message as messagePopup, Skeleton } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import { Scrollbars } from 'react-custom-scrollbars';
 import MessageView from './MessageView';
 import PaperPlane from '@/elements/icon/PaperPlane';
@@ -247,7 +248,16 @@ const Messenger = ({ dispatch, match, ...props }) => {
                                 >   
                                     <Skeleton avatar={{ size: 36 }} title={false} paragraph={{ rows: 2, width: ['40%','86%'] }} active loading={item.loading}>
                                         <List.Item.Meta
-                                            avatar={<Avatar src={item.avatar} size={36} />}
+                                            avatar={(
+                                                <UserAvatar
+                                                    src={item.avatar}
+                                                    text={item.name}
+                                                    size={36}
+                                                    textSize={36}
+                                                    borderWidth={0}
+                                                    style={{ background: 'white', color: 'black' }}
+                                                />
+                                            )}
                                             title={<span>{truncate(item.name, 46)}</span>}
                                             description={item.unseen > 0 ? (<span style={{ color: '#fada5e', fontWeight: 'bold' }}>{truncate(item.lastMessage, 46)}</span>) : (<span>{truncate(item.lastMessage, 46)}</span>)}
                                         />
@@ -267,7 +277,14 @@ const Messenger = ({ dispatch, match, ...props }) => {
                 <div className={styles.header}>
                     {currentUser !== null && !currentUserLoading && (
                         <React.Fragment>
-                            <Avatar size={36} src={currentUser.avatar} />
+                            <UserAvatar
+                                src={currentUser.avatar}
+                                text={currentUser.name}
+                                size={36}
+                                textSize={36}
+                                borderWidth={0}
+                                style={{ background: 'black', color: '#fada5e' }}
+                            />
                             <span className={styles.name}>{currentUser.name}</span>
                         </React.Fragment>
                     )}                
@@ -297,7 +314,14 @@ const Messenger = ({ dispatch, match, ...props }) => {
                         <div className={styles.avatar}>
                             {currentUser !== null && !currentUserLoading && (
                                 <React.Fragment>
-                                    <Avatar size={111} src={currentUser.avatar} />
+                                    <UserAvatar
+                                        src={currentUser.avatar}
+                                        text={currentUser.name}
+                                        size={111}
+                                        textSize={111}
+                                        borderWidth={0}
+                                        style={{ background: 'black', color: '#fada5e', fontSize: '50px' }}
+                                    />
                                     <div className={styles.name}>{currentUser.name}</div>
                                 </React.Fragment>
                             )}

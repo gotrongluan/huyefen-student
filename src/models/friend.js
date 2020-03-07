@@ -3,8 +3,8 @@ import COURSES from '@/assets/fakers/friendCourses';
 import FRIENDS from '@/assets/fakers/friends';
 const FRIEND = {
     _id: 1,
-    name: 'Ngọc Hạnh Vương',
-    avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/32744243_1729250627169724_2930213941315371008_o.jpg?_nc_cat=100&_nc_oc=AQloDCmVAAKSyQYuiGG3bMLv5rN1tV_VFKYQnnD6mwBb9e8Pb32u-C1xUhCi3Tnasv0&_nc_ht=scontent.fdad1-1.fna&oh=94d690118ba951823da19039f3d473a1&oe=5EBEBDC7',
+    name: 'N H V',
+    avatar: null,
     status: 4
 };
 

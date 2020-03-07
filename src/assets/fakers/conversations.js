@@ -19,7 +19,7 @@ export default {
     },
     conver_id_3: {
         _id: 'conver_id_3',
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+        avatar: null,
         lastMessage: 'Anh yêu em Hạnh à. Làm vợ anh nhé!',
         unseen: 2,
         name: 'HuYeFen Admin',
@@ -28,7 +28,7 @@ export default {
     },
     conver_id_4: {
         _id: 'conver_id_4',
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+        avatar: null,
         lastMessage: 'Đây là một đoạn tin nhắn dài vcl. Anh em chú ý, Luân đẹp trai nhất Việt Nam này',
         unseen: 0,
         name: 'HuYeFen Operator',

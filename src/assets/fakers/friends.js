@@ -10,7 +10,7 @@ export default [
     {
         _id: 11,
         name: 'Đinh Minh Tân',
-        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t31.0-1/17240420_615458735320502_8460108034701602737_o.jpg?_nc_cat=108&_nc_ohc=hfIxUNko2LMAX-zhGZ_&_nc_ht=scontent.fdad2-1.fna&oh=42d43db779c3ae55010116c9d264d44a&oe=5E9A2160',
+        avatar: null,
         numOfMutualFriends: 23,
         numOfFriends: 111,
         status: 1

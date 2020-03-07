@@ -2,14 +2,14 @@ export default [
     {
         _id: 1,
         name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        avatar: null,
         numOfCourses: 33,
         numOfStudents: 423450
     },
     {
         _id: 11,
         name: 'Đinh Minh Tân',
-        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t31.0-1/17240420_615458735320502_8460108034701602737_o.jpg?_nc_cat=108&_nc_ohc=hfIxUNko2LMAX-zhGZ_&_nc_ht=scontent.fdad2-1.fna&oh=42d43db779c3ae55010116c9d264d44a&oe=5E9A2160',
+        avatar: null,
         numOfCourses: 69,
         numOfStudents: 490092
     },

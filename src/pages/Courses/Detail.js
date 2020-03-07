@@ -7,6 +7,7 @@ import router from 'umi/router';
 import classNames from 'classnames';
 import TimeAgo from 'react-timeago';
 import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import TeacherCourse from '@/components/TeacherCourse';
 import FeaturedBadge from '@/components/FeaturedBadge';
 import ViewMore from '@/components/ViewMore';
@@ -245,7 +246,15 @@ const FeaturedReview = ({ data: review, handleVoting }) => {
         <div className={styles.featuredReview}>
             <div className={styles.user}>
                 <div className={styles.avatarCont}>
-                    <Avatar className={styles.avatar} size={60} src={review.user.avatar} alt="ava-user" shape="circle" /> 
+                    <UserAvatar
+                        src={review.user.avatar}
+                        size={60}
+                        textSize={60}
+                        alt="ava-user"
+                        text={review.user.name}
+                        borderWidth={0}
+                        style={{ background: '#fada5e', color: 'white'} }
+                    />
                 </div>
                 <div className={styles.info}>
                     <div className={styles.names}>
@@ -291,7 +300,15 @@ const Review = ({ data: review, handleVoting }) => {
         <Row className={styles.review}>
             <Col span={6} className={styles.user}>
                 <div className={styles.avatarCont}>
-                    <Avatar className={styles.avatar} size={60} src={review.user.avatar} alt="ava-user" shape="circle" /> 
+                    <UserAvatar
+                        src={review.user.avatar}
+                        size={60}
+                        textSize={60}
+                        alt="ava-user"
+                        text={review.user.name}
+                        borderWidth={0}
+                        style={{ background: '#fada5e', color: 'white'} }
+                    />
                 </div>
                 <div className={styles.name}>
                     {review.user.name}
@@ -405,7 +422,15 @@ const Instructors = ({ instructors }) => {
                         {i > 0 && (<Divider dashed className={styles.divider} />)}
                         <Col span={6} className={styles.summary}>
                             <div className={styles.avatarCont}>
-                                <Avatar alt="ins-ava" size={120} className={styles.avatar} shape="circle" src={instructor.avatar} />
+                                <UserAvatar
+                                    src={instructor.avatar}
+                                    size={120}
+                                    textSize={126}
+                                    alt="ins-ava"
+                                    text={instructor.name}
+                                    borderWidth={6}
+                                    style={{ background: 'black', color: '#fada5e', fontSize: '52px' }}
+                                />
                             </div>
                             <div className={classNames(styles.stat, styles.numReviews)}>
                                 <Icon type="block" />

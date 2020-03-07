@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import classNames from 'classnames';
 import { Row, Card, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon, Modal } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import FriendItem from '@/components/Friend';
 import FriendCourse from '@/components/FriendCourse';
 import styles from './index.less';
@@ -214,7 +215,19 @@ const Friend= ({ match, dispatch, ...props }) => {
             <Row className={styles.jumpotron}>
                 <div className={styles.info}>
                     <div className={styles.avatarCont}>
-                        {!info || infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (<Avatar alt="friend-avatar" size={120} shape="circle" className={styles.avatar} src={info.avatar} />)}
+                        {!info || infoLoading ? (
+                            <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} />
+                        ) : (
+                            <UserAvatar
+                                textSize={126}
+                                borderWidth={6}
+                                style={{ background: 'black', color: '#fada5e', fontSize: '52px' }}
+                                alt="friend-avatar"
+                                size={120}
+                                src={info.avatar}
+                                text={info.name}
+                            />
+                        )}
                     </div>
                     <div className={styles.name}>
                         {info && !infoLoading && info.name}

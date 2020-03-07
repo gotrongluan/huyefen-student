@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import router from 'umi/router';
 import { Popover, List, Badge, Avatar, Icon, Empty, Spin as Loading } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Spin from '@/elements/spin/secondary';
 import { fromNow, truncate } from '@/utils/utils';
@@ -44,7 +45,16 @@ const Messenger = ({ dispatch, ...props }) => {
                             style={{ background: (!item.unseen ? 'inherit' : 'rgba(250, 218, 94, 0.05)')}}
                             extra={<span style={{ fontSize: '0.9em', color: 'gray' }}>{ fromNow(item.updatedAt) }</span>}>
                             <List.Item.Meta
-                                avatar={<Avatar src={item.avatar} size={36} />}
+                                avatar={(
+                                    <UserAvatar
+                                        src={item.avatar}
+                                        size={36}
+                                        textSize={36}
+                                        borderWidth={0}
+                                        text={item.name}
+                                        style={{ background: 'white', color: 'black' }}
+                                    />
+                                )}
                                 title={<span>{truncate(item.name, 46)}</span>}
                                 description={<span>{truncate(item.lastMessage, 46)}</span>}
                             />

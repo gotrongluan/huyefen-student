@@ -8,8 +8,8 @@ export default [
     },
     {
         _id: 21,
-        name: 'Nguyễn Hồ Minh Phước',
-        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-9/10647003_533848540048955_7629018875860790042_n.jpg?_nc_cat=111&_nc_ohc=yvcvWrPibNYAX9pBvyO&_nc_ht=scontent.fdad2-1.fna&oh=6731dca4458caaf5333ad99cab455729&oe=5E99EF76',
+        name: 'Nguyen Ho Minh Phuoc',
+        avatar: null,
         numOfMutualFriends: 1,
         numOfFriends: 20,
     },

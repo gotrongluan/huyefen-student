@@ -9,6 +9,7 @@ const UserAvatar = ({
     textSize,
     text,
     style,
+    extraStyle = {},
     ...props
 }) => {
     return src ? (
@@ -16,14 +17,18 @@ const UserAvatar = ({
             src={src}
             size={size}
             style={{
-                border: `${borderWidth}px solid white`
+                border: `${borderWidth}px solid white`,
+                ...extraStyle
             }}
             {...props}
         />
     ) : (
         <Avatar
             size={textSize}
-            style={style}
+            style={{
+                ...style,
+                ...extraStyle
+            }}
             {...props}
         >
             {capitalText(text)}

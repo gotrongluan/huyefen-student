@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import classNames from 'classnames';
 import router from 'umi/router';
 import { Row, Col, Tabs, Button, Skeleton, Icon, Modal, Spin as Loading, List, Statistic, Divider, Card } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import TeacherCourse from '@/components/TeacherCourse';
 import styles from './index.less';
 
@@ -95,7 +96,14 @@ const Teacher = ({ match, dispatch, ...props }) => {
                 <div className={styles.info}>
                     <div className={styles.avatarContainer}>
                         {!info || infoLoading ? <Skeleton active avatar={{ size: 126, shape: 'circle' }} paragraph={false} title={false} /> : (
-                            <img src={info.avatar} alt="teacher-avatar" />
+                            <UserAvatar
+                                src={info.avatar}
+                                size={120}
+                                textSize={126}
+                                borderWidth={6}
+                                text={info.name}
+                                style={{ background: 'black', color: '#fada5e', fontSize: '52px' }}
+                            />
                         )}
                     </div>
                     <div className={styles.name}>

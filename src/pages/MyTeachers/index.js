@@ -3,7 +3,8 @@ import _ from 'lodash';
 import Link from 'umi/link';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { List, Avatar, Skeleton, Button, Card } from 'antd';
+import { List, Skeleton, Button, Card } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
 import styles from './index.less';
@@ -18,7 +19,7 @@ const Teacher = ({ teacher }) => {
             style={{ width: '100%', borderRadius: '6px' }}
         >
             <Meta
-                avatar={<Avatar src={teacher.avatar} alt="avatar" size={48} />}
+                avatar={<UserAvatar src={teacher.avatar} text={teacher.name} textSize={48} borderWidth={0} alt="avatar" size={48} style={{ background: 'white', color: 'black' }} />}
                 title={<Link to="/teaching">{teacher.name}</Link>}
                 description={`${teacher.numOfCourses} courses, ${teacher.numOfStudents} students`}
             />

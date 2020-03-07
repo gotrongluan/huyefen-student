@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import { Descriptions, Divider, Avatar, Skeleton, Spin, Icon, List, Row } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import ViewMore from '@/components/ViewMore';
 import { numberWithCommas, minutesToHour } from '@/utils/utils';
 import styles from './Overview.less';
@@ -10,7 +11,15 @@ const InstructorMeta = ({ avatar, name, job }) => {
     return (
         <div className={styles.meta}>
             <div className={styles.avatarCont}>
-                <Avatar alt="ins-ava" size={60} className={styles.avatar} shape="circle" src={avatar} />
+                <UserAvatar
+                    alt="ins-ava"
+                    size={60}
+                    textSize={63}
+                    src={avatar}
+                    text={name}
+                    borderWidth={3}
+                    style={{ background: '#fada5e', color: 'white', fontSize: '28px' }}
+                />
             </div>
             <div className={styles.txt}>
                 <div className={styles.name}>{name}</div>
