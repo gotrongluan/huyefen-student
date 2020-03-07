@@ -1,5 +1,4 @@
 export default {
-    courseId: 1,
     featured: [
         {
             _id: 1,

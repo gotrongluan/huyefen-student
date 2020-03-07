@@ -350,15 +350,15 @@ const Review = ({ data: review, handleVoting }) => {
     );
 };
 
-const Reviews = ({ data: reviews, handleVoting, handleMoreReviews, reviewsLoading }) => {
+const Reviews = ({ list, featured, hasMore, handleVoting, handleMoreReviews, reviewsLoading }) => {
     const loadMore = (
-        !reviewsLoading ? (
+        hasMore && !reviewsLoading && list && featured ? (
             <div className={styles.loadMore}>
                 <Button size="small" type="default" onClick={handleMoreReviews}>More reviews</Button>
             </div>
         ) : null
     );
-    const reviewsList = !reviewsLoading ? reviews.list : _.concat(reviews.list, [
+    const reviewsList = !reviewsLoading ? list : _.concat(list, [
         {
             _id: _.uniqueId('review_loading_'),
             loading: true
@@ -371,11 +371,11 @@ const Reviews = ({ data: reviews, handleVoting, handleMoreReviews, reviewsLoadin
     let count = 0;
     return (
         <React.Fragment>
-            {reviews.featured && !_.isEmpty(reviews.featured) && (
+            {featured && !_.isEmpty(featured) && (
                 <Row className={styles.featured}>
                     <div className={styles.title}>Featured reviews</div>
                     <div className={styles.main}>
-                        {_.map(reviews.featured, (review, i) => (
+                        {_.map(featured, (review, i) => (
                             <React.Fragment key={review._id + _.uniqueId('feature_review_')}>
                                 {i > 0 && (
                                     <Divider dashed className={styles.divider} />
@@ -475,6 +475,8 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         instructors,
         instructorsLoading,
         reviews,
+        hasMoreReviews,
+        featuredReviews,
         reviewsLoading,
         moreReviewsLoading
     } = props;
@@ -746,10 +748,10 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             key="reviews"
                             className={classNames(styles.tabPane, styles.reviews)}
                         >
-                            {!reviews || reviewsLoading ? (
+                            {!reviews || !featuredReviews || reviewsLoading ? (
                                 <Loading />
                             ) : (
-                                <Reviews data={reviews} handleVoting={handleVoting} handleMoreReviews={handleMoreReviews} reviewsLoading={moreReviewsLoading} />
+                                <Reviews list={reviews} featured={featuredReviews} hasMore={hasMoreReviews} handleVoting={handleVoting} handleMoreReviews={handleMoreReviews} reviewsLoading={moreReviewsLoading} />
                             )}
                         </TabPane>
                         <TabPane
@@ -777,7 +779,9 @@ export default connect(
         overview: detail.overview,
         relatedCourses: detail.relatedCourses,
         instructors: detail.instructors,
-        reviews: detail.reviews,
+        reviews: detail.reviews.list,
+        featuredReviews: detail.reviews.featured,
+        hasMoreReviews: detail.reviews.hasMore,
         courseInfoLoading: loading.effects['detail/fetchInfo'],
         overviewLoading: loading.effects['detail/fetchOverview'],
         syllabusLoading: loading.effects['detail/fetchSyllabus'],

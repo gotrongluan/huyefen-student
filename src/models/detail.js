@@ -15,7 +15,11 @@ export default {
         syllabus: null,
         relatedCourses: null,
         instructors: null,
-        reviews: null
+        reviews: {
+            list: null,
+            featured: null,
+            hasMore: true,
+        }
     },
     effects: {
         *fetchInfo({ payload: courseId }, { call, put }) {
@@ -58,7 +62,10 @@ export default {
             yield delay(1500);
             yield put({
                 type: 'saveReviews',
-                payload: REVIEWS
+                payload: {
+                    ...REVIEWS,
+                    hasMore: true
+                }
             });
         },
         *moreReviews(action, { call, put, select }) {
@@ -69,9 +76,12 @@ export default {
             //
             yield delay(1200);
             yield put({
-                type: 'addReviews',
-                payload: REVIEWS.list
-            })
+                type: 'pushReviews',
+                payload: {
+                    hasMore: false,
+                    data: REVIEWS.list
+                }
+            });
         },
         *preview() {
 
@@ -114,18 +124,24 @@ export default {
         reset(state) {
             return {
                 info: null,
-                reviews: null,
+                reviews: {
+                    list: null,
+                    featured: null,
+                    hasMore: true
+                },
                 instructors: null,
                 syllabus: null,
                 overview: null,
                 relatedCourses: null
             };
         },
-        addReviews(state, { payload: newReviews }) {
+        pushReviews(state, { payload }) {
+            const { data: newReviews, hasMore } = payload;
             return {
                 ...state,
                 reviews: {
                     ...state.reviews,
+                    hasMore,
                     list: [
                         ...state.reviews.list,
                         ...newReviews
