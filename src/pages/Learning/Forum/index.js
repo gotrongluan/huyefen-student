@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Divider, Select, TreeSelect, Input, Row, Col, Form, Icon, Spin, Button, Skeleton, Modal, message } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import { EditorState } from 'draft-js';
 import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
@@ -236,7 +237,15 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                                 ) : (
                                     <Row className={styles.thread} key={thread._id + _.uniqueId('thread_')} onClick={() => router.push(`${location.pathname}/thread/${thread._id}`)}>
                                         <Col span={2} className={styles.avatarCont}>
-                                            <img alt="ava-user" src={thread.user.avatar} className={styles.avatar} />
+                                            <UserAvatar
+                                                alt="avat-user"
+                                                src={thread.user.avatar}
+                                                style={{ background: 'white', color: 'black' }}
+                                                borderWidth={2}
+                                                size={42}
+                                                textSize={44}
+                                                text={thread.user.name}
+                                            />
                                         </Col>
                                         <Col span={18} className={styles.info}>
                                             <div className={styles.title}>{thread.title}</div>

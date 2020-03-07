@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import { Skeleton, Avatar, Row, Col, Input, List, Button, Divider, Icon, message } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import TimeAgo from 'react-timeago';
 import ViewMore from '@/components/ViewMore';
 import { avatarSrc } from '@/config/constants';
@@ -46,6 +47,8 @@ const Announcements = ({ match, dispatch, ...props }) => {
         loading,
         initLoading,
         commentLoading,
+        userAvatar,
+        userName,
         hasMore
     } = props;
     const { courseId } = match.params;
@@ -53,6 +56,9 @@ const Announcements = ({ match, dispatch, ...props }) => {
         dispatch({
             type: 'learning/fetchAnnouncements',
             payload: courseId
+        });
+        return () => dispatch({
+            type: 'manage/resetAnnouncements'
         });
     }, [courseId]);
     const handleMoreAnnouncements = () => {
@@ -145,7 +151,15 @@ const Announcements = ({ match, dispatch, ...props }) => {
                                                     renderItem={comment => (
                                                         <Row className={styles.comment}>
                                                             <Col span={2} className={styles.avatarCont}>
-                                                                <Avatar shape="circle" className={styles.avatar} src={comment.user.avatar} alt="user-avar" size={48}/>
+                                                                <UserAvatar
+                                                                    src={comment.user.avatar}
+                                                                    alt="user-avar"
+                                                                    size={48}
+                                                                    borderWidth={2}
+                                                                    text={comment.user.name}
+                                                                    textSize={50}
+                                                                    style={{ background: 'white', color: 'black' }}
+                                                                />
                                                             </Col>
                                                             <Col span={22} className={styles.right}>
                                                                 <div className={styles.nameAndTime}>
@@ -183,7 +197,15 @@ const Announcements = ({ match, dispatch, ...props }) => {
                                         )}
                                         <Row className={styles.yourComment}>
                                             <Col span={2} className={styles.avatarCont}>
-                                                <Avatar shape="circle" className={styles.avatar} src={avatarSrc} alt="your-avar" size={48}/>
+                                                <UserAvatar
+                                                    alt="your-avar"
+                                                    size={48}
+                                                    src={userAvatar}
+                                                    textSize={50}
+                                                    text={userName}
+                                                    style={{ background: 'white', color: 'black' }}
+                                                    borderWidth={2}
+                                                />
                                             </Col>
                                             <Col span={22} className={styles.input}>
                                                 <div className={styles.inline}>
@@ -204,7 +226,9 @@ const Announcements = ({ match, dispatch, ...props }) => {
 };
 
 export default connect(
-    ({ learning, loading }) => ({
+    ({ user, learning, loading }) => ({
+        userAvatar: user.avatar,
+        userName: user.name,
         initLoading: !!loading.effects['learning/fetchAnnouncements'],
         commentLoading: !!loading.effects['learning/comment'],
         loading: !!loading.effects['learning/moreAnnouncements'],

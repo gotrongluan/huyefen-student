@@ -100,11 +100,7 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                                             <div>
                                                 <Link className={styles.name} to={`${match.url}/lecture/${lecture._id}`}>{lecture.title}</Link>
                                                 <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleToggleLectureStatus(lecture._id)}/>
-                                            </div>
-                                            
-                                                
-                                                
-                                            
+                                            </div>  
                                         </MenuItem>
                                     ))}
                                 </SubMenu>

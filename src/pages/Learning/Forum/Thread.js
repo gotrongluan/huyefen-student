@@ -4,6 +4,7 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import { EditorState } from 'draft-js';
 import { Skeleton, Divider, Row, Col, Avatar, Icon, message, Spin, Button } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import Editor from '@/components/Editor/ImageEditor';
 import TimeAgo from 'react-timeago';
 import ViewMore from '@/components/ViewMore';
@@ -70,29 +71,6 @@ const Thread = ({ match, dispatch, ...props }) => {
                 answer: html
             }
         });
-        // setYourAnswerLoading(true);
-        // setTimeout(() => {
-        //     setThread({
-        //         ...thread,
-        //         answers: [
-        //             {
-        //                 _id: _.uniqueId('answer_'),
-        //                 user: {
-        //                     _id: 1,
-        //                     avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-        //                     name: 'HuYeFen Cute',
-        //                     isInstructor: false
-        //                 },
-        //                 createdAt: 1578818445997,
-        //                 content: html,
-        //                 numOfVotings: 0,
-        //                 isVoted: false
-        //             },
-        //             ...thread.answers,
-        //         ]
-        //     })
-        //     setYourAnswerLoading(false);
-        // }, 1000);
         setYourAnswer(EditorState.createEmpty());
     };
 
@@ -128,7 +106,15 @@ const Thread = ({ match, dispatch, ...props }) => {
             ) : (
                 <Row className={styles.question}>
                     <Col span={4} className={styles.avatarCont}>
-                        <Avatar shape="circle" className={styles.avatar} src={thread.user.avatar} alt="user-avar" size={100} />
+                        <UserAvatar
+                            src={thread.user.avatar}
+                            alt="user-avatar"
+                            size={100}
+                            textSize={103}
+                            borderWidth={3}
+                            text={thread.user.name}
+                            style={{ background: 'white', color: 'black', fontSize: '30px' }}
+                        />
                     </Col>
                     <Col span={20} className={styles.right}>
                         <div className={styles.title}>{thread.title}</div>
@@ -174,7 +160,15 @@ const Thread = ({ match, dispatch, ...props }) => {
                                     ) : (
                                         <Row className={styles.answer} key={answer._id + _.uniqueId('answer_')}>
                                             <Col span={2} className={styles.avatarCont}>
-                                                <Avatar shape="circle" className={styles.avatar} src={answer.user.avatar} alt="user-avar" size={48} />
+                                                <UserAvatar
+                                                    src={answer.user.avatar}
+                                                    alt="user-avatar"
+                                                    size={48}
+                                                    textSize={51}
+                                                    borderWidth={3}
+                                                    text={answer.user.name}
+                                                    style={{ background: 'white', color: 'black' }}
+                                                />
                                             </Col>
                                             <Col span={22} className={styles.right}>
                                                 <div className={styles.name}>

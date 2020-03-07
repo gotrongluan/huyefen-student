@@ -4,6 +4,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Form, Input, Spin, DatePicker, Button, Avatar, Upload, Row, Col, Select, Divider, Icon, Transfer, message } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import { capitalText } from '@/utils/utils';
 import styles from './Profile.less';
 
@@ -113,15 +114,15 @@ const Profile = ({ form, dispatch, ...props }) => {
         <div className={styles.profile}>
             <div className={styles.avatar}>
                 <div className={styles.main}>
-                    {user.avatar ? (
-                        <Avatar
-                            size={150}
-                            src={user.avatar}
-                            alt="avatar"
-                        />
-                    ) : (
-                        <Avatar style={{ backgroundColor: '#fada5e', color: 'white', fontSize: '50px' }} size={150}>{capitalText(user.name)}</Avatar>
-                    )}
+                    <UserAvatar
+                        size={150}
+                        src={user.avatar}
+                        alt="avatar"
+                        style={{ backgroundColor: '#fada5e', color: 'white', fontSize: '50px' }}
+                        textSize={150}
+                        text={user.name}
+                        borderWidth={6}
+                    />
                 </div>
                 <div className={styles.uploader}>
                     <Form layout="vertical" onSubmit={handleUploadAvatar}>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import { List, Button, Avatar, Skeleton, message } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import Wrapper from '@/components/JumpotronWrapper';
 import Spin from '@/elements/spin/secondary';
 import { fromNow } from '@/utils/utils';
@@ -89,7 +90,17 @@ const Notifications = ({ dispatch, ...props }) => {
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    avatar={<Avatar src={item.avatar} size={42} />}
+                                                    avatar={(
+                                                        <UserAvatar
+                                                            size={36}
+                                                            textSize={36}
+                                                            style={{ background: '#FADA5E', color: 'white' }}
+                                                            src={item.user.src}
+                                                            text={item.user.name}
+                                                            alt="user-avatar"
+                                                            borderWidth={0}
+                                                        />
+                                                    )}
                                                     title={<span>{item.content}</span>}
                                                     description={<span style={{ fontSize: 13, color: 'gray'}}>{ fromNow(item.createdAt) }</span>}
                                                 />

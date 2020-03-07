@@ -33,7 +33,7 @@ const Register = ({ dispatch, ...props }) => {
         if (!email || email.trim().length === 0) return message.error(formatMessage({ id: 'register.emptyemail' }));
         if (!job) return message.error('You must select your job!');
         const info = {
-            name, password, phone, gender, email,
+            name, password, phone, gender, email, job,
             birthday: birthday.format("YYYY-MM-DD")
         };
         dispatch({

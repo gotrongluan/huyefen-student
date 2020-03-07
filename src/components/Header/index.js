@@ -4,6 +4,7 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { Layout, Row, Col, Input, Popover, Divider, Avatar, Icon, message } from 'antd';
+import UserAvatar from '@/components/Avatar';
 import Categories from '@/components/Popover/Categories';
 import MyCourses from '@/components/Popover/MyCourses';
 import Cart from '@/components/Popover/Cart';
@@ -47,11 +48,15 @@ const Header = ({ dispatch, user }) => {
                                     <div>
                                         <Row className={styles.info}>
                                             <Col span={4}>
-                                                {user.avatar ? (
-                                                    <Avatar size={39} src={user.avatar} alt="user-avatar" />
-                                                ) : (
-                                                    <Avatar style={{ backgroundColor: '#fada5e', color: 'white' }} size={39}>{capitalText(user.name)}</Avatar>
-                                                )}
+                                                <UserAvatar
+                                                    borderWidth={0}
+                                                    src={user.avatar}
+                                                    size={39}
+                                                    textSize={39}
+                                                    alt="user-avatar"
+                                                    text={user.name}
+                                                    style={{ backgroundColor: '#fada5e', color: 'white' }}
+                                                />
                                             </Col>
                                             <Col span={20}>
                                                 <div className={styles.name}><b>{user.name}</b></div>
@@ -81,11 +86,15 @@ const Header = ({ dispatch, user }) => {
                                 )}
                             >
                                 <div className={styles.accountText}>
-                                    {user.avatar ? (
-                                        <Avatar size={32} src={user.avatar} alt="user-avatar" />
-                                    ) : (
-                                        <Avatar style={{ backgroundColor: '#fada5e', color: 'white' }} size={32}>{capitalText(user.name)}</Avatar>
-                                    )}
+                                    <UserAvatar
+                                        borderWidth={0}
+                                        src={user.avatar}
+                                        size={32}
+                                        textSize={32}
+                                        alt="user-avatar"
+                                        text={user.name}
+                                        style={{ backgroundColor: '#fada5e', color: 'white' }}
+                                    />
                                 </div>
                             </Popover>
                         </div>

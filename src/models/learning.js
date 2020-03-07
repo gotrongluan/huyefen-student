@@ -541,6 +541,15 @@ export default {
                 }
             };
         },
+        resetAnnouncements(state) {
+            return {
+                ...state,
+                announcements: {
+                    hasMore: true,
+                    list: null
+                }
+            };
+        },
         saveQuestions(state, { payload }) {
             const { hasMore, total, data } = payload;
             return {

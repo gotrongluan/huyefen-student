@@ -12,7 +12,7 @@ export const useEffectOnlyUpdates = (effect, conditionArray) => {
     const myRef = useRef(false);
     useEffect(() => {
         if (myRef.current) return effect();
-    }, [effect]);
+    }, [conditionArray]);
     useEffect(() => {
         myRef.current = true;
     }, []);
