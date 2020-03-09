@@ -13,6 +13,7 @@ import QUESTIONS from '@/assets/fakers/questions';
 import THREAD from '@/assets/fakers/thread';
 import ANSWERS from '@/assets/fakers/answers';
 import LECTURE from '@/assets/fakers/lecture';
+import INSTRUCTOR_REVIEWS from '@/assets/fakers/instructorReviews';
 
 const REVIEW = {
     _id: 1,
@@ -25,6 +26,7 @@ const initialState = {
     info: null,
     overview: null,
     instructors: null,
+    instructorReviews: null,
     review: null,
     forum: {
         total: null,
@@ -77,6 +79,13 @@ export default {
             yield put({
                 type: 'saveReview',
                 payload: REVIEW
+            });
+        },
+        *fetchInstructorReviews({ payload: courseId }, { call, put }) {
+            yield delay(1600);
+            yield put({
+                type: 'saveInstructorReviews',
+                payload: INSTRUCTOR_REVIEWS
             });
         },
         *fetchAnnouncements({ payload: courseId }, { call, put }) {
@@ -452,6 +461,18 @@ export default {
         },
         resetInstructors(state) {
             return { ...state, instructors: null };
+        },
+        saveInstructorReviews(state, { payload }) {
+            return {
+                ...state,
+                instructorReviews: [...payload]
+            };
+        },
+        resetInstructorReviews(state) {
+            return {
+                ...state,
+                instructorReviews: null
+            };
         },
         saveReview(state, { payload }) {
             return {

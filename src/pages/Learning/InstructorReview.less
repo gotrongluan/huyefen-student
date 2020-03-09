@@ -1,5 +1,9 @@
 .instructors {
+    border-radius: 8px;
+    border: 0.5px dashed rgba(255, 255, 255, 0.2);
+    background: rgba(30, 30, 30, 0.3);
     .loading {
+        padding: 40px;
         .user { 
             width: 100%;
             :global(.ant-skeleton-paragraph) {
@@ -9,6 +13,56 @@
         .spin {
             text-align: center;
             padding: 100px 0;
+            .text {
+                margin-top: 12px;
+            }
+        }
+    }
+    .divider {
+        background: white;
+        margin: 0;
+        width: 100%;
+    }
+    .instructor {
+        padding: 40px;
+        
+        .summary {
+            .avatarCont {
+                margin-bottom: 24px;
+            }
+            .stat {
+                margin-bottom: 8px;
+                color: white;
+                i {
+                    font-size: 1.5em;
+                    position: relative;
+                    top: 3px;
+                    color: @primary-color;
+                }
+                .value {
+                    margin-left: 8px;
+                }
+            }
+        }
+        .detail {
+            .name {
+                font-size: 1.5em;
+                color: rgba(250, 218, 94, 0.7);
+            }
+            .starRating {
+                margin-top: 12px;
+                font-size: 1.5em;
+                .ratingVal {
+                    color: white;
+                    margin-left: 8px;
+                }
+            }
+            .content {
+                margin-top: 24px;
+                textarea {
+                    resize: none;
+                }
+            }
         }
     }
 }
