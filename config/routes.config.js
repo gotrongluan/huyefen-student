@@ -80,6 +80,11 @@ export default [
                 title: 'route.learning.review'
             },
             {
+                path: '/learning/:courseId/instructor-review',
+                component: './Learning/InstructorReview',
+                title: 'route.learning.instructorreview'
+            },
+            {
                 path: '/learning/:courseId/lecture/:lectureId',
                 component: './Learning/Lecture',
                 title: 'route.learning.lecture'

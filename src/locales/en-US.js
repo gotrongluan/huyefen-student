@@ -18,6 +18,7 @@ export default {
 	'route.learning.lecture': 'Lecture',
 	'route.learning.announcements': 'Announcements',
 	'route.learning.review': 'Review',
+	'route.learning.instructorreview': 'Instructor Review',
 	'route.basic': 'HuYeFen',
 	'route.basic.home': 'Home page',
 	'route.basic.area': 'Area',

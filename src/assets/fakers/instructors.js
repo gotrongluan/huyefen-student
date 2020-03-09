@@ -10,7 +10,9 @@ export default [
         biography: `
         <p></p><p>Andrei is the instructor of the <strong>highest rated&nbsp;Web Development course on Udemy as well as&nbsp;one of the fastest&nbsp;growing.&nbsp;</strong>His graduates have&nbsp;moved&nbsp;on to work for&nbsp;some of the biggest tech&nbsp;companies around the world like Apple, Google, Amazon, JP Morgan, IBM, UNIQLO etc...&nbsp;He&nbsp;has&nbsp;been working as a senior software developer in&nbsp;Silicon Valley and Toronto for many years,&nbsp;and&nbsp;is now taking all that he has learned,&nbsp;to teach&nbsp;programming skills and&nbsp;to help you&nbsp;discover the amazing career opportunities that being a developer allows in&nbsp;life.&nbsp;</p><p>Having been&nbsp;a self taught programmer,&nbsp;he understands that there is an&nbsp;overwhelming number of online courses, tutorials and books&nbsp;that are overly verbose and inadequate at teaching proper skills.&nbsp;Most people feel paralyzed and don't know where to start when learning a complex subject matter, or even worse, most people don't have $20,000 to spend on a coding bootcamp.&nbsp;<strong>Programming skills should be affordable and open to all. An education material&nbsp;should teach real life skills that are current and&nbsp;they should not waste a student's valuable time.</strong>&nbsp;
         Having learned important&nbsp;lessons from working for Fortune 500 companies, tech startups, to even&nbsp;founding his own business, he is now dedicating 100% of his time to&nbsp;teaching others valuable&nbsp;software development skills&nbsp;in order to take control of their life and work in an exciting industry with infinite possibilities.&nbsp;</p><p>Andrei promises you that there are no other courses out there as comprehensive and as well explained.&nbsp;<strong>He believes that in order to learn anything of value, you need to start with the foundation and develop the roots of the tree. Only from there will you be able to learn concepts and specific skills(leaves) that connect to the foundation. Learning becomes exponential when structured in this way.</strong>&nbsp;</p><p>Taking his experience in educational psychology and coding, Andrei's courses will take you on an understanding of complex subjects that you never thought would be possible.&nbsp;&nbsp;
-        </p><p><strong>See you inside the courses!</strong></p>`
+        </p><p><strong>See you inside the courses!</strong></p>`,
+        starRating: 4.5,
+        ratingContent: null
     },
     {
         _id: 2,
@@ -30,6 +32,8 @@ export default [
         but also in iOS, Android,&nbsp;Django, Kotlin, Python, HTML, Blockchain, etc.&nbsp;I have also created five iOS&nbsp;apps from scratch that are currently live in the App Store and are&nbsp;being used by thousands of users worldwide.&nbsp;<br></p>
         
         <p>I love sharing my excitement for coding with
-        my students, and I try to make learning as fun and as easy as possible. Thanks for being part of my&nbsp;coding community!</p></div>`
+        my students, and I try to make learning as fun and as easy as possible. Thanks for being part of my&nbsp;coding community!</p></div>`,
+        starRating: null,
+        ratingContent: null
     }
 ]
