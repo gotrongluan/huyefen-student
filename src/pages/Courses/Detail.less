@@ -366,8 +366,22 @@
             }
         }
         .reviews {
-            padding-left: 10%;
-            padding-right: 10%;
+            width: 85%;
+            margin: auto;
+            .divider {
+                background: white;
+            }
+            .loading {
+                .loadingReview {
+                    .info {
+                        margin-bottom: 25px;
+                    }
+                }
+                .spin {
+                    text-align: center;
+                    margin-top: 60px;
+                }
+            }
             .featured, .listReviews {
                 .title {
                     color: @primary-color;
@@ -387,6 +401,10 @@
                     background: rgba(20, 20, 20, 0.25);
                     border-radius: 4px;
                     .featuredReview {
+                        cursor: pointer;
+                        &:hover {
+                            opacity: 0.8;
+                        }
                         .user {
                             height: auto;
                             width: 100%;
@@ -426,6 +444,7 @@
                         }
                         .voting {
                             margin-top: 10px;
+                            text-align: left;
                             .like {
                                 margin-left: 25px;
                             }
@@ -441,6 +460,54 @@
                                 }
                                 &:hover {
                                     opacity: 0.8;
+                                }
+                            }
+                        }
+                        .answers {
+                            width: 90%;
+                            margin-left: auto;
+                            margin-top: 20px;
+                            padding-right: 40px;
+                            .title {
+                                font-weight: bold;
+                                margin-bottom: 25px;
+                            }
+                            .data {
+                                width: 100%;
+                                .divider {
+                                    background: rgba(250, 218, 94, 0.5);
+                                }
+                                .answer {
+                                    .user {
+                                        height: auto;
+                                        width: 100%;
+                                        position: relative;
+                                        .avatarCont {
+                                            width: 48px;
+                                            padding: 0;
+                                            display: inline-block;
+                                            margin-bottom: 0
+                                        }
+                                        .info {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 75px;
+                                            .names {
+                                                .name {
+                                                    font-size: 1em;
+                                                }
+                                                .instructor {
+                                                    margin-left: 10px;
+                                                }
+                                            }
+                                            .time {
+                                                font-size: 0.9em;
+                                            }
+                                        }
+                                    }
+                                    .content {
+                                        font-size: 1em;
+                                    }
                                 }
                             }
                         }
@@ -479,6 +546,7 @@
                         }
                         .voting {
                             margin-top: 10px;
+                            text-align: left;
                             .like {
                                 margin-left: 25px;
                             }
@@ -494,6 +562,51 @@
                                 }
                                 &:hover {
                                     opacity: 0.8;
+                                }
+                            }
+                        }
+                        .answers {
+                            margin-top: 20px;
+                            .title {
+                                font-weight: bold;
+                                margin-bottom: 25px;
+                            }
+                            .data {
+                                width: 100%;
+                                .divider {
+                                    background: rgba(250, 218, 94, 0.5);
+                                }
+                                .answer {
+                                    .user {
+                                        height: auto;
+                                        width: 100%;
+                                        position: relative;
+                                        .avatarCont {
+                                            width: 48px;
+                                            padding: 0;
+                                            display: inline-block;
+                                            margin-bottom: 0
+                                        }
+                                        .info {
+                                            position: absolute;
+                                            top: 0;
+                                            left: 75px;
+                                            .names {
+                                                .name {
+                                                    font-size: 1em;
+                                                }
+                                                .instructor {
+                                                    margin-left: 10px;
+                                                }
+                                            }
+                                            .time {
+                                                font-size: 0.9em;
+                                            }
+                                        }
+                                    }
+                                    .content {
+                                        font-size: 1em;
+                                    }
                                 }
                             }
                         }

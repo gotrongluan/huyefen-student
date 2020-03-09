@@ -159,7 +159,7 @@ export default {
                 ...state,
                 reviews: {
                     ...state.reviews,
-                    [type]: [...list]
+                    [attr]: [...list]
                 }
             }
         }
