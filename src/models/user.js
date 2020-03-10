@@ -36,11 +36,11 @@ export default {
             });
             if (callback) callback();
             //set shopping cart
-            //const items = storage.getShoppingCart();
-            if (!_.isEmpty(['a'])) {
+            const items = storage.getShoppingCart();
+            if (!_.isEmpty(items)) {
                 yield put({
                     type: 'cart/fetch',
-                    payload: ['a']
+                    payload: items
                 });
             }
             //set FCM token.

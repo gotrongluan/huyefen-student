@@ -6,7 +6,7 @@ import Link from 'umi/link';
 import router from 'umi/router';
 import classNames from 'classnames';
 import TimeAgo from 'react-timeago';
-import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
+import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, Modal, message } from 'antd';
 import { YoutubeFilled, ReadOutlined } from '@ant-design/icons';
 import UserAvatar from '@/components/Avatar';
 import TeacherCourse from '@/components/TeacherCourse';
@@ -527,6 +527,7 @@ const Instructors = ({ instructors }) => {
 const DetailCourse = ({ match, dispatch, ...props }) => {
     const [sticky, setSticky] = useState(false);
     const [previewVisible, setPreviewVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     const { courseId } = match.params;
     const {
         courseInfo,
@@ -598,6 +599,8 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         });
     };
 
+    const handleAddToCart = () => setModalVisible(true);
+
     return (
         <div className={styles.detail}>
             <Row className={styles.jumpotron}>
@@ -661,7 +664,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             ) : (
                                 <React.Fragment>
                                     <div className={styles.addToCart}>
-                                        <Button type="primary" icon="shopping-cart" size="large">Add to cart</Button>
+                                        <Button type="primary" icon="shopping-cart" size="large" onClick={() => setModalVisible(true)}>Add to cart</Button>
                                     </div>
                                     <div className={styles.buyNow}>
                                         <Button icon="audit" size="large">Buy now</Button>
@@ -833,12 +836,74 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                     </Tabs>
                 )}
             </Row>
+            <Modal
+                className={styles.addToCartModal}
+                title={<div className={styles.modalTitle}>Ask a new question</div>}
+                width={860}
+                centered
+                footer={null}
+                bodyStyle={{ padding: '35px 10px' }}
+                visible={modalVisible}
+                onCancel={() => setModalVisible(false)}
+            >
+                {relatedCoursesLoading || !relatedCourses ? (
+                    <div className={styles.loading}>
+                        <Spin indicator={<Icon type="loading-3-quarters" style={{ fontSize: '44px' }} spin/>} />
+                        <div className={styles.tip}>
+                            Loading...
+                        </div>
+                    </div>
+                ) : (
+                    <div className={styles.content}>
+                        <div className={styles.bundle}>
+                            {_.isEmpty(relatedCourses.frequent) ? (
+                                <div className={styles.empty}>
+                                    This course isn't in any bundle.
+                                </div>
+                            ) : (
+                                <Row className={styles.frequent}>
+                                    <div className={styles.title}>Frequent bought together</div>
+                                    <div className={styles.main}>
+                                        <List
+                                            grid={{
+                                                gutter: 16,
+                                                column: 3
+                                            }}
+                                            dataSource={relatedCourses.frequent.list}
+                                            rowKey={course => (course._id || course.key)}
+                                            renderItem={course => (
+                                                <List.Item>
+                                                    <TeacherCourse course={course} />
+                                                </List.Item>
+                                            )}
+                                        />
+                                        <div className={styles.total}>
+                                            {`Total: $${_.round(relatedCourses.frequent.discountTotal, 2)}`}
+                                        </div>
+                                        <div className={styles.addToCart}>
+                                            <Button type="primary" icon="shopping" size="large">Add all to cart</Button>
+                                        </div>
+                                    </div>
+                                </Row>
+                            )}
+                        </div>
+                        <div className={styles.one}>
+                            <span className={styles.title}>
+                                Buy only this course?
+                            </span>
+                            <span className={styles.btn}>
+                                <Button type="primary" icon="shopping-cart" size="large" onClick={() => {}}>Add to cart</Button>
+                            </span>
+                        </div>
+                    </div>
+                )}
+            </Modal>
         </div>
     )
 };
 
 export default connect(
-    ({ detail, loading }) => ({
+    ({ cart, detail, loading }) => ({
         courseInfo: detail.info,
         syllabus: detail.syllabus,
         overview: detail.overview,
@@ -854,6 +919,7 @@ export default connect(
         instructorsLoading: loading.effects['detail/fetchInstructors'],
         relatedCoursesLoading: loading.effects['detail/fetchRelatedCourses'],
         moreReviewsLoading: loading.effects['detail/moreReviews'],
-        previewLoading: loading.effects['detail/preview']
+        previewLoading: loading.effects['detail/preview'],
+        cart: cart
     })
 )(DetailCourse);

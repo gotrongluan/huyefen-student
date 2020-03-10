@@ -612,3 +612,68 @@
         }
     }
 }
+
+.addToCartModal {
+    :global(.ant-modal-header) {
+        background-color: rgba(20, 20, 20, 0.5);
+        .modalTitle {
+            color: @primary-color;
+            text-align: center;
+        }
+    }
+    .loading {
+        text-align: center;
+        padding: 120px 0;
+        .tip {
+            margin-top: 15px;
+        }
+    }
+    .content {
+        .bundle {
+            .empty {
+                font-size: 1.1em;
+                color: white;
+            }
+            .frequent {
+                .title {
+                    font-size: 1.5em;
+                    margin-bottom: 16px;
+                    color: white;
+                }
+                .main {
+                    position: relative;
+                    padding: 16px;
+                    border: 0.5px dashed rgba(255, 255, 255, 0.2);
+                    border-radius: 5px;
+                    background: rgba(20, 20, 20, 0.25);
+                    .total {
+                        color: white;
+                        font-size: 1.4em;
+                    }
+                    .addToCart {
+                        margin-top: 20px;
+                        button {
+                            border-radius: 0;
+                            min-width: 250px;
+                        }
+                    }
+                }
+            }
+            margin-bottom: 64px;
+        }
+        .one {
+            text-align: right;
+            .title {
+                font-size: 1.2em;
+                margin-bottom: 16px;
+            }
+            .btn button {
+                margin-left: 24px;
+                border-radius: 0;
+                min-width: 200px;
+                background: white;
+                border-color: white;
+            }
+        }
+    }
+}
