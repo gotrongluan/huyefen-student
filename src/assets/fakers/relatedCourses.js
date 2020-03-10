@@ -82,53 +82,53 @@ export default {
         }
     ],
     frequent: {
-        bundleId: 1,
-        total: 29.98,
-        discountTotal: 25.00,
-        list: [
-            {
-                _id: 1,
-                name: 'Reactjs for Beginner (2020)',
-                authors: ['Luan Nguyen Trong', 'Ha Huynh Sam'],
-                avatar: 'https://miro.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png',
-                lastUpdated: '12/2019',
-                featured: 'course.bestseller',
-                category: 'cate.development.web-development',
-                area: 'cate.development',
-                topic: 'cate.development.web-development.javascript',
-                numOfLectures: 114,
-                level: 'course.alllevel',
-                summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
-                whatLearn: [
-                    'Use TypeScript and its Features like Types, ES6 Support, Classes, Modules, Interfaces and much more in any of their Projects',
-                    'Learn to build reactive, performant, large scale applications like a senior developer',
-                    'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
-                ],
-                starRating: 4.2,
-                price: 19.99
-            },
-            {
-                _id: 2,
-                name: 'Programming Java for Beginners - The Ultimate Java Tutorial (2019 Edition)',
-                authors: ['Tin Dang Phu Trung', 'Duc La Hoang', 'Cuong Van Tien'],
-                avatar: 'https://miro.medium.com/max/6996/1*xu1Ge_Cew0DHdSU6ETcpLQ.png',
-                lastUpdated: '12/2019',
-                featured: 'course.bestseller',
-                category: 'cate.development.web-development',
-                area: 'cate.development',
-                topic: 'cate.development.web-development.javascript',
-                numOfLectures: 114,
-                level: 'course.alllevel',
-                summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
-                whatLearn: [
-                    'Use TypeScript and its Features like Types, ES6 Support, Classes, Modules, Interfaces and much more in any of their Projects',
-                    'Learn to build reactive, performant, large scale applications like a senior developer',
-                    'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
-                ],
-                starRating: 4.7,
-                price: 9.99
-            }
-        ]
+        // // bundleId: 1,
+        // // total: 29.98,
+        // // discountTotal: 25.00,
+        // // list: [
+        // //     {
+        // //         _id: 1,
+        // //         name: 'Reactjs for Beginner (2020)',
+        // //         authors: ['Luan Nguyen Trong', 'Ha Huynh Sam'],
+        // //         avatar: 'https://miro.medium.com/max/1200/1*y6C4nSvy2Woe0m7bWEn4BA.png',
+        // //         lastUpdated: '12/2019',
+        // //         featured: 'course.bestseller',
+        // //         category: 'cate.development.web-development',
+        // //         area: 'cate.development',
+        // //         topic: 'cate.development.web-development.javascript',
+        // //         numOfLectures: 114,
+        // //         level: 'course.alllevel',
+        // //         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
+        // //         whatLearn: [
+        // //             'Use TypeScript and its Features like Types, ES6 Support, Classes, Modules, Interfaces and much more in any of their Projects',
+        // //             'Learn to build reactive, performant, large scale applications like a senior developer',
+        // //             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
+        // //         ],
+        // //         starRating: 4.2,
+        // //         price: 19.99
+        // //     },
+        // //     {
+        // //         _id: 2,
+        // //         name: 'Programming Java for Beginners - The Ultimate Java Tutorial (2019 Edition)',
+        // //         authors: ['Tin Dang Phu Trung', 'Duc La Hoang', 'Cuong Van Tien'],
+        // //         avatar: 'https://miro.medium.com/max/6996/1*xu1Ge_Cew0DHdSU6ETcpLQ.png',
+        // //         lastUpdated: '12/2019',
+        // //         featured: 'course.bestseller',
+        // //         category: 'cate.development.web-development',
+        // //         area: 'cate.development',
+        // //         topic: 'cate.development.web-development.javascript',
+        // //         numOfLectures: 114,
+        // //         level: 'course.alllevel',
+        // //         summary: 'Don\'t limit the Usage of TypeScript to Angular! Learn the Basics, its Features, Workflows and how to use it!',
+        // //         whatLearn: [
+        // //             'Use TypeScript and its Features like Types, ES6 Support, Classes, Modules, Interfaces and much more in any of their Projects',
+        // //             'Learn to build reactive, performant, large scale applications like a senior developer',
+        // //             'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
+        // //         ],
+        // //         starRating: 4.7,
+        // //         price: 9.99
+        // //     }
+        // ]
     },
     sameAuthors: [
         {
