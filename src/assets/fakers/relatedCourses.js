@@ -82,6 +82,7 @@ export default {
         }
     ],
     frequent: {
+        bundleId: 1,
         total: 29.98,
         discountTotal: 25.00,
         list: [

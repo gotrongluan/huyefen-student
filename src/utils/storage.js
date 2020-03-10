@@ -10,6 +10,18 @@ const setToken = token => {
         localStorage.removeItem('token');
 }
 
+const getShoppingCart = () => {
+    return JSON.parse(localStorage.getItem('shopping-cart'));
+}
+
+const setShoppingCart = items => {
+    if (items)
+        return localStorage.setItem('shopping-cart', JSON.stringify(items));
+    const current = getShoppingCart();
+    if (current)
+        localStorage.removeItem('shopping-cart');
+}
+
 const getFCMToken = () => {
     return localStorage.getItem('FCMToken');
 }
@@ -23,5 +35,5 @@ const setFCMToken = token => {
 }
 
 export default {
-    getToken, setToken, getFCMToken, setFCMToken
+    getToken, setToken, getFCMToken, setFCMToken, getShoppingCart, setShoppingCart
 };

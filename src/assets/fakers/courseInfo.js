@@ -13,6 +13,6 @@ export default {
     language: 'English',
     lastUpdated: 1578813445999,
     level: 'Beginner',
-    isRegistered: true,
+    isRegistered: false,
     refundable: false
 }

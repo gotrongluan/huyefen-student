@@ -1,5 +1,6 @@
 import { delay } from '@/utils/utils';
 import storage from '@/utils/storage';
+import _ from 'lodash';
 import router from 'umi/router';
 
 const USER = {
@@ -34,6 +35,14 @@ export default {
                 payload: USER
             });
             if (callback) callback();
+            //set shopping cart
+            //const items = storage.getShoppingCart();
+            if (!_.isEmpty(['a'])) {
+                yield put({
+                    type: 'cart/fetch',
+                    payload: ['a']
+                });
+            }
             //set FCM token.
         },
         *update({ payload }, { call, put }) {
