@@ -111,8 +111,10 @@ export default {
         },
         *logout(action, { put }) {
             storage.setToken(null);
+            storage.setShoppingCart(null);
             router.push('/user/login');
             yield put({ type: 'reset' });
+            yield put({ type: 'cart/reset' });
         }
     },
     reducers: {

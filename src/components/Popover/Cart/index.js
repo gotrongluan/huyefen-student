@@ -34,7 +34,7 @@ const Cart = ({ cart }) => {
                                                 <img alt="course avatar" src={item.avatar} />
                                             </Col>
                                             <Col span={18} className={styles.info}>
-                                                <div className={styles.name}>{truncate(item.name, 43)}</div>
+                                                <div className={styles.name}>{truncate(item.name, 38)}</div>
                                                 <div className={styles.authors}>{`By ${transAuthors(item.authors, 26)}`}</div>
                                                 <div className={styles.price}>
                                                     {`$${_.round(item.price, 2)}`}

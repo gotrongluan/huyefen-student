@@ -1,7 +1,8 @@
 export default {
-    _id: 1,
+    _id: 'course_x',
     name: 'Build Web Apps with Vue JS 2 & Firebase',
     summary: 'Learn Vue JS & Firebase by creating & deploying dynamic web apps (including Authentication).',
+    avatar: 'https://i1.wp.com/p4fcourses.com/wp-content/uploads/2020/02/MongoDB-The-Complete-Developers-Guide-2020-Free-Download.png?fit=750%2C422&ssl=1',
     starRating: 4.7,
     numOfRatings: 2506,
     numOfEnrolled: 9280,
@@ -14,5 +15,6 @@ export default {
     lastUpdated: 1578813445999,
     level: 'Beginner',
     isRegistered: false,
-    refundable: false
+    refundable: false,
+    price: 19.99
 }

@@ -599,7 +599,16 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         });
     };
 
-    const handleAddToCart = () => setModalVisible(true);
+    const handleAddToCart = () => {
+        dispatch({
+            type: 'cart/add',
+            payload: {
+                ..._.pick(courseInfo, ['_id', 'name', 'avatar', 'authors', 'price']),
+                type: 'course'
+            }
+        });
+        setModalVisible(false);
+    };
 
     return (
         <div className={styles.detail}>
@@ -663,6 +672,9 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 </React.Fragment>
                             ) : (
                                 <React.Fragment>
+                                    <div className={styles.price}>
+                                        {`$${_.round(courseInfo.price, 2)}`}
+                                    </div>
                                     <div className={styles.addToCart}>
                                         <Button type="primary" icon="shopping-cart" size="large" onClick={() => setModalVisible(true)}>Add to cart</Button>
                                     </div>
@@ -892,7 +904,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 Buy only this course?
                             </span>
                             <span className={styles.btn}>
-                                <Button type="primary" icon="shopping-cart" size="large" onClick={() => {}}>Add to cart</Button>
+                                <Button icon="shopping-cart" size="large" onClick={handleAddToCart} disabled={!courseInfo || courseInfoLoading}>Add to cart</Button>
                             </span>
                         </div>
                     </div>

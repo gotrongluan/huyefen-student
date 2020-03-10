@@ -11,12 +11,12 @@ const setToken = token => {
 }
 
 const getShoppingCart = () => {
-    return JSON.parse(localStorage.getItem('shopping-cart'));
+    return localStorage.getItem('shopping-cart');
 }
 
 const setShoppingCart = items => {
     if (items)
-        return localStorage.setItem('shopping-cart', JSON.stringify(items));
+        return localStorage.setItem('shopping-cart', items);
     const current = getShoppingCart();
     if (current)
         localStorage.removeItem('shopping-cart');
