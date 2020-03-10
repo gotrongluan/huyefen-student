@@ -25,7 +25,7 @@
     }
     .instructor {
         padding: 40px;
-        
+        position: relative;
         .summary {
             .avatarCont {
                 margin-bottom: 24px;
@@ -61,6 +61,30 @@
                 margin-top: 24px;
                 textarea {
                     resize: none;
+                }
+                .disabled {
+                    background: rgb(35, 35, 35);
+                    border: none;
+                    outline: none;
+                }
+            }
+            .btns {
+                margin-top: 10px;
+                text-align: right;
+                .save {
+                    margin-left: 8px;
+                }
+            }
+        }
+        .action {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            .btn {
+                font-size: 1.2em;
+                cursor: pointer;
+                &:hover {
+                    color: white;
                 }
             }
         }

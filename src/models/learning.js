@@ -88,6 +88,25 @@ export default {
                 payload: INSTRUCTOR_REVIEWS
             });
         },
+        *reviewInstructor({ payload }, { call, put }) {
+            const {
+                courseId,
+                instructorId,
+                starRating,
+                ratingContent,
+                callback
+            } = payload;
+            yield delay(1200);
+            yield put({
+                type: 'updateInstructorReview',
+                payload: {
+                    _id: instructorId,
+                    starRating,
+                    ratingContent
+                }
+            });
+            if (callback) callback();
+        },
         *fetchAnnouncements({ payload: courseId }, { call, put }) {
             yield delay(1500);
             yield put({
@@ -466,6 +485,19 @@ export default {
             return {
                 ...state,
                 instructorReviews: [...payload]
+            };
+        },
+        updateInstructorReview(state, { payload }) {
+            const { _id: instructorId, starRating, ratingContent } = payload;
+            const newData = _.cloneDeep(state.instructorReviews);
+            const index = _.findIndex(newData, ['_id', instructorId]);
+            newData[index] = {
+                ...newData[index],
+                ...payload
+            };
+            return {
+                ...state,
+                instructorReviews: [...newData]
             };
         },
         resetInstructorReviews(state) {
