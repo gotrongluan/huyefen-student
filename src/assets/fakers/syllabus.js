@@ -8,7 +8,8 @@ export default [
                     type: 1,
                     title: 'Introduction',
                     time: 3,
-                    isFinished: true
+                    isFinished: true,
+                    isPreviewed: true
                 },
                 {
                     _id: 'lecture-2',
@@ -16,6 +17,7 @@ export default [
                     title: 'Course Files',
                     time: 2,
                     isFinished: true,
+                    isPreviewed: true
                 },
                 {
                     _id: 'lecture-3',

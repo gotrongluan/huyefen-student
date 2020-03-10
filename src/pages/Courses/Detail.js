@@ -7,6 +7,7 @@ import router from 'umi/router';
 import classNames from 'classnames';
 import TimeAgo from 'react-timeago';
 import { Row, Col, Rate, Button, Tabs, Icon, Skeleton, Spin, List, Divider, Avatar, Collapse, Table, message } from 'antd';
+import { YoutubeFilled, ReadOutlined } from '@ant-design/icons';
 import UserAvatar from '@/components/Avatar';
 import TeacherCourse from '@/components/TeacherCourse';
 import FeaturedBadge from '@/components/FeaturedBadge';
@@ -68,7 +69,7 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
                                 renderItem={lecture => (
                                     <List.Item
                                         className={styles.lecture}
-                                        extra={lecture.type === 0 ? (
+                                        extra={!lecture.isPreviewed ? (
                                             <span className={styles.time}>{`${minutesToHour(lecture.time)}`}</span>
                                         ) : (
                                             <>
@@ -78,7 +79,7 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
                                         )}
                                     >
                                         <List.Item.Meta
-                                            avatar={<Avatar size={16} icon="read" style={{ background: '#fada5e', color: 'black', position: 'relative', top: '3px' }}/>}
+                                            avatar={<Avatar size={16} icon={lecture.type === 0 ? <YoutubeFilled /> : <ReadOutlined />} style={{ background: lecture.type === 0 ? '#fada5e' : 'white', color: 'black', position: 'relative', top: '3px' }}/>}
                                             title={<span className={styles.lectureName}>{lecture.title}</span>}
                                         />
                                     </List.Item>
