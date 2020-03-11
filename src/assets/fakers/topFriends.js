@@ -1,8 +1,8 @@
 export default [
     {
         _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/42526239_1351247001684101_2131590022736904192_o.jpg?_nc_cat=105&_nc_sid=110474&_nc_oc=AQkYcdB2i-E0mZTEXV81owkPhMa-UBcPsdJlGVcrYiCWxodZBaLoxcnoXwD2VNocbrw&_nc_ht=scontent.fsgn2-2.fna&oh=b61af62f10a5c7bc1c98c36d02941ba2&oe=5E95752D',
         numOfMutualFriends: 3,
         numOfFriends: 20,
     },

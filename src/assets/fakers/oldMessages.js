@@ -8,8 +8,8 @@ export default [
         createdAt: 1563690130762,
         seenAt: 1563690238677,
         receivedAt: 1563690130762,
-        avatar: "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0",
-        userName: "ngochanhvuong"
+        avatar: "https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/42526239_1351247001684101_2131590022736904192_o.jpg?_nc_cat=105&_nc_sid=110474&_nc_oc=AQkYcdB2i-E0mZTEXV81owkPhMa-UBcPsdJlGVcrYiCWxodZBaLoxcnoXwD2VNocbrw&_nc_ht=scontent.fsgn2-2.fna&oh=b61af62f10a5c7bc1c98c36d02941ba2&oe=5E95752D",
+        userName: "dangthuyhuyen"
     },
     {
         _id: "5d34052c9f4d47c2e5ffbf0d1",
@@ -20,7 +20,7 @@ export default [
         createdAt: 1563690137762,
         seenAt: 1563690285105,
         receivedAt: 1563690184635,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: "https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/73209658_1663552363786895_6709450807181312000_n.jpg?_nc_cat=104&_nc_sid=110474&_nc_oc=AQn4wJhyXlzknl-2nEvPC_H3Gcs-zIVfSNPj1vgtuCZwdKegZBkp7EVu_VD1Zulq-PM&_nc_ht=scontent.fsgn2-2.fna&oh=39c771ad6429a3f0ba443ee895d9c162&oe=5EA5A11B",
         userName: "bkuhardware"
     },
     {
@@ -32,8 +32,8 @@ export default [
         createdAt: 1563690137762,
         seenAt: 1563690285198,
         receivedAt: 1563690137762,
-        avatar: "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0",
-        userName: "ngochanhvuong"
+        avatar: "https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/42526239_1351247001684101_2131590022736904192_o.jpg?_nc_cat=105&_nc_sid=110474&_nc_oc=AQkYcdB2i-E0mZTEXV81owkPhMa-UBcPsdJlGVcrYiCWxodZBaLoxcnoXwD2VNocbrw&_nc_ht=scontent.fsgn2-2.fna&oh=b61af62f10a5c7bc1c98c36d02941ba2&oe=5E95752D",
+        userName: "dangthuyhuyen"
     },
     {
         _id: "5d34052d9f4d47c2e5ffbf111",
@@ -44,8 +44,8 @@ export default [
         createdAt: 1563690234562,
         seenAt: 1563690286471,
         receivedAt: 1563690234562,
-        avatar: "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0",
-        userName: "ngochanhvuong"
+        avatar: "https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/42526239_1351247001684101_2131590022736904192_o.jpg?_nc_cat=105&_nc_sid=110474&_nc_oc=AQkYcdB2i-E0mZTEXV81owkPhMa-UBcPsdJlGVcrYiCWxodZBaLoxcnoXwD2VNocbrw&_nc_ht=scontent.fsgn2-2.fna&oh=b61af62f10a5c7bc1c98c36d02941ba2&oe=5E95752D",
+        userName: "dangthuyhuyen"
     },
     {
         _id: "5d34052e9f4d47c2e5ffbf131",
@@ -56,7 +56,7 @@ export default [
         createdAt: 1563690234762,
         seenAt: 1563690287692,
         receivedAt: 1563690234762,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: "https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/73209658_1663552363786895_6709450807181312000_n.jpg?_nc_cat=104&_nc_sid=110474&_nc_oc=AQn4wJhyXlzknl-2nEvPC_H3Gcs-zIVfSNPj1vgtuCZwdKegZBkp7EVu_VD1Zulq-PM&_nc_ht=scontent.fsgn2-2.fna&oh=39c771ad6429a3f0ba443ee895d9c162&oe=5EA5A11B",
         userName: "bkuhardware"
     },
     {
@@ -68,7 +68,7 @@ export default [
         createdAt: 1563690235702,
         seenAt: 1563690295615,
         receivedAt: 1563690235702,
-        avatar: "https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56",
+        avatar: "https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/73209658_1663552363786895_6709450807181312000_n.jpg?_nc_cat=104&_nc_sid=110474&_nc_oc=AQn4wJhyXlzknl-2nEvPC_H3Gcs-zIVfSNPj1vgtuCZwdKegZBkp7EVu_VD1Zulq-PM&_nc_ht=scontent.fsgn2-2.fna&oh=39c771ad6429a3f0ba443ee895d9c162&oe=5EA5A11B",
         userName: "bkuhardware"
     },
     {
@@ -80,7 +80,7 @@ export default [
         createdAt: 1563690235762,
         seenAt: 1563690295716,
         receivedAt: 1563690235762,
-        avatar: "https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0",
-        userName: "ngochanhvuong"
+        avatar: "https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/42526239_1351247001684101_2131590022736904192_o.jpg?_nc_cat=105&_nc_sid=110474&_nc_oc=AQkYcdB2i-E0mZTEXV81owkPhMa-UBcPsdJlGVcrYiCWxodZBaLoxcnoXwD2VNocbrw&_nc_ht=scontent.fsgn2-2.fna&oh=b61af62f10a5c7bc1c98c36d02941ba2&oe=5E95752D",
+        userName: "dangthuyhuyen"
     }
 ];

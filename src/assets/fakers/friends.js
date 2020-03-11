@@ -1,8 +1,8 @@
 export default [
     {
         _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-3.fna.fbcdn.net/v/t1.0-9/87952446_1796951027113694_4171454121150251008_n.jpg?_nc_cat=106&_nc_sid=110474&_nc_oc=AQmmKmWywd7qBTkw46DrJ_58yIZCNb7XKfM29X-j5YCoanDzw8_VdIO04Eopb9QtsJY&_nc_ht=scontent.fsgn2-3.fna&oh=c925c6732e5c4a2d5e98dc09c6dfeaf0&oe=5EA767C8',
         numOfMutualFriends: 3,
         numOfFriends: 26,
         status: 3
@@ -66,8 +66,8 @@ export default [
     },
     {
         _id: 515,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
         numOfMutualFriends: 3,
         numOfFriends: 26,
         status: 3
@@ -131,48 +131,24 @@ export default [
     },
     {
         _id: 100,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
         numOfMutualFriends: 3,
         numOfFriends: 26,
         status: 3
     },
     {
         _id: 1001,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
         numOfMutualFriends: 3,
         numOfFriends: 26,
         status: 3
     },
     {
         _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-        numOfMutualFriends: 3,
-        numOfFriends: 26,
-        status: 3
-    },
-    {
-        _id: 11,
-        name: 'Đinh Minh Tân',
-        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t31.0-1/17240420_615458735320502_8460108034701602737_o.jpg?_nc_cat=108&_nc_ohc=hfIxUNko2LMAX-zhGZ_&_nc_ht=scontent.fdad2-1.fna&oh=42d43db779c3ae55010116c9d264d44a&oe=5E9A2160',
-        numOfMutualFriends: 23,
-        numOfFriends: 111,
-        status: 1
-    },
-    {
-        _id: 21,
-        name: 'Nguyễn Hồ Minh Phước',
-        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-9/10647003_533848540048955_7629018875860790042_n.jpg?_nc_cat=111&_nc_ohc=yvcvWrPibNYAX9pBvyO&_nc_ht=scontent.fdad2-1.fna&oh=6731dca4458caaf5333ad99cab455729&oe=5E99EF76',
-        numOfMutualFriends: 1,
-        numOfFriends: 44,
-        status: 1
-    },
-    {
-        _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
         numOfMutualFriends: 3,
         numOfFriends: 26,
         status: 3
@@ -195,8 +171,8 @@ export default [
     },
     {
         _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
         numOfMutualFriends: 3,
         numOfFriends: 26,
         status: 3
@@ -219,8 +195,32 @@ export default [
     },
     {
         _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
+        numOfMutualFriends: 3,
+        numOfFriends: 26,
+        status: 3
+    },
+    {
+        _id: 11,
+        name: 'Đinh Minh Tân',
+        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t31.0-1/17240420_615458735320502_8460108034701602737_o.jpg?_nc_cat=108&_nc_ohc=hfIxUNko2LMAX-zhGZ_&_nc_ht=scontent.fdad2-1.fna&oh=42d43db779c3ae55010116c9d264d44a&oe=5E9A2160',
+        numOfMutualFriends: 23,
+        numOfFriends: 111,
+        status: 1
+    },
+    {
+        _id: 21,
+        name: 'Nguyễn Hồ Minh Phước',
+        avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-9/10647003_533848540048955_7629018875860790042_n.jpg?_nc_cat=111&_nc_ohc=yvcvWrPibNYAX9pBvyO&_nc_ht=scontent.fdad2-1.fna&oh=6731dca4458caaf5333ad99cab455729&oe=5E99EF76',
+        numOfMutualFriends: 1,
+        numOfFriends: 44,
+        status: 1
+    },
+    {
+        _id: 1,
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
         numOfMutualFriends: 3,
         numOfFriends: 26,
         status: 3

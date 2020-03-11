@@ -66,7 +66,7 @@ const Cart = ({ cart }) => {
                                     {`$${_.round(_.sum(_.map(cart, item => item.price)), 2)}`}
                                 </span>
                                 <span className={styles.goToCart}>
-                                    <Link to="/">Go to cart</Link>
+                                    <Link to="/shopping-cart">Go to cart</Link>
                                 </span>
                             </div>
                         </div>

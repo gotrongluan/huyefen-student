@@ -1,8 +1,8 @@
 export default [
     {
         _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-3.fna.fbcdn.net/v/t1.0-9/87952446_1796951027113694_4171454121150251008_n.jpg?_nc_cat=106&_nc_sid=110474&_nc_oc=AQmmKmWywd7qBTkw46DrJ_58yIZCNb7XKfM29X-j5YCoanDzw8_VdIO04Eopb9QtsJY&_nc_ht=scontent.fsgn2-3.fna&oh=c925c6732e5c4a2d5e98dc09c6dfeaf0&oe=5EA767C8',
         numOfCourses: 31,
         numOfStudents: 468544,
         numOfReviews: 19203,
@@ -15,7 +15,7 @@ export default [
     {
         _id: 2,
         name: 'Nguyen Trong Luan',
-        avatar: null,
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/73209658_1663552363786895_6709450807181312000_n.jpg?_nc_cat=104&_nc_sid=110474&_nc_oc=AQn4wJhyXlzknl-2nEvPC_H3Gcs-zIVfSNPj1vgtuCZwdKegZBkp7EVu_VD1Zulq-PM&_nc_ht=scontent.fsgn2-2.fna&oh=39c771ad6429a3f0ba443ee895d9c162&oe=5EA5A11B',
         numOfCourses: 31,
         numOfStudents: 468544,
         numOfReviews: 19203,

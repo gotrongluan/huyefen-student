@@ -46,7 +46,7 @@ export default [
     {
         _id: 15,
         name: 'The Complete 2020 Web Development Bootcamp (1)',
-        authors: ['Nhu Vo', 'Hanh Vuong'],
+        authors: ['Nhu Vo', 'Thuy Huyen'],
         avatar: 'https://finalstyle.com/pictures/news/xu_huong_thiet_ke_web_2020_1.png',
         lastUpdated: '12/2019',
         featured: null,

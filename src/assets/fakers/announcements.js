@@ -3,8 +3,8 @@ export default {
         _id: 'announce_1',
         user: {
             _id: 1,
-            name: 'Ngoc Hanh Vuong',
-            avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0'
+            name: 'Dang Thuy Huyen',
+            avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/52123726_1447533728722094_954430656174096384_o.jpg?_nc_cat=100&_nc_sid=13bebb&_nc_oc=AQmF2SgZCWx0FExuCHVrgfPwFSaEWb6HHXXIhN0R2M_UWYN2ewdjayd3c7YIHwkHZOM&_nc_ht=scontent.fsgn2-2.fna&oh=c5b5b72616f1f56a1f7e006a5fd472e9&oe=5E96B6E5'
         },
         createdAt: 1578813445900,
         moreComments: true,
@@ -20,7 +20,7 @@ export default {
                 _id: 4,
                 user: {
                     _id: 1,
-                    avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/52607910_2117264761701640_9035195513728663552_o.jpg?_nc_cat=102&_nc_ohc=_tJCZ8LLC10AX-zKJMI&_nc_ht=scontent.fdad1-1.fna&oh=52df2a0b6310de771d0888f065dc6837&oe=5EBD3DB8',
+                    avatar: 'https://scontent.fsgn2-3.fna.fbcdn.net/v/t1.0-9/87952446_1796951027113694_4171454121150251008_n.jpg?_nc_cat=106&_nc_sid=110474&_nc_oc=AQmmKmWywd7qBTkw46DrJ_58yIZCNb7XKfM29X-j5YCoanDzw8_VdIO04Eopb9QtsJY&_nc_ht=scontent.fsgn2-3.fna&oh=c925c6732e5c4a2d5e98dc09c6dfeaf0&oe=5EA767C8',
                     name: 'HuYeFen Cute',
                     isInstructor: false
                 },
@@ -31,8 +31,8 @@ export default {
                 _id: 5,
                 user: {
                     _id: 1,
-                    avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-                    name: 'Vương N.Hạnh',
+                    avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
+                    name: 'Đặng Thuý Huyền',
                     isInstructor: false
                 },
                 createdAt: 1578813445900,
@@ -44,8 +44,8 @@ export default {
         _id: 'announce_2',
         user: {
             _id: 1,
-            name: 'Ngoc Hanh Vuong',
-            avatar: 'https://scontent.fdad2-1.fna.fbcdn.net/v/t1.0-0/p640x640/42792810_1917076911720427_2309321533291495424_o.jpg?_nc_cat=110&_nc_ohc=GAtqnLxcynIAX8VZhpo&_nc_ht=scontent.fdad2-1.fna&_nc_tp=1002&oh=67837b802b62d8b1fb6423a3dc393017&oe=5E9B0CF0'
+            name: 'Dang Thuy Huyen',
+            avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/52123726_1447533728722094_954430656174096384_o.jpg?_nc_cat=100&_nc_sid=13bebb&_nc_oc=AQmF2SgZCWx0FExuCHVrgfPwFSaEWb6HHXXIhN0R2M_UWYN2ewdjayd3c7YIHwkHZOM&_nc_ht=scontent.fsgn2-2.fna&oh=c5b5b72616f1f56a1f7e006a5fd472e9&oe=5E96B6E5'
         },
         createdAt: 1578813445900,
         moreComments: false,
@@ -63,7 +63,7 @@ export default {
                 _id: 4,
                 user: {
                     _id: 1,
-                    avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
+                    avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
                     name: 'HuYeFen Cute',
                     isInstructor: true
                 },
@@ -74,8 +74,8 @@ export default {
                 _id: 5,
                 user: {
                     _id: 1,
-                    avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-                    name: 'Vương N.Hạnh',
+                    avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
+                    name: 'Đặng Thuý Huyền',
                     isInstructor: false
                 },
                 createdAt: 1578813445900,

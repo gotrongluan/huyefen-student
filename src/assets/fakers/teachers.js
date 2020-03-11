@@ -1,8 +1,8 @@
 export default [
     {
         _id: 1,
-        name: 'Ngọc Hạnh Vương',
-        avatar: null,
+        name: 'Đặng Thuý Huyền',
+        avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/73209658_1663552363786895_6709450807181312000_n.jpg?_nc_cat=104&_nc_sid=110474&_nc_oc=AQn4wJhyXlzknl-2nEvPC_H3Gcs-zIVfSNPj1vgtuCZwdKegZBkp7EVu_VD1Zulq-PM&_nc_ht=scontent.fsgn2-2.fna&oh=39c771ad6429a3f0ba443ee895d9c162&oe=5EA5A11B',
         numOfCourses: 33,
         numOfStudents: 423450
     },

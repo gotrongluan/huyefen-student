@@ -215,7 +215,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
                         </div>
                         {isInCart ? (
                             <div className={styles.goToCart}>
-                                <Button type="primary" icon="shopping" size="large">Go to cart</Button>
+                                <Button type="primary" icon="shopping" size="large" onClick={() => router.push('/shopping-cart')}>Go to cart</Button>
                             </div>
                         ) : (
                             <div className={styles.addToCart}>
@@ -728,7 +728,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         {`$${_.round(courseInfo.price, 2)}`}
                                     </div>
                                     <div className={styles.goToCart}>
-                                        <Button icon="shopping" size="large">Go to cart</Button>
+                                        <Button icon="shopping" size="large" onClick={() => router.push('/shopping-cart')}>Go to cart</Button>
                                     </div>
                                 </React.Fragment>
                             ) : (
@@ -782,7 +782,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 ) : isInCart ? (
                                     <React.Fragment>
                                         <div className={styles.goToCart}>
-                                            <Button icon="shopping" type="primary" size="large">Go to cart</Button>
+                                            <Button icon="shopping" type="primary" onClick={() => router.push('/shopping-cart')}>Go to cart</Button>
                                         </div>
                                     </React.Fragment>
                                 ) : (
@@ -961,7 +961,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         </div>
                                         {isInCart ? (
                                             <div className={styles.goToCart}>
-                                                <Button type="primary" icon="shopping" size="large" >Go to cart</Button>
+                                                <Button type="primary" icon="shopping" size="large" onClick={() => router.push('/shopping-cart')}>Go to cart</Button>
                                             </div>
                                         ) : (
                                             <div className={styles.addToCart}>
@@ -978,7 +978,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             </span>
                             <span className={styles.btn}>
                                 {isInCart ? (
-                                    <Button icon="shopping" size="large" >Go to cart</Button>
+                                    <Button icon="shopping" size="large" onClick={() => router.push('/shopping-cart')}>Go to cart</Button>
                                 ) : (
                                     <Button icon="shopping-cart" size="large" onClick={handleAddToCartNow} disabled={!courseInfo || courseInfoLoading}>Add to cart</Button>
                                 )}

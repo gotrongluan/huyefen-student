@@ -5,7 +5,7 @@ export default {
     starRating: 4.7,
     numOfRatings: 2506,
     numOfEnrolled: 9280,
-    authors: ['Luan Nguyen Trong', 'Phuoc Nguyen Ho Minh', 'Ngoc Hanh Vuong'],
+    authors: ['Luan Nguyen Trong', 'Huyen Dang Thuy'],
     language: 'English',
     lastUpdated: 1578813445999,
     level: 'Beginner',

@@ -115,7 +115,7 @@ const ShoppingCart = ({ dispatch, ...props }) => {
                 </Col>
                 <Col span={6} className={styles.checkout}>
                     <div className={styles.totalTitle}>
-                        Total:
+                        Total
                     </div>
                     <div className={styles.total}>
                         {`$${totalPrice}`}

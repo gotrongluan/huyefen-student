@@ -18,7 +18,7 @@ export default [
     {
         _id: 12,
         key: 2,
-        code: 'NGOCHANH',
+        code: 'THUYHUYEN',
         date: 1578813415803,
         prices: ['19.99', '10.00', '9.99'],
         paymentType: 'visa ****2112',
@@ -40,7 +40,7 @@ export default [
     {
         _id: 13,
         key: 3,
-        code: 'HANHCUTE',
+        code: 'HUYENCUTE',
         date: 1578813415803,
         prices: ['19.99', '10.00', '9.99', '5.00'],
         paymentType: 'visa ****2112',
@@ -70,7 +70,7 @@ export default [
     {
         _id: 14,
         key: 4,
-        code: 'HANHXINH',
+        code: 'HUYENXINH',
         date: 1578813415803,
         prices: ['18.00'],
         paymentType: 'visa ****2112',
