@@ -1,6 +1,6 @@
 export default [
     {
-        _id: 1,
+        _id: 'course_x',
         type: 'course',
         name: 'Lập trình PHP cơ bản',
         authors: ['Nguyễn Hứa Phùng'],

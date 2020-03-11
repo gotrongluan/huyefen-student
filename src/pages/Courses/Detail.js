@@ -93,7 +93,7 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
     )
 };
 
-const RelatedCourses = ({ data, onAddBundleToCart }) => {
+const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
     const [alsoBoughtCount, setAlsoBoughtCount] = useState(_.min([data.alsoBought.length, 5]));
     if (_.isEmpty(data.alsoBought) && _.isEmpty(data.frequent.list) && _.isEmpty(data.sameAuthors)) {
         return (
@@ -212,9 +212,15 @@ const RelatedCourses = ({ data, onAddBundleToCart }) => {
                         <div className={styles.total}>
                             {`Total: $${_.round(data.frequent.discountTotal, 2)}`}
                         </div>
-                        <div className={styles.addToCart}>
-                            <Button type="primary" icon="shopping" size="large" onClick={onAddBundleToCart}>Add all to cart</Button>
-                        </div>
+                        {isInCart ? (
+                            <div className={styles.goToCart}>
+                                <Button type="primary" icon="shopping" size="large">Go to cart</Button>
+                            </div>
+                        ) : (
+                            <div className={styles.addToCart}>
+                                <Button type="primary" icon="shopping-cart" size="large" onClick={onAddBundleToCart}>Add all to cart</Button>
+                            </div>
+                        )}
                     </div>
                 </Row>
             )}
@@ -530,6 +536,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const { courseId } = match.params;
     const {
+        cart,
         courseInfo,
         courseInfoLoading,
         overview,
@@ -629,7 +636,20 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
             if (inModal) setModalVisible(false);
         }
     };
-
+    const checkInCart = () => {
+        const cartItems = _.map(cart, item => ({
+            _id: item._id,
+            type: item.type
+        }));
+        if (courseInfo && relatedCourses) {
+            if (_.findIndex(cartItems, item => item._id === courseInfo._id && item.type === 'course') > -1) return true;
+            if (relatedCourses.frequent)
+                if (_.findIndex(cartItems, item => item._id === relatedCourses.frequent._id && item.type === 'bundle') > -1) return true;
+        }
+        return false;
+    }
+    
+    const isInCart = checkInCart();
     return (
         <div className={styles.detail}>
             <Row className={styles.jumpotron}>
@@ -690,6 +710,15 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         </div>
                                     )}
                                 </React.Fragment>
+                            ) : isInCart ? (
+                                <React.Fragment>
+                                    <div className={styles.price}>
+                                        {`$${_.round(courseInfo.price, 2)}`}
+                                    </div>
+                                    <div className={styles.goToCart}>
+                                        <Button icon="shopping" size="large">Go to cart</Button>
+                                    </div>
+                                </React.Fragment>
                             ) : (
                                 <React.Fragment>
                                     <div className={styles.price}>
@@ -738,9 +767,15 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                             </Button>
                                         )}
                                     </React.Fragment>
+                                ) : isInCart ? (
+                                    <React.Fragment>
+                                        <div className={styles.goToCart}>
+                                            <Button icon="shopping" type="primary" size="large">Go to cart</Button>
+                                        </div>
+                                    </React.Fragment>
                                 ) : (
                                     <React.Fragment>
-                                        <Button className={styles.addToCart} type="primary">
+                                        <Button className={styles.addToCart} type="primary" onClick={handleAddToCart}>
                                             Add to cart
                                         </Button>
                                         <Button className={styles.buyNow}>
@@ -840,7 +875,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             {!relatedCourses || relatedCoursesLoading ? (
                                 <Loading />
                             ) : (
-                                <RelatedCourses data={relatedCourses} onAddBundleToCart={handleAddBundleToCart} />
+                                <RelatedCourses data={relatedCourses} onAddBundleToCart={handleAddBundleToCart} isInCart={isInCart}/>
                             )}
                         </TabPane>
                         <TabPane
@@ -912,9 +947,15 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         <div className={styles.total}>
                                             {`Total: $${_.round(relatedCourses.frequent.discountTotal, 2)}`}
                                         </div>
-                                        <div className={styles.addToCart}>
-                                            <Button type="primary" icon="shopping" size="large" onClick={() => handleAddBundleToCart(true)}>Add all to cart</Button>
-                                        </div>
+                                        {isInCart ? (
+                                            <div className={styles.goToCart}>
+                                                <Button type="primary" icon="shopping" size="large" >Go to cart</Button>
+                                            </div>
+                                        ) : (
+                                            <div className={styles.addToCart}>
+                                                <Button type="primary" icon="shopping-cart" size="large" onClick={() => handleAddBundleToCart(true)}>Add all to cart</Button>
+                                            </div>
+                                        )}
                                     </div>
                                 </Row>
                             )}
@@ -924,7 +965,11 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 Buy only this course?
                             </span>
                             <span className={styles.btn}>
-                                <Button icon="shopping-cart" size="large" onClick={handleAddToCart} disabled={!courseInfo || courseInfoLoading}>Add to cart</Button>
+                                {isInCart ? (
+                                    <Button icon="shopping" size="large" >Go to cart</Button>
+                                ) : (
+                                    <Button icon="shopping-cart" size="large" onClick={handleAddToCart} disabled={!courseInfo || courseInfoLoading}>Add to cart</Button>
+                                )}
                             </span>
                         </div>
                     </div>
