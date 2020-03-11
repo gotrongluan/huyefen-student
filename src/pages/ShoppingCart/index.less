@@ -31,6 +31,26 @@
                 background: rgba(255, 255, 255, 0.2);
                 margin: 0;
             }
+            .item, .course, .theBundle {
+                .price {
+                    font-size: 1.5em;
+                    font-family: Arial, Helvetica, sans-serif;
+                    color: @primary-color;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                .actions {
+                    text-align: right;
+                    color: @primary-color;
+                    font-size: 0.9em;
+                    & > div {
+                        cursor: pointer;
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
             .item {
                 padding: 12px 0;
                 height: 116px;
@@ -50,21 +70,38 @@
                     }
                 }
             }
-            .price {
-                font-size: 1.5em;
-                font-family: Arial, Helvetica, sans-serif;
-                color: @primary-color;
-                font-weight: bold;
-                text-align: center;
-            }
-            .actions {
-                text-align: right;
-                color: @primary-color;
-                font-size: 0.9em;
-                & > div {
-                    cursor: pointer;
-                    &:hover {
-                        text-decoration: underline;
+            .bundle {
+                .theBundle {
+                    padding: 12px 0;
+                    min-height: 64px;
+                    .name {
+                        color: white;
+                        font-size: 1.1em;
+                        line-height: 21px;
+                    }
+                }
+                .course {
+                    padding: 8px 0;
+                    .avatar {
+                        img {
+                            width: 100%;
+                        }
+                    }
+                    .nameAndAuthors {
+                        padding-left: 10px;
+                        .name {
+                            color: white;
+                            line-height: 21px;
+                            margin-bottom: 2px;
+                        }
+                        .authors {
+                            font-size: 0.9em;
+                        }
+                        
+                    }
+                    .price {
+                        font-size: 1.2em;
+                        color: white;
                     }
                 }
             }

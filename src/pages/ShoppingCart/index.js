@@ -12,7 +12,9 @@ const ShoppingCart = ({ dispatch, ...props }) => {
         cart,
         loading
     } = props;
-
+    const getBundleName = bundle => {
+        return `Bundle: ${_.join(_.map(bundle.courses, course => course.name), ' + ')}`;
+    };
     return (
         <Wrapper title="Shopping cart">
             <Row className={styles.shoppingCart}>
@@ -43,25 +45,60 @@ const ShoppingCart = ({ dispatch, ...props }) => {
                                     {_.map(cart, (item, index) => (
                                         <React.Fragment key={`${item.type}_${item._id}`}>
                                             {index > 0 && (<Divider className={styles.divider} />)}
-                                            <Row className={styles.item}>
-                                                <Col className={styles.avatar} span={4}>
-                                                    <img alt="course-avatar" src={item.avatar} />
-                                                </Col>
-                                                <Col className={styles.nameAndAuthors} span={12}>
-                                                    <div className={styles.name}>{item.name}</div>
-                                                    <div className={styles.authors}>
-                                                        {`Created by ${transAuthors(item.authors, 1000)}`}
-                                                    </div>
-                                                </Col>
-                                                <Col className={styles.price} span={4}>
-                                                    {`$${_.round(item.price, 2)}`}
-                                                </Col>
-                                                <Col className={styles.actions} span={4}>
-                                                    <div className={styles.delete}>Delete</div>
-                                                    <div className={styles.saveForLater}>Save for later</div>
-                                                    <div className={styles.move}>Move to Wishlist</div>
-                                                </Col>
-                                            </Row>
+                                            {item.type === 'course' ? (
+                                                <Row className={styles.item}>
+                                                    <Col className={styles.avatar} span={4}>
+                                                        <img alt="course-avatar" src={item.avatar} />
+                                                    </Col>
+                                                    <Col className={styles.nameAndAuthors} span={12}>
+                                                        <div className={styles.name}>{item.name}</div>
+                                                        <div className={styles.authors}>
+                                                            {`Created by ${transAuthors(item.authors, 1000)}`}
+                                                        </div>
+                                                    </Col>
+                                                    <Col className={styles.price} span={4}>
+                                                        {`$${_.round(item.price, 2)}`}
+                                                    </Col>
+                                                    <Col className={styles.actions} span={4}>
+                                                        <div className={styles.delete}>Delete</div>
+                                                        <div className={styles.saveForLater}>Save for later</div>
+                                                        <div className={styles.move}>Move to Wishlist</div>
+                                                    </Col>
+                                                </Row>
+                                            ) : (
+                                                <Row className={styles.bundle}>
+                                                    <Row className={styles.theBundle}>
+                                                        <Col span={16} className={styles.name}>
+                                                            {getBundleName(item)}
+                                                        </Col>
+                                                        <Col className={styles.price} span={4}>
+                                                            {`$${_.round(item.price, 2)}`}
+                                                        </Col>
+                                                        <Col className={styles.actions} span={4}>
+                                                            <div className={styles.delete}>Delete</div>
+                                                            <div className={styles.saveForLater}>Save for later</div>
+                                                            <div className={styles.move}>Move to Wishlist</div>
+                                                        </Col>
+                                                    </Row>
+                                                    {_.map(item.courses, course => (
+                                                        <Row className={styles.course} key={`course_${course._id}`}>
+                                                            <Col span={2} />
+                                                            <Col className={styles.avatar} span={3}>
+                                                                <img alt="course-avatar" src={course.avatar} />
+                                                            </Col>
+                                                            <Col className={styles.nameAndAuthors} span={11}>
+                                                                <div className={styles.name}>{course.name}</div>
+                                                                <div className={styles.authors}>
+                                                                    {`Created by ${transAuthors(course.authors, 1000)}`}
+                                                                </div>
+                                                            </Col>
+                                                            <Col className={styles.price} span={4}>
+                                                                {`$${_.round(course.price, 2)}`}
+                                                            </Col>
+                                                        </Row>
+                                                    ))}
+                                                </Row>
+                                            )}
                                         </React.Fragment>
                                     ))}
                                 </React.Fragment>
