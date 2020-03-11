@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
-import { Popover, Icon, List, Row, Col } from 'antd';
+import { Popover, Icon, List, Row, Col, Badge, Avatar } from 'antd';
 import Scrollbars from 'react-custom-scrollbars';
 import { truncate, transAuthors } from '@/utils/utils';
 import styles from './index.less';
@@ -12,6 +12,10 @@ const Cart = ({ cart }) => {
     const getBundleName = bundle => {
         return `Bundle: ${_.join(_.map(bundle.courses, course => course.name), ' + ')}`;
     };
+    let count = 0;
+    if (!_.isEmpty(cart) && _.size(cart) > 0) {
+        count = <Avatar style={{ background: 'green', fontSize: '11px' }} size={16}>{_.size(cart) > 9 ? '9+' : _.size(cart)}</Avatar>;
+    }
     return (
         <Popover
             content={(
@@ -47,7 +51,7 @@ const Cart = ({ cart }) => {
                                                 <img alt="course avatar" src={item.courses[0].avatar} />
                                             </Col>
                                             <Col span={18} className={styles.info}>
-                                                <div className={styles.name}>{truncate(getBundleName(item), 86)}</div>
+                                                <div className={styles.name}>{truncate(getBundleName(item), 76)}</div>
                                                 <div className={styles.price}>
                                                     {`$${_.round(item.price, 2)}`}
                                                 </div>
@@ -76,7 +80,12 @@ const Cart = ({ cart }) => {
             arrowPointAtCenter
         >
             <div className={styles.cartText}>
-                <Icon type="shopping-cart" style={{ fontSize: 20 }} />
+                <Badge
+                    count={count}
+                    style={{ boxShadow: 'none' }}
+                >
+                    <Icon type="shopping-cart" style={{ fontSize: 20 }} />
+                </Badge>
             </div>
         </Popover>
     )

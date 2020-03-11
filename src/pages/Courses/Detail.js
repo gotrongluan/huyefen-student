@@ -93,7 +93,7 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
     )
 };
 
-const RelatedCourses = ({ data }) => {
+const RelatedCourses = ({ data, onAddBundleToCart }) => {
     const [alsoBoughtCount, setAlsoBoughtCount] = useState(_.min([data.alsoBought.length, 5]));
     if (_.isEmpty(data.alsoBought) && _.isEmpty(data.frequent.list) && _.isEmpty(data.sameAuthors)) {
         return (
@@ -213,7 +213,7 @@ const RelatedCourses = ({ data }) => {
                             {`Total: $${_.round(data.frequent.discountTotal, 2)}`}
                         </div>
                         <div className={styles.addToCart}>
-                            <Button type="primary" icon="shopping" size="large">Add all to cart</Button>
+                            <Button type="primary" icon="shopping" size="large" onClick={onAddBundleToCart}>Add all to cart</Button>
                         </div>
                     </div>
                 </Row>
@@ -610,6 +610,26 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         setModalVisible(false);
     };
 
+    const handleAddBundleToCart = (inModal = false) => {
+        const bundle = relatedCourses && relatedCourses.frequent;
+        if (bundle) {
+            const bundleData = {
+                _id: bundle._id,
+                type: 'bundle',
+                price: bundle.total,
+                discountPrice: bundle.discountTotal,
+                courses: _.map(bundle.list, course => ({
+                    ..._.pick(course, ['_id', 'name', 'avatar', 'price', 'authors'])
+                }))
+            };
+            dispatch({
+                type: 'cart/add',
+                payload: bundleData
+            });
+            if (inModal) setModalVisible(false);
+        }
+    };
+
     return (
         <div className={styles.detail}>
             <Row className={styles.jumpotron}>
@@ -820,7 +840,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             {!relatedCourses || relatedCoursesLoading ? (
                                 <Loading />
                             ) : (
-                                <RelatedCourses data={relatedCourses} />
+                                <RelatedCourses data={relatedCourses} onAddBundleToCart={handleAddBundleToCart} />
                             )}
                         </TabPane>
                         <TabPane
@@ -893,7 +913,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                             {`Total: $${_.round(relatedCourses.frequent.discountTotal, 2)}`}
                                         </div>
                                         <div className={styles.addToCart}>
-                                            <Button type="primary" icon="shopping" size="large">Add all to cart</Button>
+                                            <Button type="primary" icon="shopping" size="large" onClick={() => handleAddBundleToCart(true)}>Add all to cart</Button>
                                         </div>
                                     </div>
                                 </Row>

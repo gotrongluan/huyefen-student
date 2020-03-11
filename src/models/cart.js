@@ -16,10 +16,13 @@ export default {
             });
         },
         *add({ payload }, { call, put }) {
-            const { _id: courseId } = payload;
+            const { _id, type } = payload;
+            const item = {
+                _id, type
+            };
             let current = storage.getShoppingCart();
-            if (current) current = [courseId, ...current];
-            else current = [courseId];
+            if (current) current = [item, ...current];
+            else current = [item];
             storage.setShoppingCart(current);
             yield put({
                 type: 'shift',
