@@ -9,7 +9,7 @@ export default {
     state: [],
     effects: {
         *fetch({ payload: items }, { call, put }) {
-            yield delay(10000);
+            yield delay(1000);
             //call api with item ids list, server return list item with full info.
             yield put({
                 type: 'save',

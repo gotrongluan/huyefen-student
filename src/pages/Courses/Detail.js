@@ -14,6 +14,7 @@ import FeaturedBadge from '@/components/FeaturedBadge';
 import ViewMore from '@/components/ViewMore';
 import Sticky from 'react-sticky-el';
 import { roundStarRating, numberWithCommas, minutesToHour } from '@/utils/utils';
+import storage from '@/utils/storage';
 import styles from './Detail.less';
 
 const { TabPane } = Tabs;
@@ -537,6 +538,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     const { courseId } = match.params;
     const {
         cart,
+        user,
         courseInfo,
         courseInfoLoading,
         overview,
@@ -607,6 +609,11 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     };
 
     const handleAddToCart = () => {
+        if (!user || !storage.getToken()) router.push('/user/login');
+        else setModalVisible(true);
+    };
+
+    const handleAddToCartNow = () => {
         dispatch({
             type: 'cart/add',
             payload: {
@@ -615,9 +622,14 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
             }
         });
         setModalVisible(false);
-    };
+    }
 
-    const handleAddBundleToCart = (inModal = false) => {
+    const handleAddBundleToCart = () => {
+        if (!user || !storage.getToken()) router.push('/user/login');
+        else handleAddBundleToCartNow();
+    }
+    
+    const handleAddBundleToCartNow = (inModal = false) => {
         const bundle = relatedCourses && relatedCourses.frequent;
         if (bundle) {
             const bundleData = {
@@ -725,7 +737,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         {`$${_.round(courseInfo.price, 2)}`}
                                     </div>
                                     <div className={styles.addToCart}>
-                                        <Button type="primary" icon="shopping-cart" size="large" onClick={() => setModalVisible(true)}>Add to cart</Button>
+                                        <Button type="primary" icon="shopping-cart" size="large" onClick={handleAddToCart}>Add to cart</Button>
                                     </div>
                                     <div className={styles.buyNow}>
                                         <Button icon="audit" size="large">Buy now</Button>
@@ -953,7 +965,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                             </div>
                                         ) : (
                                             <div className={styles.addToCart}>
-                                                <Button type="primary" icon="shopping-cart" size="large" onClick={() => handleAddBundleToCart(true)}>Add all to cart</Button>
+                                                <Button type="primary" icon="shopping-cart" size="large" onClick={() => handleAddBundleToCartNow(true)}>Add all to cart</Button>
                                             </div>
                                         )}
                                     </div>
@@ -968,7 +980,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 {isInCart ? (
                                     <Button icon="shopping" size="large" >Go to cart</Button>
                                 ) : (
-                                    <Button icon="shopping-cart" size="large" onClick={handleAddToCart} disabled={!courseInfo || courseInfoLoading}>Add to cart</Button>
+                                    <Button icon="shopping-cart" size="large" onClick={handleAddToCartNow} disabled={!courseInfo || courseInfoLoading}>Add to cart</Button>
                                 )}
                             </span>
                         </div>
@@ -980,7 +992,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
 };
 
 export default connect(
-    ({ cart, detail, loading }) => ({
+    ({ user, cart, detail, loading }) => ({
         courseInfo: detail.info,
         syllabus: detail.syllabus,
         overview: detail.overview,
@@ -997,6 +1009,7 @@ export default connect(
         relatedCoursesLoading: loading.effects['detail/fetchRelatedCourses'],
         moreReviewsLoading: loading.effects['detail/moreReviews'],
         previewLoading: loading.effects['detail/preview'],
-        cart: cart
+        cart: cart,
+        user: user
     })
 )(DetailCourse);
