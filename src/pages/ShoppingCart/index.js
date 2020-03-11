@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import Link from 'umi/link';
@@ -7,21 +7,28 @@ import { Icon, Divider, Button, Row, Col, Input, Spin } from 'antd';
 import { transAuthors } from '@/utils/utils';
 import styles from './index.less';
 
+const { Search } = Input;
+
 const ShoppingCart = ({ dispatch, ...props }) => {
+    const [coupon, setCoupon] = useState('');
     const {
         cart,
         loading
     } = props;
+    const handleCheckout = () => {
+
+    };
     const getBundleName = bundle => {
         return `Bundle: ${_.join(_.map(bundle.courses, course => course.name), ' + ')}`;
     };
+    const totalPrice = _.isEmpty(cart) ? 0 : _.sum(_.map(cart, item => item.price));
     return (
         <Wrapper title="Shopping cart">
-            <Row className={styles.shoppingCart}>
+            <Row className={styles.shoppingCart} gutter={16}>
+                <div className={styles.title}>
+                    {`${_.size(cart)} ${_.size(cart) > 1 ? 'courses' : 'course'} in cart`}
+                </div>
                 <Col span={18} className={styles.main}>
-                    <div className={styles.title}>
-                        {`${_.size(cart)} ${_.size(cart) > 1 ? 'courses' : 'course'} in cart`}
-                    </div>
                     {loading ? (
                         <div className={styles.loading}>
                             <Spin indicator={<Icon type="loading" spin style={{ fontSize: '44px' }} />} />
@@ -107,7 +114,26 @@ const ShoppingCart = ({ dispatch, ...props }) => {
                     )}
                 </Col>
                 <Col span={6} className={styles.checkout}>
-
+                    <div className={styles.totalTitle}>
+                        Total:
+                    </div>
+                    <div className={styles.total}>
+                        {`$${totalPrice}`}
+                    </div>
+                    <div className={styles.btn}>
+                        <Button type="primary" size="large" onClick={handleCheckout}>
+                            Checkout
+                        </Button>
+                    </div>
+                    <Divider className={styles.divider} />
+                    <div className={styles.input}>
+                        <Search
+                            value={coupon}
+                            onChange={e => setCoupon(e.target.value)}
+                            enterButton="Apply"
+                            placeholder="Enter coupon"
+                        />
+                    </div>
                 </Col>
             </Row>
         </Wrapper>

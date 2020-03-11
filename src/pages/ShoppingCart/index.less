@@ -1,11 +1,15 @@
 .shoppingCart {
     margin-bottom: 60px;
+    .divider {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .title {
+        color: white;
+        font-size: 1.6em;
+        margin-bottom: 25px;
+    }
     .main {
-        .title {
-            color: white;
-            font-size: 1.6em;
-            margin-bottom: 25px;
-        }
+        
         .list > .empty, .loading {
             text-align: center;
             width: 100%;
@@ -28,7 +32,6 @@
                 }
             }
             .divider {
-                background: rgba(255, 255, 255, 0.2);
                 margin: 0;
             }
             .item, .course, .theBundle {
@@ -108,6 +111,32 @@
         }
     }
     .checkout {
-
+        .totalTitle {
+            font-size: 1.6em;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-align: right;
+        }
+        .total {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 45px;
+            font-weight: bold;
+            color: white;
+            text-align: right;
+        }
+        .btn {
+            margin-top: 24px;
+            button {
+                width: 100%;
+            }
+        }
+        .divider {
+            margin: 10px 0;
+        }
+        .input {
+            input {
+                width: 100%;
+            }
+        }
     }
 }
