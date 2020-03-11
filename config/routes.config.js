@@ -140,6 +140,12 @@ export default [
                 component: './Courses/Detail'
             },
             {
+                path: '/shopping-cart',
+                title: 'route.basic.shoppingcart',
+                Routes: ['./src/routes/Authenticate'],
+                component: './ShoppingCart',
+            },
+            {
                 path: '/notifications',
                 title: 'route.basic.notification',
                 Routes: ['./src/routes/Authenticate'],

@@ -39,6 +39,7 @@ export default {
 	'route.basic.friend': 'Friend',
 	'route.basic.teacher': 'Teacher',
 	'route.basic.cart': 'Cart',
+	'route.basic.shoppingcart': 'Shopping Cart',
 	'route.basic.payment': 'Payment',
 	'route.basic.teaching': 'Teach on HuYeFen',
 	'route.basic.404': '404',
