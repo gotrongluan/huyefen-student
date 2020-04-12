@@ -128,7 +128,11 @@ export default {
                 }
             });
         },
-        *moreComments({ payload: announcementId }, { call, put, select }) {
+        *moreComments({ payload }, { call, put, select }) {
+            const {
+                courseId,
+                announcementId
+            } = payload;
             yield put({
                 type: 'saveCommentsLoading',
                 payload: {
@@ -347,7 +351,11 @@ export default {
                 });
             else router.replace('/error/404');
         },
-        *moreAnswers({ payload: threadId }, { call, put, select }) {
+        *moreAnswers({ payload }, { call, put, select }) {
+            const {
+                courseId,
+                threadId
+            } = payload;
             const { thread } = yield select(state => state.learning);
             const {
                 answers
@@ -383,7 +391,7 @@ export default {
             yield delay(900);
         },
         *answer({ payload }, { call, put }) {
-            const { threadId, answer } = payload;
+            const { courseId, threadId, answer } = payload;
             yield delay(1200);
             //call api with threadId, answer --> response --> answer
             const response = {

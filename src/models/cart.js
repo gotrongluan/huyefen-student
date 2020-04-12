@@ -11,6 +11,7 @@ export default {
         *fetch({ payload: items }, { call, put }) {
             yield delay(1000);
             //call api with item ids list, server return list item with full info.
+            //call api with token. if not token --> 401/403
             yield put({
                 type: 'save',
                 payload: CART

@@ -308,7 +308,7 @@ const Profile = ({ form, dispatch, ...props }) => {
             <Divider dashed className={styles.divider} />
             <div className={styles.catesOfConcern}>
                 <div className={styles.title}>
-                    Categories of Concern
+                    Interested categories
                 </div>
                 {initLoading ? (
                     <div className={styles.loading}>
@@ -336,7 +336,7 @@ const Profile = ({ form, dispatch, ...props }) => {
                             />
                         </div>
                         <div className={styles.btn}>
-                            <Button type="primary" size="large" onClick={handleUpdateConcern}>Update concerned categories</Button>
+                            <Button type="primary" size="large" onClick={handleUpdateConcern}>Update interested categories</Button>
                         </div>
                     </Spin>
                 )}

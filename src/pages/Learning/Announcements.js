@@ -70,7 +70,10 @@ const Announcements = ({ match, dispatch, ...props }) => {
     const handleMoreComments = announcementId => {
         dispatch({
             type: 'learning/moreComments',
-            payload: announcementId
+            payload: {
+                courseId,
+                announcementId
+            }
         });
     };
     const handleComment = (announcementId, comment) => {
