@@ -84,21 +84,21 @@ export default {
         downloadable: [
             {
                 _id: 'resource_1',
-                name: 'video-143434344343.mp4',
+                name: '300.jpg',
                 extra: '01:30',
-                url: ''
+                url: 'https://i.picsum.photos/id/443/200/300.jpg'
             },
             {
                 _id: 'resource_2',
-                name: 'bkuhardware_CV.pdf',
+                name: 'test-pdf.pdf',
                 extra: '256 KB',
-                url: ''
+                url: 'https://s1.q4cdn.com/806093406/files/doc_downloads/test.pdf'
             },
             {
                 _id: 'resource_3',
-                name: 'abc.docx',
+                name: 'movie.mp4',
                 extra: '36.5 KB',
-                url: ''
+                url: 'http://media.w3.org/2010/05/bunny/movie.mp4'
             }
         ],
         external: [

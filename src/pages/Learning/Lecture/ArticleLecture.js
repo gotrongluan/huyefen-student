@@ -9,6 +9,7 @@ import { Row, Col, Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, me
 import { FileTextFilled, ClockCircleFilled, RightOutlined, LeftOutlined, LinkOutlined, SelectOutlined, DownloadOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import UserAvatar from '@/components/Avatar';
 import TimeAgo from 'react-timeago';
+import { saveAs } from 'file-saver';
 import { exportToHTML } from '@/utils/editor';
 import { minutesToHour } from '@/utils/utils';
 import styles from './ArticleLecture.less';
@@ -101,6 +102,17 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
     };
     const checkEmptyResources = resources => {
         return !resources || (_.isEmpty(resources.downloadable) && !_.isEmpty(resources.external));
+    };
+    const handleDownloadResource = (resourceURL, resourceName) => {
+        fetch(resourceURL)
+            .then(res => res.blob())
+            .then(resource => {
+                saveAs(resource, resourceName);
+            })
+            .catch(err => {
+                message.error(`Cannot download this file. Error: ${err.message}`);
+                saveAs(resourceURL, resourceName);
+            });
     };
     const getMetadata = article => {
         return (
@@ -329,7 +341,7 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                                         </Col>
                                         <Col className={styles.action} span={1}>
                                             <Tooltip placement="top" title="Download">
-                                                <span className={styles.btn}>
+                                                <span className={styles.btn} onClick={() => handleDownloadResource(resource.url, resource.name)}>
                                                     <DownloadOutlined />
                                                 </span>
                                             </Tooltip>
