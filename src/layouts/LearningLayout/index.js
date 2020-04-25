@@ -52,10 +52,13 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
         });
         return () => dispatch({ type: 'learning/resetInfo' });
     }, [courseId]);
-    const handleToggleLectureStatus = lectureId => {
+    const handleToggleLectureStatus = (lectureType, lectureId) => {
         dispatch({
             type: 'learning/toggleComplete',
-            payload: lectureId
+            payload: {
+                lectureType,
+                lectureId
+            }
         });
     };
     let openKeys;

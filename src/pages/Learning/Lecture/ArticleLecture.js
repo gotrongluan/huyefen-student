@@ -4,7 +4,8 @@ import router from 'umi/router';
 import { connect } from 'dva';
 import { EditorState } from 'draft-js';
 import Editor from '@/components/editor/ImageEditor';
-import { Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message } from 'antd';
+import { Row, Col, Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message, Descriptions, Popover, Tooltip } from 'antd';
+import { FileTextFilled, ClockCircleFilled, RightOutlined, LeftOutlined } from '@ant-design/icons';
 import { exportToHTML } from '@/utils/editor';
 import { minutesToHour } from '@/utils/utils';
 import styles from './ArticleLecture.less';
@@ -12,7 +13,7 @@ import styles from './ArticleLecture.less';
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
-const Lecture = ({ match, dispatch, ...props }) => {
+const ArticleLecture = ({ match, dispatch, ...props }) => {
     const [questionVisible, setQuestionVisible] = useState(false);
     const [questionTitle, setQuestionTitle] = useState({
         value: '',
@@ -94,117 +95,165 @@ const Lecture = ({ match, dispatch, ...props }) => {
         });
         handleCancelAskQuestion();
     };
+    const handleOpenResources = () => {
+
+    };
+    const getMetadata = article => {
+        return (<div>FFF</div>)
+    };
+
     return (
-        <div className={styles.lecture}>
-            {!lecture || initLoading ? (
-                <div className={styles.loading}>
-                    <Skeleton className={styles.titleSkeleton} active title={null} paragraph={{ rows: 1, width: '96%' }} />
-                    <Skeleton active title={null} paragraph={{ rows: 2, width: ['62%', '42%'] }} />
-                    <div className={styles.spin}>
-                        <Spin indicator={<Icon type="loading" style={{ fontSize: 64 }} spin />} />
-                    </div>
+        <div className={styles.article}>
+            <div className={styles.header}>
+                <Row className={styles.infor}>
+                    <Col span={1} className={styles.iconCol}>
+                        <FileTextFilled className={styles.icon} />
+                    </Col>
+                    <Col span={17} className={styles.textInfo}>
+                        {!lecture || initLoading ? (
+                            <div className={styles.loading}>
+                                <Skeleton active title={null} paragraph={{ rows: 2, width: ['62%', '42%'] }} />
+                            </div>
+                        ) : (
+                            <div>
+                                <div className={styles.title}>
+                                    {lecture.title}
+                                </div>
+                                <div className={styles.chapterAndDuration}>
+                                    <span className={styles.chapter}>
+                                        {`Chapter ${lecture.chapter.title}`}
+                                    </span>
+                                    <span className={styles.duration}>
+                                        <span className={styles.icon}>
+                                            <ClockCircleFilled />
+                                        </span>
+                                        <span className={styles.text}>{`${minutesToHour(lecture.duration)} read`}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+                    </Col>
+                    <Col span={6} className={styles.options}>
+                        {lecture && !initLoading && (
+                            <>
+                                {lecture.resources && (
+                                    <span className={styles.resources}>
+                                        <Tooltip placement="top" title="Resources">
+                                            <Button
+                                                shape="circle"
+                                                icon="dropbox"
+                                                onClick={handleOpenResources}
+                                            />
+                                        </Tooltip>
+                                    </span>
+                                )}
+                                <span className={styles.askQuestion}>
+                                    <Tooltip placement="top" title="Ask a question">
+                                        <Button
+                                            shape="circle"
+                                            icon="question"
+                                            onClick={handleAskQuestion}
+                                        />
+                                    </Tooltip>
+                                </span>
+                                <span className={styles.markComplete}>
+                                    <Tooltip placement="top" title="Toggle complete status">
+                                        <Button
+                                            shape="circle"
+                                            type={lecture.isCompleted ? "primary" : "default"}
+                                            icon="check"
+                                            onClick={handleCompleteLecture}
+                                        />
+                                    </Tooltip>
+                                </span>
+                                <span className={styles.metadata}>
+                                    <Popover
+                                        trigger="click"
+                                        popupClassName={styles.metadataPopover}
+                                        placement="bottomRight"
+                                        content={getMetadata(lecture)}
+                                        arrowPointAtCenter
+                                        popupAlign={{ offset: [21, 6] }}
+                                    >
+                                        <Tooltip placement="top" title="View article metadata" mouseEnterDelay={1}>
+                                            <Button shape="circle" icon="info" />
+                                        </Tooltip>
+                                    </Popover>
+                                </span>
+                            </>
+                        )}
+                    </Col>
+                </Row>
+            </div>
+            <div className={styles.clear} />
+            <div className={styles.content}>
+                <div className={styles.container}>
+                    {!lecture || initLoading ? (
+                        <div className={styles.loading}>
+                            <Spin tip="Fetching..." />
+                        </div>
+                    ) : (
+                        <div dangerouslySetInnerHTML={{ __html: lecture.content }}/>
+                    )}
                 </div>
-            ) : (
-                <React.Fragment>
-                    <div className={styles.main}>
-                        <div className={styles.title}>
-                            {lecture.title}
+            </div>
+            {lecture && !initLoading && (
+                <Modal
+                    className={styles.newQuestionModal}
+                    title={<div className={styles.modalTitle}>Ask a new question</div>}
+                    width={600}
+                    centered
+                    okText="Submit"
+                    visible={questionVisible}
+                    onOk={handleSubmitQuestion}
+                    onCancel={handleCancelAskQuestion}
+                    bodyStyle={{ padding: '35px 10px' }}
+                >
+                    <Form>
+                        <FormItem label="Title" help={questionTitle.help} validateStatus={questionTitle.validateStatus} required>
+                            <Input 
+                                type="text"
+                                placeholder="Title"
+                                value={questionTitle.value}
+                                onChange={handleChangeQuestionTitle}
+                                style={{ width: '100%' }}
+                            />
+                        </FormItem>
+                        <div className={styles.questionLectureTitle}>
+                            <span>Lecture:</span>
                         </div>
-                        <div className={styles.chapter}>
-                            {`Chapter ${lecture.chapter.title}`}
+                        <div className={styles.questionLectureWrapper}>
+                            {`${lecture.title} -- ${lecture.chapter.title}`}
                         </div>
-                        <div className={styles.extra}>
-                            <span className={styles.updatedAt}>
-                                {(lecture.updatedAt === lecture.createdAt ? `Created on ${moment(lecture.updatedAt).format('MM/YYYY')}` : `Last updated on ${moment(lecture.updatedAt).format('MM/YYYY')}`)}
-                            </span>
-                            <span className={styles.time}>
-                                {`${minutesToHour(lecture.time)} read.`}
-                            </span>
+                        <div className={styles.questionContentTitle}>
+                            <span>Content:</span>
                         </div>
-                        <div className={styles.content}>
-                            <div dangerouslySetInnerHTML={{ __html: lecture.content }} />
+                        <div className={styles.questionContentWrapper}>
+                            <Editor
+                                editorState={questionContent}
+                                onChange={editorState => setQuestionContent(editorState)}
+                                placeholder="Enter question..."
+                            />
                         </div>
-                    </div>
-                    <Divider dashed className={styles.divider} />
-                    <div className={styles.options}>
-                        <ButtonGroup>
-                            {lecture.prevLectureId && (
-                                <Button onClick={() => goToLecture(lecture.prevLectureId)}>
-                                    <Icon type="left" />
-                                    Prev
-                                </Button>
-                            )}
-                            <Button onClick={handleAskQuestion}>
-                                Ask a question
-                            </Button>
-                            <Button onClick={handleCompleteLecture} icon={lecture.isCompleted ? "check" : null}>
-                                {lecture.isCompleted ? "Completed" : "Mask complete"}
-                            </Button>
-                            {lecture.nextLectureId && (
-                                <Button  onClick={() => goToLecture(lecture.nextLectureId)}>
-                                    Next
-                                    <Icon type="right" />
-                                </Button>
-                            )}
-                        </ButtonGroup>
-                    </div>
-                    <Modal
-                        className={styles.newQuestionModal}
-                        title={<div className={styles.modalTitle}>Ask a new question</div>}
-                        width={600}
-                        centered
-                        okText="Submit"
-                        visible={questionVisible}
-                        onOk={handleSubmitQuestion}
-                        onCancel={handleCancelAskQuestion}
-                        bodyStyle={{ padding: '35px 10px' }}
-                    >
-                        <Form>
-                            <FormItem label="Title" help={questionTitle.help} validateStatus={questionTitle.validateStatus} required>
-                                <Input 
-                                    type="text"
-                                    placeholder="Title"
-                                    value={questionTitle.value}
-                                    onChange={handleChangeQuestionTitle}
-                                    style={{ width: '100%' }}
-                                />
-                            </FormItem>
-                            <div className={styles.questionLectureTitle}>
-                                <span>Lecture:</span>
-                            </div>
-                            <div className={styles.questionLectureWrapper}>
-                                {`${lecture.title} -- ${lecture.chapter.title}`}
-                            </div>
-                            <div className={styles.questionContentTitle}>
-                                <span>Content:</span>
-                            </div>
-                            <div className={styles.questionContentWrapper}>
-                                <Editor
-                                    editorState={questionContent}
-                                    onChange={editorState => setQuestionContent(editorState)}
-                                    placeholder="Enter question..."
-                                />
-                            </div>
-                        </Form>
-                    </Modal>
-                    <Modal
-                        className={styles.askQuestionLoadingModal}
-                        width={180}
-                        visible={askQuestionLoading}
-                        footer={null}
-                        closable={false}
-                        maskClosable={false}
-                        title={null}
-                        centered
-                        bodyStyle={{ 
-                            padding: '10px'
-                        }}
-                    >
-                        <div className={styles.icon}><Spin /></div>
-                        <div className={styles.text}>Submitting...</div>
-                    </Modal>
-                </React.Fragment>
+                    </Form>
+                </Modal>
             )}
+            <Modal
+                className={styles.askQuestionLoadingModal}
+                width={180}
+                visible={askQuestionLoading}
+                footer={null}
+                closable={false}
+                maskClosable={false}
+                title={null}
+                centered
+                bodyStyle={{ 
+                    padding: '10px'
+                }}
+            >
+                <div className={styles.icon}><Spin /></div>
+                <div className={styles.text}>Submitting...</div>
+            </Modal>
         </div>
     )
 };
@@ -215,4 +264,4 @@ export default connect(
         askQuestionLoading: !!loading.effects['learning/askQuestionDirectly'],
         lecture: learning.lecture
     })
-)(Lecture);
+)(ArticleLecture);
