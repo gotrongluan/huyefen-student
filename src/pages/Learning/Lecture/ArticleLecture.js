@@ -5,12 +5,11 @@ import { connect } from 'dva';
 import { EditorState } from 'draft-js';
 import Editor from '@/components/editor/ImageEditor';
 import { Row, Col, Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message, Descriptions, Popover, Tooltip } from 'antd';
-import { FileTextFilled, ClockCircleFilled, RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { FileTextFilled, ClockCircleFilled, RightOutlined} from '@ant-design/icons';
 import { exportToHTML } from '@/utils/editor';
 import { minutesToHour } from '@/utils/utils';
 import styles from './ArticleLecture.less';
 
-const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
 const ArticleLecture = ({ match, dispatch, ...props }) => {
@@ -182,6 +181,21 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                                 </span>
                             </>
                         )}
+                    </Col>
+                </Row>
+                <Row className={styles.navigation}>
+                    <Col span={12} className={styles.prev}>
+                        <span className={styles.text}>Prev</span>
+                    </Col>
+                    <Col span={12} className={styles.next}>
+                        <span>
+                            <span className={styles.text}>
+                                Next
+                            </span>
+                            <span className={styles.icon}>
+                                <RightOutlined />
+                            </span>
+                        </span>
                     </Col>
                 </Row>
             </div>
