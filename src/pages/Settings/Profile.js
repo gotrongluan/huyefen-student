@@ -319,8 +319,8 @@ const Profile = ({ form, dispatch, ...props }) => {
                         <div className={styles.main}>
                             <Transfer
                                 className={styles.concernTransfer}
-                                operations={['concern', 'remove']}
-                                titles={['Remain', 'Concerned']}
+                                operations={['interest', 'remove']}
+                                titles={['Remain', 'Interest']}
                                 targetKeys={targetKeys}
                                 listStyle={{
                                     width: '40%',

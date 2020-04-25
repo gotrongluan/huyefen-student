@@ -1,0 +1,99 @@
+.lecture {
+    width: 80%;
+    margin: auto;
+    .loading {
+        .titleSkeleton {
+            li {
+                height: 20px;
+            }
+        }
+        .spin {
+            margin-top: 25px;
+            padding-top: 270px;
+            text-align: center;
+        }
+    }
+    .main {
+        .title {
+            color: white;
+            font-size: 2.5em;
+        }
+        .chapter {
+            margin-top: 5px;
+            color: @primary-color;
+            font-size: 1.2em;
+        }
+        .extra {
+            margin-top: 6px;
+            .updatedAt {
+                margin-right: 8px;
+            }
+            .time {
+                font-style: italic;
+                font-size: 0.9em;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 1px 3px;
+                border-radius: 2px;
+            }
+        }
+        .content {
+            margin-top: 50px;
+        }
+    }
+    .divider {
+        background: white;
+        margin-top: 34px;
+    }
+    .options {
+        text-align: center;
+    }
+}
+
+.newQuestionModal {
+    :global(.ant-modal-header) {
+        background-color: rgba(20, 20, 20, 0.5);
+        .modalTitle {
+            color: @primary-color;
+            text-align: center;
+        }
+    }
+    :global(.ant-modal-footer) {
+        background-color: rgba(20, 20, 20, 0.5);
+    }
+    .questionContentTitle, .questionLectureTitle {
+        display: inline-block;
+        line-height: 40px;
+        white-space: nowrap;
+        text-align: right;
+        vertical-align: middle;
+        color: white;
+        span::before {
+            display: inline-block;
+            margin-right: 4px;
+            color: #f5222d;
+            font-size: 14px;
+            font-family: SimSun, sans-serif;
+            line-height: 1;
+            content: '*';
+        }
+    }
+    .questionContentWrapper, .questionLectureWrapper {
+        position: relative;
+    }
+    .questionLectureWrapper {
+        padding: 4px 11px;
+        margin-bottom: 24px;
+    }
+}
+
+.askQuestionLoadingModal {
+    .icon {
+        padding: 15px 0;
+        text-align: center;
+    }
+    .text {
+        text-align: center;
+        color: @primary-color;
+        padding-bottom: 15px;
+    }
+}

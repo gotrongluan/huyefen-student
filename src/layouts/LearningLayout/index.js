@@ -99,10 +99,10 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                             {_.map(courseInfo.syllabus, chapter => (
                                 <SubMenu key={chapter._id} title={chapter.title} className={styles.chapter} popupClassName={styles.subMenuPopup}>
                                     {_.map(chapter.lectures, lecture => (
-                                        <MenuItem key={`/lecture/${lecture._id}`} className={styles.lecture}>
+                                        <MenuItem key={`/lecture/${lecture.type ? 'article' : 'video'}/${lecture._id}`} className={styles.lecture}>
                                             <div>
-                                                <Link className={styles.name} to={`${match.url}/lecture/${lecture._id}`}>{lecture.title}</Link>
-                                                <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleToggleLectureStatus(lecture._id)}/>
+                                                <Link className={styles.name} to={`${match.url}/lecture/${lecture.type ? 'article' : 'video'}/${lecture._id}`}>{lecture.title}</Link>
+                                                <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleToggleLectureStatus(lecture.type, lecture._id)}/>
                                             </div>  
                                         </MenuItem>
                                     ))}

@@ -178,7 +178,7 @@ export default {
                     _id: 'lecture-25',
                     type: 0,
                     title: 'The Vue instance',
-                    isCompleted: false,
+                    isCompleted: true,
                     time: 5
                 },
                 {

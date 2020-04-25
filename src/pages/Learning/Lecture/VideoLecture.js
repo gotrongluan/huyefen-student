@@ -7,7 +7,7 @@ import Editor from '@/components/editor/ImageEditor';
 import { Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message } from 'antd';
 import { exportToHTML } from '@/utils/editor';
 import { minutesToHour } from '@/utils/utils';
-import styles from './Lecture.less';
+import styles from './VideoLecture.less';
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
