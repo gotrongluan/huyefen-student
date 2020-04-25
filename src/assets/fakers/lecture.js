@@ -72,6 +72,51 @@ export default {
     
     
     </p></div>`,
-    nextLectureId: 6,
-    prevLectureId: 3
+    nextLecture: {
+        _id: 6,
+        type: 0
+    },
+    prevLecture: {
+        _id: 2,
+        type: 1
+    },
+    resources: {
+        downloadable: [
+            {
+                _id: 'resource_1',
+                name: 'video-143434344343.mp4',
+                extra: '01:30',
+                url: ''
+            },
+            {
+                _id: 'resource_2',
+                name: 'bkuhardware_CV.pdf',
+                extra: '256 KB',
+                url: ''
+            },
+            {
+                _id: 'resource_3',
+                name: 'abc.docx',
+                extra: '36.5 KB',
+                url: ''
+            }
+        ],
+        external: [
+            {
+                _id: 'resource_4',
+                name: 'Test blog',
+                url: 'https://fb.com'
+            },
+            {
+                _id: 'resource_5',
+                name: 'Legends never die',
+                url: 'https://google.com.vn'
+            },
+            {
+                _id: 'resource_14',
+                name: 'Test blog',
+                url: 'https://fb.com'
+            }
+        ]
+    }
 };

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import moment from 'moment';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { EditorState } from 'draft-js';
 import Editor from '@/components/editor/ImageEditor';
-import { Row, Col, Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message, Descriptions, Popover, Tooltip } from 'antd';
-import { FileTextFilled, ClockCircleFilled, RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { Row, Col, Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message, Descriptions, Popover, Tooltip, Collapse } from 'antd';
+import { FileTextFilled, ClockCircleFilled, RightOutlined, LeftOutlined, LinkOutlined, SelectOutlined, DownloadOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import UserAvatar from '@/components/Avatar';
 import TimeAgo from 'react-timeago';
 import { exportToHTML } from '@/utils/editor';
@@ -13,8 +14,10 @@ import { minutesToHour } from '@/utils/utils';
 import styles from './ArticleLecture.less';
 
 const FormItem = Form.Item;
+const { Panel } = Collapse;
 
 const ArticleLecture = ({ match, dispatch, ...props }) => {
+    const [resourcesVisible, setResourcesVisible] = useState(false);
     const [questionVisible, setQuestionVisible] = useState(false);
     const [questionTitle, setQuestionTitle] = useState({
         value: '',
@@ -47,9 +50,9 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
         });
     };
     const handleAskQuestion = () => setQuestionVisible(true);
-    const goToLecture = lectureId => {
+    const goToLecture = ({ _id, type }) => {
         const { courseId } = match.params;
-        router.push(`/learning/${courseId}/lecture/${lectureId}`);
+        router.push(`/learning/${courseId}/lecture/${type ? 'article' : 'video'}/${_id}`);
     };
     const handleChangeQuestionTitle = e => {
         const val = e.target.value;
@@ -96,8 +99,8 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
         });
         handleCancelAskQuestion();
     };
-    const handleOpenResources = () => {
-
+    const checkEmptyResources = resources => {
+        return !resources || (_.isEmpty(resources.downloadable) && !_.isEmpty(resources.external));
     };
     const getMetadata = article => {
         return (
@@ -175,13 +178,13 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                     <Col span={6} className={styles.options}>
                         {lecture && !initLoading && (
                             <>
-                                {true && (
+                                {!checkEmptyResources(lecture.resources) && (
                                     <span className={styles.resources}>
                                         <Tooltip placement="top" title="Resources" mouseEnterDelay={1}>
                                             <Button
                                                 shape="circle"
                                                 icon="dropbox"
-                                                onClick={handleOpenResources}
+                                                onClick={() => setResourcesVisible(true)}
                                             />
                                         </Tooltip>
                                     </span>
@@ -202,6 +205,9 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                                             type={lecture.isCompleted ? "primary" : "default"}
                                             icon="check"
                                             onClick={handleCompleteLecture}
+                                            style={{ 
+                                                backgroundColor: lecture.isCompleted ? '#fada5e' : 'white'
+                                            }}
                                         />
                                     </Tooltip>
                                 </span>
@@ -224,7 +230,7 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                     </Col>
                 </Row>
                 <div className={styles.navigation}>
-                    <div className={styles.prev}>
+                    <div className={styles.prev} onClick={() => goToLecture(lecture.prevLecture)}>
                         <span className={styles.icon}>
                             <LeftOutlined />
                         </span>
@@ -232,7 +238,7 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                             Prev
                         </span>
                     </div>
-                    <div className={styles.next}>
+                    <div className={styles.next} onClick={() => goToLecture(lecture.nextLecture)}>
                         <span className={styles.text}>
                             Next
                         </span>
@@ -293,6 +299,70 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                             />
                         </div>
                     </Form>
+                </Modal>
+            )}
+            {lecture && !initLoading && !checkEmptyResources(lecture.resources) && (
+                <Modal
+                    className={styles.resourcesModal}
+                    title={<div className={styles.modalTitle}>Resources</div>}
+                    width={720}
+                    centered
+                    footer={null}
+                    visible={resourcesVisible}
+                    onCancel={() => setResourcesVisible(false)}
+                    maskClosable={false}
+                    bodyStyle={{ padding: '35px 10px' }}
+                >
+                    <Collapse defaultActiveKey={['downloadable', 'external']} expandIconPosition="right">
+                        {!_.isEmpty(lecture.resources.downloadable) && (
+                            <Panel key="downloadable" header="Downloadable materials">
+                                {_.map(lecture.resources.downloadable, resource => (
+                                    <Row gutter={16} key={resource._id} className={styles.resource}>
+                                        <Col className={styles.icon} span={1}>
+                                            <CloudDownloadOutlined />
+                                        </Col>
+                                        <Col className={styles.name} span={12}>
+                                            {resource.name}
+                                        </Col>
+                                        <Col className={styles.extra} span={10}>
+                                            {resource.extra}
+                                        </Col>
+                                        <Col className={styles.action} span={1}>
+                                            <Tooltip placement="top" title="Download">
+                                                <span className={styles.btn}>
+                                                    <DownloadOutlined />
+                                                </span>
+                                            </Tooltip>
+                                        </Col>
+                                    </Row>
+                                ))}
+                            </Panel>
+                        )}
+                        {!_.isEmpty(lecture.resources.external) && (
+                            <Panel key="external" header="External resources">
+                                {_.map(lecture.resources.external, resource => (
+                                    <Row gutter={16} key={resource._id} className={styles.resource}>
+                                        <Col className={styles.icon} span={1}>
+                                            <LinkOutlined />
+                                        </Col>
+                                        <Col className={styles.name} span={12}>
+                                            {resource.name}
+                                        </Col>
+                                        <Col className={styles.extra} span={10}>
+                                            {resource.url}
+                                        </Col>
+                                        <Col className={styles.action} span={1}>
+                                            <Tooltip placement="top" title={`Go to ${resource.url}`}>
+                                                <span className={styles.btn} onClick={() => window.location.href = resource.url}>
+                                                    <SelectOutlined />
+                                                </span>
+                                            </Tooltip>
+                                        </Col>
+                                    </Row>
+                                ))}
+                            </Panel>
+                        )}
+                    </Collapse>
                 </Modal>
             )}
             <Modal

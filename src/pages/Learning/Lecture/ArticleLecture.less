@@ -61,9 +61,12 @@
                         height: 28px;
                         width: 28px;
                         min-width: 28px;
-                        background: white;
+                        background-color: white;
                         color: black;
                     }
+                }
+                .markComplete {
+                    transition: background-color 1.2s ease-in
                 }
             }
         }
@@ -137,7 +140,7 @@
     }
 }
 
-.newQuestionModal {
+.resourcesModal, .newQuestionModal {
     :global(.ant-modal-header) {
         background-color: rgba(20, 20, 20, 0.5);
         .modalTitle {
@@ -145,6 +148,9 @@
             text-align: center;
         }
     }
+}
+
+.newQuestionModal {
     :global(.ant-modal-footer) {
         background-color: rgba(20, 20, 20, 0.5);
     }
@@ -172,6 +178,36 @@
         padding: 4px 11px;
         margin-bottom: 24px;
     }
+}
+
+.resourcesModal {
+    :global(.ant-modal-body) {
+        height: 500px;
+        overflow: auto;
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+    }
+    .resource {
+        padding: 6px 0;
+        .icon {
+            color: @primary-color;
+        }
+        .name {
+            font-size: 1.1em;
+            color: white;
+        }
+        .action {
+            .btn {
+                cursor: pointer;
+                color: @primary-color;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
 }
 
 .askQuestionLoadingModal {
