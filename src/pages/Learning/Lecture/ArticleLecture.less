@@ -11,8 +11,7 @@
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
         .infor {
             padding: 32px;
-            padding-bottom: 21px;
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
+            padding-bottom: 16px;
             .iconCol {
                 text-align: center;
                 .icon {
@@ -28,48 +27,69 @@
                     color: #fada5e;
                     font-weight: 400;
                 }
-                .chapter {
+                .chapterAndDuration {
                     line-height: 3em;
-                    font-size: 1.2em;
-                    color: white;
+                    .chapter {
+                        font-size: 1.2em;
+                        color: white;
+                    }
+                    .duration {
+                        padding-left: 12px;
+                        .icon {
+                            color: @primary-color;
+                        }
+                        .text {
+                            padding-left: 6px;
+                        }
+                    }
                 }
             }
             .options {
                 text-align: right;
-                .saveBtn {
-                    display: inline-block;
-                    margin-right: 16px;
-                    button {
-                        min-width: 105px;
-                    }
-                }
-                .estimateTime, .configs {
+                .resources, .markComplete, .askQuestion {
                     display: inline-block;
                     margin-right: 12px;
-                }
-                .estimateTime, .metadata, .configs {
-                    font-size: 1.75em;
                     cursor: pointer;
-                    color: white;
-                    & > span {
-                        border-radius: 50%;
-                        border: 4px solid #fada5e;
-                    }
                     &:hover {
                         opacity: 0.8;
+                    }
+                    
+                }
+                .resources, .markComplete, .askQuestion, .metadata {
+                    button {
+                        font-size: 13.5px;
+                        height: 28px;
+                        width: 28px;
+                        min-width: 28px;
+                        background: white;
+                        color: black;
                     }
                 }
             }
         }
         .navigation {
-            padding: 10px 0;
+            padding: 10px 32px;
+            text-align: right;
             .prev, .next {
-                & > span:hover {
+                display: inline-block;
+                width: auto;
+                cursor: pointer;
+                .icon {
+                    font-size: 0.9em;
+                    position: relative;
+                    top: 0.5px;
+                }
+                .text:hover {
                     text-decoration: underline;
                 }
             }
+            .prev {
+                margin-right: 22px;
+                .text {
+                    padding-left: 6px;
+                }
+            }
             .next {
-                text-align: right;
                 color: @primary-color;
                 .text {
                     padding-right: 6px;

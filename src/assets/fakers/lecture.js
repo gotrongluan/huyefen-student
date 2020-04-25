@@ -8,6 +8,11 @@ export default {
         _id: 1,
         title: 'The Vue Router'
     },
+    owner: {
+        _id: 2,
+        name: 'Huyen Dang',
+        avatar: null
+    },
     isCompleted: false,
     content: `<div><p role="heading" aria-level="5"><strong>A “Small” Definition of Big Data </strong></p><p>The term ‘big
     data’ seems to be popping up everywhere these days. And there seems to be as

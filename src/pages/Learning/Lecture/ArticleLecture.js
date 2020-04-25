@@ -5,7 +5,9 @@ import { connect } from 'dva';
 import { EditorState } from 'draft-js';
 import Editor from '@/components/editor/ImageEditor';
 import { Row, Col, Skeleton, Icon, Modal, Spin, Divider, Button, Form, Input, message, Descriptions, Popover, Tooltip } from 'antd';
-import { FileTextFilled, ClockCircleFilled, RightOutlined} from '@ant-design/icons';
+import { FileTextFilled, ClockCircleFilled, RightOutlined, LeftOutlined } from '@ant-design/icons';
+import UserAvatar from '@/components/Avatar';
+import TimeAgo from 'react-timeago';
 import { exportToHTML } from '@/utils/editor';
 import { minutesToHour } from '@/utils/utils';
 import styles from './ArticleLecture.less';
@@ -98,7 +100,45 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
 
     };
     const getMetadata = article => {
-        return (<div>FFF</div>)
+        return (
+            <Descriptions
+                title={null}
+                column={1}
+                size="middle"
+            >
+                <Descriptions.Item label="Title">
+                    {article.title}
+                </Descriptions.Item>
+                <Descriptions.Item label="Chapter">
+                    {article.chapter.title}
+                </Descriptions.Item>
+                <Descriptions.Item label="Type">
+                    Article
+                </Descriptions.Item>
+                <Descriptions.Item label="Creator">
+                    <span className={styles.userName}>
+                        {article.owner.name}
+                    </span>
+                    <span className={styles.avatar}>
+                        <UserAvatar
+                            alt="user-avatar"
+                            src={article.owner.avatar}
+                            size={28}
+                            textSize={28}
+                            text={article.owner.name}
+                            borderWidth={0}
+                            style={{ color: 'white', background: '#fada5e', fontSize: '1em' }}
+                        />
+                    </span>
+                </Descriptions.Item>
+                <Descriptions.Item label="Created at">
+                    {moment(article.createdAt).format("DD/MM/YYYY")}
+                </Descriptions.Item>
+                <Descriptions.Item label="Last updated">
+                    <TimeAgo date={article.updatedAt} />
+                </Descriptions.Item>
+            </Descriptions>
+        );
     };
 
     return (
@@ -135,9 +175,9 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                     <Col span={6} className={styles.options}>
                         {lecture && !initLoading && (
                             <>
-                                {lecture.resources && (
+                                {true && (
                                     <span className={styles.resources}>
-                                        <Tooltip placement="top" title="Resources">
+                                        <Tooltip placement="top" title="Resources" mouseEnterDelay={1}>
                                             <Button
                                                 shape="circle"
                                                 icon="dropbox"
@@ -147,16 +187,16 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                                     </span>
                                 )}
                                 <span className={styles.askQuestion}>
-                                    <Tooltip placement="top" title="Ask a question">
+                                    <Tooltip placement="top" title="Ask a question" mouseEnterDelay={1}>
                                         <Button
                                             shape="circle"
-                                            icon="question"
+                                            icon="inbox"
                                             onClick={handleAskQuestion}
                                         />
                                     </Tooltip>
                                 </span>
                                 <span className={styles.markComplete}>
-                                    <Tooltip placement="top" title="Toggle complete status">
+                                    <Tooltip placement="top" title="Toggle complete status" mouseEnterDelay={1}>
                                         <Button
                                             shape="circle"
                                             type={lecture.isCompleted ? "primary" : "default"}
@@ -183,21 +223,24 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
                         )}
                     </Col>
                 </Row>
-                <Row className={styles.navigation}>
-                    <Col span={12} className={styles.prev}>
-                        <span className={styles.text}>Prev</span>
-                    </Col>
-                    <Col span={12} className={styles.next}>
-                        <span>
-                            <span className={styles.text}>
-                                Next
-                            </span>
-                            <span className={styles.icon}>
-                                <RightOutlined />
-                            </span>
+                <div className={styles.navigation}>
+                    <div className={styles.prev}>
+                        <span className={styles.icon}>
+                            <LeftOutlined />
                         </span>
-                    </Col>
-                </Row>
+                        <span className={styles.text}>
+                            Prev
+                        </span>
+                    </div>
+                    <div className={styles.next}>
+                        <span className={styles.text}>
+                            Next
+                        </span>
+                        <span className={styles.icon}>
+                            <RightOutlined />
+                        </span>
+                    </div>
+                </div>
             </div>
             <div className={styles.clear} />
             <div className={styles.content}>
