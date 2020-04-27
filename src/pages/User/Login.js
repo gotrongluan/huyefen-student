@@ -5,7 +5,6 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import withRouter from 'umi/withRouter';
 import { Row, Form, Input, Button, Checkbox, Icon, message } from 'antd';
-//import * as GlobalActions from '_redux/actions/global';
 import styles from './Login.less';
 
 const Login = ({ dispatch, ...props }) => {
@@ -27,8 +26,6 @@ const Login = ({ dispatch, ...props }) => {
                 phone, password
             }
         });
-        // const { from } = location.state || { from: { pathname: '/home' } };
-        //login(phone, password, from);
     }
 
     const { getFieldDecorator } = props.form;
@@ -83,13 +80,4 @@ const Login = ({ dispatch, ...props }) => {
     )
 }
 
-// const mapStateToProps = ({ loading }) => ({
-//     loading: loading['login'] || false
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//     login: (phone, password, from) => dispatch(GlobalActions.login(phone, password, from)),
-// });
-
-// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form.create()(Login)));
 export default withRouter(Form.create()(connect(({ loading }) => ({ loading: !!loading.effects['user/login'] }))(Login)));

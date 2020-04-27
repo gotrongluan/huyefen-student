@@ -3,10 +3,12 @@ import _ from 'lodash';
 import Link from 'umi/link';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { List, Skeleton, Button, Card } from 'antd';
+import { List, Skeleton, Card } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
+import LoadMore from '@/components/LoadMoreButton';
+import { loadingData } from '@/utils/utils';
 import styles from './index.less';
 
 const { Meta } = Card;
@@ -53,30 +55,23 @@ const MyTeachers = ({ dispatch, ...props }) => {
         });
     };
     const loadMore = (
-        !loading && !initLoading && teachers && hasMore ? (
-            <div className={styles.loadMore}>
-                <Button size="small" type="default" onClick={handleMoreTeachers}>More teachers</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllTeachers}>All teachers</Button>
-            </div>
-        ) : null
-    );
-    if (loading) teachers = teachers ? _.concat(teachers, [{
-        key: _.uniqueId('teacher_loading_'),
-        loading: true
-    }, {
-        key: _.uniqueId('teacher_loading_'),
-        loading: true
-    },{
-        key: _.uniqueId('teacher_loading_'),
-        loading: true
-    }]) : undefined;
+        <LoadMore
+            when={!loading && !initLoading && teachers && hasMore}
+            className={styles.loadMore}
+            onMore={handleMoreTeachers}
+            onAll={handleAllTeachers}
+            itemName="teacher"
+        />
+    )
+    if (loading)
+        teachers = loadingData(teachers, 'teacher_loading', 3);
     return (
         <Wrapper title="My teachers">
             <div className={styles.myTeachers}>
                 <Spin spinning={initLoading} fontSize={8} isCenter>
                     <List
                         dataSource={!teachers ? [] : teachers}
-                        rowKey={item => (item._id || item.key) + _.uniqueId('teacher_')}
+                        rowKey={item => (item._id || item.key)}
                         loadMore={loadMore}
                         grid={{
                             column: 3,

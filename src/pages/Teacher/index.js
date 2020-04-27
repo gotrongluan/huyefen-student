@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import classNames from 'classnames';
-import router from 'umi/router';
 import { Row, Col, Tabs, Button, Skeleton, Icon, Modal, Spin as Loading, List, Statistic, Divider, Card } from 'antd';
+import LoadMore from '@/components/LoadMoreButton';
 import UserAvatar from '@/components/Avatar';
 import TeacherCourse from '@/components/TeacherCourse';
+import CourseSkeleton from '@/components/Skeleton/Course';
+import { loadingData } from '@/utils/utils';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
@@ -77,19 +79,16 @@ const Teacher = ({ match, dispatch, ...props }) => {
         });
     };
     const loadMore = (
-        !coursesInitLoading && !coursesLoading && courses && hasMore ? (
-            <div className={styles.loadMore}>
-                <Button size="small" type="default" onClick={handleMoreCourses}>More courses</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllCourses}>All courses</Button>
-            </div>
-        ) : null
-    );
-    if (coursesLoading && courses) courses = _.concat(courses, [
-        { key: _.uniqueId('teacher_course_loading_'), loading: true },
-        { key: _.uniqueId('teacher_course_loading_'), loading: true },
-        { key: _.uniqueId('teacher_course_loading_'), loading: true },
-        { key: _.uniqueId('teacher_course_loading_'), loading: true }
-    ]);
+        <LoadMore
+            className={styles.loadMore}
+            when={!coursesInitLoading && !coursesLoading && courses && hasMore}
+            onMore={handleMoreCourses}
+            onAll={handleAllCourses}
+            itemName="course"
+        />
+    )
+    if (coursesLoading && courses)
+        courses = loadingData(courses, 'teacher_course_loading', 4);
     return (
         <Row className={styles.teacher}>
             <Row className={styles.jumpotron}>
@@ -154,15 +153,10 @@ const Teacher = ({ match, dispatch, ...props }) => {
                                     rowKey={course => (course._id || course.key) + _.uniqueId('teacher_course_')}
                                     renderItem={course => (
                                         <List.Item>
-                                            {!course.loading ? (<TeacherCourse course={course} />) : (
-                                                <div className={styles.courseSkeleton}>
-                                                    <div className={classNames(styles.avatar, styles.skeletonBox)} />
-                                                    <div className={styles.info}>
-                                                        <div className={classNames(styles.name, styles.skeletonBox)} />
-                                                        <div className={classNames(styles.authors, styles.skeletonBox)} />
-                                                        <div className={classNames(styles.price, styles.skeletonBox)} />
-                                                    </div>
-                                                </div> 
+                                            {!course.loading ? (
+                                                <TeacherCourse course={course} />
+                                            ) : (
+                                                <CourseSkeleton />
                                             )}
                                         </List.Item>
                                     )}

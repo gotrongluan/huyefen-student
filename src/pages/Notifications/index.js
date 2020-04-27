@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
-import { List, Button, Avatar, Skeleton, message } from 'antd';
+import { List, Button, Skeleton } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import Wrapper from '@/components/JumpotronWrapper';
 import Spin from '@/elements/spin/secondary';

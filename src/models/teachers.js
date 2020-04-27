@@ -1,4 +1,5 @@
 import TEACHERS from '@/assets/fakers/teachers';
+import OLD_TEACHERS from '@/assets/fakers/oldTeachers';
 import { delay } from '@/utils/utils';
 
 export default {
@@ -24,8 +25,8 @@ export default {
             yield put({
                 type: 'push',
                 payload: {
-                    hasMore: true,
-                    data: TEACHERS
+                    hasMore: false,
+                    data: OLD_TEACHERS
                 }
             })
         },
@@ -36,7 +37,7 @@ export default {
                 type: 'push',
                 payload: {
                     hasMore: false,
-                    data: TEACHERS
+                    data: OLD_TEACHERS
                 }
             });
         }

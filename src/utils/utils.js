@@ -108,4 +108,10 @@ export const checkValidLink = link => {
 export const capitalText = name => {
     const matches = name.match(/\b(\w)/g); // ['J','S','O','N']
     return _.join(_.takeRight(matches, 2), '');
+};
+
+export const loadingData = (items, prefix, number) => {
+    if (!items)
+        return items;
+    return _.concat(items, _.map(range(number), i => ({ key: _.uniqueId(prefix), loading: true })));
 }

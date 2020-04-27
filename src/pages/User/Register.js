@@ -5,7 +5,6 @@ import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import { Row, Col, Form, Input, Button, Select, DatePicker, message } from 'antd';
-import Spin from '@/elements/spin/secondary';
 import styles from './Register.less';
 
 const { Option } = Select;
@@ -167,14 +166,6 @@ const Register = ({ dispatch, ...props }) => {
         </Row>
     );
 }
-
-// const mapStateToProps = ({ loading }) => ({
-//     loading: loading['signup'] || false
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//     signup: info => dispatch(globalActions.signup(info))
-// });
 
 export default Form.create()(
     connect(

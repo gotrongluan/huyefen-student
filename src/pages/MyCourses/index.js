@@ -7,6 +7,9 @@ import UserAvatar from '@/components/Avatar';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
 import MyCourse from '@/components/MyCourse';
+import LoadMore from '@/components/LoadMoreButton';
+import CourseSkeleton from '@/components/Skeleton/Course';
+import { loadingData } from '@/utils/utils';
 import styles from './index.less';
 
 const { Option } = Select;
@@ -302,19 +305,15 @@ const MyCourses = ({ dispatch, ...props }) => {
         }
     }
     const loadMore = (
-        !initLoading && !loading && myCourses && moreable ? (
-            <div className={styles.loadMore}>
-                <Button size="small" type="default" onClick={handleMoreCourses}>More courses</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllCourses}>All courses</Button>
-            </div>
-        ) : null
-    );
-    if (loading && myCourses) myCourses = _.concat(myCourses, [
-        { key: _.uniqueId('my_course_loading_'), loading: true },
-        { key: _.uniqueId('my_course_loading_'), loading: true },
-        { key: _.uniqueId('my_course_loading_'), loading: true },
-        { key: _.uniqueId('my_course_loading_'), loading: true }
-    ]);
+        <LoadMore
+            when={!initLoading && !loading && myCourses && moreable}
+            className={styles.loadMore}
+            onAll={handleAllCourses}
+            onMore={handleMoreCourses}
+            itemName="course"
+        />
+    )
+    if (loading && myCourses) myCourses = loadingData(myCourses, 'my_course_loading', 4);
     return (
         <Wrapper title="My courses">
             <div className={styles.myCourses}>
@@ -441,14 +440,7 @@ const MyCourses = ({ dispatch, ...props }) => {
                             renderItem={course => (
                                 <List.Item>
                                     {!course.loading ? (<MyCourse course={course} handleRecommend={handleRecommend}/>) : (
-                                        <div className={styles.courseSkeleton}>
-                                            <div className={classnames(styles.avatar, styles.skeletonBox)} />
-                                            <div className={styles.info}>
-                                                <div className={classnames(styles.name, styles.skeletonBox)} />
-                                                <div className={classnames(styles.authors, styles.skeletonBox)} />
-                                                <div className={classnames(styles.price, styles.skeletonBox)} />
-                                            </div>
-                                        </div> 
+                                        <CourseSkeleton />
                                     )}
                                 </List.Item>
                             )}

@@ -1,6 +1,5 @@
 import React from 'react';
-import router from 'umi/router';
-import { Result, Button } from 'antd';
+import { Result } from 'antd';
 import styles from './404.less';
 
 const Page404 = () => {

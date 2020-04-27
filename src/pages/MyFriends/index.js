@@ -6,6 +6,8 @@ import { List, Avatar, Skeleton, Button, Card } from 'antd';
 import Friend from '@/components/Friend';
 import Spin from '@/elements/spin/secondary';
 import Wrapper from '@/components/JumpotronWrapper';
+import LoadMore from '@/components/LoadMoreButton';
+import { loadingData } from '@/utils/utils';
 import styles from './index.less';
 
 const MyFriends = ({ dispatch, ...props }) => {
@@ -34,23 +36,15 @@ const MyFriends = ({ dispatch, ...props }) => {
         });
     };
     const loadMore = (
-        !loading && !initLoading && friends && hasMore ? (
-            <div className={styles.loadMore}>
-                <Button size="small" type="default" onClick={handleMoreFriends}>More friends</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllFriends}>All friends</Button>
-            </div>
-        ) : null
+        <LoadMore
+            when={!loading && !initLoading && friends && hasMore}
+            onMore={handleMoreFriends}
+            onAll={handleAllFriends}
+            className={styles.loadMore}
+            itemName="friend"
+        />
     );
-    if (loading) friends = friends ? _.concat(friends, [{
-        key: _.uniqueId('friend_loading_'),
-        loading: true
-    }, {
-        key: _.uniqueId('friend_loading_'),
-        loading: true
-    }, {
-        key: _.uniqueId('friend_loading_'),
-        loading: true
-    }]) : undefined;
+    if (loading) friends = loadingData(friends, 'friend_loading_', 3);
     return (
         <Wrapper title="My friends">
             <div className={styles.myFriends}>
