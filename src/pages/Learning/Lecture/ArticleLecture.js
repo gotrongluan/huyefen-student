@@ -37,7 +37,8 @@ const ArticleLecture = ({ match, dispatch, ...props }) => {
             type: 'learning/fetchLecture',
             payload: {
                 courseId,
-                lectureId
+                lectureId,
+                type: 1
             }
         });
         return () => dispatch({ 

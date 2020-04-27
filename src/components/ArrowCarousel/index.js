@@ -18,7 +18,7 @@ export default ({ children, pageSize, dataSource, renderItem, renderEmptyItem, b
             infinite={false}
             slidesToShow={pageSize}
             slidesToScroll={pageSize}
-            prevArrow={currentPage > 1 ? <SlickButton ><Icon onClick={() => setCurrentPage(currentPage - 1)}type="left" style={{ color: '#FADA5E', fontSize: buttonSize }}/></SlickButton> : null}
+            prevArrow={currentPage > 1 ? <SlickButton ><Icon onClick={() => setCurrentPage(currentPage - 1)} type="left" style={{ color: '#FADA5E', fontSize: buttonSize }}/></SlickButton> : null}
             nextArrow={currentPage < maxPage ? <SlickButton ><Icon type="right" onClick={() => setCurrentPage(currentPage + 1)} style={{ color: '#FADA5E', fontSize: buttonSize }}/></SlickButton> : null}
             {...props}
         >

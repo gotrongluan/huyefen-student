@@ -418,7 +418,7 @@ export default {
             });
         },
         *fetchLecture({ payload }, { call, put }) {
-            const { courseId, lectureId } = payload;
+            const { courseId, lectureId, type } = payload;
             yield delay(1500);
             //call api with courseId, lectureId --> for checking whether lecture belong to the course, is exist lecture
             const status = 0;
