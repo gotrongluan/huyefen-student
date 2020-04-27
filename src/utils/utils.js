@@ -5,13 +5,13 @@ export const fromNow = unixTime => {
     const diff = moment().dayOfYear() - moment(unixTime).dayOfYear();
     if (diff === 0) return moment(unixTime).format("H:mm");
     if (diff < 7) return moment(unixTime).format("ddd");
-    else return moment(unixTime).format("MMM D");
+    return moment(unixTime).format("MMM D");
 };
 
-export const truncate = (str, len) => {
+export const truncate = (str, len = 60, sep = /,? +/) => {
     return _.truncate(str, {
         'length': len,
-        'separator': /,? +/
+        'separator': sep
     });
 };
 
@@ -26,7 +26,7 @@ export const range = n => {
 };
 
 export const toQueryString= json => {
-    return Object.keys(json)
+    return _.keys(json)
       .map(k => `${k}=${encodeURIComponent(json[k])}`)
       .join('&');
 };
@@ -47,24 +47,33 @@ export const transAuthors = (authors, maxLength) => {
     let i = 1;
     const n = authors.length;
     while (i < n) {
-        if (authorsStr.length + 2 + authors[i].length <= maxLength) {
-            authorsStr = `${authorsStr}, ${authors[i]}`;
-            i++;
+        if (i < n - 1) {
+            if (authorsStr.length + 2 + authors[i].length <= maxLength) {
+                authorsStr = `${authorsStr}, ${authors[i]}`;
+                i++;
+            }
+            else {
+                authorsStr = `${authorsStr} and ${n - i} others`;
+                i = n;
+            }
         }
         else {
-            authorsStr = `${authorsStr} and ${n - i} others`;
-            i = n + 1;
+            if (authorsStr.length + 5 + authors[i].length <= maxLength)
+                authorsStr = `${authorsStr} and ${authors[i]}`;
+            else authorsStr = `${authorsStr} and 1 other`;
+            i++;
         }
-    }   
+    }
     return authorsStr;
 };
 
 export const roundStarRating = rating => {
-    if (rating > 5) return 5;
-    else if (rating < 0) return 0;
-    const ceil = _.ceil(rating);
+    rating = parseFloat(rating);
+    if (rating > 5) return 5.0;
+    else if (rating < 0) return 0.0;
+    const ceil = parseFloat(_.ceil(rating));
     if (rating < ceil) return ceil - 0.5;
-    else return rating;
+    return rating;
 };
 
 export const  numberWithCommas = x => {
@@ -75,9 +84,9 @@ export const minutesToHour = mins => {
     if (mins < 60) return `${mins} mins`;
     let num = mins;
     let hours = (num / 60);
-    let rhours = Math.floor(hours);
+    let rhours = _.floor(hours);
     let minutes = (hours - rhours) * 60;
-    let rminutes = Math.round(minutes);
+    let rminutes = _.round(minutes);
     return rminutes > 0 ? `${rhours}h${rminutes}m` : `${rhours}h`;
 };
 

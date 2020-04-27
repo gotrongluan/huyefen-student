@@ -19,17 +19,6 @@ export const exportToHTML = editorState => {
     };
     const blockStyleFn = block => {
         const blockType = block.getType();
-        // if (blockType === 'code-block') 
-        //     return {
-        //         style: {
-        //             fontWeight: 'bold',
-        //             color: 'white',
-        //             fontFamily: '\'Soure Code Pro\', monospace',
-        //             padding: '0px 6px 2px 6px',
-        //             borderLeft: '3px solid #FADA5E',
-        //             margin: 0
-        //         }
-        //     };
         if (blockType === 'atomic')
             return {
                 style: {

@@ -1,39 +1,32 @@
-const getToken = () => {
-    return localStorage.getItem('token');
-}
+const createTokenFuncsPair = (tokenName, jsonWrapper = false) => {
+    const getFunc = jsonWrapper ? () => JSON.parse(localStorage.getItem(tokenName)) : () => localStorage.getItem(tokenName);
+    const resetFunc = () => {
+        const current = getFunc();
+        if (current)
+            localStorage.removeItem(tokenName);
+    };
+    const setFunc = token => {
+        if (token)
+            return localStorage.setItem(tokenName, jsonWrapper ? JSON.stringify(token) : token);
+        resetFunc();
+    }
+    return {
+        getFunc,
+        setFunc
+    };
+};
 
-const setToken = token => {
-    if (token)
-        return localStorage.setItem('token', token);
-    const current = getToken();
-    if (current)
-        localStorage.removeItem('token');
-}
+const tokenFuncsPair = createTokenFuncsPair('token');
 
-const getShoppingCart = () => {
-    return JSON.parse(localStorage.getItem('shopping-cart'));
-}
+const shoppingCartFuncsPair = createTokenFuncsPair('shopping-cart', true);
 
-const setShoppingCart = items => {
-    if (items)
-        return localStorage.setItem('shopping-cart', JSON.stringify(items));
-    const current = getShoppingCart();
-    if (current)
-        localStorage.removeItem('shopping-cart');
-}
-
-const getFCMToken = () => {
-    return localStorage.getItem('FCMToken');
-}
-
-const setFCMToken = token => {
-    if (token)
-        return localStorage.setItem('FCMToken', token);
-    const current = getFCMToken();
-    if (current)
-        localStorage.removeItem('FCMToken');
-}
+const fcmFuncsPair = createTokenFuncsPair('FCMToken');
 
 export default {
-    getToken, setToken, getFCMToken, setFCMToken, getShoppingCart, setShoppingCart
+    getToken: tokenFuncsPair.getFunc,
+    setToken: tokenFuncsPair.setFunc,
+    getShoppingCart: shoppingCartFuncsPair.getFunc,
+    setShoppingCart: shoppingCartFuncsPair.setFunc,
+    getFCMToken: fcmFuncsPair.getFunc,
+    setFCMToken: fcmFuncsPair.setFunc
 };
