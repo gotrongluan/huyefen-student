@@ -3,7 +3,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import router from 'umi/router';
 import { Parallax } from 'react-parallax';
-import { Row, Col, Tabs, Carousel, Tag, Icon } from 'antd';
+import { Row, Col, Tabs, Carousel } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Course from '@/components/CourseCarouselItem';
@@ -17,7 +17,6 @@ import TOP_TOPICS from '@/assets/fakers/topTopics';
 import TOP_FRIENDS from '@/assets/fakers/topFriends';
 import MY_COURSES from '@/assets/fakers/mycourses';
 import homeJumpotronImg from '@/assets/images/homeJumpotronImg.jpg';
-import { tagColor } from '@/config/constants';
 import { range } from '@/utils/utils';
 import styles from './index.less';
 

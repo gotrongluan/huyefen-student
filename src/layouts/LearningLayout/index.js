@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
-import { Layout, Menu, Checkbox, Skeleton, Row, message, Spin, Icon, Button } from 'antd';
+import { Layout, Menu, Checkbox, Skeleton, Row, Spin, Icon, Button } from 'antd';
 import router from 'umi/router';
 import Link from 'umi/link';
 import ScrollLayout from '@/components/ScrollLayout';
+import { transAuthors } from '@/utils/utils';
 import styles from './index.less';
 
 const { Content, Sider } = Layout;
@@ -22,7 +23,7 @@ const Header = ({ loading, name, authors, courseId }) => {
                 </div>
                 <div className={styles.authors}>
                     <Skeleton loading={loading} active title={false} paragraph={{ rows: 1, width: '18%' }}>
-                        {`Created by ${_.join(authors, ', ')}`}
+                        {`Created by ${transAuthors(authors)}`}
                     </Skeleton>
                 </div>
                 <div className={styles.btns}>

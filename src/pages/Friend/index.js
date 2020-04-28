@@ -3,13 +3,17 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import router from 'umi/router';
 import classNames from 'classnames';
-import { Row, Card, Avatar, Button, Tabs, Skeleton, List, Spin as Loading, Icon, Modal } from 'antd';
+import { Row, Card, Button, Tabs, Skeleton, List, Spin as Loading, Icon, Modal } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import FriendItem from '@/components/Friend';
 import FriendCourse from '@/components/FriendCourse';
+import CourseSkeleton from '@/components/Skeleton/Course';
+import LoadMore from '@/components/LoadMoreButton';
+import { loadingData } from '@/utils/utils';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
+
 const Friend= ({ match, dispatch, ...props }) => {
     const [activeKey, setActiveKey] = useState('courses');
     let {
@@ -166,13 +170,14 @@ const Friend= ({ match, dispatch, ...props }) => {
         });
     };
     const loadMoreCourses = (
-        !coursesInitLoading && !coursesLoading && courses && hasMoreCourses ? (
-            <div className={styles.loadMore}>
-                <Button size="small" type="default" onClick={handleMoreCourses}>More courses</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllCourses}>All courses</Button>
-            </div>
-        ) : null
-    );
+        <LoadMore
+            className={styles.loadMore}
+            when={!coursesInitLoading && !coursesLoading && courses && hasMoreCourses}
+            onMore={handleMoreCourses}
+            onAll={handleAllCourses}
+            itemName="course"
+        />
+    )
     const handleMoreFriends = () => {
         dispatch({
             type: 'friend/moreFriends',
@@ -186,29 +191,16 @@ const Friend= ({ match, dispatch, ...props }) => {
         });
     };
     const loadMoreFriends = (
-        !friendsLoading && !friendsInitLoading && friends && hasMoreFriends ? (
-            <div className={styles.loadMoreFriends}>
-                <Button size="small" type="default" onClick={handleMoreFriends}>More friends</Button>
-                <Button size="small" type="primary" style={{ marginLeft: 10 }} onClick={handleAllFriends}>All friends</Button>
-            </div>
-        ) : null
+        <LoadMore
+            className={styles.loadMoreFriends}
+            itemName="friend"
+            when={!friendsLoading && !friendsInitLoading && friends && hasMoreFriends}
+            onAll={handleAllFriends}
+            onMore={handleMoreFriends}
+        />
     );
-    if (coursesLoading && courses) courses = _.concat(courses, [
-        { key: _.uniqueId('friend_course_loading_'), loading: true },
-        { key: _.uniqueId('friend_course_loading_'), loading: true },
-        { key: _.uniqueId('friend_course_loading_'), loading: true },
-        { key: _.uniqueId('friend_course_loading_'), loading: true }
-    ]);
-    if (friendsLoading && friends) friends = _.concat(friends, [{
-        key: _.uniqueId('friend_loading_'),
-        loading: true
-    }, {
-        key: _.uniqueId('friend_loading_'),
-        loading: true
-    }, {
-        key: _.uniqueId('friend_loading_'),
-        loading: true
-    }]);
+    if (coursesLoading && courses) courses = loadingData(courses, 'friend_course_loading', 4);
+    if (friendsLoading && friends) friends = loadingData(friends, 'friend_loading_', 3);
 
     return (
         <Row className={styles.friend}>
@@ -283,14 +275,7 @@ const Friend= ({ match, dispatch, ...props }) => {
                                     renderItem={course => (
                                         <List.Item>
                                             {!course.loading ? (<FriendCourse course={course} />) : (
-                                                <div className={styles.courseSkeleton}>
-                                                    <div className={classNames(styles.avatar, styles.skeletonBox)} />
-                                                    <div className={styles.info}>
-                                                        <div className={classNames(styles.name, styles.skeletonBox)} />
-                                                        <div className={classNames(styles.authors, styles.skeletonBox)} />
-                                                        <div className={classNames(styles.price, styles.skeletonBox)} />
-                                                    </div>
-                                                </div> 
+                                                <CourseSkeleton />
                                             )}
                                         </List.Item>
                                     )}

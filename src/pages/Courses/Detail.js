@@ -13,7 +13,7 @@ import TeacherCourse from '@/components/TeacherCourse';
 import FeaturedBadge from '@/components/FeaturedBadge';
 import ViewMore from '@/components/ViewMore';
 import Sticky from 'react-sticky-el';
-import { roundStarRating, numberWithCommas, minutesToHour } from '@/utils/utils';
+import { roundStarRating, numberWithCommas, minutesToHour, transAuthors } from '@/utils/utils';
 import storage from '@/utils/storage';
 import styles from './Detail.less';
 
@@ -688,7 +688,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                     <span className={styles.numOfEnrolled}>{`${numberWithCommas(courseInfo.numOfEnrolled)} students enrolled`}</span>
                                 </div>
                                 <div className={styles.authors}>
-                                    {`Created by ${_.join(courseInfo.authors, ', ')}`}
+                                    {`Created by ${transAuthors(courseInfo.authors)}`}
                                 </div>
                                 <div className={styles.extra}>
                                     <span className={styles.level}>

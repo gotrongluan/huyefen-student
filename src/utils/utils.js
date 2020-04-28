@@ -41,14 +41,14 @@ export const findLimit = (data, minimum, number = false) => {
     return i;
 };
 
-export const transAuthors = (authors, maxLength) => {
+export const transAuthors = (authors, maxLength = -1) => {
     if (_.isEmpty(authors)) return "";
     let authorsStr = authors[0];
     let i = 1;
     const n = authors.length;
     while (i < n) {
         if (i < n - 1) {
-            if (authorsStr.length + 2 + authors[i].length <= maxLength) {
+            if (maxLength === -1 || (authorsStr.length + 2 + authors[i].length <= maxLength)) {
                 authorsStr = `${authorsStr}, ${authors[i]}`;
                 i++;
             }
@@ -58,7 +58,7 @@ export const transAuthors = (authors, maxLength) => {
             }
         }
         else {
-            if (authorsStr.length + 5 + authors[i].length <= maxLength)
+            if (maxLength === -1 || authorsStr.length + 5 + authors[i].length <= maxLength)
                 authorsStr = `${authorsStr} and ${authors[i]}`;
             else authorsStr = `${authorsStr} and 1 other`;
             i++;
@@ -114,4 +114,27 @@ export const loadingData = (items, prefix, number) => {
     if (!items)
         return items;
     return _.concat(items, _.map(range(number), i => ({ key: _.uniqueId(prefix), loading: true })));
-}
+};
+
+export const checkEmail = email => {
+    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+};
+
+export const bytesToSize = (bytes) => {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) return '0 Byte';
+    const i = parseInt(_.floor(Math.log(bytes) / Math.log(1024)));
+    return _.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+};
+
+export const secondsToTime = time => {
+    const minutes = _.floor(time / 60);
+    const seconds = _.toInteger(time - minutes * 60);
+    const padTime = val => val < 10 ? `0${val}` : val;
+    return `${padTime(minutes)}:${padTime(seconds)}`;
+};
+
+export const parsePathname = pathname => {
+    const trimmedPath = _.trim(pathname, '/');
+    return _.split(trimmedPath, '/');
+};
