@@ -9,14 +9,14 @@ const ArticleLecture = () => {
             <Lecture
                 type={1}
             >
-                {(loading, content) => (
+                {(lecture, loading) => (
                     <div className={styles.container}>
-                        {loading ? (
+                        {!lecture || loading ? (
                             <div className={styles.loading}>
                                 <Spin tip="Fetching..." />
                             </div>
                         ) : (
-                            <div dangerouslySetInnerHTML={{ __html: content }}/>
+                            <div dangerouslySetInnerHTML={{ __html: lecture.content }}/>
                         )}
                     </div>
                 )}

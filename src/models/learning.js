@@ -13,6 +13,7 @@ import QUESTIONS from '@/assets/fakers/questions';
 import THREAD from '@/assets/fakers/thread';
 import ANSWERS from '@/assets/fakers/answers';
 import LECTURE from '@/assets/fakers/lecture';
+import VIDEO_LECTURE from '@/assets/fakers/videoLecture';
 import INSTRUCTOR_REVIEWS from '@/assets/fakers/instructorReviews';
 
 const REVIEW = {
@@ -422,14 +423,26 @@ export default {
             yield delay(1500);
             //call api with courseId, lectureId --> for checking whether lecture belong to the course, is exist lecture
             const status = 0;
-            if (status === 0)
-                yield put({
-                    type: 'saveLecture',
-                    payload: {
-                        ...LECTURE,
-                        _id: lectureId
-                    }
-                });
+            if (status === 0) {
+                if (type) {
+                    yield put({
+                        type: 'saveLecture',
+                        payload: {
+                            ...LECTURE,
+                            _id: lectureId
+                        }
+                    });
+                }
+                else
+                    yield put({
+                        type: 'saveLecture',
+                        payload: {
+                            ...VIDEO_LECTURE,
+                            _id: lectureId
+                        }
+                    })
+            }
+                
             else router.replace('/error/404');
         },
         *toggleComplete({ payload: lectureId }, { call, put }) {
@@ -744,6 +757,17 @@ export default {
                 ...state,
                 lecture: { ...payload }
             };
+        },
+        saveResolution(state, { payload }) {
+            if (state.lecture.videoRes)
+                return {
+                    ...state,
+                    lecture: {
+                        ...state.lecture,
+                        videoRes: payload
+                    }
+                };
+            return { ...state };
         },
         toggleCompleteStatus(state, { payload: lectureId }) {
             let lectureData = state.lecture && { ...state.lecture };

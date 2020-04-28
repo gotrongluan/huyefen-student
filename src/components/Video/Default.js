@@ -18,7 +18,7 @@ import styles from './default.less';
 
 const MenuItem = Menu.Item;
 
-const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelectResolution, ...props }) => {
+const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelectResolution, downloadable, ...props }) => {
     const divRef = useRef(null);
     const videoRef = useRef(null);
     const sliderRef = useRef(null);

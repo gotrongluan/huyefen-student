@@ -185,7 +185,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
                                     <span className={styles.chapter}>
                                         {`Chapter ${lecture.chapter.title}`}
                                     </span>
-                                    {type && (
+                                    {type === 1 && (
                                         <span className={styles.duration}>
                                             <span className={styles.icon}>
                                                 <ClockCircleFilled />
@@ -220,7 +220,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
                                         />
                                     </Tooltip>
                                 </span>
-                                {type && (
+                                {type === 1 ? (
                                     <span className={styles.markComplete}>
                                         <Tooltip placement="top" title="Toggle complete status" mouseEnterDelay={1}>
                                             <Button
@@ -234,7 +234,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
                                             />
                                         </Tooltip>
                                     </span>
-                                )}
+                                ) : null}
                                 <span className={styles.metadata}>
                                     <Popover
                                         trigger="click"
@@ -274,7 +274,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
             </div>
             <div className={styles.clear} />
             <div className={styles.content}>
-                {type ? children(!lecture || initLoading, lecture && lecture.content) : children(!lecture || initLoading)}
+                {children(lecture, initLoading)}
             </div>
             {lecture && !initLoading && (
                 <Modal
