@@ -3,7 +3,7 @@ export default {
         {
             _id: 1,
             name: 'Lập trình PHP cơ bản',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 2245,
             numOfLectures: 54,
             starRating: 4.3,
@@ -13,7 +13,7 @@ export default {
         {
             _id: 2,
             name: 'Reactjs for beginner (2019)',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 42245,
             numOfLectures: 54,
             starRating: 3.3,
@@ -23,7 +23,7 @@ export default {
         {
             _id: 3,
             name: 'Introduction to microservices',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 2245,
             numOfLectures: 54,
             starRating: 3.8,
@@ -33,7 +33,7 @@ export default {
         {
             _id: 4,
             name: 'Advanced in Machine Learning',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 2245,
             numOfLectures: 54,
             starRating: 4.9,
@@ -43,7 +43,7 @@ export default {
         {
             _id: 5,
             name: 'Make a greate app with Android Java',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 2245,
             numOfLectures: 54,
             starRating: 4.0,
@@ -53,7 +53,7 @@ export default {
         {
             _id: 6,
             name: 'Odoo in Enterprise Resource Planning (ERP)',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 2245,
             numOfLectures: 54,
             starRating: 4.1,
@@ -63,7 +63,7 @@ export default {
         {
             _id: 7,
             name: 'Mật mã và an ninh mạng',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 2245,
             numOfLectures: 54,
             starRating: 3.8,
@@ -73,7 +73,7 @@ export default {
         {
             _id: 11,
             name: 'Lập trình PHP cơ bản',
-            price: 19.99,
+            price: 19.99, realPrice: 29.99,
             numOfEnrolled: 2245,
             numOfLectures: 54,
             starRating: 3.2,
@@ -83,8 +83,8 @@ export default {
     ],
     frequent: {
         _id: 1,
-        total: 29.98,
-        discountTotal: 25.00,
+        total: 25.99,
+        realTotal: 29.98,
         list: [
             {
                 _id: 1,
@@ -126,7 +126,7 @@ export default {
                     'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
                 ],
                 starRating: 4.7,
-                price: 9.99
+                price: 9.99, realPrice: 19.99
             }
         ]
     },
@@ -150,7 +150,7 @@ export default {
                 'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
             ],
             starRating: 4.6,
-            price: 9.99
+            price: 9.99, realPrice: 9.99
         },
         {
             _id: 4,
@@ -171,7 +171,7 @@ export default {
                 'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
             ],
             starRating: 4.5,
-            price: 9.99
+            price: 9.99, realPrice: 19.99
         },
         {
             _id: 5,
@@ -192,7 +192,7 @@ export default {
                 'Build a complete, beautiful & real-world application from start to finish (API and server-side rendered website)'
             ],
             starRating: 4.5,
-            price: 9.99
+            price: 9.99, realPrice: 19.99
         },
     ]
 }

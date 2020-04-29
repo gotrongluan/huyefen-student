@@ -75,10 +75,17 @@
                         margin: auto;
                     }
                     .price {
-                        font-weight: bold;
-                        font-family: Arial, Helvetica, sans-serif;
-                        color: white;
-                        font-size: 2em;
+                        .priceVal {
+                            font-weight: bold;
+                            font-family: Arial, Helvetica, sans-serif;
+                            color: white;
+                            font-size: 2em;
+                        }
+                        .realPriceVal {
+                            text-decoration: line-through;
+                            display: inline-block;
+                            margin-left: 12px;
+                        }
                         text-align: left;
                         width: 200px;
                         margin: auto;
@@ -289,9 +296,15 @@
                         }
                     }
                     .price {
-                        font-size: 1.4em;
                         text-align: right;
-                        color: white;
+                        .priceVal {
+                            font-size: 1.4em;
+                            color: white;
+                        }
+                        .realPriceVal {
+                            margin-top: 8px;
+                            text-decoration: line-through;
+                        }
                     }
                     .seeMore {
                         margin-top: 10px;
@@ -315,8 +328,15 @@
                 .main {
                     position: relative;
                     .total {
-                        color: white;
-                        font-size: 1.4em;
+                        .text, .totalVal {
+                            color: white;
+                            font-size: 1.4em;
+                        }
+                        .realTotalVal {
+                            display: inline-block;
+                            margin-left: 8px;
+                            text-decoration: line-through; 
+                        }
                     }
                     .addToCart, .goToCart {
                         margin-top: 20px;
@@ -667,8 +687,15 @@
                     border-radius: 5px;
                     background: rgba(20, 20, 20, 0.25);
                     .total {
-                        color: white;
-                        font-size: 1.4em;
+                        .text, .totalVal {
+                            color: white;
+                            font-size: 1.4em;
+                        }
+                        .realTotalVal {
+                            display: inline-block;
+                            margin-left: 8px;
+                            text-decoration: line-through; 
+                        }
                     }
                     .addToCart, .goToCart {
                         margin-top: 20px;

@@ -133,8 +133,19 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
             </div>
         );
     };
-    const renderPrice = price => {
-        return (<span className={styles.price}>{`$${_.round(price, 2)}`}</span>);
+    const renderPrice = (price, realPrice) => {
+        return (
+            <div className={styles.price}>
+                <div className={styles.priceVal}>
+                    {`$${_.round(price, 2)}`}
+                </div>
+                {realPrice > price && (
+                    <div className={styles.realPriceVal}>
+                        {`$${_.round(realPrice, 2)}`}
+                    </div>
+                )}
+            </div>
+        )
     };
     const alsoBoughtColumns = [
         {
@@ -163,7 +174,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
             dataIndex: 'price',
             key: 'price',
             width: '15%',
-            render: price => renderPrice(price)
+            render: (price, row) => renderPrice(price, row.realPrice)
         }
     ];
 
@@ -211,7 +222,15 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
                             <Icon type="gift" theme="filled" />
                         </div>
                         <div className={styles.total}>
-                            {`Total: $${_.round(data.frequent.discountTotal, 2)}`}
+                            <span className={styles.text}>
+                                {'Total: '}
+                            </span>
+                            <span className={styles.totalVal}>
+                                {`$${_.round(data.frequent.total, 2)}`}
+                            </span>
+                            <span className={styles.realTotalVal}>
+                                {`$${_.round(data.frequent.realTotal, 2)}`}
+                            </span>
                         </div>
                         {isInCart ? (
                             <div className={styles.goToCart}>
@@ -725,7 +744,14 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             ) : isInCart ? (
                                 <React.Fragment>
                                     <div className={styles.price}>
-                                        {`$${_.round(courseInfo.price, 2)}`}
+                                        <span className={styles.priceVal}>
+                                            {`$${_.round(courseInfo.price, 2)}`}
+                                        </span>
+                                        {courseInfo.realPrice > courseInfo.price && (
+                                            <span className={styles.realPriceVal}>
+                                                {`$${_.round(courseInfo.realPrice, 2)}`}
+                                            </span>
+                                        )}
                                     </div>
                                     <div className={styles.goToCart}>
                                         <Button icon="shopping" size="large" onClick={() => router.push('/shopping-cart')}>Go to cart</Button>
@@ -734,7 +760,14 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             ) : (
                                 <React.Fragment>
                                     <div className={styles.price}>
-                                        {`$${_.round(courseInfo.price, 2)}`}
+                                        <span className={styles.priceVal}>
+                                            {`$${_.round(courseInfo.price, 2)}`}
+                                        </span>
+                                        {courseInfo.realPrice > courseInfo.price && (
+                                            <span className={styles.realPriceVal}>
+                                                {`$${_.round(courseInfo.realPrice, 2)}`}
+                                            </span>
+                                        )}
                                     </div>
                                     <div className={styles.addToCart}>
                                         <Button type="primary" icon="shopping-cart" size="large" onClick={handleAddToCart}>Add to cart</Button>

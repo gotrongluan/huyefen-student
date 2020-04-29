@@ -84,7 +84,14 @@ const CourseCarouselItem = ({ course }) => {
                     <span className={styles.ratingVal}>{course.starRating}</span>
                 </div>
                 <div className={styles.price}>
-                    {`$${_.round(course.price, 2)}`}
+                    {course.realPrice > course.price && (
+                        <span className={styles.realPriceVal}>
+                            {`$${_.round(course.realPrice, 2)}`}
+                        </span>
+                    )}
+                    <span className={styles.priceVal}>
+                        {`$${_.round(course.price, 2)}`}
+                    </span>
                 </div>
             </div>
         </Card>

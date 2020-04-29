@@ -3,7 +3,7 @@
         .cover {
             position: relative;
             img {
-                height: 163px;
+                height: 144px;
                 width: 100%;
             }
             .featured {
@@ -41,8 +41,16 @@
             .price {
                 margin-top: 20px;
                 text-align: right;
-                font-size: 1.3em;
-                font-weight: bold;
+                .realPriceVal {
+                    display: inline-block;
+                    text-decoration: line-through;
+                    margin-right: 16px;
+                }
+                .priceVal {
+                    font-size: 1.3em;
+                    font-weight: bold;
+                    color: white;
+                }
             }
         }
     }

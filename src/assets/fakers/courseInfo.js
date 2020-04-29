@@ -16,5 +16,6 @@ export default {
     level: 'Beginner',
     isRegistered: false,
     refundable: false,
-    price: 19.99
+    price: 19.99,
+    realPrice: 199.99
 }

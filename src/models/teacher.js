@@ -15,7 +15,7 @@ const TEACHER = {
     Having learned important&nbsp;lessons from working for Fortune 500 companies, tech startups, to even&nbsp;founding his own business, he is now dedicating 100% of his time to&nbsp;teaching others valuable&nbsp;software development skills&nbsp;in order to take control of their life and work in an exciting industry with infinite possibilities.&nbsp;</p><p>Andrei promises you that there are no other courses out there as comprehensive and as well explained.&nbsp;<strong>He believes that in order to learn anything of value, you need to start with the foundation and develop the roots of the tree. Only from there will you be able to learn concepts and specific skills(leaves) that connect to the foundation. Learning becomes exponential when structured in this way.</strong>&nbsp;</p><p>Taking his experience in educational psychology and coding, Andrei's courses will take you on an understanding of complex subjects that you never thought would be possible.&nbsp;&nbsp;
     </p><p><strong>See you inside the courses!</strong></p><p><br></p><p></p>`,
     twitter: 'https://twitter.com/',
-    facebook: 'https://fb.com/ngochanhvuong',
+    facebook: 'https://fb.com/',
     youtube: 'https://youtube.com/',
     instagram: 'https://instagram.com/'
 };
