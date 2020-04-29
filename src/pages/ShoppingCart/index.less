@@ -36,10 +36,16 @@
             }
             .item, .course, .theBundle {
                 .price {
-                    font-size: 1.5em;
-                    font-family: Arial, Helvetica, sans-serif;
-                    color: @primary-color;
-                    font-weight: bold;
+                    .priceVal {
+                        font-size: 1.5em;
+                        font-family: Arial, Helvetica, sans-serif;
+                        color: @primary-color;
+                        font-weight: bold;
+                    }
+                    .realPriceVal {
+                        margin-top: 6px;
+                        text-decoration: line-through;
+                    }
                     text-align: center;
                 }
                 .actions {
@@ -118,10 +124,19 @@
             text-align: right;
         }
         .total {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 45px;
+            .totalVal {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 45px;
+                
+                color: white;
+            }
+            .realTotalVal {
+                font-size: 22px;
+                text-decoration: line-through;
+                margin-right: 12px;
+                display: inline-block;
+            }
             font-weight: bold;
-            color: white;
             text-align: right;
         }
         .btn {

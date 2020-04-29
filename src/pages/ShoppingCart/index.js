@@ -22,7 +22,14 @@ const CourseItem = ({ course }) => {
                 </div>
             </Col>
             <Col className={styles.price} span={4}>
-                {`$${_.round(course.price, 2)}`}
+                <div className={styles.priceVal}>
+                    {`$${_.round(course.price, 2)}`}
+                </div>
+                {course.realPrice > course.price && (
+                    <div className={styles.realPriceVal}>
+                        {`$${_.round(course.realPrice, 2)}`}
+                    </div>
+                )}
             </Col>
             <Col className={styles.actions} span={4}>
                 <div className={styles.delete}>Delete</div>
@@ -44,7 +51,14 @@ const BundleItem = ({ bundle }) => {
                     {getBundleName(bundle)}
                 </Col>
                 <Col className={styles.price} span={4}>
-                    {`$${_.round(bundle.price, 2)}`}
+                    <div className={styles.priceVal}>
+                        {`$${_.round(bundle.price, 2)}`}
+                    </div>
+                    {bundle.realPrice > bundle.price && (
+                        <div className={styles.realPriceVal}>
+                            {`$${_.round(bundle.realPrice, 2)}`}
+                        </div>
+                    )}
                 </Col>
                 <Col className={styles.actions} span={4}>
                     <div className={styles.delete}>Delete</div>
@@ -84,6 +98,7 @@ const ShoppingCart = ({ dispatch, ...props }) => {
     };
     
     const totalPrice = _.isEmpty(cart) ? 0 : _.sum(_.map(cart, item => item.price));
+    const totalRealPrice = _.isEmpty(cart) ? 0 : _.sum(_.map(cart, item => item.realPrice))
     return (
         <Wrapper title="Shopping cart">
             <Row className={styles.shoppingCart} gutter={16}>
@@ -131,7 +146,14 @@ const ShoppingCart = ({ dispatch, ...props }) => {
                         Total
                     </div>
                     <div className={styles.total}>
-                        {`$${totalPrice}`}
+                        {totalRealPrice > totalPrice && (
+                            <span className={styles.realTotalVal}>
+                                {`$${_.round(totalRealPrice, 2)}`}
+                            </span>
+                        )}
+                        <span className={styles.totalVal}>
+                            {`$${_.round(totalPrice, 2)}`}
+                        </span>
                     </div>
                     <div className={styles.btn}>
                         <Button type="primary" size="large" onClick={handleCheckout}>
