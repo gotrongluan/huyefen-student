@@ -636,7 +636,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         dispatch({
             type: 'cart/add',
             payload: {
-                ..._.pick(courseInfo, ['_id', 'name', 'avatar', 'authors', 'price']),
+                ..._.pick(courseInfo, ['_id', 'name', 'avatar', 'authors', 'price', 'realPrice']),
                 type: 'course'
             }
         });
@@ -654,8 +654,8 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
             const bundleData = {
                 _id: bundle._id,
                 type: 'bundle',
+                realPrice: bundle.realTotal,
                 price: bundle.total,
-                discountPrice: bundle.discountTotal,
                 courses: _.map(bundle.list, course => ({
                     ..._.pick(course, ['_id', 'name', 'avatar', 'price', 'authors'])
                 }))
@@ -990,7 +990,15 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                             )}
                                         />
                                         <div className={styles.total}>
-                                            {`Total: $${_.round(relatedCourses.frequent.discountTotal, 2)}`}
+                                            <span className={styles.text}>
+                                                {'Total: '}
+                                            </span>
+                                            <span className={styles.totalVal}>
+                                                {`$${_.round(relatedCourses.frequent.total, 2)}`}
+                                            </span>
+                                            <span className={styles.realTotalVal}>
+                                                {`$${_.round(relatedCourses.frequent.realTotal, 2)}`}
+                                            </span>
                                         </div>
                                         {isInCart ? (
                                             <div className={styles.goToCart}>

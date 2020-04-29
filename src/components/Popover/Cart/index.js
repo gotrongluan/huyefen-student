@@ -41,7 +41,14 @@ const Cart = ({ cart }) => {
                                                 <div className={styles.name}>{truncate(item.name, 38)}</div>
                                                 <div className={styles.authors}>{`By ${transAuthors(item.authors, 26)}`}</div>
                                                 <div className={styles.price}>
-                                                    {`$${_.round(item.price, 2)}`}
+                                                    <span className={styles.priceVal}>
+                                                        {`$${_.round(item.price, 2)}`}
+                                                    </span>
+                                                    {item.realPrice > item.price && (
+                                                        <span className={styles.realPriceVal}>
+                                                            {`$${_.round(item.realPrice, 2)}`}
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </Col>
                                         </Row>
@@ -53,7 +60,14 @@ const Cart = ({ cart }) => {
                                             <Col span={18} className={styles.info}>
                                                 <div className={styles.name}>{truncate(getBundleName(item), 76)}</div>
                                                 <div className={styles.price}>
-                                                    {`$${_.round(item.price, 2)}`}
+                                                    <span className={styles.priceVal}>
+                                                        {`$${_.round(item.price, 2)}`}
+                                                    </span>
+                                                    {item.realPrice > item.price && (
+                                                        <span className={styles.realPriceVal}>
+                                                            {`$${_.round(item.realPrice, 2)}`}
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </Col>
                                         </Row>
@@ -63,7 +77,22 @@ const Cart = ({ cart }) => {
                             <div className={styles.total}>
                                 <span className={styles.text}>Total: </span>
                                 <span className={styles.price}>
-                                    {`$${_.round(_.sum(_.map(cart, item => item.price)), 2)}`}
+                                    {(() => {
+                                        const price = _.sum(_.map(cart, item => item.price));
+                                        const realPrice = _.sum(_.map(cart, item => item.realPrice));
+                                        return (
+                                            <>
+                                                <span className={styles.priceVal}>
+                                                    {`$${_.round(price, 2)}`}
+                                                </span>
+                                                {realPrice > price && (
+                                                    <span className={styles.realPriceVal}>
+                                                        {`$${_.round(realPrice, 2)}`}
+                                                    </span>
+                                                )}
+                                            </>
+                                        )
+                                    })()}
                                 </span>
                                 <span className={styles.goToCart}>
                                     <Link to="/shopping-cart">Go to cart</Link>
