@@ -35,13 +35,21 @@
         text-align: right;
         padding-right: 8px;
         .price {
-            font-size: 1.3em;
-            color: @primary-color;
-            background: -webkit-linear-gradient(to left, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to left, @primary-color, #F2994A);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            .priceVal {
+                font-size: 1.3em;
+                color: @primary-color;
+                background: -webkit-linear-gradient(to left, @primary-color, #F2994A);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to left, @primary-color, #F2994A);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .realPriceVal {
+                text-decoration: line-through;
+                color: white;
+                display: inline-block;
+                margin-right: 8px;
+            }
         }
         .starRating {
             margin-top: 20px;

@@ -66,7 +66,16 @@ const CourseInList = ({ course }) => {
                     </div>
                 </Col>
                 <Col span={4} className={styles.extra}>
-                    <div className={styles.price}>{`$${_.round(course.price, 2)}`}</div>
+                    <div className={styles.price}>
+                        {course.realPrice > course.price && (
+                            <span className={styles.realPriceVal}>
+                                {`$${_.round(course.realPrice, 2)}`}
+                            </span>
+                        )}
+                        <span className={styles.priceVal}>
+                            {`$${_.round(course.price, 2)}`}
+                        </span>
+                    </div>
                     <div className={styles.starRating}>
                         <Rate disabled className={styles.star} allowHalf value={roundStarRating(course.starRating)}/>
                         <span className={styles.ratingVal}>{course.starRating}</span>
