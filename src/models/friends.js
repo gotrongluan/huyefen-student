@@ -1,6 +1,7 @@
 import { delay } from '@/utils/utils';
 import FRIENDS from '@/assets/fakers/friends';
 import * as friendService from '@/services/friend';
+import _ from 'lodash';
 
 export default {
     namespace: 'friends',
@@ -27,25 +28,34 @@ export default {
         },
         *more(action, { call, put, select }) {
             const { list } = yield select(state => state.friends);
-            yield delay(1300);
-            yield put({
-                type: 'push',
-                payload: {
-                    hasMore: true,
-                    data: FRIENDS
-                }
-            });
+            const noOfCurrentFriends = _.size(list);
+            const page = noOfCurrentFriends / 9;
+            const response = yield call(friendService.fetchFriends, page + 1);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'push',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         *all(action, { call, put, select }) {
             const { list } = yield select(state => state.friends);
-            yield delay(1300);
-            yield put({
-                type: 'push',
-                payload: {
-                    hasMore: false,
-                    data: FRIENDS
-                }
-            });
+            const noOfCurrentFriends = _.size(list);
+            const response = yield call(friendService.allFriends, noOfCurrentFriends);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'push',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         }
     },
     reducers: {
