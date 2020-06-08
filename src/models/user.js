@@ -21,10 +21,6 @@ const USER = {
     catesOfConcern: [4, 13]             //list of categoriy Ids
 };
 
-const response = {
-    data: USER
-}
-
 export default {
     namespace: 'user',
     state: null,
@@ -94,9 +90,9 @@ export default {
         },
         *login({ from, payload }, { call, put }) {
             const { phone, password } = payload;
-            yield delay(1600);
+            const response = yield call(userService.signIn, phone, password);
             if (response) {
-                const { data: user } = response;
+                const user = response.data;
                 const token = user.token;
                 storage.setToken(token);
                 yield put({

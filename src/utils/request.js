@@ -137,7 +137,7 @@ export default async function request(url, options) {
 				router.push('/exception/500');
 				return;
 			}
-			if (status >= 404 && status < 422) {
+			if (status === 404) {
 				router.push('/exception/404');
 			}
 		});
