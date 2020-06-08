@@ -15,3 +15,7 @@ export async function signIn(phone, password) {
         }
     });
 }
+
+export async function fetch() {
+    return apiGet(`${USER_API_URL}/me`);
+}

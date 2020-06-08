@@ -27,21 +27,20 @@ export default {
     effects: {
         *fetch({ payload }, { call, put }) {
             const { callback } = payload;
-            yield delay(1400);
-            yield put({
-                type: 'save',
-                payload: USER
-            });
-            if (callback) callback();
-            //set shopping cart
-            const items = storage.getShoppingCart();
-            if (!_.isEmpty(items)) {
-                yield put({
-                    type: 'cart/fetch',
-                    payload: items
-                });
+            const response = yield call(userService.fetch);
+            if (response) {
+                const user = response.data;
+                yield put({ type: 'save', payload: user });
+                if (callback) callback();
+                // const items = storage.getShoppingCart();
+                // if (!_.isEmpty(items)) {
+                //     yield put({
+                //         type: 'cart/fetch',
+                //         payload: items
+                //     });
+                // }
+                // FCM token
             }
-            //set FCM token.
         },
         *update({ payload }, { call, put }) {
             //call api with all params in payload
