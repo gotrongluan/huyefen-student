@@ -24,3 +24,7 @@ export async function allFriendsOfFriend(friendId, existed) {
 export async function addFriend(friendId) {
     return apiPut(`${FRIEND_API_URL}/${friendId}/add`);
 }
+
+export async function cancelInvitation(friendId) {
+    return apiPut(`${FRIEND_API_URL}/${friendId}/cancel`);
+}

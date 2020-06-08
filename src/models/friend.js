@@ -121,11 +121,13 @@ export default {
                 type: 'saveStatus',
                 payload: 1
             });
-            yield delay(1100);
-            // yield put({
-            //     type: 'saveStatus',
-            //     payload: 2
-            // });
+            const response = yield call(friendService.cancelInvitation, friendId);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 1) {
+                    yield put({ type: 'saveStatus', payload: 2 });
+                } 
+            }
         },
         *acceptInvitation({ payload: friendId }, { call, put }) {
             //for backend --> send notification to friend.

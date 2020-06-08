@@ -102,7 +102,7 @@ const Friend= ({ match, dispatch, ...props }) => {
         else if (status === 3) {
             //he send to you invitation
             modal = Modal.confirm({
-                maskClosable: true,
+                maskClosable: false,
                 content: 'Do you accept this invitation?',
                 okText: 'Yes',
                 cancelText: 'No',
