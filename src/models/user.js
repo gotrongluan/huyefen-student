@@ -43,13 +43,13 @@ export default {
             }
         },
         *update({ payload }, { call, put }) {
-            //call api with all params in payload
-            yield delay(2000);
-            //only return info part of user in reponse
-            yield put({
-                type: 'updateUser',
-                payload
-            });
+            const response = yield call(userService.update, payload);
+            if (response) {
+                yield put({
+                    type: 'updateUser',
+                    payload: response.data
+                });
+            }
         },
         *updateCatesOfConcern({ payload: targetKeys }, { call, put }) {
             yield delay(1800);

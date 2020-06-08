@@ -11,21 +11,9 @@ import styles from './Profile.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 
-const initUser = {
-    name: '',
-    avatar: null,
-    phone: '',
-    gender: '',
-    birthday: '1970/01/01',
-    facebook: null,
-    linkedin: null,
-    job: null,
-    catesOfConcern: []
-};
-
 const Profile = ({ form, dispatch, ...props }) => {
     const {
-        user = initUser,
+        user,
         initLoading,
         categories,
         jobs,
@@ -263,7 +251,7 @@ const Profile = ({ form, dispatch, ...props }) => {
                                                 loading={initLoading}
                                             >
                                                 {_.map(jobs, job => (
-                                                    <Option key={job.key}>{job.title}</Option>
+                                                    <Option key={job._id}>{job.title}</Option>
                                                 ))}
                                             </Select>
                                         )}

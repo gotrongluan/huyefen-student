@@ -31,7 +31,7 @@ const Categories = ({ dispatch, ...props}) => {
         return _.map(list, item => {
             const childrenObj = nextType && item[nextType] ? { children: getCascaderOptions(item[nextType], nextIndex) } : {};
             return {
-                label: formatMessage({ id: item.title }),
+                label: item.title,
                 value: `${steps[typeIndex].singular}/${item._id}`,
                 ...childrenObj
             };
