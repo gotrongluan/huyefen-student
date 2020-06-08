@@ -83,16 +83,15 @@ export default {
             const { file, callback } = payload;
             //call api to upload file (Base64) to cloud, get url
             yield delay(1000);
-            //after get Url, call api to update avatar of user.
-            yield delay(1000);
-            //response only return avatar part
-            yield put({
-                type: 'updateUser',
-                payload: {
-                    avatar: file
-                }
-            });
-            callback();
+            const avatarUrl = 'https://images.pexels.com/photos/2451616/pexels-photo-2451616.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
+            const response = yield call(userService.updateAvatar, avatarUrl);
+            if (response) {
+                yield put({
+                    type: 'updateUser',
+                    payload: response.data
+                });
+                if (callback) callback();
+            }
         },
         *login({ from, payload }, { call, put }) {
             const { phone, password } = payload;

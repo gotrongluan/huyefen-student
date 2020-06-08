@@ -42,3 +42,11 @@ export async function updatePassword(oldPassword, newPassword) {
         }
     });
 }
+
+export async function updateAvatar(avatarUrl) {
+    return apiPut(`${USER_API_URL}/update/avatar`, {
+        body: {
+            avatar: avatarUrl
+        }
+    });
+}
