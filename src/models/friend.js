@@ -130,38 +130,43 @@ export default {
             }
         },
         *acceptInvitation({ payload: friendId }, { call, put }) {
-            //for backend --> send notification to friend.
             yield put({
                 type: 'saveStatus',
                 payload: 4
             });
-            yield delay(1200);
-            // yield put({
-            //     type: 'saveStatus',
-            //     payload: 3
-            // });
+            const response = yield call(friendService.acceptInvitation, friendId);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 1) {
+                    yield put({ type: 'saveStatus', payload: 3 });
+                } 
+            }
         },
         *rejectInvitation({ payload: friendId }, { call, put }) {
             yield put({
                 type: 'saveStatus',
                 payload: 1
             });
-            yield delay(1200);
-            // yield put({
-            //     type: 'saveStatus',
-            //     payload: 3
-            // });
+            const response = yield call(friendService.rejectInvitation, friendId);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 1) {
+                    yield put({ type: 'saveStatus', payload: 3 });
+                } 
+            }
         },
         *unfriend({ payload: friendId }, { call, put }) {
             yield put({
                 type: 'saveStatus',
                 payload: 1
             });
-            yield delay(1300);
-            // yield put({
-            //     type: 'saveStatus',
-            //     payload: 4
-            // });
+            const response = yield call(friendService.unfriend, friendId);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 1) {
+                    yield put({ type: 'saveStatus', payload: 4 });
+                } 
+            }
         },
         *chat({ payload }, { call }) {
             const { friendId, onYes, onNo } = payload;

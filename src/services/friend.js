@@ -28,3 +28,15 @@ export async function addFriend(friendId) {
 export async function cancelInvitation(friendId) {
     return apiPut(`${FRIEND_API_URL}/${friendId}/cancel`);
 }
+
+export async function acceptInvitation(friendId) {
+    return apiPut(`${FRIEND_API_URL}/${friendId}/accept`);
+}
+
+export async function rejectInvitation(friendId) {
+    return apiPut(`${FRIEND_API_URL}/${friendId}/reject`);
+}
+
+export async function unfriend(friendId) {
+    return apiPut(`${FRIEND_API_URL}/${friendId}/unfriend`);
+}
