@@ -25,3 +25,11 @@ export async function update(params) {
         body: params
     });
 }
+
+export async function updateInterestedCates(targetKeys) {
+    return apiPut(`${USER_API_URL}/update/cates`, {
+        body: {
+            targetKeys
+        }
+    });
+}

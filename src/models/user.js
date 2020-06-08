@@ -52,13 +52,16 @@ export default {
             }
         },
         *updateCatesOfConcern({ payload: targetKeys }, { call, put }) {
-            yield delay(1800);
-            yield put({
-                type: 'updateUser',
-                payload: {
-                    catesOfConcern: targetKeys
-                }
-            })
+            const response = yield call(userService.updateInterestedCates, targetKeys);
+            if (response) {
+                const catesOfConcern = response.data && response.data.catesOfConcern;
+                yield put({
+                    type: 'updateUser',
+                    payload: {
+                        catesOfConcern
+                    }
+                });
+            }
         },
         *changePassword({ payload }, { call, put }) {
             const {
