@@ -2,6 +2,8 @@ import { delay } from '@/utils/utils';
 import storage from '@/utils/storage';
 import _ from 'lodash';
 import router from 'umi/router';
+import * as userService from '@/services/user';
+import { message } from 'antd';
 
 const USER = {
     token: 'foo-token',
@@ -106,8 +108,11 @@ export default {
             }
         },
         *register({ payload }, { call }) {
-            yield delay(2000);
-            router.push('/user/login');
+            const response = yield call(userService.register, payload);
+            if (response) {
+                message.success('Register success!');
+                router.push('/user/login');
+            }
         },
         *logout(action, { put }) {
             storage.setToken(null);

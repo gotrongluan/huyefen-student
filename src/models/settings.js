@@ -11,7 +11,7 @@ export default {
         categories: null
     },
     effects: {
-        *fetch(action, { call, put }) {
+        *fetch(action, { all, call, put }) {
             yield delay(1200);
             yield put({
                 type: 'save',

@@ -223,11 +223,13 @@ export default [
             {
                 path: 'friend/:friendId',
                 title: 'route.basic.friend',
+                Routes: ['./src/routes/Authenticate'],
                 component: './Friend'
             },
             {
                 path: 'teacher/:teacherId',
                 title: 'route.basic.teacher',
+                Routes: ['./src/routes/Authenticate'],
                 component: './Teacher'
             },
             {
