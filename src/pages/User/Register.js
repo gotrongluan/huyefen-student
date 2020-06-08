@@ -118,7 +118,7 @@ const Register = ({ dispatch, ...props }) => {
                                 dropdownClassName={styles.jobDropdown}
                             >
                                 {_.map(jobs, job => (
-                                    <Option key={job.key}>{job.title}</Option>
+                                    <Option key={job._id}>{job.title}</Option>
                                 ))}
                             </Select>
                         )}
