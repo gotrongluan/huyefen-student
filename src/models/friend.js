@@ -104,19 +104,17 @@ export default {
             });
         },
         *addFriend({ payload: friendId }, { call, put }) {
-            //change status
-            //call api
-            //if ok --> dont do anything
-            //if fail --> reset status to 1
             yield put({
                 type: 'saveStatus',
                 payload: 2
             });
-            yield delay(1000);
-            // yield put({
-            //     type: 'saveStatus',
-            //     payload: 1
-            // });
+            const response = yield call(friendService.addFriend, friendId);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 1) {
+                    yield put({ type: 'saveStatus', payload: 1 });
+                } 
+            }
         },
         *cancelInvitation({ payload: friendId }, { call, put }) {
             yield put({

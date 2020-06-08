@@ -20,3 +20,7 @@ export async function fetchFriendsOfFriend(friendId, page = 1, limit = 9) {
 export async function allFriendsOfFriend(friendId, existed) {
     return apiGet(`${FRIEND_API_URL}/${friendId}/friends/all?existed=${existed}`);
 }
+
+export async function addFriend(friendId) {
+    return apiPut(`${FRIEND_API_URL}/${friendId}/add`);
+}
