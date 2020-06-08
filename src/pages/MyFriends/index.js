@@ -51,7 +51,7 @@ const MyFriends = ({ dispatch, ...props }) => {
                 <Spin spinning={initLoading} fontSize={8} isCenter>
                     <List
                         dataSource={!friends ? [] : friends}
-                        rowKey={item => (item._id || item.key) + _.uniqueId('friend_')}
+                        rowKey={item => item._id}
                         loadMore={loadMore}
                         grid={{
                             column: 3,

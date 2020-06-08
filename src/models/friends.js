@@ -1,5 +1,6 @@
 import { delay } from '@/utils/utils';
 import FRIENDS from '@/assets/fakers/friends';
+import * as friendService from '@/services/friend';
 
 export default {
     namespace: 'friends',
@@ -9,14 +10,20 @@ export default {
     },
     effects: {
         *fetch(action, { call, put }) {
-            yield delay(1200);
-            yield put({
-                type: 'save',
-                payload: {
-                    hasMore: true,
-                    data: FRIENDS
-                }
-            });
+            const response = yield call(friendService.fetchFriends);
+            if (response) {
+                const {
+                    hasMore,
+                    list
+                } = response.data;
+                yield put({
+                    type: 'save',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         *more(action, { call, put, select }) {
             const { list } = yield select(state => state.friends);

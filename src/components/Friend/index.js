@@ -26,7 +26,7 @@ const Friend = ({ friend, isExtra }) => {
             <Meta
                 avatar={<UserAvatar src={friend.avatar} alt="avatar" size={48} text={friend.name} textSize={48} borderWidth={0} style={{ background: 'white', color: 'black' }} />}
                 title={<Link to="/teaching">{friend.name}</Link>}
-                description={friend.numOfMutualFriends ? `${friend.numOfMutualFriends} ${formatMessage({ id: 'friend.mutualfriends' })}` : friend.numOfFriends ? `${friend.numOfFriends} friends` : ``}
+                description={friend.numOfMutualFriends ? `${friend.numOfMutualFriends} ${formatMessage({ id: 'friend.mutualfriends' })}` : friend.numOfFriends ? `${friend.numOfFriends} ${friend.numOfFriends > 1 ? 'friends' : 'friend'}` : ``}
             />
             {isExtra && (
                 <span className={styles.extra}>{extra}</span>
