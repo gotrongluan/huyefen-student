@@ -33,3 +33,12 @@ export async function updateInterestedCates(targetKeys) {
         }
     });
 }
+
+export async function updatePassword(oldPassword, newPassword) {
+    return apiPut(`${USER_API_URL}/update/password`, {
+        body: {
+            oldPassword,
+            newPassword
+        }
+    });
+}

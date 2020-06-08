@@ -70,10 +70,14 @@ export default {
                 onOk,
                 onIncorrect
             } = payload;
-            yield delay(2000);
-            const status = 1;
-            if (status === 0) onOk();
-            else onIncorrect();
+            const response = yield call(userService.updatePassword, oldPassword, newPassword);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 0)
+                    onOk();
+                else
+                    onIncorrect();
+            }
         },
         *uploadAvatar({ payload }, { call, put }) {
             const { file, callback } = payload;
