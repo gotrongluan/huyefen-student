@@ -1,12 +1,8 @@
+import * as friendService from '@/services/friend';
+import _ from 'lodash';
 import { delay } from '@/utils/utils';
 import COURSES from '@/assets/fakers/friendCourses';
 import FRIENDS from '@/assets/fakers/friends';
-const FRIEND = {
-    _id: 1,
-    name: 'N H V',
-    avatar: null,
-    status: 4
-};
 
 const initialState = {
     info: null,
@@ -24,11 +20,10 @@ export default {
     state: initialState,
     effects: {
         *fetch({ payload: friendId }, { call, put }) {
-            yield delay(1500);
-            yield put({
-                type: 'save',
-                payload: FRIEND
-            });
+            const response = yield call(friendService.fetch, friendId);
+            if (response) {
+                yield put({ type: 'save', payload: response.data });
+            }
         },
         *fetchCourses({ payload: friendId }, { call, put }) {
             yield delay(2000);
@@ -41,17 +36,22 @@ export default {
             });
         },
         *fetchFriends({ payload: friendId }, { call, put }) {
-            yield delay(2300);
-            yield put({
-                type: 'saveFriends',
-                payload: {
-                    hasMore: true,
-                    data: FRIENDS
-                }
-            });
+            const response = yield call(friendService.fetchFriendsOfFriend, friendId);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'saveFriends',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         *moreCourses({ payload: friendId }, { call, put, select }) {
-            const { courses: { list } } = yield select(state => state.friend);
+            const { friends: { list } } = yield select(state => state.friend);
+            
+
             yield delay(1800);
             yield put({
                 type: 'pushCourses',
@@ -62,26 +62,35 @@ export default {
             });
         },
         *moreFriends({ payload: friendId }, { call, put, select }) {
-            const { courses: { list } } = yield select(state => state.friend);
-            yield delay(1800);
-            yield put({
-                type: 'pushFriends',
-                payload: {
-                    hasMore: true,
-                    data: FRIENDS
-                }
-            });
+            const { friends: { list } } = yield select(state => state.friend);
+            const noOfCurrentFriends = _.size(list);
+            const page = noOfCurrentFriends / 9;
+            const response = yield call(friendService.fetchFriendsOfFriend, friendId, page + 1);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'pushFriends',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         *allFriends({ payload: friendId }, { call, put, select }) {
-            const { courses: { list } } = yield select(state => state.friend);
-            yield delay(1800);
-            yield put({
-                type: 'pushFriends',
-                payload: {
-                    hasMore: false,
-                    data: FRIENDS
-                }
-            });
+            const { friends: { list } } = yield select(state => state.friend);
+            const noOfCurrentFriends = _.size(list);
+            const response = yield call(friendService.allFriendsOfFriend, friendId, noOfCurrentFriends);
+            if (response) {
+                const { hasMore, list } = response;
+                yield put({ 
+                    type: 'pushFriends',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         *allCourses({ payload: friendId }, { call, put, select }) {
             const { courses: { list } } = yield select(state => state.friend);

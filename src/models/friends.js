@@ -1,5 +1,3 @@
-import { delay } from '@/utils/utils';
-import FRIENDS from '@/assets/fakers/friends';
 import * as friendService from '@/services/friend';
 import _ from 'lodash';
 
