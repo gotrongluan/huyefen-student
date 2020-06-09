@@ -5,5 +5,6 @@ module.exports = {
     COURSE_API_URL: 'https://localhost:3443/api/courses',
     FRIEND_API_URL: 'https://localhost:3443/api/friends',
     AREA_API_URL: 'https://localhost:3443/api/areas',
-    JOB_API_URL: 'https://localhost:3443/api/jobs'
+    JOB_API_URL: 'https://localhost:3443/api/jobs',
+    TEACHER_API_URL: 'https://localhost:3443/api/teachers'
 };

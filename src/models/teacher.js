@@ -1,6 +1,7 @@
 import { delay } from '@/utils/utils';
 import COURSES from '@/assets/fakers/mostPopular';
 import _ from 'lodash';
+import * as teacherService from '@/services/teacher';
 const COURSES_DATA = _.take(COURSES, 8);
 const TEACHER = {
     _id: 1,
@@ -33,11 +34,10 @@ export default {
     state: initialState,
     effects: {
         *fetch({ payload: teacherId }, { call, put }) {
-            yield delay(1500);
-            yield put({
-                type: 'save',
-                payload: TEACHER
-            });
+            const response = yield call(teacherService.fetch, teacherId);
+            if (response) {
+                yield put({ type: 'save', payload: response.data });
+            }
         },
         *fetchCourses({ payload: teacherId }, { call, put }) {
             yield delay(2000);
@@ -76,14 +76,30 @@ export default {
                 type: 'saveStatus',
                 payload: true
             });
-            yield delay(1500);
+            const response = yield call(teacherService.follow, teacherId);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 1)
+                    yield put({
+                        type: 'saveStatus',
+                        payload: false
+                    });
+            }
         },
         *unfollow({ payload: teacherId }, { call, put }) {
             yield put({
                 type: 'saveStatus',
                 payload: false
             });
-            yield delay(1200);
+            const response = yield call(teacherService.unfollow, teacherId);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode === 1)
+                    yield put({
+                        type: 'saveStatus',
+                        payload: true
+                    });
+            }
         }
     },
     reducers: {

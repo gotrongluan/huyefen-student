@@ -62,7 +62,8 @@ const Teacher = ({ match, dispatch, ...props }) => {
         }
         else {
             dispatch({
-                type: 'teacher/follow'
+                type: 'teacher/follow',
+                payload: teacherId
             });
         }
     };
@@ -175,7 +176,7 @@ const Teacher = ({ match, dispatch, ...props }) => {
                             </div>
                         ) : (
                             <div className={styles.bioContent}>
-                                <div className={styles.bio} dangerouslySetInnerHTML={{ __html: info.biography }}/>
+                                <div className={styles.bio} dangerouslySetInnerHTML={{ __html: info.biography || '' }}/>
                                 <Row className={styles.statistic} gutter={16}>
                                     <Col span={4}>
                                         <Card>
