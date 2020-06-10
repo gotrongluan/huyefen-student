@@ -5,22 +5,32 @@ import storage from '@/utils/storage';
 
 const Authorized = ({ dispatch, children, ...props }) => {
     const [status, setStatus] = useState('pending');
-    const { user } = props;
+    const { user, location } = props;
     useEffect(() => {
-        if (user)
-            setStatus('authorized');
-        else {
-            const token = storage.getToken();
-            if (token)
-                dispatch({
-                    type: 'user/fetch',
-                    payload: {
-                        callback: () => setStatus('authorzied')
-                    }
-                });
-            else setStatus('authorzied');
+        const token = storage.getToken();
+        if (user) {
+            if (user.token === token) {
+                if (status === 'pending') {
+                    setStatus('authorized');
+                }
+                return;
+            }
+            else if (!token) {
+                dispatch({ type: 'user/reset' });
+            }
         }
-    }, []);
+        if (token)
+        dispatch({
+            type: 'user/fetch',
+            payload: {
+                callback: () => {
+                    if (status === 'pending')
+                        setStatus('authorized');
+                }
+            }
+        });
+        else if (status === 'pending') setStatus('authorized');
+    }, [location.pathname]);
     if (status === 'pending') return <PageLoading />;
     return (<div>{children}</div>);
 };

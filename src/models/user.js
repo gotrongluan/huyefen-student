@@ -5,22 +5,6 @@ import router from 'umi/router';
 import * as userService from '@/services/user';
 import { message } from 'antd';
 
-const USER = {
-    token: 'foo-token',
-    name: 'Đặng Thuý Huyền',
-    avatar: 'https://scontent.fsgn2-2.fna.fbcdn.net/v/t1.0-9/39442849_1322314787910656_4254099750170656768_o.jpg?_nc_cat=100&_nc_sid=110474&_nc_oc=AQnpje9w7kXAivIISZ1Y1ds2ElPdPW0ebhHBfAT5adMSUe52THQnYmAQ4le1Skg62ak&_nc_ht=scontent.fsgn2-2.fna&oh=90cafddd7f2617ab94224a728ebfb6c0&oe=5EA74057',
-    email: 'huyen.huyen.0901@gmail.com',
-    phone: '0919079306',
-    gender: 'female',
-    birthday: '1999/01/09',
-    facebook: 'huyen.dang',
-    linkedin: null,
-    job: 'developer',
-    noOfUsMessage: 7,
-    noOfUsNotification: 2,
-    catesOfConcern: [4, 13]             //list of categoriy Ids
-};
-
 export default {
     namespace: 'user',
     state: null,
@@ -30,8 +14,10 @@ export default {
             const response = yield call(userService.fetch);
             if (response) {
                 const user = response.data;
-                yield put({ type: 'save', payload: user });
+                const token = storage.getToken();
+                yield put({ type: 'save', payload: { ...user, token } });
                 if (callback) callback();
+                yield put({ type: 'authorized/success '});
                 // const items = storage.getShoppingCart();
                 // if (!_.isEmpty(items)) {
                 //     yield put({
@@ -105,6 +91,7 @@ export default {
                     payload: user
                 });
                 //set FCM token
+                yield put({ type: 'authorized/success '});
                 router.replace(from);
             }
         },
