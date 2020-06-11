@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
+import moment from 'moment';
 import { connect } from 'dva';
-import { List, Button, Skeleton } from 'antd';
+import { List, Button, Skeleton, Avatar } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import Wrapper from '@/components/JumpotronWrapper';
 import Spin from '@/elements/spin/secondary';
@@ -79,7 +80,7 @@ const Notifications = ({ dispatch, ...props }) => {
                             dataSource={!notifications ? [] : notifications}
                             itemLayout="horizontal"
                             loadMore={loadMore}
-                            rowKey={item => (item._id || item.key) + _.uniqueId('noti_')}
+                            rowKey={item => item._id || item.key}
                             renderItem={item => (
                                 <div className={!item.loading ? styles.notiItem : styles.loadingItem} onClick={!item.loading ? () => handleViewNotify(item) : () => {}}>
                                         <List.Item style={{ background: (item.seen ? 'inherit' : 'rgba(250, 218, 94, 0.05)'), paddingLeft: 12, paddingRight: 12 }}>
@@ -90,7 +91,7 @@ const Notifications = ({ dispatch, ...props }) => {
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    avatar={(
+                                                    avatar={item.user ? (
                                                         <UserAvatar
                                                             size={36}
                                                             textSize={36}
@@ -100,9 +101,15 @@ const Notifications = ({ dispatch, ...props }) => {
                                                             alt="user-avatar"
                                                             borderWidth={0}
                                                         />
+                                                    ) : (
+                                                        <Avatar
+                                                            size={36}
+                                                            src={item.avatar}
+                                                            alt="avatar"
+                                                        />
                                                     )}
                                                     title={<span>{item.content}</span>}
-                                                    description={<span style={{ fontSize: 13, color: 'gray'}}>{ fromNow(item.createdAt) }</span>}
+                                                    description={<span style={{ fontSize: 13, color: 'gray'}}>{ fromNow(moment(item.createdAt)) }</span>}
                                                 />
                                             </Skeleton>
                                         </List.Item>

@@ -65,7 +65,7 @@ export default {
             if (_action.type === 'notificationsResetted')
                 yield cancel(task);
         },
-        *read({ payload: notifyId }, { call, put }) {
+        *read({ payload: notifyId }, { call, put, select }) {
             yield put({
                 type: 'seen',
                 payload: {
@@ -73,18 +73,38 @@ export default {
                     seen: true
                 }
             });
-            //yield put({ 'user/setNoOF...' });
-            yield delay(1000);
-            //response with status Ok --> not do anything
-            //reseponse with status Err --> unseen, setNoOfUnseenNoti...
+            const response = yield call(notificationsService.seen, notifyId);
+            if (response) {
+                const status = response.data;
+                if (!status) {
+                    yield put({
+                        type: 'seen',
+                        payload: {
+                            notifyId,
+                            seen: false
+                        }
+                    });
+                }
+                else {
+                    const noOfUsNotification = yield select(state => state.user.noOfUsNotification);
+                    yield put({
+                        type: 'user/saveNoUsNotification',
+                        payload: noOfUsNotification - 1
+                    });
+                }
+            }
         },
         *maskAllAsRead(action, { call, put }) {
-            yield delay(1600);
-            //yield put({ type: 'user/saveNoOfUnseenNotification' });
-            //receive response only with OK status, and unseen num.
-            yield put({
-                type: 'allSeen'
-            });
+            const response = yield call(notificationsService.allSeen);
+            if (response) {
+                yield put({
+                    type: 'allSeen'
+                });
+                yield put({
+                    type: 'user/saveNoUsNotification',
+                    payload: 0
+                })
+            }
         },
         *reset(action, { put }) {
             yield put({ type: 'notificationsResetted' });

@@ -117,13 +117,13 @@ export default {
         saveNoUsMessage(state, { payload }) {
             return {
                 ...state,
-                noUsMessage: payload
+                noOfUsMessage: payload
             };
         },
         saveNoUsNotification(state, { payload }) {
             return {
                 ...state,
-                noUsNotification: payload
+                noOfUsNotification: payload
             };
         },
         updateUser(state, { payload }) {
