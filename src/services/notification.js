@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { apiGet, apiPut } from '@/utils/request';
 
-export async function fetch(skip = 0, limit = 10) {
+export async function fetch(skip = 0, limit = 7) {
     return apiGet(`${USER_API_URL}/notifications?skip=${skip}&limit=${limit}`);
 }
 

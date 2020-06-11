@@ -8,7 +8,7 @@ export default [
             avatar: null,
             name: 'Thuy Huyen'
         },
-        createdAt: 1567476499584,
+        createdAt: Date.now(),
         seen: false,
     },
     {

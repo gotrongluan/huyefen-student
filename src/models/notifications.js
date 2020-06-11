@@ -24,8 +24,9 @@ export default {
                                 data: list
                             }
                         });
+                        yield put({ type: 'notificationsFetchOk' });
                     }
-                    yield put({ type: 'notificationsFetchOk' });
+                    else yield put({ type: 'notificationsFetchError' });
                 }
                 finally {
                     if (yield cancelled())
@@ -40,16 +41,20 @@ export default {
             const task = yield fork(function* () {
                 try {
                     const { list } = yield select(state => state.notifications);
-                    //
-                    yield delay(1300);
-                    yield put({
-                        type: 'push',
-                        payload: {
-                            data: NOTIFICATIONS,
-                            hasMore: false
-                        }
-                    });
-                    yield put({ type: 'notificationsMoreOk' });
+                    const currentSize = _.size(list);
+                    const response = yield call(notificationsService.fetch, currentSize);
+                    if (response) {
+                        const { hasMore, list } = response.data;
+                        yield put({
+                            type: 'push',
+                            payload: {
+                                data: list,
+                                hasMore
+                            }
+                        });
+                        yield put({ type: 'notificationsMoreOk' });
+                    }
+                    else yield put({ type: 'notificationsFetchError' });
                 }
                 finally {
                     if (yield cancelled())
