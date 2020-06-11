@@ -1,5 +1,6 @@
 import { delay } from '@/utils/utils';
 import NOTIFICATIONS from '@/assets/fakers/notifications';
+import * as notificationsService from '@/services/notification';
 import { message } from 'antd';
 import _ from 'lodash';
 
@@ -13,14 +14,17 @@ export default {
         *fetch(action, { call, put, fork, take, cancel, cancelled }) {
             const task = yield fork(function*() {
                 try {
-                    yield delay(2000);
-                    yield put({
-                        type: 'save',
-                        payload: {
-                            data: NOTIFICATIONS,
-                            hasMore: true
-                        }
-                    });
+                    const response = yield call(notificationsService.fetch);
+                    if (response) {
+                        const { hasMore, list } = response.data;
+                        yield put({
+                            type: 'save',
+                            payload: {
+                                hasMore,
+                                data: list
+                            }
+                        });
+                    }
                     yield put({ type: 'notificationsFetchOk' });
                 }
                 finally {
