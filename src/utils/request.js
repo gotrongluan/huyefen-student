@@ -47,7 +47,8 @@ function checkStatus(response) {
 	const errortext = codeMessage[response.status] || response.statusText;
 	notification.error({
 		className: styles.notification,
-		message: `${response.status}: ${NODE_ENV !== 'production' ? response.url : ''}`,
+		// message: `${response.status}: ${NODE_ENV !== 'production' ? response.url : ''}`,
+		message: `${response.status}: ${response.url}`,
 		description: errortext
 	});
 	const error = new ErrorWithReponse(errortext, response);

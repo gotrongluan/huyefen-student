@@ -138,3 +138,11 @@ export const parsePathname = pathname => {
     const trimmedPath = _.trim(pathname, '/');
     return _.split(trimmedPath, '/');
 };
+
+export const mapNotificationTypeToTitle = type => {
+    const maps = {
+        friend: 'Bạn bè',
+        recommend: 'Đề xuất khoá học'
+    };
+    return maps[type] || 'Huyefen';
+}

@@ -1,14 +1,63 @@
 import { EffectWithType } from '@/config/constants';
 import { requestPermission, subscribeMessaging, unSubscribeMessaging, getFCMToken } from '@/utils/firebase/messaging';
 import storage from '@/utils/storage';
-import { notification as notificationPopup } from 'antd';
+import { notification as notificationPopup, Icon, Avatar } from 'antd';
+import { mapNotificationTypeToTitle } from '@/utils/utils';
+import UserAvatar from '@/components/avatar';
 
 export default {
     namespace: 'watcher',
     state: null,
     effects: {
-        *notification({ payload: message }, { call, put }) {
-            console.log(message);
+        *notification({ payload }, { call, put }) {
+            const { notification, data } = payload;
+            let {
+                _id,
+                userId,
+                userName,
+                userAvatar,
+                avatar,
+                content,
+                pushType,
+                type
+            } = data;
+            if (userId) {
+                content = `${userName} ${content}`;
+                avatar = userAvatar;
+            }
+            let icon;
+            if (userId)
+                icon = (
+                    <UserAvatar
+                        src={avatar}
+                        alt='user-avatar'
+                        borderWidth={1}
+                        size={32}
+                        textSize={33}
+                        text={userName}
+                        style={{ color: 'white', background: '#FADA5E', fontSize: '0.7em' }}
+                    />
+                );
+            else if (avatar)
+                icon = <Avatar src={avatar} alt='avatar' size={25} />;
+            else if (pushType === 'messenger')
+                icon = <Icon type="mail" style={{ fontSize: '24px', color: '#FADA5E' }} />;
+            else
+                icon = <Icon type="bell" style={{ fontSize: '24px', color: '#FADA5E' }} />
+            notificationPopup.open({
+                key: _id,
+                icon,
+                message: `${mapNotificationTypeToTitle(type)}`,
+                description: content
+            });
+            if (pushType === 'messenger') {
+                //Messenger
+                
+                yield put({ type: 'messenger/pushNotification' });
+            }
+            else {
+                yield put({ type: 'notification/pushNotification' });
+            }
         },
         firebaseRegisterWatcher: [
             function*({ take, fork, cancel, call, put }) {
@@ -22,17 +71,16 @@ export default {
                 }
 
                 function onSaveTokenCallback(newToken) {
-                    console.log(newToken);
-                    // dispatch({
-                    //     type: 'fcm/saveToken',
-                    //     payload: newToken
-                    // });
+                    dispatch({
+                        type: 'fcm/saveToken',
+                        payload: newToken
+                    });
                 }
 
-                function onMessageCallback(message) {
+                function onMessageCallback(payload) {
                     dispatch({
                         type: 'watcher/notification',
-                        payload: message
+                        payload
                     });
                 }
 
@@ -60,7 +108,7 @@ export default {
                                 message: 'Bật thông báo',
                                 description: 'Bật thông báo để không bỏ lỡ những tin nhắn của hệ thống.'
                             });
-                        }, 8000);
+                        }, 50000);
                     }
                     else {
                         subscribeMessaging({

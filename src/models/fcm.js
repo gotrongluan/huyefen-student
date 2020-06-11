@@ -8,8 +8,9 @@ export default {
         *saveToken({ payload: token }, { call }) {
             const currentToken = storage.getFCMToken();
             if (token !== currentToken) {
-                yield call(FCMService.sendToken, token);
-                storage.setFCMToken(token);
+                const response = yield call(FCMService.sendToken, token);
+                if (response)
+                    storage.setFCMToken(token);
             }
         }
     }

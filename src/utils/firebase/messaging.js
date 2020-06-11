@@ -33,14 +33,11 @@ export const subscribeMessaging = (options) => {
 
 export const unSubscribeMessaging = async (deletedToken, errCallback) => {
     if (unSubscribeMessage) {
-        console.log('okkk');
         unSubscribeMessage();
     }
     if (unSubscribeTokenRefresh) {
-        console.log('gay');
         unSubscribeTokenRefresh();
-    }
-        
+    }   
     try {
         await messaging.deleteToken(deletedToken);
     }
