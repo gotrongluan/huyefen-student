@@ -1,6 +1,7 @@
 import { EffectWithType } from '@/config/constants';
 import { requestPermission, subscribeMessaging, unSubscribeMessaging, getFCMToken } from '@/utils/firebase/messaging';
 import storage from '@/utils/storage';
+import _ from 'lodash';
 import { notification as notificationPopup, Icon, Avatar } from 'antd';
 import { mapNotificationTypeToTitle } from '@/utils/utils';
 import UserAvatar from '@/components/avatar';
@@ -9,7 +10,7 @@ export default {
     namespace: 'watcher',
     state: null,
     effects: {
-        *notification({ payload }, { call, put }) {
+        *notification({ payload }, { call, put, select }) {
             const { notification, data } = payload;
             let {
                 _id,
@@ -56,7 +57,24 @@ export default {
                 yield put({ type: 'messenger/pushNotification' });
             }
             else {
-                yield put({ type: 'notification/pushNotification' });
+                const noOfUsNotification = yield select(state => state.user.noOfUsNotification);
+                const notificationItem = _.pick(data, ['_id', 'avatar', 'type', 'content', 'createdAt', 'seen']);
+                notificationItem.user = null;
+                if (userId) {
+                    notificationItem.user = {
+                        _id: userId,
+                        name: userName,
+                        avatar: userAvatar
+                    };
+                }
+                yield put({
+                    type: 'notifications/shift',
+                    payload: notificationItem
+                });
+                yield put({
+                    type: 'user/saveNoUsNotification',
+                    payload: noOfUsNotification + 1
+                });
             }
         },
         firebaseRegisterWatcher: [

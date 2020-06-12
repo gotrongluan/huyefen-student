@@ -132,6 +132,15 @@ export default {
                 ]
             };
         },
+        shift(state, { payload: notification }) {
+            return {
+                ...state,
+                list: [
+                    notification,
+                    ...state.list
+                ]
+            };
+        },
         seen(state, { payload }) {
             const { notifyId, seen } = payload;
             const notifications = [...state.list];

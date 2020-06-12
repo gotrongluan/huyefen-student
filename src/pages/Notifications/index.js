@@ -96,7 +96,7 @@ const Notifications = ({ dispatch, ...props }) => {
                                                             size={36}
                                                             textSize={36}
                                                             style={{ background: '#FADA5E', color: 'white' }}
-                                                            src={item.user.src}
+                                                            src={item.user.avatar}
                                                             text={item.user.name}
                                                             alt="user-avatar"
                                                             borderWidth={0}
@@ -108,7 +108,7 @@ const Notifications = ({ dispatch, ...props }) => {
                                                             alt="avatar"
                                                         />
                                                     )}
-                                                    title={<span>{item.content}</span>}
+                                                    title={<span>{item.user ? `${item.user.name} ${item.content}` : item.content }</span>}
                                                     description={<span style={{ fontSize: 13, color: 'gray'}}>{ fromNow(moment(item.createdAt)) }</span>}
                                                 />
                                             </Skeleton>
