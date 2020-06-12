@@ -6,7 +6,7 @@ import Message from '@/components/Message';
 import styles from './List.less';
 
 const MessagesList = (props) => {
-    const { messages } = props;
+    const { messages, userId } = props;
     let current = null;
     return (
         <Row className={styles.messages}>
@@ -21,13 +21,13 @@ const MessagesList = (props) => {
                     //flag = true;
                 }
                 return (
-                    <Row key={message._id + _.uniqueId('message_')} className={styles.messRow}>
+                    <Row key={message._id} className={styles.messRow}>
                         <Col span={1} className={styles.avatar}>
                             {avatar}
                         </Col>
                         <Col span={23} className={styles.message}>
                             <React.Fragment>{name}</React.Fragment>
-                            <Message message={message} />
+                            <Message message={message} userId={userId} />
                         </Col>
                     </Row>
                 )

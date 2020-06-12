@@ -58,7 +58,7 @@ export default {
             }
             else {
                 const noOfUsNotification = yield select(state => state.user.noOfUsNotification);
-                const notificationItem = _.pick(data, ['_id', 'avatar', 'type', 'content', 'createdAt', 'seen']);
+                const notificationItem = _.omit(data, ['userId', 'userName', 'userAvatar', 'pushType']);
                 notificationItem.user = null;
                 if (userId) {
                     notificationItem.user = {

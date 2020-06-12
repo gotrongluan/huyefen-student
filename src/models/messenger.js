@@ -3,6 +3,7 @@ import OLD_MESSAGES from '@/assets/fakers/oldMessages';
 import MESSAGES from '@/assets/fakers/messages';
 import CONVERSATIONS from '@/assets/fakers/conversations';
 import OLD_CONVERSATIONS from '@/assets/fakers/oldConversations';
+import _ from 'lodash';
 const USER = {
     _id: 1,
     name: 'Dang Thuy Huyen',
@@ -83,8 +84,39 @@ export default {
                 }
             });
         },
-        *send({ payload }, { call, put }) {
+        *sendTextMessage({ payload }, { call, put, select }) {
+            const {
+                converId,
+                userId,
+                content,
+                createdAt: updatedAt
+            } = payload;
+            if (!converId) {
+                yield put({
+                    type: 'messenger/updateFirst',
+                    payload: {
+                        content,
+                        updatedAt
+                    }
+                });
+            }
+            else {
+                yield put({
+                    type: 'messenger/updateConver',
+                    payload: {
+                        converId,
+                        content,
+                        updatedAt
+                    }
+                });
+            }
+            const tempId = _.uniqueId('temp_');
+            yield put({
+                type: 'messenger/pushSending',
+                payload: {
 
+                }
+            })
         }
     },
     reducers: {
@@ -163,6 +195,36 @@ export default {
                     list: [],
                     sending: [],
                     hasMore: true
+                }
+            };
+        },
+        updateConver(state, { payload }) {
+            const { converId, content, updatedAt } = payload;
+            return {
+                ...state,
+                conversations: {
+                    ...state.conversations,
+                    list: {
+                        ...state.conversations.list,
+                        [converId]: {
+                            ...state.conversations.list[converId],
+                            lastMessage: content,
+                            updatedAt
+                        }
+                    }
+                }
+            };
+        },
+        updateFirst(state, { payload }) {
+            return {
+                ...state,
+                conversations: {
+                    ...state.conversations,
+                    first: {
+                        ...state.conversations.first,
+                        lastMessage: payload.content,
+                        updatedAt: payload.updatedAt
+                    }
                 }
             };
         },

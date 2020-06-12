@@ -82,6 +82,21 @@ export default {
                 }
             };
         },
+        // update(state, { payload }) {
+        //     const { converId, content, updatedAt } = payload;
+        //     if (state.list) {
+        //         return {
+        //             ...state,
+        //             list: {
+        //                 ...state.list,
+        //                 [converId]: {
+        //                     unseen
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return state;
+        // },
         clear() {
             return {
                 hasMore: true,

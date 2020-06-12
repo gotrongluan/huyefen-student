@@ -49,7 +49,7 @@ class MessageView extends React.PureComponent {
     }
 
     render() {
-        const { messages, oldLoading } = this.props;
+        const { messages, oldLoading, userId } = this.props;
         return (
             <Scrollbars
                 height={window.innerHeight - 64 - 64 - 50}
@@ -68,12 +68,12 @@ class MessageView extends React.PureComponent {
                         itemLayout="vertical"
                         dataSource={messages}
                         split={false}
-                        rowKey={item => _.uniqueId('message_list_')}
+                        rowKey={item => item.day}
                         renderItem={item => {
                             return (
                                 <List.Item>
                                     <p className={styles.date}>{item.day}</p>
-                                    <MessagesList messages={item.messages} />
+                                    <MessagesList messages={item.messages} userId={userId} />
                                 </List.Item>
                             );
                         }}

@@ -115,7 +115,19 @@ const Notifications = ({ dispatch, ...props }) => {
     };
 
     const handleViewNotify = item => {
-        //switch(item.type)...
+        let url = '';
+        switch(item.type) {
+            case 'friend':
+                url = `/friend/${item.user._id}`;
+                break;
+            case 'recommend':
+                url = `/course/${item.courseId}`;
+                break;
+            default:
+                url = '/';
+        }
+        router.push(url);
+        handleVisibleChange(false);
         if (!item.seen)
             dispatch({
                 type: 'notifications/read',

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import _ from 'lodash';
+import router from 'umi/router';
 import moment from 'moment';
 import { connect } from 'dva';
 import { List, Button, Skeleton, Avatar } from 'antd';
@@ -25,7 +26,18 @@ const Notifications = ({ dispatch, ...props }) => {
         }
     }, []);
     const handleViewNotify = item => {
-        //switch(item.type) router.push(..);
+        let url = '';
+        switch(item.type) {
+            case 'friend':
+                url = `/friend/${item.user._id}`;
+                break;
+            case 'recommend':
+                url = `/course/${item.courseId}`;
+                break;
+            default:
+                url = '/';
+        }
+        router.push(url);
         if (!item.seen)
             dispatch({
                 type: 'notifications/read',

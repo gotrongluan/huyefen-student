@@ -19,7 +19,6 @@ const { Panel } = Collapse;
 
 const Messenger = ({ dispatch, match, ...props }) => {
     const [firstUser, setFirstUser] = useState(null);
-    const [curConverId, setCurrentConverId] = useState(null);
     const [message, setMessage] = useState('');
     const {
         firstConversation,
@@ -31,7 +30,8 @@ const Messenger = ({ dispatch, match, ...props }) => {
         messagesInitLoading,
         currentUserLoading,
         messagesLoading,
-        conversationsLoading
+        conversationsLoading,
+        userId
     } = props;
     let { messages } = props;
     const prevConversations = usePrevious(conversations);
@@ -136,11 +136,11 @@ const Messenger = ({ dispatch, match, ...props }) => {
         //     }
         // }
         if (converId !== newConverId) {
+            dispatch({
+                type: 'messenger/resetMessages'
+            });
             if (newConverId === 'new_conver') {
                 if (converId) {
-                    dispatch({
-                        type: 'messenger/resetMessages'
-                    });
                     dispatch({
                         type: 'messenger/saveUser',
                         payload: {
@@ -179,22 +179,22 @@ const Messenger = ({ dispatch, match, ...props }) => {
     };
 
     const handleSendMessage = () => {
-        messagePopup.success(`Sent message: "${message}" to ${curConverId}`);
-        setMessage('');
-        // if (message && _.trim(message) !== '') {
-        //     const {
-        //         sendMessage,
-        //         currentUser,
-        //     } = this.props;
-        //     const userId = currentUser._id;
-        //     const callback = converId => {
-        //         this.socket.emit('joinConversation', converId, userId);
-        //     }
-        //     sendMessage(curConverId, userId, _.trim(message), callback);
-        //     this.setState({
-        //         message: ''
-        //     });
-        // }
+        const messageContent = _.trim(message);
+        if (messageContent !== '') {
+            const targetId = currentUser._id;
+            messagePopup.success(messageContent);
+            dispatch({
+                type: 'messenger/sendTextMessage',
+                payload: {
+                    converId,
+                    userId: targetId,
+                    senderId: userId,
+                    content: messageContent,
+                    createdAt: Date.now()
+                }
+            });
+            setMessage('');
+        }
     };
     let conversationsData;
     if (!conversations || conversationsInitLoading) {
@@ -239,7 +239,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
                         <List
                             className={styles.conversationsList}
                             dataSource={conversationsData}
-                            rowKey={item => item._id + _.uniqueId('conver_')}
+                            rowKey={item => item._id}
                             renderItem={item => (
                                 <List.Item 
                                     className={(currentUser && (currentUser.converId === item._id)) ? classNames(styles.item, styles.select) : styles.item}
@@ -299,6 +299,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
                             </div>
                         ) : (
                             <MessageView 
+                                userId={userId}
                                 messages={messagesData}
                                 converId={converId}
                                 fetchOldMessages={fetchOldMessages}
@@ -390,7 +391,8 @@ const Messenger = ({ dispatch, match, ...props }) => {
 
 export default withRouter(
     connect(
-        ({ messenger, loading }) => ({
+        ({ messenger, user, loading }) => ({
+            userId: user._id,
             conversations: messenger.conversations.list,
             messages: _.concat(messenger.messages.list, messenger.messages.sending),
             currentUser: messenger.user,
