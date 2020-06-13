@@ -11,26 +11,20 @@ export default {
     state: null,
     effects: {
         *notification({ payload }, { call, put, select }) {
-            const { notification, data } = payload;
-            let {
+            const { data } = payload;
+            const {
                 _id,
                 userId,
                 userName,
                 userAvatar,
                 avatar,
-                content,
-                pushType,
-                type
+                pushType
             } = data;
-            if (userId) {
-                content = `${userName} ${content}`;
-                avatar = userAvatar;
-            }
             let icon;
             if (userId)
                 icon = (
                     <UserAvatar
-                        src={avatar}
+                        src={userAvatar}
                         alt='user-avatar'
                         borderWidth={1}
                         size={32}
@@ -45,18 +39,61 @@ export default {
                 icon = <Icon type="mail" style={{ fontSize: '24px', color: '#FADA5E' }} />;
             else
                 icon = <Icon type="bell" style={{ fontSize: '24px', color: '#FADA5E' }} />
-            notificationPopup.open({
-                key: _id,
-                icon,
-                message: `${mapNotificationTypeToTitle(type)}`,
-                description: content
-            });
             if (pushType === 'messenger') {
-                //Messenger
-                
-                yield put({ type: 'messenger/pushNotification' });
+                const { converId, text, image, video } = data;
+                let notificationContent;
+                if (video)
+                    notificationContent = `${userName} đã tải lên một video.`;
+                else if (image)
+                    notificationContent = `${userName} đã tải lên một hình ảnh.`;
+                else
+                    notificationContent = `${userName} đã nhắn "${text}"`;
+                notificationPopup.open({
+                    key: converId + _.uniqueId('di_'),
+                    icon,
+                    message: `${mapNotificationTypeToTitle('messenger')}`,
+                    description: notificationContent,
+                    placement: "topLeft"
+                });
+                let lastMessage;
+                if (video)
+                    lastMessage = 'Đã tải lên một video.';
+                else if (image)
+                    lastMessage = 'Đã tải lên một hình ảnh.';
+                else
+                    lastMessage = text;
+                const conversation = {
+                    _id: converId,
+                    lastUpdated: data.createdAt,
+                    lastMessage,
+                    name: `${userName}`,
+                    avatar: userAvatar
+                };
+                yield put({
+                    type: 'messenger/shift',
+                    payload: conversation
+                });
+                yield put({
+                    type: 'messages/shift',
+                    payload: conversation
+                });
+                const noOfUsMessage = yield select(state => state.user.noOfUsMessage);
+                yield put({
+                    type: 'user/saveNoUsMessage',
+                    payload: noOfUsMessage + 1
+                });
             }
             else {
+                let content = data.content;
+                if (userId)
+                    content = `${userName} ${content}`;
+                notificationPopup.open({
+                    key: _id,
+                    icon,
+                    message: `${mapNotificationTypeToTitle(data.type)}`,
+                    description: content,
+                    placement: "topLeft"
+                });
                 const noOfUsNotification = yield select(state => state.user.noOfUsNotification);
                 const notificationItem = _.omit(data, ['userId', 'userName', 'userAvatar', 'pushType']);
                 notificationItem.user = null;

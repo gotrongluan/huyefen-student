@@ -6,7 +6,7 @@ export default {
         unseen: 0,
         name: 'HuYeFen Admin',
         color: 'default',
-        updatedAt: 1567476499584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_2: {
         _id: 'conver_id_2',
@@ -15,7 +15,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1567476599584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_3: {
         _id: 'conver_id_3',
@@ -24,7 +24,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Admin',
         color: 'default',
-        updatedAt: 1571383854090,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_4: {
         _id: 'conver_id_4',
@@ -33,7 +33,7 @@ export default {
         unseen: 0,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1569476699584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_5: {
         _id: 'conver_id_5',
@@ -42,7 +42,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1567976599584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_6: {
         _id: 'conver_id_6',
@@ -51,7 +51,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Admin',
         color: 'default',
-        updatedAt: 1570476499420,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_7: {
         _id: 'conver_id_7',
@@ -60,7 +60,7 @@ export default {
         unseen: 0,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1570476699584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_8: {
         _id: 'conver_id_8',
@@ -69,7 +69,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1567976599584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_9: {
         _id: 'conver_id_9',
@@ -78,7 +78,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Admin',
         color: 'default',
-        updatedAt: 1570476499420,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_10: {
         _id: 'conver_id_10',
@@ -87,7 +87,7 @@ export default {
         unseen: 0,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1570476699584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_11: {
         _id: 'conver_id_11',
@@ -96,7 +96,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1567976599584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_12: {
         _id: 'conver_id_12',
@@ -105,7 +105,7 @@ export default {
         unseen: 2,
         name: 'HuYeFen Admin',
         color: 'default',
-        updatedAt: 1570476499420,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
     conver_id_13: {
         _id: 'conver_id_13',
@@ -114,6 +114,6 @@ export default {
         unseen: 0,
         name: 'HuYeFen Operator',
         color: 'default',
-        updatedAt: 1570476699584,
+        lastUpdated: "2020-06-12T14:59:33.212Z",
     },
 };

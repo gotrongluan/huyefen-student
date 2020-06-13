@@ -2,7 +2,7 @@ import * as friendService from '@/services/friend';
 import _ from 'lodash';
 import { delay } from '@/utils/utils';
 import COURSES from '@/assets/fakers/friendCourses';
-import FRIENDS from '@/assets/fakers/friends';
+import * as messengerService from '@/services/messenger';
 
 const initialState = {
     info: null,
@@ -170,13 +170,12 @@ export default {
         },
         *chat({ payload }, { call }) {
             const { friendId, onYes, onNo } = payload;
-            //check conversation with friendId exist?
-            //if exist --> onYes, else onNo
-            yield delay(1500);
-            //exists
-            const exist = false;
-            if (exist) onYes('conver_id_10');
-            else onNo();
+            const response = yield call(messengerService.check, friendId);
+            if (response) {
+                const converId = response.data;
+                if (converId) onYes(converId);
+                else onNo();
+            }
         }
     },
     reducers: {

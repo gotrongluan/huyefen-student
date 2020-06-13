@@ -82,7 +82,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
                 setFirstUser({ ...user });
             }
             else {
-                const firstConver = _.maxBy(_.toArray(conversations), 'updatedAt');
+                const firstConver = _.maxBy(_.toArray(conversations), 'lastUpdated');
                 if (firstConver) {
                     const converId = firstConver._id;
                     router.push(`/messenger/${converId}`);
@@ -182,15 +182,17 @@ const Messenger = ({ dispatch, match, ...props }) => {
         const messageContent = _.trim(message);
         if (messageContent !== '') {
             const targetId = currentUser._id;
-            messagePopup.success(messageContent);
             dispatch({
-                type: 'messenger/sendTextMessage',
+                type: 'messenger/send',
                 payload: {
                     converId,
                     userId: targetId,
-                    senderId: userId,
-                    content: messageContent,
-                    createdAt: Date.now()
+                    content: {
+                        text: messageContent,
+                        image: null,
+                        video: null
+                    },
+                    createdAt: moment().toISOString()
                 }
             });
             setMessage('');
@@ -218,7 +220,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
         ];
     }
     else if (conversations !== null) {
-        conversationsData =  _.orderBy(conversations, ['updatedAt'], ['desc']);
+        conversationsData =  _.orderBy(conversations, ['lastUpdated'], ['desc']);
         if (firstConversation) conversationsData = _.concat([firstConversation], conversationsData);
     }
     const messagesData = parseToMessageListsByDate(messages);
@@ -243,7 +245,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
                             renderItem={item => (
                                 <List.Item 
                                     className={(currentUser && (currentUser.converId === item._id)) ? classNames(styles.item, styles.select) : styles.item}
-                                    extra={item.loading ? null : <span style={{ fontSize: '13px', color: 'gray' }}>{ fromNow(item.updatedAt) }</span>}
+                                    extra={item.loading ? null : <span style={{ fontSize: '13px', color: 'gray' }}>{ fromNow(item.lastUpdated) }</span>}
                                     onClick={() => handleClickConver(item._id)}
                                 >   
                                     <Skeleton avatar={{ size: 36 }} title={false} paragraph={{ rows: 2, width: ['40%','86%'] }} active loading={item.loading}>

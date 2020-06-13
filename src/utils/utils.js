@@ -142,7 +142,8 @@ export const parsePathname = pathname => {
 export const mapNotificationTypeToTitle = type => {
     const maps = {
         friend: 'Bạn bè',
-        recommend: 'Đề xuất khoá học'
+        recommend: 'Đề xuất khoá học',
+        messenger: 'Tin nhắn mới'
     };
     return maps[type] || 'Huyefen';
 }

@@ -13,7 +13,7 @@ const Message = ({ message, userId }) => {
     return (
         <Row className={styles.message}>
             <Col className={styles.content} span={22}>
-                {(message.content && message.content.trim()) || 'Tin nhắn bị lỗi'}
+                {(message.content.text && message.content.text.trim()) || 'Tin nhắn bị lỗi'}
             </Col>
             <Col className={styles.timeAndStatus} span={2}>
                 {seen}

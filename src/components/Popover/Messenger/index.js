@@ -25,7 +25,7 @@ const Messenger = ({ dispatch, ...props }) => {
             initLoading
         } = props;
         //sort conversations
-        conversations = conversations === null ? conversations : _.orderBy(conversations, ['updatedAt'], ['desc']);
+        conversations = conversations === null ? conversations : _.orderBy(conversations, ['lastUpdated'], ['desc']);
         //conversations = conversations ? _.take(conversations, 5) : null;
         const content = (conversations === null || _.isEmpty(conversations)) ? (
             <div className={styles.empty}>
@@ -43,7 +43,7 @@ const Messenger = ({ dispatch, ...props }) => {
                         <List.Item
                             className={styles.item}
                             style={{ background: (!item.unseen ? 'inherit' : 'rgba(250, 218, 94, 0.05)')}}
-                            extra={<span style={{ fontSize: '0.9em', color: 'gray' }}>{ fromNow(item.updatedAt) }</span>}>
+                            extra={<span style={{ fontSize: '0.9em', color: 'gray' }}>{ fromNow(item.lastUpdated) }</span>}>
                             <List.Item.Meta
                                 avatar={(
                                     <UserAvatar
