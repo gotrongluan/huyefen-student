@@ -45,49 +45,64 @@ export default {
         },
         fetchMessages: [
             function* ({ payload: converId }, { call, put }) {
-                yield delay(1700);
-                yield put({
-                    type: 'saveMessages',
-                    payload: {
-                        hasMore: true,
-                        data: MESSAGES
-                    }
-                });
+                const response = yield call(messengerService.fetchMessages, converId);
+                if (response) {
+                    const { hasMore, list } = response.data;
+                    yield put({
+                        type: 'saveMessages',
+                        payload: {
+                            hasMore,
+                            data: list
+                        }
+                    });
+                }
             },
             'takeLastest'
         ],
         fetchUser: [
             function* ({ payload: converId }, { call, put }) {
-                yield delay(1200);
-                yield put({
-                    type: 'saveUser',
-                    payload: {
-                        converId,
-                        ...USER
-                    }
-                });
+                const response = yield call(messengerService.fetchPartner, converId);
+                if (response) {
+                    yield put({
+                        type: 'saveUser',
+                        payload: {
+                            converId,
+                            ...response.data
+                        }
+                    });
+                }
             },
             'takeLastest'
         ],
         *moreMessages({ payload: converId }, { call, put, select }) {
-            yield delay(1200);
-            yield put({
-                type: 'shiftMessages',
-                payload: {
-                    hasMore: false,
-                    data: OLD_MESSAGES
-                }
-            });
+            const { list } = yield select(state => state.messenger.messages);
+            const currentExisted = _.size(list);
+            const response = yield call(messengerService.fetchMessages, converId, currentExisted);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'shiftMessages',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
-        *moreConversations({ payload: converId }, { call, put, select }) {
-            yield delay(1000);
-            yield put({
-                type: 'pushConversations',
-                payload: {
-                    hasMore: false,
-                    data: OLD_CONVERSATIONS
-                }
-            });
+        *moreConversations(action, { call, put, select }) {
+            const { list } = yield select(state => state.messenger.conversations);
+            const currentExisted = _.size(_.toArray(list));
+            const response = yield call(messengerService.fetchConversations, currentExisted);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'pushConversations',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         *send({ payload }, { call, put, select }) {
             const tempId = _.uniqueId('temp_');

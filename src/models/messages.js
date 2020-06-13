@@ -1,7 +1,8 @@
 import CONVERSATIONS from '@/assets/fakers/conversations';
 import OLD_CONVERSATIONS from '@/assets/fakers/oldConversations';
 import { delay } from '@/utils/utils';
-import { message } from 'antd';
+import * as messengerService from '@/services/messenger';
+import _ from 'lodash';
 
 export default {
     namespace: 'messages',
@@ -13,15 +14,19 @@ export default {
         *fetch(action, { call, put, fork, take, cancel, cancelled }) {
             const task = yield fork(function*() {
                 try {
-                    yield delay(10000);
-                    yield put({
-                        type: 'save',
-                        payload: {
-                            data: CONVERSATIONS,
-                            hasMore: true
-                        }
-                    });
-                    yield put({ type: 'messagesFetchOk' });
+                    const response = yield call(messengerService.fetchConversations);
+                    if (response) {
+                        const { hasMore, list } = response.data;
+                        yield put({
+                            type: 'save',
+                            payload: {
+                                data: list,
+                                hasMore
+                            }
+                        });
+                        yield put({ type: 'messagesFetchOk' });
+                    }
+                    else yield put({ type: 'messagesFetchError' });
                 }
                 finally {
                     if (yield cancelled())
@@ -36,16 +41,20 @@ export default {
             const task = yield fork(function* () {
                 try {
                     const { list } = yield select(state => state.messages);
-                    //
-                    yield delay(1100);
-                    yield put({
-                        type: 'push',
-                        payload: {
-                            data: OLD_CONVERSATIONS,
-                            hasMore: false
-                        }
-                    });
-                    yield put({ type: 'messagesMoreOk' });
+                    const currentExisted = _.size(_.toArray(list));
+                    const response = yield call(messengerService.fetchConversations, currentExisted);
+                    if (response) {
+                        const { hasMore, list } = response;
+                        yield put({
+                            type: 'push',
+                            payload: {
+                                data: list,
+                                hasMore
+                            }
+                        });
+                        yield put({ type: 'messagesMoreOk' });
+                    }
+                    else yield put({ type: 'messageMoreError' });
                 }
                 finally {
                     if (yield cancelled())
