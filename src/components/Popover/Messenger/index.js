@@ -38,11 +38,10 @@ const Messenger = ({ dispatch, ...props }) => {
                 <List
                     className={styles.conversationsList}
                     dataSource={conversations}
-                    rowKey={item => item._id + _.uniqueId("messenger_")}
+                    rowKey={item => item._id}
                     renderItem={item => (
                         <List.Item
                             className={styles.item}
-                            style={{ background: (!item.unseen ? 'inherit' : 'rgba(250, 218, 94, 0.05)')}}
                             extra={<span style={{ fontSize: '0.9em', color: 'gray' }}>{ fromNow(item.lastUpdated) }</span>}>
                             <List.Item.Meta
                                 avatar={(
@@ -55,7 +54,14 @@ const Messenger = ({ dispatch, ...props }) => {
                                         style={{ background: 'white', color: 'black' }}
                                     />
                                 )}
-                                title={<span>{truncate(item.name, 46)}</span>}
+                                title={(
+                                    <span className={styles.itemTitle}>
+                                        <span>{truncate(item.name, 46)}</span>
+                                        <span className={styles.unreadCount}>
+                                            <Badge count={item.unseen} className={styles.badge} overflowCount={9}/>
+                                        </span>
+                                    </span>
+                                )}
                                 description={<span>{truncate(item.lastMessage, 46)}</span>}
                             />
                         </List.Item>

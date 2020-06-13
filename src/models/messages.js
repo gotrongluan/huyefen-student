@@ -101,6 +101,21 @@ export default {
                 }
             };
         },
+        dscSeenCount(state, { payload }) {
+            const { value, converId } = payload;
+            if (!state.list || !state.list[converId])
+                return state;
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    [converId]: {
+                        ...state.list[converId],
+                        unseen: state.list[converId].unseen - value
+                    }
+                }
+            };
+        },
         clear() {
             return {
                 hasMore: true,

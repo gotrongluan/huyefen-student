@@ -19,6 +19,6 @@ export async function fetchPartner(converId) {
     return apiGet(`${MESSENGER_API_URL}/conversations/${converId}/partner`);
 }
 
-export async function fetchMessages(converId, skip = 0, limit = 20) {
+export async function fetchMessages(converId, skip = 0, limit = 30) {
     return apiGet(`${MESSENGER_API_URL}/conversations/${converId}/messages?skip=${skip}&limit=${limit}`);
 }

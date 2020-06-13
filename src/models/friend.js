@@ -174,7 +174,7 @@ export default {
             if (response) {
                 const converId = response.data;
                 if (converId) onYes(converId);
-                else onNo();
+                else onNo(friendId);
             }
         }
     },

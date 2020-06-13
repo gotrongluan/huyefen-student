@@ -5,7 +5,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import router from 'umi/router';
 import withRouter from 'umi/withRouter';
-import { Row, Col, Avatar, List, Collapse, Input, Button, Icon, Spin as Loading, message as messagePopup, Skeleton } from 'antd';
+import { Row, Col, Avatar, Badge, List, Collapse, Input, Button, Icon, Spin as Loading, message as messagePopup, Skeleton } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import { Scrollbars } from 'react-custom-scrollbars';
 import MessageView from './MessageView';
@@ -72,7 +72,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
             if (firstConversation) {
                 const user = {
                     ..._.pick(firstConversation, ['name', 'avatar']),
-                    _id: 1,
+                    _id: firstConversation.userId,
                     converId: firstConversation._id
                 };
                 dispatch({
@@ -260,8 +260,15 @@ const Messenger = ({ dispatch, match, ...props }) => {
                                                     style={{ background: 'white', color: 'black' }}
                                                 />
                                             )}
-                                            title={<span>{truncate(item.name, 46)}</span>}
-                                            description={item.unseen > 0 ? (<span style={{ color: '#fada5e', fontWeight: 'bold' }}>{truncate(item.lastMessage, 46)}</span>) : (<span>{truncate(item.lastMessage, 46)}</span>)}
+                                            title={(
+                                                <span className={styles.itemTitle}>
+                                                    <span>{truncate(item.name, 46)}</span>
+                                                    <span className={styles.unreadCount}>
+                                                        <Badge count={item.unseen} className={styles.badge}/>
+                                                    </span>
+                                                </span>
+                                            )}
+                                            description={(<span className={styles.description}>{truncate(item.lastMessage, 46)}</span>)}
                                         />
                                     </Skeleton>
                                 </List.Item>

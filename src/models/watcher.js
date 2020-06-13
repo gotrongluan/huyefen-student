@@ -40,7 +40,7 @@ export default {
             else
                 icon = <Icon type="bell" style={{ fontSize: '24px', color: '#FADA5E' }} />
             if (pushType === 'messenger') {
-                const { converId, text, image, video } = data;
+                const { converId, text, image, video, unseen } = data;
                 let notificationContent;
                 if (video)
                     notificationContent = `${userName} đã tải lên một video.`;
@@ -66,6 +66,7 @@ export default {
                     _id: converId,
                     lastUpdated: data.createdAt,
                     lastMessage,
+                    unseen: Number(unseen),
                     name: `${userName}`,
                     avatar: userAvatar
                 };

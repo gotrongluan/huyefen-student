@@ -29,10 +29,34 @@
                 &:hover {
                     opacity: 0.8;
                 }
+                .itemTitle {
+                    color: #fff;
+                    .unreadCount {
+                        display: inline-block;
+                        margin-left: 9px;
+                        :global(.ant-badge-count) {
+                            font-size: 11px;
+                            color: #fff;
+                            background: tomato;
+                            // height: 17px;
+                            // min-width: 17px;
+                            // border-radius: 50%;
+                            // line-height: 17px;
+                        }
+                    }
+                }
             }
             .select {
-                background-color: rgba(245, 222, 179, 0.2);
+                // .itemTitle > span, .description {
+                //     color: white;
+                //     font-weight: bold;
+                // }
+                //background: rgba(255, 255, 255, 0.3);
+                border: 0.7px solid @primary-color;
                 border-right: 2px solid @primary-color;
+                &:first-child {
+                    border-top: none;
+                }
             }
             .oldConverLoading {
                 margin-top: 10px;

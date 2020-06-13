@@ -142,11 +142,12 @@ const Friend= ({ match, dispatch, ...props }) => {
             payload: {
                 friendId,
                 onYes: converId => router.push(`/messenger/${converId}`),
-                onNo: () => {
+                onNo: friendId => {
                     dispatch({
                         type: 'messenger/saveFirstConversation',
                         payload: {
                             _id: 'new_conver',
+                            userId: friendId,
                             avatar,
                             name,
                             lastMessage: 'Typing message...'

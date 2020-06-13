@@ -47,7 +47,7 @@ export default {
             function* ({ payload: converId }, { call, put }) {
                 const response = yield call(messengerService.fetchMessages, converId);
                 if (response) {
-                    const { hasMore, list } = response.data;
+                    const { seenCount, hasMore, list } = response.data;
                     yield put({
                         type: 'saveMessages',
                         payload: {
@@ -55,6 +55,15 @@ export default {
                             data: list
                         }
                     });
+                    if (seenCount > 0) {
+                        yield put({
+                            type: 'updateSeenCount',
+                            payload: {
+                                value: seenCount,
+                                converId
+                            }
+                        });
+                    }
                 }
             },
             'takeLastest'
@@ -79,7 +88,7 @@ export default {
             const currentExisted = _.size(list);
             const response = yield call(messengerService.fetchMessages, converId, currentExisted);
             if (response) {
-                const { hasMore, list } = response.data;
+                const { seenCount, hasMore, list } = response.data;
                 yield put({
                     type: 'shiftMessages',
                     payload: {
@@ -87,6 +96,15 @@ export default {
                         data: list
                     }
                 });
+                if (seenCount > 0) {
+                    yield put({
+                        type: 'updateSeenCount',
+                        payload: {
+                            value: seenCount,
+                            converId
+                        }
+                    })
+                }
             }
         },
         *moreConversations(action, { call, put, select }) {
@@ -101,6 +119,25 @@ export default {
                         hasMore,
                         data: list
                     }
+                });
+            }
+        },
+        *updateSeenCount({ payload }, { put, select }) {
+            const { converId } = payload;
+            yield put({
+                type: 'descSeenCount',
+                payload
+            });
+            yield put({
+                type: 'messages/descSeenCount',
+                payload
+            });
+            const { list: converList } = yield select(state => state.messenger.conversations);
+            const { noOfUsMessage } = yield select(state => state.user);
+            if (converList[converId].unseen === 0) {
+                yield put({
+                    type: 'user/saveNoUsMessage',
+                    payload: noOfUsMessage - 1
                 });
             }
         },
@@ -123,6 +160,7 @@ export default {
                     yield put({
                         type: 'clearFirst'
                     });
+                    router.replace(`/messenger/${conversation._id}`);
                 }
                 yield put({
                     type: 'shift',
@@ -269,6 +307,24 @@ export default {
                             seenAt: -1
                         }
                     ]
+                }
+            };
+        },
+        descSeenCount(state, { payload }) {
+            const { value, converId } = payload;
+            if (!state.conversations.list || !state.conversations.list[converId])
+                return state;
+            return {
+                ...state,
+                conversations: {
+                    ...state.conversations,
+                    list: {
+                        ...state.conversations.list,
+                        [converId]: {
+                            ...state.conversations.list[converId],
+                            unseen: state.conversations.list[converId].unseen - value
+                        }
+                    }
                 }
             };
         },
