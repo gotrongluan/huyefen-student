@@ -16,7 +16,7 @@ const MessagesList = (props) => {
                 //let flag = false;
                 if (message.userId !== current) {
                     current = message.userId;
-                    avatar = <UserAvatar src={message.avatar} text={message.userName} alt="avatar" size={36} textSize={36} borderWidth={0} style={{ background: 'white', color: 'black' }} extraStyle={{ position: 'relative', top: '5px' }}/>;
+                    avatar = <UserAvatar src={message.avatar} text={message.userName} alt="avatar" size={44} textSize={44} borderWidth={0} style={{ background: 'white', color: 'black' }} extraStyle={{ position: 'relative', top: '5px' }}/>;
                     name = <div className={styles.userName}>{message.userName}</div>;
                     //flag = true;
                 }

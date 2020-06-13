@@ -299,7 +299,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
                     )}                
                 </div>
                 <Row className={styles.content}>
-                    <Col className={styles.messages} span={16}>
+                    <div className={styles.messages}>
                         {messagesInitLoading ? (
                             <div className={styles.messLoading} style={{ height: `${window.innerHeight - 64 - 64 - 50}px`, position: 'relative' }}>
                                 <div className={styles.inlineDiv}>
@@ -319,8 +319,8 @@ const Messenger = ({ dispatch, match, ...props }) => {
                             <Input placeholder="Enter message..." disabled={disabledInput} value={message} onChange={handleTypeMessage} onPressEnter={handleSendMessage}/>
                             <PaperPlane onClick={handleSendMessage} />
                         </div>
-                    </Col>
-                    <Col className={styles.info} span={8}>
+                    </div>
+                    {/* <Col className={styles.info} span={8}>
                         <div className={styles.avatar}>
                             {currentUser !== null && !currentUserLoading && (
                                 <React.Fragment>
@@ -391,7 +391,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
 
                             </Panel>
                         </Collapse>
-                    </Col>
+                    </Col> */}
                 </Row>
             </Col>
         </Row>

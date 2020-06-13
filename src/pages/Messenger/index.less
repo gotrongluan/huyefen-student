@@ -141,13 +141,15 @@
                 
             }
             .messages {
-                border-right: 0.5px solid @primary-color;
                 height: calc(100vh - 64px - 64px);
+                .innerMessages {
+                    padding-right: 10px;
+                }
                 .typeMessage {
                     height: 50px;
                     border-top: 0.5px solid @primary-color;
                     padding: 5px 10px;
-                    
+                    padding-right: 2px;
                     input {
                         width: 95%;
                         height: 30px;
