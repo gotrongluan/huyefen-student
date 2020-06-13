@@ -31,14 +31,17 @@ export default {
     state: initialState,
     effects: {
         *fetchConversations(action, { call, put }) {
-            yield delay(1600);
-            yield put({
-                type: 'saveConversations',
-                payload: {
-                    hasMore: true,
-                    data: CONVERSATIONS
-                }
-            });
+            const response = yield call(messengerService.fetchConversations);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'saveConversations',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         fetchMessages: [
             function* ({ payload: converId }, { call, put }) {
