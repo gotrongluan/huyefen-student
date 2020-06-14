@@ -5,6 +5,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import router from 'umi/router';
 import withRouter from 'umi/withRouter';
+import io from 'socket.io-client';
 import { Row, Col, Avatar, Badge, List, Collapse, Input, Button, Icon, Spin as Loading, message as messagePopup, Skeleton } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -20,6 +21,7 @@ const { Panel } = Collapse;
 const Messenger = ({ dispatch, match, ...props }) => {
     const [firstUser, setFirstUser] = useState(null);
     const [message, setMessage] = useState('');
+    const [socket, setSocket] = useState(null);
     const {
         firstConversation,
         conversations,
@@ -49,13 +51,39 @@ const Messenger = ({ dispatch, match, ...props }) => {
         dispatch({
             type: 'messenger/fetchConversations'
         });
-        return () => dispatch({
-            type: 'messenger/reset'
-        });
+        if (!socket) {
+            const newSocket = io('https://localhost:3443/messenger');
+            newSocket.on('connect', () => {
+                console.log('Connect socket successfully!');
+            });
+            newSocket.on('disconnect', () => {
+                console.log('Disconnect socket!');
+            });
+            newSocket.on('message', handleReceivedMessage);
+            newSocket.on('seen', handleSeenEmitted);
+            newSocket.on('joinRoomSuccess', room => {
+                console.log(`Successfully joined in room: ${room}`);
+            });
+            newSocket.on('roomJoined', room => {
+                console.log(`Room: ${room} be joined before`);
+            });
+            newSocket.on('leaveRoomSuccess', room => {
+                console.log(`Successfully left in room: ${room}`);
+            });
+            setSocket(newSocket);
+        }
+        return () => {
+            dispatch({
+                type: 'messenger/reset'
+            });
+            if (socket) socket.disconnect();
+        };
     }, []);
 
     useEffect(() => {
         if (converId) {
+            if (socket)
+                socket.emit('joinRoom', { userId, room: converId });
             dispatch({
                 type: 'messenger/fetchMessages',
                 payload: converId
@@ -64,6 +92,11 @@ const Messenger = ({ dispatch, match, ...props }) => {
                 type: 'messenger/fetchUser',
                 payload: converId
             });
+            return () => {
+                if (socket) {
+                    socket.emit('leaveRoom', { userId, room: converId });
+                }
+            };
         }
     }, [converId]);
 
@@ -90,6 +123,14 @@ const Messenger = ({ dispatch, match, ...props }) => {
             }
         }
     }, [conversations]);
+
+    const handleReceivedMessage = payload => {
+
+    };
+
+    const handleSeenEmitted = () => {
+
+    };
 
     const fetchOldMessages = converId => {
         if (hasMoreMessages)
