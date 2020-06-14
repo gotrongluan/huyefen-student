@@ -52,7 +52,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
             type: 'messenger/fetchConversations'
         });
         if (!socket) {
-            const newSocket = io('https://localhost:3443/messenger');
+            const newSocket = io(`https://localhost:3443/messenger?userId=${userId}`);
             newSocket.on('connect', () => {
                 console.log('Connect socket successfully!');
             });
@@ -61,29 +61,21 @@ const Messenger = ({ dispatch, match, ...props }) => {
             });
             newSocket.on('message', handleReceivedMessage);
             newSocket.on('seen', handleSeenEmitted);
-            newSocket.on('joinRoomSuccess', room => {
-                console.log(`Successfully joined in room: ${room}`);
+            newSocket.on('startOk', () => {
+                console.log(`Successfully started!`);
             });
-            newSocket.on('roomJoined', room => {
-                console.log(`Room: ${room} be joined before`);
-            });
-            newSocket.on('leaveRoomSuccess', room => {
-                console.log(`Successfully left in room: ${room}`);
+            newSocket.on('endOk', () => {
+                console.log(`Successfully left!`);
             });
             setSocket(newSocket);
         }
-        return () => {
-            dispatch({
-                type: 'messenger/reset'
-            });
-            if (socket) socket.disconnect();
-        };
+        return () => dispatch({
+            type: 'messenger/reset'
+        });
     }, []);
 
     useEffect(() => {
         if (converId) {
-            if (socket)
-                socket.emit('joinRoom', { userId, room: converId });
             dispatch({
                 type: 'messenger/fetchMessages',
                 payload: converId
@@ -92,13 +84,21 @@ const Messenger = ({ dispatch, match, ...props }) => {
                 type: 'messenger/fetchUser',
                 payload: converId
             });
-            return () => {
-                if (socket) {
-                    socket.emit('leaveRoom', { userId, room: converId });
-                }
-            };
         }
     }, [converId]);
+
+    useEffect(() => {
+        if (socket && converId) {
+            socket.emit('start', { userId, converId });
+            return () => socket.emit('end', { userId });
+        }
+    }, [socket, converId]);
+
+    useEffect(() => {
+        if (socket) {
+            return () => socket.disconnect();
+        }
+    }, [socket]);
 
     useEffect(() => {
         if (!prevConversations && conversations && !converId) {
@@ -125,7 +125,7 @@ const Messenger = ({ dispatch, match, ...props }) => {
     }, [conversations]);
 
     const handleReceivedMessage = payload => {
-
+        console.log(payload);
     };
 
     const handleSeenEmitted = () => {
