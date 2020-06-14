@@ -132,8 +132,11 @@ const Messenger = ({ dispatch, match, ...props }) => {
         });
     };
 
-    const handleSeenEmitted = () => {
-
+    const handleSeenEmitted = payload => {
+        dispatch({
+            type: 'messenger/seen',
+            payload
+        });
     };
 
     const fetchOldMessages = converId => {

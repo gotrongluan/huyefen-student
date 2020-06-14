@@ -340,6 +340,28 @@ export default {
                 }
             };
         },
+        seen(state, { payload }) {
+            const { value, messageIds } = payload;
+            if (!state.messages.list)
+                return state;
+            const messagesData = _.keyBy(state.messages.list, '_id');
+            _.forEach(messageIds, id => {
+                if (messagesData[id]) {
+                    messagesData[id] = {
+                        ...messagesData[id],
+                        seenAt: value
+                    };
+                }
+            });
+            const messagesList = _.orderBy(_.toArray(messagesData), ['createdAt', 'asc']);
+            return {
+                ...state,
+                messages: {
+                    ...state.messages,
+                    list: [...messagesList]
+                }
+            };
+        },
         reset() {
             return { ...initialState };
         }
