@@ -156,6 +156,11 @@ export default {
             const response = yield call(messengerService.send, payload);
             if (response) {
                 const { conversation, message } = response.data;
+                yield put({
+                    type: 'pushMessage',
+                    tempId,
+                    payload: message
+                });
                 if (!payload.converId) {
                     yield put({
                         type: 'clearFirst'
@@ -169,11 +174,6 @@ export default {
                 yield put({
                     type: 'messages/shift',
                     payload: conversation
-                });
-                yield put({
-                    type: 'pushMessage',
-                    tempId,
-                    payload: message
                 });
             }
         }
@@ -212,6 +212,18 @@ export default {
                         ...state.conversations.list,
                         ...data
                     }
+                }
+            };
+        },
+        pushReceivedMessage(state, { payload: message }) {
+            return {
+                ...state,
+                messages: {
+                    ...state.messages,
+                    list: [
+                        ...state.messages.list,
+                        message
+                    ]
                 }
             };
         },
