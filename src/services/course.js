@@ -10,3 +10,7 @@ export async function fetchInfo() {}
 export async function overview(courseId) {
     return apiGet(`${COURSE_API_URL}/${courseId}/overview`);
 }
+
+export async function instructors(courseId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/instructors`);
+}

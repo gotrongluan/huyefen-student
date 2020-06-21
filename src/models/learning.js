@@ -71,11 +71,13 @@ export default {
             }
         },
         *fetchInstructors({ payload: courseId }, { call, put }) {
-            yield delay(1600);
-            yield put({
-                type: 'saveInstructors',
-                payload: INSTRUCTORS
-            });
+            const response = yield call(courseService.instructors, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveInstructors',
+                    payload: response.data
+                });
+            }
         },
         *fetchReview({ payload: courseId }, { call, put }) {
             yield delay(1100);
