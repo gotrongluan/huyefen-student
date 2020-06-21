@@ -132,10 +132,10 @@ const Announcements = ({ match, dispatch, ...props }) => {
                                         <div className={styles.announce}>
                                             <div className={styles.user}>
                                                 <div className={styles.avatarCont}>
-                                                    <Avatar alt="ins-ava" size={60} className={styles.avatar} shape="circle" src={announcement.user.avatar} />
+                                                    <Avatar alt="ins-ava" size={60} className={styles.avatar} shape="circle" src={announcement.teacher.avatar} />
                                                 </div>
                                                 <div className={styles.txt}>
-                                                    <div className={styles.name}>{announcement.user.name}</div>
+                                                    <div className={styles.name}>{announcement.teacher.name}</div>
                                                     <div className={styles.time}><TimeAgo date={announcement.createdAt} /></div>
                                                 </div>
                                             </div>
@@ -155,11 +155,11 @@ const Announcements = ({ match, dispatch, ...props }) => {
                                                         <Row className={styles.comment}>
                                                             <Col span={2} className={styles.avatarCont}>
                                                                 <UserAvatar
-                                                                    src={comment.user.avatar}
+                                                                    src={comment.owner.avatar}
                                                                     alt="user-avar"
                                                                     size={48}
                                                                     borderWidth={2}
-                                                                    text={comment.user.name}
+                                                                    text={comment.owner.name}
                                                                     textSize={50}
                                                                     style={{ background: 'white', color: 'black' }}
                                                                 />
@@ -167,8 +167,8 @@ const Announcements = ({ match, dispatch, ...props }) => {
                                                             <Col span={22} className={styles.right}>
                                                                 <div className={styles.nameAndTime}>
                                                                     <span className={styles.name}>
-                                                                        <span>{comment.user.name}</span>
-                                                                        {comment.user.isInstructor && (
+                                                                        <span>{comment.owner.name}</span>
+                                                                        {comment.ownerType === 'Teacher' && (
                                                                             <span style={{ marginLeft: 10 }}>{'(Instructor)'}</span>
                                                                         )}
                                                                     </span>

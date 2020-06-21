@@ -9,6 +9,7 @@ module.exports = {
     TEACHER_API_URL: 'https://localhost:3443/api/teachers',
     MESSENGER_API_URL: 'https://localhost:3443/api/messenger',
     QUESTION_API_URL: 'https://localhost:3443/api/questions',
+    ANNOUNCE_API_URL: 'https://localhost:3443/api/announcements',
     FIREBASE: {
         apiKey: "AIzaSyCy0-aVl3F5qXjnG6TrxyVc6TW7G58SQBU",
         authDomain: "huyefen-2102.firebaseapp.com",
