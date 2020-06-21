@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'dva';
-import { message } from 'antd';
 
 const ForumLayout = ({ match, children, dispatch }) => {
     const { courseId } = match.params;

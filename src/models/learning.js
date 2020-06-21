@@ -754,8 +754,8 @@ export default {
                     lectureOptions: null,
                     hasMore: null,
                     filters: {
-                        lectures: 'all',
-                        sortBy: "recommend",
+                        lecture: 'all',
+                        sortBy: 'relevance',
                         questionTypes: []
                     }
                 }

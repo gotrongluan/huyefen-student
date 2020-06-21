@@ -230,12 +230,12 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                 ) : (
                     <Loading spinning={sortLoading || filterByLectureLoading || filterByTypesLoading} fontSize={8} isCenter>
                         {_.map(threadsData, (thread, i) => (
-                            <React.Fragment key={thread._id + _.uniqueId('thread_')}>
-                                {i > 0 && (<Divider className={styles.divider} dashed key={_.uniqueId('thread_divider_')} />)}
+                            <React.Fragment key={thread._id}>
+                                {i > 0 && (<Divider className={styles.divider} dashed key={`divider_${thread._id}`} />)}
                                 {thread.loading ? (
-                                    <Skeleton active avatar={{ size: 40, shape: 'circle' }} title={false} key={thread._id + _.uniqueId('thread_')} paragraph={{ rows: 3, width: ['40%', '90%', '45%']}} />
+                                    <Skeleton active avatar={{ size: 40, shape: 'circle' }} title={false} key={`skeleton_${thread._id}`} paragraph={{ rows: 3, width: ['40%', '90%', '45%']}} />
                                 ) : (
-                                    <Row className={styles.thread} key={thread._id + _.uniqueId('thread_')} onClick={() => router.push(`${location.pathname}/thread/${thread._id}`)}>
+                                    <Row className={styles.thread} key={`row_${thread._id}`} onClick={() => router.push(`${location.pathname}/thread/${thread._id}`)}>
                                         <Col span={2} className={styles.avatarCont}>
                                             <UserAvatar
                                                 alt="avat-user"
@@ -252,7 +252,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                                             <div className={styles.content}>{thread.content}</div>
                                             <div className={styles.extra}>
                                                 <span className={styles.name}>{thread.user.name}</span>
-                                                <span className={styles.order}>{`Lecture ${thread.lecture.order}`}</span>
+                                                <span className={styles.order}>{`Lecture ${thread.lectureIndex}`}</span>
                                                 <span className={styles.time}>
                                                     <TimeAgo date={thread.createdAt}/>
                                                 </span>
@@ -260,7 +260,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                                         </Col>
                                         <Col span={4} className={styles.statistic}>
                                             <div className={styles.votings}>
-                                                <span className={styles.value}>{thread.numOfVotings}</span>
+                                                <span className={styles.value}>{thread.numOfVotes}</span>
                                                 <Icon type="arrow-up" />
                                             </div>
                                             <div className={styles.answers}>
