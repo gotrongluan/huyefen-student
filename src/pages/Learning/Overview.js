@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { Descriptions, Divider, Avatar, Skeleton, Spin, Icon, List, Row } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import ViewMore from '@/components/ViewMore';
-import { numberWithCommas, minutesToHour } from '@/utils/utils';
+import { numberWithCommas, minutesToHour, mapLevelKeyToLevel } from '@/utils/utils';
 import styles from './Overview.less';
 
 const InstructorMeta = ({ avatar, name, job }) => {
@@ -74,12 +74,12 @@ const Overview = ({ match, dispatch, ...props }) => {
                                 className={styles.table}
                             >
                                 <Descriptions.Item label="Level">
-                                    {overview.level}
+                                    {mapLevelKeyToLevel(overview.level)}
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Lectures">{overview.numOfLectures}</Descriptions.Item>
                                 <Descriptions.Item label="Estimate time">{minutesToHour(overview.totalTime)}</Descriptions.Item>
                                 <Descriptions.Item label="Languages">{overview.language}</Descriptions.Item>
-                                <Descriptions.Item label="Students">{numberWithCommas(overview.numOfEnrolled)}</Descriptions.Item>
+                                <Descriptions.Item label="Students">{numberWithCommas(overview.numOfStudents)}</Descriptions.Item>
                                 <Descriptions.Item label="Ratings">
                                     <span className={styles.value}>{overview.starRating}</span>
                                     <Icon type="star" theme="filled" style={{ color: '#fada5e', marginLeft: 7 }} />
@@ -87,17 +87,29 @@ const Overview = ({ match, dispatch, ...props }) => {
                                 <Descriptions.Item span={3} label="Description">
                                     <ViewMore height={400}>
                                         <div className={styles.description} dangerouslySetInnerHTML={{ __html: overview.description }} />
+                                        <div className={styles.targets}>
+                                            <div className={styles.title}>
+                                                Who this course is for:
+                                            </div>
+                                            <div className={styles.targetsList}>
+                                                <ul>
+                                                    {_.map(overview.targetStudents, (target, i) => (
+                                                        <li key={i}>{target}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </ViewMore>
                                 </Descriptions.Item>
                                 <Descriptions.Item span={3} label="What you'll learn">
                                     <ViewMore height={300}>
                                         <List
-                                            className={styles.whatLearn}
-                                            dataSource={overview.whatLearn}
+                                            className={styles.whatLearns}
+                                            dataSource={overview.whatLearns}
                                             itemLayout="horizontal"
                                             split={false}
-                                            renderItem={item => (
-                                                <List.Item key={_.uniqueId('what_learn_')} className={styles.listItem}>
+                                            renderItem={(item, i) => (
+                                                <List.Item key={i} className={styles.listItem}>
                                                     <List.Item.Meta
                                                         avatar={<Avatar size={11} icon="check" style={{ background: '#fada5e', color: 'black' }}/>}
                                                         title={<span className={styles.item} dangerouslySetInnerHTML={{ __html: item }}/>}
@@ -115,8 +127,8 @@ const Overview = ({ match, dispatch, ...props }) => {
                                             dataSource={overview.requirements}
                                             itemLayout="horizontal"
                                             split={false}
-                                            renderItem={item => (
-                                                <List.Item key={_.uniqueId('requirement_')} className={styles.listItem}>
+                                            renderItem={(item, i) => (
+                                                <List.Item key={i} className={styles.listItem}>
                                                     <List.Item.Meta
                                                         avatar={<Avatar size={11} icon="link" style={{ background: '#fada5e', color: 'black' }}/>}
                                                         title={<span className={styles.item} dangerouslySetInnerHTML={{ __html: item }}/>}

@@ -62,11 +62,13 @@ export default {
             });
         },
         *fetchOverview({ payload: courseId }, { call, put }) {
-            yield delay(2800);
-            yield put({
-                type: 'saveOverview',
-                payload: COURSE_OVERVIEW
-            });
+            const response = yield call(courseService.overview, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveOverview',
+                    payload: response.data
+                });
+            }
         },
         *fetchInstructors({ payload: courseId }, { call, put }) {
             yield delay(1600);

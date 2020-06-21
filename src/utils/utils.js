@@ -146,4 +146,19 @@ export const mapNotificationTypeToTitle = type => {
         messenger: 'Tin nhắn mới'
     };
     return maps[type] || 'Huyefen';
+};
+
+export const mapLevelKeyToLevel = levelKey => {
+    switch (levelKey) {
+        case 'allLevel':
+            return 'All Level';
+        case 'beginner':
+            return 'Beginner';
+        case 'intermediate':
+            return 'Intermediate';
+        case 'expert':
+            return 'Expert';
+        default:
+            return 'Non Level';
+    }
 }
