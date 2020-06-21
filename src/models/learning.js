@@ -3,9 +3,8 @@ import { message } from 'antd';
 import _ from 'lodash';
 import router from 'umi/router';
 import * as courseService from '@/services/course';
+import * as questionService from '@/services/question';
 import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
-import COURSE_OVERVIEW from '@/assets/fakers/courseOverview';
-import INSTRUCTORS from '@/assets/fakers/instructors';
 import ANNOUNCEMENTS from '@/assets/fakers/announcements';
 import OLD_ANNOUNCEMENTS from '@/assets/fakers/oldAnnouncements';
 import COMMENTS from '@/assets/fakers/answers';
@@ -188,15 +187,22 @@ export default {
             });
         },
         *fetchQuestions({ payload: courseId }, { call, put }) {
-            yield delay(2000);
-            yield put({
-                type: 'saveQuestions',
-                payload: {
-                    hasMore: true,
-                    total: 4197,
-                    data: QUESTIONS
-                }
+            const response = yield call(questionService.fetch, courseId, {
+                sort: 'relevance',
+                lecture: 'all',
+                questionTypes: []
             });
+            if (response) {
+                const { hasMore, total, list } = response.data;
+                yield put({
+                    type: 'saveQuestions',
+                    payload: {
+                        hasMore,
+                        total,
+                        data: list
+                    }
+                });
+            }
         },
         *moreQuestions({ payload: courseId }, { call, put, select }) {
             const { forum } = yield select(state => state.learning);
@@ -208,15 +214,23 @@ export default {
                 },
                 list
             } = forum;
-            //base on list and filters values.
-            yield delay(1500);
-            yield put({
-                type: 'pushQuestions',
-                payload: {
-                    hasMore: false,
-                    data: QUESTIONS
-                }
-            });
+            const currentPage = _.size(list) / 12;
+            const response = yield call(questionService.fetch, courseId, {
+                sort: sortBy,
+                lecture,
+                questionTypes
+            }, currentPage + 1);
+            if (response) {
+                const { hasMore, total, list } = response.data;
+                yield put({
+                    type: 'pushQuestions',
+                    payload: {
+                        hasMore,
+                        total,
+                        data: list
+                    }
+                });
+            }
         },
         *fetchQuestionsAgain({ payload: courseId }, { call, put, select }) {
             const {
@@ -240,11 +254,13 @@ export default {
             });
         },
         *fetchLectureOpts({ payload: courseId }, { call, put }) {
-            yield delay(1200);
-            yield put({
-                type: 'saveLectureOpts',
-                payload: LECTURE_OPTIONS
-            });
+            const response = yield call(courseService.fetchChaptersDetail, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveLectureOpts',
+                    payload: response.data
+                });
+            }
         },
         *sortQuestions({ payload }, { call, put, select }) {
             const { courseId, value } = payload;
@@ -262,16 +278,22 @@ export default {
                     questionTypes
                 }
             } = forum;
-            //sort with lecture, types and value == sortBy
-            yield delay(1500);
-            yield put({
-                type: 'saveQuestions',
-                payload: {
-                    hasMore: true,
-                    total: 2197,
-                    data: QUESTIONS
-                }
+            const response = yield call(questionService.fetch, courseId, {
+                lecture,
+                sort: value,
+                questionTypes
             });
+            if (response) {
+                const { hasMore, total, list } = response.data;
+                yield put({
+                    type: 'saveQuestions',
+                    payload: {
+                        hasMore,
+                        total,
+                        data: list
+                    }
+                });
+            }
         },
         *filterQuestionsByLecture({ payload }, { call, put, select }) {
             const { courseId, value } = payload;
@@ -289,16 +311,22 @@ export default {
                     questionTypes
                 }
             } = forum;
-            //sort with lecture, types and value == lecture
-            yield delay(1500);
-            yield put({
-                type: 'saveQuestions',
-                payload: {
-                    hasMore: true,
-                    total: 702,
-                    data: QUESTIONS
-                }
+            const response = yield call(questionService.fetch, courseId, {
+                lecture: value,
+                sort: sortBy,
+                questionTypes
             });
+            if (response) {
+                const { hasMore, total, list } = response.data;
+                yield put({
+                    type: 'saveQuestions',
+                    payload: {
+                        hasMore,
+                        total,
+                        data: list
+                    }
+                });
+            }
         },
         *filterQuestionsByTypes({ payload }, { call, put, select }) {
             const { courseId, values } = payload;
@@ -316,16 +344,22 @@ export default {
                     lecture
                 }
             } = forum;
-            //sort with lecture, types and value == lecture
-            yield delay(1500);
-            yield put({
-                type: 'saveQuestions',
-                payload: {
-                    hasMore: true,
-                    total: 1643,
-                    data: QUESTIONS
-                }
+            const response = yield call(questionService.fetch, courseId, {
+                sort: sortBy,
+                lecture,
+                questionTypes: values
             });
+            if (response) {
+                const { hasMore, total, list } = response.data;
+                yield put({
+                    type: 'saveQuestions',
+                    payload: {
+                        hasMore,
+                        total,
+                        data: list
+                    }
+                });
+            }
         },
         *askQuestion({ payload }, { call, put }){
             const {
@@ -347,15 +381,13 @@ export default {
         },
         *fetchThread({ payload }, { call, put }) {
             const { courseId, threadId } = payload;
-            //call api with threadId, courseId --> check for thread belong course
-            yield delay(1400);
-            const status = 0;
-            if (status === 0)
+            const response = yield call(questionService.fetchThread, courseId, threadId);
+            if (response) {
                 yield put({
                     type: 'saveThread',
-                    payload: THREAD
+                    payload: response.data
                 });
-            else router.replace('/error/404');
+            }
         },
         *moreAnswers({ payload }, { call, put, select }) {
             const {
@@ -366,62 +398,97 @@ export default {
             const {
                 answers
             } = thread;
-            //more answers baseon threadId, answers
-            yield delay(1200);
-            yield put({
-                type: 'pushAnswers',
-                payload: {
-                    hasMore: false,
-                    data: ANSWERS
-                }
-            });
+            const skip = _.size(answers);
+            const response = yield call(questionService.fetchAnswers, courseId, threadId, skip);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'pushAnswers',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
-        *toggleVote({ payload: threadId }, { call, put }) {
+        *toggleVote({ payload }, { call, put }) {
+            const {
+                threadId,
+                courseId,
+                value
+            } = payload;
             yield put({
                 type: 'toggleVoting'
             });
-            yield delay(1000);
-            //call api
+            let response;
+            if (value) {
+                response = yield call(questionService.unvote, courseId, threadId);
+            }
+            else {
+                response = yield call(questionService.vote, courseId, threadId);
+            }
+            if (!response) {
+                yield put({
+                    type: 'toggleVoting'
+                });
+            }
         },
-        *toggleFollow({ payload: threadId }, { call, put }) {
+        *toggleFollow({ payload }, { call, put }) {
+            const {
+                threadId,
+                courseId,
+                value
+            } = payload;
             yield put({
-                type: 'toggleFollowing',
+                type: 'toggleFollowing'
             });
-            yield delay(800);
+            let response;
+            if (value) {
+                response = yield call(questionService.unfollow, courseId, threadId);
+            }
+            else {
+                response = yield call(questionService.follow, courseId, threadId);
+            }
+            if (!response) {
+                yield put({
+                    type: 'toggleFollowing'
+                });
+            }
         },
-        *toggleAnswerVote({ payload: answerId }, { call, put }) {
+        *toggleAnswerVote({ payload }, { call, put }) {
+            const {
+                threadId,
+                courseId,
+                answerId,
+                value
+            } = payload;
             yield put({
                 type: 'toggleAnswerVoting',
                 payload: answerId
             });
-            yield delay(900);
+            let response;
+            if (value) {
+                response = yield call(questionService.unvoteAnswer, courseId, threadId, answerId);
+            }
+            else {
+                response = yield call(questionService.voteAnswer, courseId, threadId, answerId);
+            }
+            if (!response) {
+                yield put({
+                    type: 'toggleAnswerVoting',
+                    payload: answerId
+                });
+            }
         },
         *answer({ payload }, { call, put }) {
             const { courseId, threadId, answer } = payload;
-            yield delay(1200);
-            //call api with threadId, answer --> response --> answer
-            const response = {
-                data: {
-                    _id: 'new_answer',
-                    user: {
-                        _id: 1,
-                        avatar: 'https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/51059227_2091470127614437_5419405170205261824_o.jpg?_nc_cat=106&_nc_ohc=LnSzD5KUUN4AX8EolVa&_nc_ht=scontent.fdad1-1.fna&oh=95b1eba87a97f6266a625c07caf68566&oe=5EAE6D56',
-                        name: 'HuYeFen Cute',
-                        isInstructor: false
-                    },
-                    createdAt: 1578818445997,
-                    content: answer,
-                    numOfVotings: 0,
-                    isVoted: false
-                }
-            };
-            const {
-                data: answerData
-            } = response;
-            yield put({
-                type: 'shiftAnswer',
-                payload: answerData
-            });
+            const response = yield call(questionService.answer, courseId, threadId, answer);
+            if (response) {
+                yield put({
+                    type: 'shiftAnswer',
+                    payload: response.data
+                });
+            }
         },
         *fetchLecture({ payload }, { call, put }) {
             const { courseId, lectureId, type } = payload;
