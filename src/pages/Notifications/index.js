@@ -27,7 +27,7 @@ const Notifications = ({ dispatch, ...props }) => {
     }, []);
     const handleViewNotify = item => {
         let url = '';
-        switch(item.type) {
+        switch (item.type) {
             case 'friend':
                 url = `/friend/${item.user._id}`;
                 break;
@@ -79,7 +79,7 @@ const Notifications = ({ dispatch, ...props }) => {
         if (notifications)
             notifications = _.concat(notifications, skeletonData);
     }
-    
+
     return (
         <Wrapper title="Notifications">
             <div className={styles.notifications}>
@@ -94,38 +94,44 @@ const Notifications = ({ dispatch, ...props }) => {
                             loadMore={loadMore}
                             rowKey={item => item._id || item.key}
                             renderItem={item => (
-                                <div className={!item.loading ? styles.notiItem : styles.loadingItem} onClick={!item.loading ? () => handleViewNotify(item) : () => {}}>
-                                        <List.Item style={{ background: (item.seen ? 'inherit' : 'rgba(250, 218, 94, 0.05)'), paddingLeft: 12, paddingRight: 12 }}>
-                                            <Skeleton active title={false} avatar loading={item.loading}
-                                                paragraph={{
-                                                    rows: 2,
-                                                    width: ['60%', '40%']
-                                                }}
-                                            >
-                                                <List.Item.Meta
-                                                    avatar={item.user ? (
-                                                        <UserAvatar
-                                                            size={36}
-                                                            textSize={36}
-                                                            style={{ background: '#FADA5E', color: 'white' }}
-                                                            src={item.user.avatar}
-                                                            text={item.user.name}
-                                                            alt="user-avatar"
-                                                            borderWidth={0}
-                                                        />
-                                                    ) : (
-                                                        <Avatar
-                                                            size={36}
-                                                            src={item.avatar}
-                                                            alt="avatar"
-                                                        />
-                                                    )}
-                                                    title={<span>{item.user ? `${item.user.name} ${item.content}` : item.content }</span>}
-                                                    description={<span style={{ fontSize: 13, color: 'gray'}}>{ fromNow(moment(item.createdAt)) }</span>}
-                                                />
-                                            </Skeleton>
-                                        </List.Item>
-                                    
+                                <div className={!item.loading ? styles.notiItem : styles.loadingItem} onClick={!item.loading ? () => handleViewNotify(item) : () => { }}>
+                                    <List.Item style={{ background: (item.seen ? 'inherit' : 'rgba(250, 218, 94, 0.05)'), paddingLeft: 12, paddingRight: 12 }}>
+                                        <Skeleton active title={false} avatar loading={item.loading}
+                                            paragraph={{
+                                                rows: 2,
+                                                width: ['60%', '40%']
+                                            }}
+                                        >
+                                            <List.Item.Meta
+                                                avatar={item.owner ? (
+                                                    <UserAvatar
+                                                        size={36}
+                                                        textSize={36}
+                                                        style={{ background: '#FADA5E', color: 'white' }}
+                                                        src={item.owner.avatar}
+                                                        text={item.owner.name}
+                                                        alt="user-avatar"
+                                                        borderWidth={0}
+                                                    />
+                                                ) : null}
+                                                title={
+                                                    <span>
+                                                    {item.owner
+                                                        ? `${item.ownerType === 'Teacher'
+                                                            ? 'GV '
+                                                            : item.ownerType === 'Admin'
+                                                                ? 'Admin '
+                                                                : ''
+                                                        }${item.owner.name} ${item.content}`
+                                                        : ''
+                                                    }
+                                                    </span>
+                                                }
+                                                description={<span style={{ fontSize: 13, color: 'gray' }}>{fromNow(moment(item.createdAt))}</span>}
+                                            />
+                                        </Skeleton>
+                                    </List.Item>
+
                                 </div>
                             )}
                         />

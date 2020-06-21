@@ -2,6 +2,7 @@ import { delay } from '@/utils/utils';
 import { message } from 'antd';
 import _ from 'lodash';
 import router from 'umi/router';
+import * as courseService from '@/services/course';
 import COURSE_INFO from '@/assets/fakers/courseLearningInfo';
 import COURSE_OVERVIEW from '@/assets/fakers/courseOverview';
 import INSTRUCTORS from '@/assets/fakers/instructors';
@@ -466,12 +467,16 @@ export default {
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;
-            yield delay(1000);
-            //call api isValidCourse(courseId)
-            const validStatus = 0;
-            if (validStatus === 0) onOk();
-            else if (validStatus === 1) onInvalidCourse();
-            else onInvalidStudent();
+            const response = yield call(courseService.validCourse, courseId);
+            if (response) {
+                const status = response.data;
+                if (status === 0)
+                    onOk();
+                else if (status === 1)
+                    onInvalidCourse();
+                else
+                    onInvalidStudent();
+            }
         },
     },
     reducers: {

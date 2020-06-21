@@ -14,40 +14,42 @@ export default {
             const { data } = payload;
             const {
                 _id,
-                userId,
-                userName,
-                userAvatar,
-                avatar,
+                ownerType,
+                ownerId,
+                ownerName,
+                ownerAvatar,
                 pushType
             } = data;
             let icon;
-            if (userId)
+            if (ownerId)
                 icon = (
                     <UserAvatar
-                        src={userAvatar}
+                        src={ownerAvatar}
                         alt='user-avatar'
                         borderWidth={1}
                         size={32}
                         textSize={33}
-                        text={userName}
+                        text={ownerName}
                         style={{ color: 'white', background: '#FADA5E', fontSize: '0.7em' }}
                     />
                 );
-            else if (avatar)
-                icon = <Avatar src={avatar} alt='avatar' size={25} />;
             else if (pushType === 'messenger')
                 icon = <Icon type="mail" style={{ fontSize: '24px', color: '#FADA5E' }} />;
             else
-                icon = <Icon type="bell" style={{ fontSize: '24px', color: '#FADA5E' }} />
+                icon = <Icon type="bell" style={{ fontSize: '24px', color: '#FADA5E' }} />;
             if (pushType === 'messenger') {
                 const { converId, text, image, video, unseen } = data;
-                let notificationContent;
+                let notificationContent = '';
+                if (ownerType === 'Teacher')
+                    notificationContent = 'Giáo viên ';
+                else if (ownerType === 'Admin')
+                    notificationContent = 'Quản trị viên ';
                 if (video)
-                    notificationContent = `${userName} đã tải lên một video.`;
+                    notificationContent += `${ownerName} đã tải lên một video.`;
                 else if (image)
-                    notificationContent = `${userName} đã tải lên một hình ảnh.`;
+                    notificationContent += `${ownerName} đã tải lên một hình ảnh.`;
                 else
-                    notificationContent = `${userName} đã nhắn "${text}"`;
+                    notificationContent += `${ownerName} đã nhắn "${text}"`;
                 notificationPopup.open({
                     key: converId + _.uniqueId('di_'),
                     icon,
@@ -67,8 +69,8 @@ export default {
                     lastUpdated: data.createdAt,
                     lastMessage,
                     unseen: Number(unseen),
-                    name: `${userName}`,
-                    avatar: userAvatar
+                    name: `${ownerName}`,
+                    avatar: ownerAvatar
                 };
                 yield put({
                     type: 'messenger/shift',
@@ -86,8 +88,8 @@ export default {
             }
             else {
                 let content = data.content;
-                if (userId)
-                    content = `${userName} ${content}`;
+                if (ownerId)
+                    content = `${ownerType === 'Teacher' ? 'Giáo viên ' : ownerType === 'Admin' ? 'Quản trị viên ' : ''}${ownerName} ${content}`;
                 notificationPopup.open({
                     key: _id,
                     icon,
@@ -96,13 +98,13 @@ export default {
                     placement: "topLeft"
                 });
                 const noOfUsNotification = yield select(state => state.user.noOfUsNotification);
-                const notificationItem = _.omit(data, ['userId', 'userName', 'userAvatar', 'pushType']);
-                notificationItem.user = null;
-                if (userId) {
-                    notificationItem.user = {
-                        _id: userId,
-                        name: userName,
-                        avatar: userAvatar
+                const notificationItem = _.omit(data, ['ownerId', 'ownerName', 'ownerAvatar', 'pushType']);
+                notificationItem.owner = null;
+                if (ownerId) {
+                    notificationItem.owner = {
+                        _id: ownerId,
+                        name: ownerName,
+                        avatar: ownerAvatar
                     };
                 }
                 yield put({
