@@ -109,7 +109,7 @@ const Thread = ({ match, dispatch, ...props }) => {
     return (
         <div className={styles.thread}>
             <div className={styles.back}>
-                <span onClick={() => router.push(`/course/${match.params.courseId}/learning/forum`)}>
+                <span onClick={() => router.push(`/learning/${match.params.courseId}/forum`)}>
                     <Icon type="arrow-left" />
                     <span className={styles.text}>Back to forum</span>
                 </span>

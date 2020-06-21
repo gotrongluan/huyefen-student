@@ -786,18 +786,18 @@ export default {
                 ...state,
                 thread: {
                     ...state.thread,
-                    totalAnswers: state.thread.totalAnswers + 1,
+                    numOfAnswers: state.thread.numOfAnswers + 1,
                     answers: [answer, ...state.thread.answers]
                 }
             };
         },
         toggleVoting(state) {
-            const numOfVotings = state.thread.isVoted ? state.thread.numOfVotings - 1 : state.thread.numOfVotings + 1;
+            const numOfVotes = state.thread.isVoted ? state.thread.numOfVotes - 1 : state.thread.numOfVotes + 1;
             return {
                 ...state,
                 thread: {
                     ...state.thread,
-                    numOfVotings,
+                    numOfVotes,
                     isVoted: !state.thread.isVoted
                 }
             };
@@ -814,8 +814,8 @@ export default {
         toggleAnswerVoting(state, { payload: answerId }) {
             const answersData = [...state.thread.answers];
             const index = _.findIndex(answersData, ['_id', answerId]);
-            if (answersData[index].isVoted) answersData[index].numOfVotings -= 1;
-            else answersData[index].numOfVotings += 1;
+            if (answersData[index].isVoted) answersData[index].numOfVotes -= 1;
+            else answersData[index].numOfVotes += 1;
             answersData[index].isVoted = !answersData[index].isVoted;
             return {
                 ...state,
