@@ -242,16 +242,22 @@ export default {
                     }
                 }
             } = yield select(state => state.learning);
-            //fetch again with all above params, courseId
-            yield delay(1300);
-            yield put({
-                type: 'saveQuestions',
-                payload: {
-                    hasMore: true,
-                    total: 243,
-                    data: QUESTIONS
-                }
+            const response = yield call(questionService.fetch, courseId, {
+                sort: sortBy,
+                lecture,
+                questionTypes
             });
+            if (response) {
+                const { hasMore, total, list } = response.data;
+                yield put({
+                    type: 'saveQuestions',
+                    payload: {
+                        hasMore,
+                        total,
+                        data: list
+                    }
+                });
+            }
         },
         *fetchLectureOpts({ payload: courseId }, { call, put }) {
             const response = yield call(courseService.fetchChaptersDetail, courseId);
@@ -366,18 +372,23 @@ export default {
                 courseId,
                 title,
                 lecture,
-                content
+                content,
+                lectureIndex
             } = payload;
-            //call api with 4 above variables 
-            yield delay(1400);
-            //get question from response
-            //if no error -> redirect to thread/${questionId}
-            yield put({
-                type: 'fetchQuestionsAgain',
-                payload: courseId
+            const response = yield call(questionService.ask, courseId, {
+                title,
+                lectureId: lecture,
+                content,
+                lectureIndex
             });
-            router.push(`/learning/${courseId}/forum/thread/new-question`);
-
+            if (response) {
+                const questionId = response.data._id;
+                yield put({
+                    type: 'fetchQuestionsAgain',
+                    payload: courseId
+                });
+                router.push(`/learning/${courseId}/forum/thread/${questionId}`);
+            }
         },
         *fetchThread({ payload }, { call, put }) {
             const { courseId, threadId } = payload;

@@ -57,3 +57,12 @@ export async function answer(courseId, threadId, answer) {
         }
     });
 }
+
+export async function ask(courseId, params) {
+    return apiPost(`${QUESTION_API_URL}`, {
+        body: {
+            courseId,
+            ...params
+        }
+    });
+}

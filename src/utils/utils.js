@@ -161,4 +161,10 @@ export const mapLevelKeyToLevel = levelKey => {
         default:
             return 'Non Level';
     }
-}
+};
+
+export const extractContent = htmlStr => {
+    const span = document.createElement('span');
+    span.innerHTML = htmlStr;
+    return span.textContent || span.innerText;
+};

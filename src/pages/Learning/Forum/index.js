@@ -10,6 +10,7 @@ import TimeAgo from 'react-timeago';
 import Loading from '@/elements/spin/secondary';
 import styles from './index.less';
 import { exportToHTML } from '@/utils/editor';
+import { extractContent } from '@/utils/utils';
 
 const { Option } = Select;
 const { Search, TextArea } = Input;
@@ -24,6 +25,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
     });
     const [questionContent, setQuestionContent] = useState(EditorState.createEmpty());
     const [newQuestionLecture, setNewQuestionLecture] = useState(undefined);
+    const [newQuestionLectureIndex, setNewQuestionLectureIndex] = useState(undefined);
     const {
         forum,
         initLoading,
@@ -96,6 +98,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
         });
         setQuestionContent(EditorState.createEmpty());
         setNewQuestionLecture(undefined);
+        setNewQuestionLectureIndex(undefined);
         setVisibleModal(false);
     };
 
@@ -113,11 +116,10 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                 courseId,
                 title: questionTitle.value,
                 lecture: newQuestionLecture,
+                lectureIndex: newQuestionLectureIndex,
                 content: html
             }
         });
-        //do something
-        //call exportToHTML
         handleCancelAskQuestion();
     };
 
@@ -136,6 +138,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
         _id: _.uniqueId('thread_loading_'),
         loading: true
     }] : forum.list;
+    let lectureIndexCount = 1;
     const lectureOptionsData = !forum.lectureOptions || lectureOptionsLoading ? [] : (_.map(forum.lectureOptions, chapter => ({
         key: chapter._id,
         title: chapter.title,
@@ -144,7 +147,8 @@ const Forum = ({ location, match, dispatch, ...props }) => {
         children: _.map(chapter.lectures, lecture => ({
             key: lecture._id,
             value: lecture._id,
-            title: lecture.title  
+            title: lecture.title,
+            index: lectureIndexCount++
         }))
     })));
 
@@ -249,7 +253,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                                         </Col>
                                         <Col span={18} className={styles.info}>
                                             <div className={styles.title}>{thread.title}</div>
-                                            <div className={styles.content}>{thread.content}</div>
+                                            <div className={styles.content}>{extractContent(thread.content)}</div>
                                             <div className={styles.extra}>
                                                 <span className={styles.name}>{thread.user.name}</span>
                                                 <span className={styles.order}>{`Lecture ${thread.lectureIndex}`}</span>
@@ -300,7 +304,10 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                     <FormItem label="Lecture" required>
                         <TreeSelect
                             style={{ width: '100%' }}
-                            onChange={value => setNewQuestionLecture(value)}
+                            onSelect={(value, node) => {
+                                setNewQuestionLecture(value);
+                                setNewQuestionLectureIndex(node.props.index);
+                            }}
                             placeholder="Lecture"
                             value={newQuestionLecture}
                             dropdownClassName={styles.newQuestionTreeSelect}
