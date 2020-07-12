@@ -29,7 +29,7 @@ const initialState = {
     overview: null,
     instructors: null,
     instructorReviews: null,
-    review: null,
+    reviews: null,
     forum: {
         total: null,
         list: null,
@@ -79,13 +79,14 @@ export default {
                 });
             }
         },
-        *fetchReview({ payload: courseId }, { call, put }) {
-            yield delay(1100);
-            //empty review = {}
-            yield put({
-                type: 'saveReview',
-                payload: REVIEW
-            });
+        *fetchReviews({ payload: courseId }, { call, put }) {
+            const response = yield call(courseService.fetchReviews, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveReviews',
+                    payload: response.data
+                });
+            }
         },
         *fetchInstructorReviews({ payload: courseId }, { call, put }) {
             yield delay(1600);
@@ -618,14 +619,14 @@ export default {
                 instructorReviews: null
             };
         },
-        saveReview(state, { payload }) {
+        saveReviews(state, { payload }) {
             return {
                 ...state,
-                review: { ...payload }
+                reviews: [...payload]
             }
         },
-        resetReview(state) {
-            return { ...state, review: null };
+        resetReviews(state) {
+            return { ...state, reviews: null };
         },
         saveAnnouncements(state, { payload }) {
             const { hasMore, data } = payload;

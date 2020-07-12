@@ -1,8 +1,4 @@
-.review {
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-top: 80px;
-    padding-bottom: 70px;
+.reviews {
     .loading {
         position: relative;
         height: 400px;
@@ -14,58 +10,56 @@
             text-align: center;
         }
     }
-    .lastVote, .vote {
-        text-align: center;
-        padding: 30px 25px;
-        background: @component-background;
-        border: 1px dashed #fff;
-        border-radius: 30px;
-        .title {
-            font-size: 2em;
-            color: @primary-color;
-        }
-    }
-    .lastVote {
-        margin-bottom: 60px;
-        .starRating {
-            margin-top: 25px;
-            .star {
-                font-size: 1.8em;
+    .reviewsData {
+        .oldList {
+            .empty {
+                text-align: center;
+                color: #fff;
+                padding: 32px 0;
+                font-weight: bold;
+            }
+            .title {
+                color: white;
+                font-weight: bold;
+                font-size: 1.4em;
+                margin-bottom: 24px;
+            }
+            .data {
+                .rating {
+                    .stars {
+                        font-size: 14px !important;
+                    }
+                    .date {
+                        display: inline-block;
+                        margin-left: 16px;
+                        color: white;
+                    }
+                    margin-bottom: 8px;
+                }
+                .desc {
+                    color: #fff;
+                }
+                .extra {
+                    color: yellow;
+                }
             }
         }
-        .time {
-            margin-top: 15px;
-        }
-        .comment {
-            margin-top: 40px;
-            width: 100%;
-            text-align: left;
-        }
-    }
-    .vote {
-        .starRating {
-            margin-top: 25px;
-            .star {
-                font-size: 2.3em;
+        .newReview {
+            width: 80%;
+            margin: auto;
+            margin-top: 24px;
+            .starRating {
+                margin-bottom: 16px;
             }
-        }
-        
-        .comment {
-            margin-top: 40px;
-            width: 100%;
-            border-radius: 20px;
-            padding: 16px;
-            min-height: 180px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            &::-webkit-scrollbar {
-                display: none;
+            .comment {
+                textarea {
+                    resize: none;
+                }
             }
-            &:hover {
-                border: 1px solid @primary-color;
+            .btn {
+                margin-top: 16px;
+                text-align: right;
             }
-        }
-        .btn {
-            margin-top: 20px;
         }
     }
 }

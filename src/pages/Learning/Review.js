@@ -1,78 +1,113 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
-import { Rate, Button, Spin, Icon, message } from 'antd';
-import { Editor, EditorState } from 'draft-js';
-import { exportToHTML } from '@/utils/editor';
+import { Rate, Button, Spin, Icon, message, Input, List } from 'antd';
 import TimeAgo from 'react-timeago';
 import styles from './Review.less';
+import { roundStarRating } from '@/utils/utils';
+import moment from 'moment';
+
+const { TextArea } = Input;
 
 const Review = ({ match, dispatch, ...props }) => {
     const [starVal, setStarVal] = useState(0);
-    const [comment, setComment] = useState(EditorState.createEmpty());
+    const [comment, setComment] = useState('');
     const {
-        review,
+        reviews,
         loading
     } = props;
     const { courseId } = match.params;
     useEffect(() => {
         dispatch({
-            type: 'learning/fetchReview',
+            type: 'learning/fetchReviews',
             payload: courseId
         });
         return () => {
-            dispatch({ type: 'learning/resetReview '});
-            setStarVal(0);
-            setComment(EditorState.createEmpty());
+            dispatch({ type: 'learning/resetReviews'});
         };
     }, [courseId]);
     const handleVoting = () => {
         if (starVal === 0) return message.error('You must rate before submitting!');
         setStarVal(0);
-        setComment(EditorState.createEmpty());
+        setComment('');
         //submit(courseId, starVal, comment);
     };
     return (
-        <div className={styles.review}>
-            {!review || loading ? (
+        <div className={styles.reviews}>
+            {!reviews || loading ? (
                 <div className={styles.loading}>
                     <div className={styles.inlineDiv}>
                         <Spin indicator={<Icon type="loading" style={{ fontSize: 64, color: '#FADA5E' }} spin/>} />
                     </div>
                 </div>
             ) : (
-                <React.Fragment>
-                    {!_.isEmpty(review) && (
-                        <div className={styles.lastVote}>
-                            <div className={styles.title}>Last review</div>
-                            <div className={styles.starRating}>
-                                <Rate className={styles.star} allowHalf tooltips={['Terible', 'Bad', 'OK', 'Good', 'Great!']} value={review.starRating} disabled/>
-                            </div>
-                            <div className={styles.time}>
-                                <TimeAgo date={review.createdAt} />
-                            </div>
-                            <div className={styles.comment} dangerouslySetInnerHTML={{ __html: review.comment }} />
-                        </div>
-                    )}
-                    <div className={styles.vote}>
-                        <div className={styles.title}>
-                            {_.isEmpty(review) ? 'How do you think about this course?' : 'Make rating again'}
-                        </div>
+                <div className={styles.reviewsData}>
+                    <div className={styles.oldList}>
+                        {!_.isEmpty(reviews) ? (
+                          <React.Fragment>
+                              <div className={styles.title}>
+                                  Your reviews
+                              </div>
+                              <div className={styles.data}>
+                                  <List
+                                    itemLayout="horizontal"
+                                    dataSource={reviews}
+                                    renderItem={review => (
+                                      <List.Item
+                                        key={review._id}
+                                        actions={[
+                                            <span className={styles.extra}>
+                                                <Icon type="like" theme="filled"/>
+                                                <span style={{ paddingLeft: '8px' }}>{review.likes}</span>
+                                            </span>,
+                                            <span className={styles.extra}>
+                                                <Icon type="dislike" theme="filled"/>
+                                                <span style={{ paddingLeft: '8px' }}>{review.dislikes}</span>
+                                            </span>
+                                        ]}
+                                      >
+                                          <List.Item.Meta
+                                            title={(
+                                              <div className={styles.rating}>
+                                                  <Rate className={styles.stars} disabled value={roundStarRating(review.starRating)} allowHalf style={{ fontSize: '14px' }}/>
+                                                  <span className={styles.date}>
+                                                      {moment(review.createdAt).format('MMM D, YYYY')}
+                                                  </span>
+                                              </div>
+                                            )}
+                                            description={<div className={styles.desc}>{review.comment || 'No comment.'}</div>}
+                                          />
+                                      </List.Item>
+                                    )}
+                                  />
+                              </div>
+                          </React.Fragment>
+                        ) : (
+                          <div className={styles.empty}>
+                              You don't have any review yet.
+                          </div>
+                        )}
+                    </div>
+                    <div className={styles.newReview}>
                         <div className={styles.starRating}>
                             <Rate className={styles.star} allowHalf tooltips={['Terible', 'Bad', 'OK', 'Good', 'Great!']} value={starVal} onChange={value => setStarVal(value)} />
                         </div>
                         <div className={styles.comment}>
-                            <Editor
-                                placeholder="Enter comment..."
-                                editorState={comment}
-                                onChange={editorState => setComment(editorState)}
+                            <TextArea
+                                placeholder="Add review..."
+                                value={comment}
+                                onChange={e => setComment(e.target.value)}
+                                autoSize={{
+                                    minRows: 6,
+                                    maxRows: 6
+                                }}
                             />
                         </div>
                         <div className={styles.btn}>
-                            <Button type="primary" onClick={handleVoting}><Icon type="check" />{_.isEmpty(review) ? ' Submit rating' : ' Update rating'}</Button>
+                            <Button type="primary" onClick={handleVoting} icon="check">Submit</Button>
                         </div>
                     </div>
-                </React.Fragment>
+                </div>
             )}
         </div>
     )
@@ -80,7 +115,7 @@ const Review = ({ match, dispatch, ...props }) => {
 
 export default connect(
     ({ learning, loading }) => ({
-        review: learning.review,
+        reviews: learning.reviews,
         loading: !!loading.effects['learning/fetchReview']
     })
 )(Review);

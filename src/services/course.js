@@ -18,3 +18,7 @@ export async function instructors(courseId) {
 export async function fetchChaptersDetail(courseId) {
     return apiGet(`${COURSE_API_URL}/${courseId}/chapters/detail`);
 }
+
+export async function fetchReviews(courseId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/reviews`);
+}
