@@ -129,17 +129,13 @@ const InstructorReview = ({ dispatch, match, ...props }) => {
                                             style={{ background: '#fada5e', color: 'white', fontSize: '44px' }}
                                         />
                                     </div>
-                                    <div className={classNames(styles.stat, styles.numReviews)}>
-                                        <Icon type="block" />
-                                        <span className={styles.value}>{`${numberWithCommas(instructor.numOfReviews)} reviews`}</span>
-                                    </div>
                                     <div className={classNames(styles.stat, styles.students)}>
                                         <Icon type="user" />
                                         <span className={styles.value}>{`${numberWithCommas(instructor.numOfStudents)} students`}</span>
                                     </div>
                                     <div className={classNames(styles.stat, styles.courses)}>
                                         <Icon type="read" />
-                                        <span className={styles.value}>{`${numberWithCommas(instructor.numOfCourses)} courses`}</span>
+                                        <span className={styles.value}>{`${numberWithCommas(instructor.numOfCourse)} courses`}</span>
                                     </div>
                                 </Col>
                                 <Col span={20} className={styles.detail}>
