@@ -22,3 +22,12 @@ export async function fetchChaptersDetail(courseId) {
 export async function fetchReviews(courseId) {
     return apiGet(`${COURSE_API_URL}/${courseId}/reviews`);
 }
+
+export async function addReview({ courseId, starVal, comment }) {
+    return apiPost(`${COURSE_API_URL}/${courseId}/reviews`, {
+        body: {
+            starRating: starVal,
+            comment
+        }
+    });
+}

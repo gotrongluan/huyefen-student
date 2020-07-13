@@ -88,6 +88,15 @@ export default {
                 });
             }
         },
+        *addReview({ payload }, { call, put }) {
+            const response = yield call(courseService.addReview, payload);
+            if (response) {
+                yield put({
+                    type: 'shiftReview',
+                    payload: response.data
+                });
+            }
+        },
         *fetchInstructorReviews({ payload: courseId }, { call, put }) {
             yield delay(1600);
             yield put({
@@ -624,6 +633,15 @@ export default {
                 ...state,
                 reviews: [...payload]
             }
+        },
+        shiftReview(state, { payload }) {
+            return {
+                ...state,
+                reviews: [
+                  payload,
+                  ...state.reviews
+                ]
+            };
         },
         resetReviews(state) {
             return { ...state, reviews: null };

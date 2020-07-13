@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
-import { Rate, Button, Spin, Icon, message, Input, List } from 'antd';
+import { Rate, Button, Spin, Icon, message, Input, List, Modal } from 'antd';
 import TimeAgo from 'react-timeago';
 import styles from './Review.less';
 import { roundStarRating } from '@/utils/utils';
@@ -14,7 +14,8 @@ const Review = ({ match, dispatch, ...props }) => {
     const [comment, setComment] = useState('');
     const {
         reviews,
-        loading
+        loading,
+        addReviewLoading
     } = props;
     const { courseId } = match.params;
     useEffect(() => {
@@ -28,9 +29,16 @@ const Review = ({ match, dispatch, ...props }) => {
     }, [courseId]);
     const handleVoting = () => {
         if (starVal === 0) return message.error('You must rate before submitting!');
+        dispatch({
+            type: 'learning/addReview',
+            payload: {
+                courseId,
+                starVal,
+                comment
+            }
+        });
         setStarVal(0);
         setComment('');
-        //submit(courseId, starVal, comment);
     };
     return (
         <div className={styles.reviews}>
@@ -75,7 +83,7 @@ const Review = ({ match, dispatch, ...props }) => {
                                                   </span>
                                               </div>
                                             )}
-                                            description={<div className={styles.desc}>{review.comment || 'No comment.'}</div>}
+                                            description={review.comment ? <div className={styles.desc}>{review.comment}</div> : 'No comment.'}
                                           />
                                       </List.Item>
                                     )}
@@ -107,6 +115,22 @@ const Review = ({ match, dispatch, ...props }) => {
                             <Button type="primary" onClick={handleVoting} icon="check">Submit</Button>
                         </div>
                     </div>
+                    <Modal
+                        className={styles.addReviewLoadingModal}
+                        width={180}
+                        visible={addReviewLoading}
+                        footer={null}
+                        closable={false}
+                        maskClosable={false}
+                        title={null}
+                        centered
+                        bodyStyle={{
+                            padding: '10px'
+                        }}
+                    >
+                        <div className={styles.icon}><Spin /></div>
+                        <div className={styles.text}>Processing...</div>
+                    </Modal>
                 </div>
             )}
         </div>
@@ -116,6 +140,7 @@ const Review = ({ match, dispatch, ...props }) => {
 export default connect(
     ({ learning, loading }) => ({
         reviews: learning.reviews,
-        loading: !!loading.effects['learning/fetchReview']
+        loading: !!loading.effects['learning/fetchReview'],
+        addReviewLoading: !!loading.effects['learning/addReview']
     })
 )(Review);
