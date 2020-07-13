@@ -35,3 +35,13 @@ export async function addReview({ courseId, starVal, comment }) {
 export async function fetchInstructorReviews(courseId) {
     return apiGet(`${COURSE_API_URL}/${courseId}/reviews/instructor`);
 }
+
+export async function reviewInstructor(courseId, { instructorId, starRating, ratingContent }) {
+    return apiPut(`${COURSE_API_URL}/${courseId}/reviews/instructor`, {
+        body: {
+            instructorId,
+            starRating,
+            comment: ratingContent
+        }
+    });
+}

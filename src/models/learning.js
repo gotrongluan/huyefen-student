@@ -100,7 +100,6 @@ export default {
         *fetchInstructorReviews({ payload: courseId }, { call, put }) {
             const response = yield call(courseService.fetchInstructorReviews, courseId);
             if (response) {
-                console.log(response.data);
                 yield put({
                     type: 'saveInstructorReviews',
                     payload: response.data
@@ -115,16 +114,20 @@ export default {
                 ratingContent,
                 callback
             } = payload;
-            yield delay(1200);
-            yield put({
-                type: 'updateInstructorReview',
-                payload: {
-                    _id: instructorId,
-                    starRating,
-                    ratingContent
-                }
+            const response = yield call(courseService.reviewInstructor, courseId, {
+                instructorId, starRating, ratingContent
             });
-            if (callback) callback();
+            if (response) {
+                yield put({
+                    type: 'updateInstructorReview',
+                    payload: {
+                        _id: instructorId,
+                        starRating,
+                        ratingContent
+                    }
+                });
+                if (callback) callback();
+            }
         },
         *fetchAnnouncements({ payload: courseId }, { call, put }) {
             const response = yield call(announcementService.fetch, courseId);
