@@ -123,9 +123,13 @@ export default {
             const response = yield call(myCoursesServices.fetchMyCourses, sortBy);
             if (response) {
                 yield put({
+                    type: 'saveSortByType',
+                    payload: sortBy
+                });
+                yield put({
                     type: 'saveMyCourses',
                     payload: response.data
-                })
+                });
             }
         },
         *filter({ payload }, { call, put, select }) {
@@ -260,6 +264,12 @@ export default {
                 ...state,
                 filters: { ...payload }
             };
+        },
+        saveSortByType(state, { payload: sortBy }) {
+            return {
+                ...state,
+                sortBy
+            }
         },
         clear() {
             return { ...initialState };

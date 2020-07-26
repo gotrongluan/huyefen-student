@@ -1,17 +1,17 @@
-import { delay } from '@/utils/utils';
-import MYCOURSES from '@/assets/fakers/mycourses';
+import * as myCoursesServices from '@/services/myCourses';
 
 export default {
     namespace: 'myCourses',
     state: null,
     effects: {
         *fetch(action, { call, put }) {
-            //
-            yield delay(1500);
-            yield put({
-                type: 'save',
-                payload: MYCOURSES
-            });
+            const response = yield call(myCoursesServices.fetchMyCourses, 'recent-enroll', 0, 4);
+            if (response) {
+                yield put({
+                    type: 'save',
+                    payload: response.data.list
+                })
+            }
         }
     },
     reducers: {
