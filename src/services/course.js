@@ -45,3 +45,11 @@ export async function reviewInstructor(courseId, { instructorId, starRating, rat
         }
     });
 }
+
+export async function fetchOverviewPublic(courseId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/overview/public`);
+}
+
+export async function fetchInstructorsPublic(courseId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/instructors/public`);
+}

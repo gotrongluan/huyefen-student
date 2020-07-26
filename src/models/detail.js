@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import { delay } from '@/utils/utils';
 import COURSE_INFO from '@/assets/fakers/courseInfo';
-import OVERVIEW from '@/assets/fakers/overview';
 import SYLLABUS from '@/assets/fakers/syllabus';
 import RELATED_COURSES from '@/assets/fakers/relatedCourses';
 import INSTRUCTORS from '@/assets/fakers/instructors';
 import REVIEWS from '@/assets/fakers/reviews';
+import * as courseServices from '@/services/course';
 
 export default {
     namespace: 'detail',
@@ -31,11 +31,13 @@ export default {
             });
         },
         *fetchOverview({ payload: courseId }, { call, put }) {
-            yield delay(1400);
-            yield put({
-                type: 'saveOverview',
-                payload: OVERVIEW
-            });
+            const response = yield call(courseServices.fetchOverviewPublic, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveOverview',
+                    payload: response.data
+                });
+            }
         },
         *fetchSyllabus({ payload: courseId }, { call, put }) {
             yield delay(3300);
@@ -52,11 +54,13 @@ export default {
             });
         },
         *fetchInstructors({ payload: courseId }, { call, put }) {
-            yield delay(2500);
-            yield put({
-                type: 'saveInstructors',
-                payload: INSTRUCTORS
-            });
+            const response = yield call(courseServices.fetchInstructorsPublic, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveInstructors',
+                    payload: response.data
+                })
+            }
         },
         *fetchReviews({ payload: courseId }, { call, put }) {
             yield delay(1500);

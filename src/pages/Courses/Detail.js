@@ -538,7 +538,7 @@ const Instructors = ({ instructors }) => {
                         </Col>
                         <Col span={18} className={styles.detail}>
                             <div className={styles.name}>{instructor.name}</div>
-                            <div className={styles.job}>{instructor.job}</div>
+                            <div className={styles.job}>{instructor.headline}</div>
                             <ViewMore height={270}>
                                 <div className={styles.biography} dangerouslySetInnerHTML={{ __html: instructor.biography }}/>
                             </ViewMore>
@@ -858,7 +858,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 <div className={styles.title}>What you'll learn</div>
                                 <div className={styles.content}>
                                     <List
-                                        dataSource={overview.whatLearn}
+                                        dataSource={overview.whatLearns}
                                         itemLayout="horizontal"
                                         split={false}
                                         grid={{
@@ -866,10 +866,10 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                             gutter: 24
                                         }}
                                         renderItem={item => (
-                                            <List.Item key={_.uniqueId('what_learn_')} className={styles.listItem}>
+                                            <List.Item key={item._id} className={styles.listItem}>
                                                 <List.Item.Meta
                                                     avatar={<Avatar size={28} icon="check" style={{ background: '#fada5e', color: 'black' }}/>}
-                                                    title={<span className={styles.item} dangerouslySetInnerHTML={{ __html: item }}/>}
+                                                    title={<span className={styles.item}>{item.content}</span>}
                                                 />
                                             </List.Item>
                                         )}
@@ -885,10 +885,10 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         itemLayout="horizontal"
                                         split={false}
                                         renderItem={item => (
-                                            <List.Item key={_.uniqueId('requirement_')}>
+                                            <List.Item key={item._id}>
                                                 <List.Item.Meta
                                                     avatar={<Avatar size={28} icon="link" style={{ background: '#fada5e', color: 'black' }}/>}
-                                                    title={<span className={styles.item} dangerouslySetInnerHTML={{ __html: item }}/>}
+                                                    title={<span className={styles.item}>{item.content}</span>}
                                                 />
                                             </List.Item>
                                         )}
@@ -899,6 +899,16 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             <div className={styles.description}>
                                 <div className={styles.title}>Description</div>
                                 <div className={styles.content} dangerouslySetInnerHTML={{ __html: overview.description }}/>
+                            </div>
+                            <div className={styles.targetStudents}>
+                                <div className={styles.title}>Who this course is for:</div>
+                                <div className={styles.content}>
+                                    <ul>
+                                        {_.map(overview.targetStudents, item => (
+                                            <li key={item._id}>{item.content}</li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </TabPane>
                         <TabPane
