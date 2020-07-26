@@ -1,7 +1,7 @@
 import { delay } from '@/utils/utils';
 import CART from '@/assets/fakers/cart';
 import storage from '@/utils/storage';
-import { message } from 'antd';
+import * as cartServices from '@/services/cart';
 import _ from 'lodash';
 
 export default {
@@ -9,13 +9,13 @@ export default {
     state: [],
     effects: {
         *fetch({ payload: items }, { call, put }) {
-            yield delay(1000);
-            //call api with item ids list, server return list item with full info.
-            //call api with token. if not token --> 401/403
-            yield put({
-                type: 'save',
-                payload: CART
-            });
+            const response = yield call(cartServices.fetchItemsInfo, items);
+            if (response) {
+                yield put({
+                    type: 'saveCartItems',
+                    payload: response.data
+                });
+            }
         },
         *add({ payload }, { call, put }) {
             const { _id, type } = payload;
@@ -36,7 +36,7 @@ export default {
         }
     },
     reducers: {
-        save(state, { payload }) {
+        saveCartItems(state, { payload }) {
             return [...state, ...payload]
         },
         shift(state, { payload: item }) {

@@ -163,6 +163,30 @@ export const mapLevelKeyToLevel = levelKey => {
     }
 };
 
+export const mapKeyToLang = langKey => {
+    switch (langKey) {
+        case 'english':
+            return 'English';
+        case 'vietnamese':
+            return 'Vietnamese';
+        default:
+            return 'English';
+    }
+}
+
+export const mapKeyToPrice = priceKey => {
+    switch (priceKey) {
+        case 'tier1':
+            return 19.99;
+        case 'tier2':
+            return 24.99;
+        case 'tier3':
+            return 29.99;
+        default:
+            return 0;
+    }
+}
+
 export const extractContent = htmlStr => {
     const span = document.createElement('span');
     span.innerHTML = htmlStr;

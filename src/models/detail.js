@@ -23,12 +23,13 @@ export default {
     },
     effects: {
         *fetchInfo({ payload: courseId }, { call, put }) {
-            //
-            yield delay(1500);
-            yield put({
-                type: 'saveInfo',
-                payload: COURSE_INFO
-            });
+            const response = yield call(courseServices.fetchPublicInfo, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveInfo',
+                    payload: response.data
+                })
+            }
         },
         *fetchOverview({ payload: courseId }, { call, put }) {
             const response = yield call(courseServices.fetchOverviewPublic, courseId);

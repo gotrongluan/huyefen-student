@@ -4,8 +4,9 @@ import { connect } from 'dva';
 import Link from 'umi/link';
 import Wrapper from '@/components/JumpotronWrapper';
 import { Icon, Divider, Button, Row, Col, Input, Spin } from 'antd';
-import { transAuthors } from '@/utils/utils';
+import { mapKeyToPrice, transAuthors } from '@/utils/utils';
 import styles from './index.less';
+import storage from '@/utils/storage';
 
 const { Search } = Input;
 
@@ -16,18 +17,18 @@ const CourseItem = ({ course }) => {
                 <img alt="course-avatar" src={course.avatar} />
             </Col>
             <Col className={styles.nameAndAuthors} span={12}>
-                <div className={styles.name}>{course.name}</div>
+                <div className={styles.name}>{course.title}</div>
                 <div className={styles.authors}>
-                    {`Created by ${transAuthors(course.authors, 1000)}`}
+                    {`Created by ${transAuthors(course.authors.map(author => author.name), 1000)}`}
                 </div>
             </Col>
             <Col className={styles.price} span={4}>
                 <div className={styles.priceVal}>
-                    {`$${_.round(course.price, 2)}`}
+                    {`$${_.round(mapKeyToPrice(course.price), 2)}`}
                 </div>
                 {course.realPrice > course.price && (
                     <div className={styles.realPriceVal}>
-                        {`$${_.round(course.realPrice, 2)}`}
+                        {`$${_.round(mapKeyToPrice(course.realPrice), 2)}`}
                     </div>
                 )}
             </Col>
@@ -42,8 +43,11 @@ const CourseItem = ({ course }) => {
 
 const BundleItem = ({ bundle }) => {
     const getBundleName = bundle => {
-        return `Bundle: ${_.join(_.map(bundle.courses, course => course.name), ' + ')}`;
+        return `Bundle: ${_.join(_.map(bundle.courses, course => course.title), ' + ')}`;
     };
+    const rawPrice = mapKeyToPrice(bundle.price);
+    const rawRealPrice = mapKeyToPrice(bundle.realPrice);
+
     return (
         <Row className={styles.bundle}>
             <Row className={styles.theBundle}>
@@ -52,11 +56,11 @@ const BundleItem = ({ bundle }) => {
                 </Col>
                 <Col className={styles.price} span={4}>
                     <div className={styles.priceVal}>
-                        {`$${_.round(bundle.price, 2)}`}
+                        {`$${_.round(rawPrice, 2)}`}
                     </div>
-                    {bundle.realPrice > bundle.price && (
+                    {rawPrice < rawRealPrice && (
                         <div className={styles.realPriceVal}>
-                            {`$${_.round(bundle.realPrice, 2)}`}
+                            {`$${_.round(rawRealPrice, 2)}`}
                         </div>
                     )}
                 </Col>
@@ -73,13 +77,13 @@ const BundleItem = ({ bundle }) => {
                         <img alt="course-avatar" src={course.avatar} />
                     </Col>
                     <Col className={styles.nameAndAuthors} span={11}>
-                        <div className={styles.name}>{course.name}</div>
+                        <div className={styles.name}>{course.title}</div>
                         <div className={styles.authors}>
-                            {`Created by ${transAuthors(course.authors, 1000)}`}
+                            {`Created by ${transAuthors(course.authors.map(author => author.name), 1000)}`}
                         </div>
                     </Col>
                     <Col className={styles.price} span={4}>
-                        {`$${_.round(course.price, 2)}`}
+                        {`$${_.round(mapKeyToPrice(course.price), 2)}`}
                     </Col>
                 </Row>
             ))}
@@ -96,14 +100,23 @@ const ShoppingCart = ({ dispatch, ...props }) => {
     const handleCheckout = () => {
 
     };
-    
-    const totalPrice = _.isEmpty(cart) ? 0 : _.sum(_.map(cart, item => item.price));
-    const totalRealPrice = _.isEmpty(cart) ? 0 : _.sum(_.map(cart, item => item.realPrice))
+    const handleClearAll = () => {
+        dispatch({
+            type: 'cart/reset'
+        });
+        storage.setShoppingCart(null);
+    };
+
+    const totalPrice = _.isEmpty(cart) ? 0 : _.sum(_.map(cart, item => mapKeyToPrice(item.price)));
+    const totalRealPrice = _.isEmpty(cart) ? 0 : _.sum(_.map(cart, item => mapKeyToPrice(item.realPrice)))
     return (
         <Wrapper title="Shopping cart">
             <Row className={styles.shoppingCart} gutter={16}>
                 <div className={styles.title}>
                     {`${_.size(cart)} ${_.size(cart) > 1 ? 'courses' : 'course'} in cart`}
+                </div>
+                <div className={styles.clearAll}>
+                    <span className={styles.action} onClick={handleClearAll}><Icon type="close" /> Clear All</span>
                 </div>
                 <Col span={18} className={styles.main}>
                     {loading ? (

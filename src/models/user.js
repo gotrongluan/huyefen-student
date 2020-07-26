@@ -18,13 +18,13 @@ export default {
                 yield put({ type: 'save', payload: { ...user, token } });
                 if (callback) callback();
                 yield put({ type: 'authorized/success '});
-                // const items = storage.getShoppingCart();
-                // if (!_.isEmpty(items)) {
-                //     yield put({
-                //         type: 'cart/fetch',
-                //         payload: items
-                //     });
-                // }
+                const items = storage.getShoppingCart();
+                if (!_.isEmpty(items)) {
+                    yield put({
+                        type: 'cart/fetch',
+                        payload: items
+                    });
+                }
                 // FCM token
             }
         },

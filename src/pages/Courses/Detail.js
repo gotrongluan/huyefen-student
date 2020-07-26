@@ -13,9 +13,17 @@ import TeacherCourse from '@/components/TeacherCourse';
 import FeaturedBadge from '@/components/FeaturedBadge';
 import ViewMore from '@/components/ViewMore';
 import Sticky from 'react-sticky-el';
-import { roundStarRating, numberWithCommas, minutesToHour, transAuthors } from '@/utils/utils';
+import {
+    roundStarRating,
+    numberWithCommas,
+    minutesToHour,
+    transAuthors,
+    mapLevelKeyToLevel,
+    mapKeyToLang, mapKeyToPrice,
+} from '@/utils/utils';
 import storage from '@/utils/storage';
 import styles from './Detail.less';
+import relatedCourses from '@/assets/fakers/relatedCourses';
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -165,7 +173,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
         {
             title: 'Num enrolled',
             dataIndex: 'numOfEnrolled',
-            key: 'numOfEnrolled',
+            key: 'numOfStudents',
             width: '15%',
             render: num => renderNumOfEnrolled(num)
         },
@@ -643,14 +651,21 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
 
     const handleAddToCart = () => {
         if (!user || !storage.getToken()) router.push('/user/login');
-        else setModalVisible(true);
+        else {
+            if (_.isEmpty(relatedCourses.frequent.list)) {
+                handleAddToCartNow();
+            }
+            else {
+                setModalVisible(true);
+            }
+        }
     };
 
     const handleAddToCartNow = () => {
         dispatch({
             type: 'cart/add',
             payload: {
-                ..._.pick(courseInfo, ['_id', 'name', 'avatar', 'authors', 'price', 'realPrice']),
+                ..._.pick(courseInfo, ['_id', 'title', 'avatar', 'authors', 'price', 'realPrice']),
                 type: 'course'
             }
         });
@@ -693,8 +708,18 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         }
         return false;
     }
-    
+
     const isInCart = checkInCart();
+    let price = null;
+    let realPrice = null;
+    let rawPrice = 0;
+    let rawRealPrice = 0;
+    if (courseInfo) {
+        rawPrice = _.round(mapKeyToPrice(courseInfo.price), 2);
+        rawRealPrice = _.round(mapKeyToPrice(courseInfo.realPrice), 2);
+        price = rawPrice > 0 ? `$${rawPrice}` : 'Free';
+        realPrice = rawRealPrice > 0 ? `$${rawRealPrice}` : 'Free';
+    }
     return (
         <div className={styles.detail}>
             <Row className={styles.jumpotron}>
@@ -704,37 +729,37 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             <Skeleton active title={false} paragraph={{ rows: 4, width: ['80%', '70%', '45%', '55%'] }}/>
                         ) : (
                             <div>
-                                <div className={styles.name}>{courseInfo.name}</div>
-                                <div className={styles.summary}>{courseInfo.summary}</div>
+                                <div className={styles.name}>{courseInfo.title}</div>
+                                <div className={styles.summary}>{courseInfo.subTitle}</div>
                                 {courseInfo.featured && (
                                     <div className={styles.featured}>
                                         <FeaturedBadge type={courseInfo.featured} style={{ marginRight: '12px' }}/>
-                                        in <Link to="/">{courseInfo.topic}</Link>
+                                        in <Link to="/">{courseInfo.primaryTopic.title}</Link>
                                         <Divider type="vertical" style={{ background: 'white' }} />
-                                        <span>{courseInfo.category}</span>
+                                        <span>{courseInfo.area.title}</span>
                                     </div>
                                 )}
                                 <div className={styles.statistic}>
                                     <Rate allowHalf value={roundStarRating(courseInfo.starRating)} disabled className={styles.stars} />
                                     <span className={styles.ratingVal}>{courseInfo.starRating}</span>
                                     <span className={styles.numOfRatings}>{`(${numberWithCommas(courseInfo.numOfRatings)} ratings)`}</span>
-                                    <span className={styles.numOfEnrolled}>{`${numberWithCommas(courseInfo.numOfEnrolled)} students enrolled`}</span>
+                                    <span className={styles.numOfEnrolled}>{`${numberWithCommas(courseInfo.numOfStudents)} students enrolled`}</span>
                                 </div>
                                 <div className={styles.authors}>
-                                    {`Created by ${transAuthors(courseInfo.authors)}`}
+                                    {`Created by ${transAuthors(_.map(courseInfo.authors, 'name'))}`}
                                 </div>
                                 <div className={styles.extra}>
                                     <span className={styles.level}>
                                         <Icon type="rocket" />
-                                        <span className={styles.levelVal}>{courseInfo.level}</span>
+                                        <span className={styles.levelVal}>{mapLevelKeyToLevel(courseInfo.level)}</span>
                                     </span>
                                     <span className={styles.language}>
                                         <Icon type="block" />
-                                        <span className={styles.languageVal}>{courseInfo.language}</span>
+                                        <span className={styles.languageVal}>{mapKeyToLang(courseInfo.language)}</span>
                                     </span>
                                     <span className={styles.lastUpdated}>
                                         <Icon type="history" />
-                                        <span className={styles.lastUpdatedVal}>{`Last updated ${moment(courseInfo.lastUpdated).format('MM/YYYY')}`}</span>
+                                        <span className={styles.lastUpdatedVal}>{`Last updated ${moment(courseInfo.updatedAt).format('MM/YYYY')}`}</span>
                                     </span>
                                 </div>
                             </div>
@@ -759,11 +784,11 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 <React.Fragment>
                                     <div className={styles.price}>
                                         <span className={styles.priceVal}>
-                                            {`$${_.round(courseInfo.price, 2)}`}
+                                            {price}
                                         </span>
-                                        {courseInfo.realPrice > courseInfo.price && (
+                                        {rawRealPrice > rawPrice && (
                                             <span className={styles.realPriceVal}>
-                                                {`$${_.round(courseInfo.realPrice, 2)}`}
+                                                {realPrice}
                                             </span>
                                         )}
                                     </div>
@@ -775,19 +800,19 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 <React.Fragment>
                                     <div className={styles.price}>
                                         <span className={styles.priceVal}>
-                                            {`$${_.round(courseInfo.price, 2)}`}
+                                            {price}
                                         </span>
-                                        {courseInfo.realPrice > courseInfo.price && (
+                                        {rawRealPrice > rawPrice && (
                                             <span className={styles.realPriceVal}>
-                                                {`$${_.round(courseInfo.realPrice, 2)}`}
+                                                {realPrice}
                                             </span>
                                         )}
                                     </div>
                                     <div className={styles.addToCart}>
-                                        <Button type="primary" icon="shopping-cart" size="large" onClick={handleAddToCart}>Add to cart</Button>
+                                        <Button loading={!relatedCourses || relatedCoursesLoading} type="primary" icon="shopping-cart" size="large" onClick={handleAddToCart}>Add to cart</Button>
                                     </div>
                                     <div className={styles.buyNow}>
-                                        <Button icon="audit" size="large">Buy now</Button>
+                                        <Button icon="audit" size="large" loading={!relatedCourses || relatedCoursesLoading}>Buy now</Button>
                                     </div>
                                 </React.Fragment>
                             )}
@@ -806,13 +831,13 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                     <div className={styles.stickyBar}>
                         <Row className={styles.info}>
                             <div className={styles.name}>
-                                {courseInfo.name}
+                                {courseInfo.title}
                             </div>
                             <div className={styles.statistic}>
                                 <Rate allowHalf value={roundStarRating(courseInfo.starRating)} disabled className={styles.stars} />
                                 <span className={styles.ratingVal}>{courseInfo.starRating}</span>
                                 <span className={styles.numOfRatings}>{`(${numberWithCommas(courseInfo.numOfRatings)} ratings)`}</span>
-                                <span className={styles.numOfEnrolled}>{`${numberWithCommas(courseInfo.numOfEnrolled)} students enrolled`}</span>
+                                <span className={styles.numOfEnrolled}>{`${numberWithCommas(courseInfo.numOfStudents)} students enrolled`}</span>
                             </div>
                             <div className={styles.btns}>
                                 {courseInfo.isRegistered ? (
@@ -834,10 +859,10 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                     </React.Fragment>
                                 ) : (
                                     <React.Fragment>
-                                        <Button className={styles.addToCart} type="primary" onClick={handleAddToCart}>
+                                        <Button loading={!relatedCourses || relatedCoursesLoading} className={styles.addToCart} type="primary" onClick={handleAddToCart}>
                                             Add to cart
                                         </Button>
-                                        <Button className={styles.buyNow}>
+                                        <Button loading={!relatedCourses || relatedCoursesLoading} className={styles.buyNow}>
                                             Buy now
                                         </Button>
                                     </React.Fragment>

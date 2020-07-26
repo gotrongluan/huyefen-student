@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { Descriptions, Divider, Avatar, Skeleton, Spin, Icon, List, Row } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import ViewMore from '@/components/ViewMore';
-import { numberWithCommas, minutesToHour, mapLevelKeyToLevel } from '@/utils/utils';
+import { numberWithCommas, minutesToHour, mapLevelKeyToLevel, mapKeyToLang } from '@/utils/utils';
 import styles from './Overview.less';
 
 const InstructorMeta = ({ avatar, name, job }) => {
@@ -78,7 +78,7 @@ const Overview = ({ match, dispatch, ...props }) => {
                                 </Descriptions.Item>
                                 <Descriptions.Item label="Lectures">{overview.numOfLectures}</Descriptions.Item>
                                 <Descriptions.Item label="Estimate time">{minutesToHour(overview.totalTime)}</Descriptions.Item>
-                                <Descriptions.Item label="Languages">{overview.language}</Descriptions.Item>
+                                <Descriptions.Item label="Languages">{mapKeyToLang(overview.language)}</Descriptions.Item>
                                 <Descriptions.Item label="Students">{numberWithCommas(overview.numOfStudents)}</Descriptions.Item>
                                 <Descriptions.Item label="Ratings">
                                     <span className={styles.value}>{overview.starRating}</span>

@@ -65,3 +65,7 @@ export async function voteReview(courseId, reviewId, value) {
         }
     })
 }
+
+export async function fetchPublicInfo(courseId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/info/public`);
+}
