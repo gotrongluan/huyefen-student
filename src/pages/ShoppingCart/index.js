@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import Wrapper from '@/components/JumpotronWrapper';
-import { Icon, Divider, Button, Row, Col, Input, Spin } from 'antd';
+import { Icon, Divider, Button, Row, Col, Input, Spin, Modal } from 'antd';
 import { mapKeyToPrice, transAuthors } from '@/utils/utils';
 import styles from './index.less';
 import storage from '@/utils/storage';
@@ -95,10 +95,13 @@ const ShoppingCart = ({ dispatch, ...props }) => {
     const [coupon, setCoupon] = useState('');
     const {
         cart,
-        loading
+        loading,
+        buyingLoading
     } = props;
     const handleCheckout = () => {
-
+        dispatch({
+            type: 'cart/buy'
+        });
     };
     const handleClearAll = () => {
         dispatch({
@@ -184,6 +187,22 @@ const ShoppingCart = ({ dispatch, ...props }) => {
                     </div>
                 </Col>
             </Row>
+            <Modal
+                className={styles.buyingLoadingModal}
+                width={180}
+                visible={buyingLoading}
+                footer={null}
+                closable={false}
+                maskClosable={false}
+                title={null}
+                centered
+                bodyStyle={{
+                    padding: '10px'
+                }}
+            >
+                <div className={styles.icon}><Spin /></div>
+                <div className={styles.text}>Submitting...</div>
+            </Modal>
         </Wrapper>
     )
 };
@@ -191,6 +210,7 @@ const ShoppingCart = ({ dispatch, ...props }) => {
 export default connect(
     ({ cart, loading }) => ({
         cart: cart,
-        loading: !!loading.effects['cart/fetch']
+        loading: !!loading.effects['cart/fetch'],
+        buyingLoading: !!loading.effects['cart/buy']
     })
 )(ShoppingCart);
