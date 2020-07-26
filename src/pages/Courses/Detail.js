@@ -268,25 +268,49 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
     )
 };
 
+const ReviewStatus = ({ numOfLikes, numOfDislikes, status, handleVoting, reviewId }) => {
+    return (
+        <div className={styles.voting}>
+            <span className={styles.text}>Was this review helpful?</span>
+            <span className={styles.like}>
+                    <span onClick={() => handleVoting(reviewId, status !== 1 ? 1 : 0, status)}>
+                        <Icon type="like" theme="filled" style={{ color: (status === 1) ? '#fada5e' : 'white' }}/>
+                    </span>
+                    <span className={styles.count}>
+                        {numOfLikes}
+                    </span>
+                </span>
+            <span className={styles.dislike}>
+                    <span onClick={() => handleVoting(reviewId, status !== -1 ? -1 : 0, status)}>
+                        <Icon type="dislike" theme="filled" style={{ color: (status === -1) ? '#fada5e' : 'white' }}/>
+                    </span>
+                    <span className={styles.count}>
+                        {numOfDislikes}
+                    </span>
+            </span>
+        </div>
+    )
+}
+
 const Answer = ({ answer }) => {
     return (
         <div className={styles.answer}>
             <div className={styles.user}>
                 <div className={styles.avatarCont}>
                     <UserAvatar
-                        src={answer.user.avatar}
+                        src={answer.teacher.avatar}
                         size={48}
                         textSize={48}
-                        alt="ava-user"
-                        text={answer.user.name}
+                        alt="ava-teacher"
+                        text={answer.teacher.name}
                         borderWidth={0}
                         style={{ background: '#fada5e', color: 'white' }}
                     />
                 </div>
                 <div className={styles.info}>
                     <div className={styles.names}>
-                        <span className={styles.name}>{answer.user.name}</span>
-                        {answer.user.isInstructor && <span className={styles.instructor}>{`(Instructor)`}</span>}
+                        <span className={styles.name}>{answer.teacher.name}</span>
+                        <span className={styles.instructor}>{`(Instructor)`}</span>
                     </div>
                     <div className={styles.time}>
                         <TimeAgo date={answer.createdAt} />
@@ -314,7 +338,7 @@ const FeaturedReview = ({ data: review, handleVoting }) => {
                         alt="ava-user"
                         text={review.user.name}
                         borderWidth={0}
-                        style={{ background: '#fada5e', color: 'white'} }
+                        style={{ background: '#fada5e', color: 'white'}}
                     />
                 </div>
                 <div className={styles.info}>
@@ -330,30 +354,16 @@ const FeaturedReview = ({ data: review, handleVoting }) => {
             </div>
             <div className={styles.content}>
                 <ViewMore height={250}>
-                    <div dangerouslySetInnerHTML={{ __html: review.content }}/>
+                    <div dangerouslySetInnerHTML={{ __html: review.comment }}/>
                 </ViewMore>
             </div>
-            <div className={styles.voting}>
-                <span className={styles.text}>Was this review helpful?</span>
-                <span
-                    className={styles.like}
-                    onClick={() => {
-                        if (review.status !== 1) handleVoting('featured', review._id, 1, review.status);
-                        else handleVoting('featured', review._id, null, review.status);
-                    }}
-                >
-                    <Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/>
-                </span>
-                <span
-                    className={styles.dislike}
-                    onClick={() => {
-                        if (review.status !== 0) handleVoting('featured', review._id, 0, review.status);
-                        else handleVoting('featured', review._id, null, review.status);
-                    }}
-                >
-                    <Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/>
-                </span>
-            </div>
+            <ReviewStatus
+                status={review.status}
+                reviewId={review._id}
+                handleVoting={(...args) => handleVoting('featured', ...args)}
+                numOfDislikes={review.numOfDislikes}
+                numOfLikes={review.numOfLikes}
+            />
             {!_.isEmpty(review.answers) && (
                 <div className={styles.answers}>
                     <div className={styles.title}>Answers</div>
@@ -400,29 +410,16 @@ const Review = ({ data: review, handleVoting }) => {
                 </div>
                 <div className={styles.content}>
                     <ViewMore height={250}>
-                        <div dangerouslySetInnerHTML={{ __html: review.content }}/>
+                        <div dangerouslySetInnerHTML={{ __html: review.comment }}/>
                     </ViewMore>
                 </div>
-                <div className={styles.voting}>
-                    <span className={styles.text}>Was this review helpful?</span>
-                    <span
-                        className={styles.like}
-                        onClick={() => {
-                            if (review.status !== 1) handleVoting('default', review._id, 1, review.status);
-                            else handleVoting('default', review._id, null, review.status);
-                        }}>
-                            <Icon type="like" theme="filled" style={{ color: (review.status === 1) ? '#fada5e' : 'white' }}/>
-                        </span>
-                    <span
-                        className={styles.dislike}
-                        onClick={() => {
-                            if (review.status !== 0) handleVoting('default', review._id, 0, review.status);
-                            else handleVoting('default', review._id, null, review.status);
-                        }}
-                    >
-                        <Icon type="dislike" theme="filled" style={{ color: (review.status === 0) ? '#fada5e' : 'white' }}/>
-                    </span>
-                </div>
+                <ReviewStatus
+                    status={review.status}
+                    reviewId={review._id}
+                    handleVoting={(...args) => handleVoting('default', ...args)}
+                    numOfDislikes={review.numOfDislikes}
+                    numOfLikes={review.numOfLikes}
+                />
                 {!_.isEmpty(review.answers) && (
                     <div className={styles.answers}>
                         <div className={styles.title}>Answers</div>
@@ -467,11 +464,11 @@ const Reviews = ({ list, featured, hasMore, handleVoting, handleMoreReviews, rev
                     <div className={styles.title}>Featured reviews</div>
                     <div className={styles.main}>
                         {_.map(featured, (review, i) => (
-                            <React.Fragment key={review._id + _.uniqueId('feature_review_')}>
+                            <React.Fragment key={review._id}>
                                 {i > 0 && (
                                     <Divider dashed className={styles.divider} />
                                 )}
-                                <FeaturedReview data={review} key={review._id + _.uniqueId('featured_review_')} handleVoting={handleVoting}/>
+                                <FeaturedReview data={review} key={review._id} handleVoting={handleVoting}/>
                             </React.Fragment>
                         ))}
                     </div>
@@ -485,7 +482,7 @@ const Reviews = ({ list, featured, hasMore, handleVoting, handleMoreReviews, rev
                         itemLayout="horizontal"
                         split={false}
                         className={styles.list}
-                        rowKey={item => item._id + _.uniqueId('review_')}
+                        rowKey={item => item._id}
                         loadMore={loadMore}
                         renderItem={item => (
                             <>
@@ -607,15 +604,31 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     }, [courseId]);
 
     const handleVoting = (type, reviewId, value, oldValue) => {
-        dispatch({
-            type: 'detail/vote',
-            payload: {
-                type,
-                reviewId,
-                value,
-                oldValue
-            }
-        });
+        if (!user) {
+            Modal.confirm({
+                title: 'You must log in',
+                content: 'You can\'t voting reviews. Please log in to continue',
+                centered: true,
+                markClosable: false,
+                okText: 'Login',
+                cancelText: 'Cancel',
+                onOk: () => router.push('/user/login'),
+                icon: (<Icon type="close-circle" theme="filled" style={{ color: "tomato" }}/>)
+            });
+        }
+        else {
+            dispatch({
+                type: 'detail/vote',
+                payload: {
+                    type,
+                    reviewId,
+                    courseId,
+                    value,
+                    oldValue
+                }
+            });
+        }
+
     };
 
     const handlePreview = lectureId => {

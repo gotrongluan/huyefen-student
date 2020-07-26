@@ -59,18 +59,35 @@ export default {
                 yield put({
                     type: 'saveInstructors',
                     payload: response.data
-                })
+                });
             }
         },
         *fetchReviews({ payload: courseId }, { call, put }) {
-            yield delay(1500);
-            yield put({
-                type: 'saveReviews',
-                payload: {
-                    ...REVIEWS,
-                    hasMore: true
+            const response = yield call(courseServices.fetchPublicReviews, courseId);
+            if (response) {
+                const { list: reviewsData, hasMore } = response.data;
+                let featuredReviews = [];
+                let featuredMaxLength = _.min([2, reviewsData]);
+                for (let i = 0; i < featuredMaxLength; i++) {
+                    const review = reviewsData[i];
+                    if (
+                        (review.numOfLikes > 0 && review.numOfLikes >= review.numOfDislikes)
+                        || (review.numOfDislikes === 0 && review.answers.length > 0)
+                    ) {
+                        featuredReviews.push(review);
+                    }
+                    else break;
                 }
-            });
+                const normalReviews = _.slice(reviewsData, featuredReviews.length);
+                yield put({
+                    type: 'saveReviews',
+                    payload: {
+                        featured: featuredReviews,
+                        list: normalReviews,
+                        hasMore
+                    }
+                });
+            }
         },
         *moreReviews(action, { call, put, select }) {
             const {
@@ -91,7 +108,13 @@ export default {
 
         },
         *vote({ payload }, { call, put, select }) {
-            const { type, reviewId, value, oldValue } = payload;
+            const {
+                type,
+                reviewId,
+                value,
+                courseId,
+                oldValue
+            } = payload;
             yield put({
                 type: 'saveVote',
                 payload: {
@@ -100,10 +123,20 @@ export default {
                     value
                 }
             });
-            yield delay(1000);
-            //if (error) yield put({ saveVote, oldValue })
-            //call api (reviewId, value);
-            //after finish, update 
+            const response = yield call(courseServices.voteReview, courseId, reviewId, value);
+            if (response) {
+                const errorCode = 1 * response.errorCode;
+                if (errorCode > 0) {
+                    yield put({
+                        type: 'saveVote',
+                        payload: {
+                            type,
+                            reviewId,
+                            oldValue
+                        }
+                    });
+                }
+            }
         }
     },
     reducers: {
@@ -154,10 +187,30 @@ export default {
             };
         },
         saveVote(state, { payload }) {
-            const { reviewId, type, value } = payload;
+            const {
+                type,
+                reviewId,
+                value
+            } = payload;
+            const mapValueToProp = {
+                '1': 'numOfLikes',
+                '-1': 'numOfDislikes'
+            };
             const attr = type === 'default' ? 'list' : 'featured';
             const list = [...state.reviews[attr]];
             const index = _.findIndex(list, ['_id', reviewId]);
+            if (list[index].status !== 0) {
+                if ((list[index].status) === 1) {
+                    list[index].numOfLikes -= 1;
+                }
+                else if (list[index].status === -1) {
+                    list[index].numOfDislikes -= 1;
+                }
+            }
+            if (value !== 0) {
+                const prop = mapValueToProp[value.toString()];
+                list[index][prop] += 1;
+            }
             list[index].status = value;
             return {
                 ...state,
