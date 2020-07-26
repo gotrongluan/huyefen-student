@@ -89,20 +89,23 @@ export default {
                 });
             }
         },
-        *moreReviews(action, { call, put, select }) {
+        *moreReviews({ payload: courseId }, { call, put, select }) {
             const {
-                info: { _id: courseId },
-                reviews: { list }
+                reviews: { list, featured }
             } = yield select(state => state.detail);
-            //
-            yield delay(1200);
-            yield put({
-                type: 'pushReviews',
-                payload: {
-                    hasMore: false,
-                    data: REVIEWS.list
-                }
-            });
+            const numCurrentReviews = list.length + featured.length;
+            const currentPage = numCurrentReviews / 8;
+            const response = yield call(courseServices.fetchPublicReviews, courseId, currentPage + 1);
+            if (response) {
+                const { hasMore, list } = response.data;
+                yield put({
+                    type: 'pushReviews',
+                    payload: {
+                        hasMore,
+                        data: list
+                    }
+                });
+            }
         },
         *preview() {
 

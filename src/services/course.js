@@ -54,7 +54,7 @@ export async function fetchInstructorsPublic(courseId) {
     return apiGet(`${COURSE_API_URL}/${courseId}/instructors/public`);
 }
 
-export async function fetchPublicReviews(courseId, page = 1, limit = 10) {
+export async function fetchPublicReviews(courseId, page = 1, limit = 8) {
     return apiGet(`${COURSE_API_URL}/${courseId}/reviews/public?page=${page}&limit=${limit}`);
 }
 

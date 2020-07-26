@@ -636,7 +636,8 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     };
     const handleMoreReviews = () => {
         dispatch({
-            type: 'detail/moreReviews'
+            type: 'detail/moreReviews',
+            payload: courseId
         });
     };
 
