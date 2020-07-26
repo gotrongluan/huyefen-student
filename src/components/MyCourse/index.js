@@ -20,7 +20,7 @@ const MyCourse = ({ course, handleRecommend }) => {
                 }
             >
                 <div className={styles.info} onClick={() => router.push(`/course/${course._id}`)}>
-                    <div className={styles.name}>{truncate(course.name, 35)}</div>
+                    <div className={styles.name}>{truncate(course.title, 44)}</div>
                     <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                     <div className={styles.progress}>
                         <Tooltip title={`${course.progress}%`} placement="top">

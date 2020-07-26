@@ -337,7 +337,6 @@ const MyCourses = ({ dispatch, ...props }) => {
                                     disabled={!myCourses || initLoading || sortLoading}
                                     loading={!myCourses || initLoading || sortLoading}
                                 >
-                                    <Option value="recent-access">Recently Accessed</Option>
                                     <Option value="recent-enroll">Recently Enrolled</Option>
                                     <Option value="a-z">Title: A to Z</Option>
                                     <Option value="z-a">Title: Z to A</Option>
@@ -436,7 +435,7 @@ const MyCourses = ({ dispatch, ...props }) => {
                             }}
                             loadMore={loadMore}
                             dataSource={!myCourses ? [] : myCourses}
-                            rowKey={course => (course._id || course.key) + _.uniqueId('my_course_')}
+                            rowKey={course => course._id}
                             renderItem={course => (
                                 <List.Item>
                                     {!course.loading ? (<MyCourse course={course} handleRecommend={handleRecommend}/>) : (

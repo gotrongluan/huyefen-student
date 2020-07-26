@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as myCoursesServices from '@/services/myCourses';
 import MY_COURSES from '@/assets/fakers/mycourses';
 import FRIENDS from '@/assets/fakers/topFriends';
 import { delay } from '@/utils/utils';
@@ -86,12 +87,15 @@ export default {
     namespace: 'courses',
     state: initialState,
     effects: {
-        *fetch(action, { call, put }) {
-            yield delay(1200);
-            yield put({
-                type: 'save',
-                payload: MY_COURSES
-            })
+        *fetch(action, { call, put, select }) {
+            const { sortBy } = yield select(state => state.courses);
+            const response = yield call(myCoursesServices.fetchMyCourses, sortBy);
+            if (response) {
+                yield put({
+                    type: 'saveMyCourses',
+                    payload: response.data
+                })
+            }
         },
         *fetchFriends(action, { call, put }) {
             yield delay(3000);
@@ -128,16 +132,16 @@ export default {
             const { category = null, progress = null, instructor = null } = payload;
             //filter with sortBy, pagination = 1. 
             yield delay(1600);
-            yield put({
-                type: 'save',
-                payload: MY_COURSES
-            });
+            // yield put({
+            //     type: 'save',
+            //     payload: MY_COURSES
+            // });
             yield put({
                 type: 'saveFilters',
                 payload: {
                     category, progress, instructor
                 }
-            })
+            });
         },
         *reset(action, { call, put, select }) {
             const { sortBy } = yield select(state => state.courses);
@@ -255,8 +259,8 @@ export default {
         }
     },
     reducers: {
-        save(state, { payload: courses }) {
-            return { ...state, list: courses };
+        saveMyCourses(state, { payload }) {
+            return { ...state, ...payload };
         },
         saveOptions(state, { payload }) {
             return {
