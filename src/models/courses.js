@@ -120,12 +120,13 @@ export default {
         },
         *sort({ payload: sortBy }, { call, put, select }) {
             const { category, progress, instructor } = yield select(state => state.courses);
-            //sort with sortBy, page = 1, filters
-            yield delay(1500);
-            yield put({
-                type: 'save',
-                payload: MY_COURSES
-            });
+            const response = yield call(myCoursesServices.fetchMyCourses, sortBy);
+            if (response) {
+                yield put({
+                    type: 'saveMyCourses',
+                    payload: response.data
+                })
+            }
         },
         *filter({ payload }, { call, put, select }) {
             const { sortBy } = yield select(state => state.courses);
@@ -170,17 +171,13 @@ export default {
                 progress,
                 list
             } = yield select(state => state.courses);
-            //fetch courses with filters, sort
-            //check loadMore
-            yield delay(1700);
-            yield put({
-                type: 'push',
-                payload: MY_COURSES
-            });
-            // yield put({
-            //     type: 'saveLoadmore',
-            //     payload: false
-            // });
+            const response = yield call(myCoursesServices.fetchMyCourses, sortBy, list.length);
+            if (response) {
+                yield put({
+                    type: 'pushMyCourses',
+                    payload: response.data
+                })
+            }
         },
         *allCourses(action, { call, put, select }) {
             const {
@@ -190,17 +187,13 @@ export default {
                 progress,
                 list
             } = yield select(state => state.courses);
-            //fetch courses with filters, sort
-            //check loadMore
-            yield delay(2700);
-            yield put({
-                type: 'push',
-                payload: [...MY_COURSES, ...MY_COURSES]
-            });
-            yield put({
-                type: 'saveLoadmore',
-                payload: false
-            });
+            const response = yield call(myCoursesServices.fetchMyCourses, sortBy, list.length, -1);
+            if (response) {
+                yield put({
+                    type: 'pushMyCourses',
+                    payload: response.data
+                })
+            }
         },
         *fetchCategories({ payload }, { call, put }) {
             const {
@@ -274,17 +267,16 @@ export default {
         saveFilters(state, { payload }) {
             return { ...state, ...payload };
         },
-        push(state, { payload: newCourses }) {
+        pushMyCourses(state, { payload }) {
+            const { hasMore, list: newCourses } = payload;
             return {
                 ...state,
+                hasMore,
                 list: [
                     ...state.list,
                     ...newCourses
                 ]
             };
-        },
-        saveLoadmore(state, { payload: value }) {
-            return { ...state, loadMore: value };
         },
         saveCategories(state, { payload: categories }) {
             return {

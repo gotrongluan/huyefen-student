@@ -47,7 +47,7 @@ const MyCourses = ({ dispatch, ...props }) => {
     let {
         myCourses,
         friends,
-        moreable,
+        hasMore,
         categories,
         progresses,
         instructors,
@@ -306,7 +306,7 @@ const MyCourses = ({ dispatch, ...props }) => {
     }
     const loadMore = (
         <LoadMore
-            when={!initLoading && !loading && myCourses && moreable}
+            when={!initLoading && !loading && myCourses && hasMore}
             className={styles.loadMore}
             onAll={handleAllCourses}
             onMore={handleMoreCourses}
@@ -511,7 +511,7 @@ export default connect(
     ({ courses, loading }) => ({
         myCourses: courses.list,
         friends: courses.friends,
-        moreable: courses.loadMore,
+        hasMore: courses.hasMore,
         categories: courses.filters.categories,
         progresses: courses.filters.progresses,
         instructors: courses.filters.instructors,
