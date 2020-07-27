@@ -29,6 +29,10 @@ export async function cancelInvitation(friendId) {
     return apiPut(`${FRIEND_API_URL}/${friendId}/cancel`);
 }
 
+export async function fetchCoursesOfFriend(friendId, skip = 0, limit = 4) {
+    return apiGet(`${FRIEND_API_URL}/${friendId}/courses?skip=${skip}&limit=${limit}`);
+}
+
 export async function acceptInvitation(friendId) {
     return apiPut(`${FRIEND_API_URL}/${friendId}/accept`);
 }

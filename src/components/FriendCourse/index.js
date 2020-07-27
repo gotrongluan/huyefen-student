@@ -1,9 +1,8 @@
 import React from 'react';
-import classNames from 'classnames';
 import Link from 'umi/link';
-import { Card, Rate, Tooltip } from 'antd';
+import { Card, Rate, Tooltip, Tag } from 'antd';
 import { truncate, transAuthors, roundStarRating } from '@/utils/utils';
-import Same from '@/elements/icon/same';
+import defaultAvatar from '@/assets/images/logo_trans.png';
 import styles from './index.less';
 
 const FriendCourse = ({ course }) => {
@@ -15,12 +14,12 @@ const FriendCourse = ({ course }) => {
                 hoverable
                 cover={
                     <div className={styles.cover}>
-                        <img alt="avatar" src={course.avatar} />
+                        <img alt="avatar" src={course.avatar || defaultAvatar} />
                     </div>
                 }
             >
                 <div className={styles.info}>
-                    <div className={styles.name}>{truncate(course.name, 35)}</div>
+                    <div className={styles.name}>{truncate(course.title, 50)}</div>
                     <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                     <div className={styles.starRating}>
                         <Rate allowHalf value={roundStarRating(course.starRating)} disabled className={styles.stars} />
@@ -28,7 +27,9 @@ const FriendCourse = ({ course }) => {
                     </div>
                     {course.isRegistered && (
                         <div className={styles.same}>
-                            <Tooltip placement="bottom" title="You and your friend bought this course together"><Same /></Tooltip>
+                            <Tooltip placement="bottom" title="You also bought this course">
+                                <Tag color="#87d068">Bought</Tag>
+                            </Tooltip>
                         </div>
                     )}
                 </div>

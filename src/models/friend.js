@@ -26,14 +26,13 @@ export default {
             }
         },
         *fetchCourses({ payload: friendId }, { call, put }) {
-            yield delay(2000);
-            yield put({
-                type: 'saveCourses',
-                payload: {
-                    hasMore: true,
-                    data: COURSES
-                }
-            });
+            const response = yield call(friendService.fetchCoursesOfFriend, friendId);
+            if (response) {
+                yield put({
+                    type: 'saveCourses',
+                    payload: response.data
+                })
+            }
         },
         *fetchFriends({ payload: friendId }, { call, put }) {
             const response = yield call(friendService.fetchFriendsOfFriend, friendId);
@@ -186,12 +185,12 @@ export default {
             };
         },
         saveCourses(state, { payload }) {
-            const { hasMore, data } = payload;
+            const { hasMore, list } = payload;
             return {
                 ...state,
                 courses: {
                     hasMore,
-                    list: [...data]
+                    list: [...list]
                 }
             };
         },
@@ -215,14 +214,14 @@ export default {
             };
         },
         pushCourses(state, { payload }) {
-            const { hasMore, data } = payload;
+            const { hasMore, list } = payload;
             return {
                 ...state,
                 courses: {
                     hasMore,
                     list: [
                         ...state.courses.list,
-                        ...data
+                        ...list
                     ]
                 }
             };
