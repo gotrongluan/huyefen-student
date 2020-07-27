@@ -5,8 +5,8 @@ import Link from 'umi/link';
 import FeaturedBadge from '@/components/FeaturedBadge';
 import { Card, Rate } from 'antd';
 import { truncate, transAuthors, roundStarRating, mapKeyToPrice } from '@/utils/utils';
+import defaultPhoto from '@/assets/images/logo_trans.png'
 import styles from './index.less';
-const defaultPhoto = "https://images.pexels.com/photos/3662845/pexels-photo-3662845.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500";
 
 const TeacherCourse = ({ course }) => {
     const price = mapKeyToPrice(course.price);

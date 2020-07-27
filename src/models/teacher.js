@@ -33,25 +33,23 @@ export default {
         },
         *moreCourses({ payload: teacherId }, { call, put, select }) {
             const { courses: { list } } = yield select(state => state.teacher);
-            yield delay(1800);
-            yield put({
-                type: 'pushCourses',
-                payload: {
-                    hasMore: true,
-                    data: COURSES_DATA
-                }
-            });
+            const response = yield call(teacherService.fetchCourses, teacherId, list.length);
+            if (response) {
+                yield put({
+                    type: 'pushCourses',
+                    payload: response.data
+                });
+            }
         },
         *allCourses({ payload: teacherId }, { call, put, select }) {
-            const { courses: { list } } = yield select(state => state.friend);
-            yield delay(1800);
-            yield put({
-                type: 'pushCourses',
-                payload: {
-                    hasMore: false,
-                    data: COURSES_DATA
-                }
-            });
+            const { courses: { list } } = yield select(state => state.teacher);
+            const response = yield call(teacherService.fetchCourses, teacherId, list.length, -1);
+            if (response) {
+                yield put({
+                    type: 'pushCourses',
+                    payload: response.data
+                });
+            }
         },
         *follow({ payload: teacherId }, { call, put }) {
             yield put({
@@ -107,14 +105,14 @@ export default {
             };
         },
         pushCourses(state, { payload }) {
-            const { hasMore, data } = payload;
+            const { hasMore, list } = payload;
             return {
                 ...state,
                 courses: {
                     hasMore,
                     list: [
                         ...state.courses.list,
-                        ...data
+                        ...list
                     ]
                 }
             };
