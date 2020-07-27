@@ -12,3 +12,7 @@ export async function follow(teacherId) {
 export async function unfollow(teacherId) {
     return apiPut(`${TEACHER_API_URL}/${teacherId}/unfollow`);
 }
+
+export async function fetchCourses(teacherId, skip = 0, limit = 4) {
+    return apiGet(`${TEACHER_API_URL}/${teacherId}/courses?skip=${skip}&limit=${limit}`);
+}
