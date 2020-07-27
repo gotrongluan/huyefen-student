@@ -44,3 +44,7 @@ export async function rejectInvitation(friendId) {
 export async function unfriend(friendId) {
     return apiPut(`${FRIEND_API_URL}/${friendId}/unfriend`);
 }
+
+export async function fetchFriendsForRecommend(skip = 0, limit = 5) {
+    return apiGet(`${FRIEND_API_URL}/me/lite?skip=${skip}&limit=${limit}`);
+}

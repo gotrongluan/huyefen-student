@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as myCoursesServices from '@/services/myCourses';
+import { fetchFriendsForRecommend } from '@/services/friend';
 import MY_COURSES from '@/assets/fakers/mycourses';
 import FRIENDS from '@/assets/fakers/topFriends';
 import { delay } from '@/utils/utils';
@@ -98,14 +99,13 @@ export default {
             }
         },
         *fetchFriends(action, { call, put }) {
-            yield delay(3000);
-            yield put({
-                type: 'saveFriends',
-                payload: {
-                    total: 49,
-                    list: FRIENDS
-                }
-            });
+            const response = yield call(fetchFriendsForRecommend);
+            if (response) {
+                yield put({
+                    type: 'saveFriends',
+                    payload: response.data
+                });
+            }
         },
         *fetchOptions(action, { call, put }) {
             yield delay(1000);
@@ -239,15 +239,14 @@ export default {
             const { start, end, callback } = payload;
             const skip = start * 5;
             const limit = (end - start) * 5;
-            let fooArr = [];
-            for (let i = 0; i < (end - start); ++i)
-                fooArr = _.concat(fooArr, FRIENDS);
-            yield delay(1500);
-            yield put({
-                type: 'pushFriends',
-                payload: fooArr         //replace by friends result
-            });
-            if (callback) callback();
+            const response = yield call(fetchFriendsForRecommend, skip, limit);
+            if (response) {
+                yield put({
+                    type: 'pushFriends',
+                    payload: response.data.list
+                });
+                if (callback) callback();
+            }
         },
         *recommend({ payload }, { call, put }) {
             const { selectedFriendIds, courseId, callback } = payload;
