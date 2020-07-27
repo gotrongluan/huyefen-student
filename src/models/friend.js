@@ -48,17 +48,14 @@ export default {
             }
         },
         *moreCourses({ payload: friendId }, { call, put, select }) {
-            const { friends: { list } } = yield select(state => state.friend);
-            
-
-            yield delay(1800);
-            yield put({
-                type: 'pushCourses',
-                payload: {
-                    hasMore: true,
-                    data: COURSES
-                }
-            });
+            const { courses: { list } } = yield select(state => state.friend);
+            const response = yield call(friendService.fetchCoursesOfFriend, friendId, list.length);
+            if (response) {
+                yield put({
+                    type: 'pushCourses',
+                    payload: response.data
+                })
+            }
         },
         *moreFriends({ payload: friendId }, { call, put, select }) {
             const { friends: { list } } = yield select(state => state.friend);
@@ -93,14 +90,13 @@ export default {
         },
         *allCourses({ payload: friendId }, { call, put, select }) {
             const { courses: { list } } = yield select(state => state.friend);
-            yield delay(1800);
-            yield put({
-                type: 'pushCourses',
-                payload: {
-                    hasMore: false,
-                    data: COURSES
-                }
-            });
+            const response = yield call(friendService.fetchCoursesOfFriend, friendId, list.length, -1);
+            if (response) {
+                yield put({
+                    type: 'pushCourses',
+                    payload: response.data
+                })
+            }
         },
         *addFriend({ payload: friendId }, { call, put }) {
             yield put({
