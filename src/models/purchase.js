@@ -1,6 +1,7 @@
 import { delay } from '@/utils/utils';
 import funcPurchase from '@/assets/fakers/purchaseHistory';
 import _ from 'lodash';
+import * as purchaseService from '@/services/purchase';
 
 export default {
     namespace: 'purchase',
@@ -10,38 +11,36 @@ export default {
     },
     effects: {
         *fetch(action, { call, put }) {
-            yield delay(1500);
-            yield put({
-                type: 'save',
-                payload: {
-                    total: 32,
-                    list: funcPurchase(1)
-                }
-            });
+            const response = yield call(purchaseService.fetch);
+            if (response) {
+                yield put({
+                    type: 'savePurchaseHistory',
+                    payload: response.data
+                })
+            }
         },
         *more({ payload }, { call, put }) {
             const { callback, start, end } = payload;
-            yield delay(2400);
-            const skip = end - start;
-            let newData = [];
-            for (let i = 1; i <= skip; ++i) {
-                newData = _.concat(newData, funcPurchase(start + i));
+            const limit = (end - start) * 4;
+            const skip = start * 4;
+            const response = yield call(purchaseService.fetch, skip, limit);
+            if (response) {
+                yield put({
+                    type: 'pushPurchaseHistory',
+                    payload: response.data.list
+                });
+                if (callback) callback();
             }
-            yield put({
-                type: 'push',
-                payload: newData
-            });
-            if (callback) callback();
         }
     },
     reducers: {
-        save(state, { payload }) {
+        savePurchaseHistory(state, { payload }) {
             return {
                 ...state,
                 ...payload
             };
         },
-        push(state, { payload: newData }) {
+        pushPurchaseHistory(state, { payload: newData }) {
             return {
                 ...state,
                 list: [...state.list, ...newData]

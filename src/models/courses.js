@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as myCoursesServices from '@/services/myCourses';
-import { fetchFriendsForRecommend } from '@/services/friend';
+import { fetchFriendsForRecommend, recommendCourseForFriends } from '@/services/friend';
 import MY_COURSES from '@/assets/fakers/mycourses';
 import FRIENDS from '@/assets/fakers/topFriends';
 import { delay } from '@/utils/utils';
@@ -250,8 +250,10 @@ export default {
         },
         *recommend({ payload }, { call, put }) {
             const { selectedFriendIds, courseId, callback } = payload;
-            yield delay(2500);
-            if (callback) callback();
+            const response = yield call(recommendCourseForFriends, courseId, selectedFriendIds);
+            if (response) {
+                if (callback) callback();
+            }
         }
     },
     reducers: {

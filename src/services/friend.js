@@ -48,3 +48,11 @@ export async function unfriend(friendId) {
 export async function fetchFriendsForRecommend(skip = 0, limit = 5) {
     return apiGet(`${FRIEND_API_URL}/me/lite?skip=${skip}&limit=${limit}`);
 }
+
+export async function recommendCourseForFriends(courseId, friendIds) {
+    return apiPut(`${COURSE_API_URL}/${courseId}/recommend`, {
+        body: {
+            friendIds
+        }
+    });
+}

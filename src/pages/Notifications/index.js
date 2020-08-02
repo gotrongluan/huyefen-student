@@ -32,7 +32,7 @@ const Notifications = ({ dispatch, ...props }) => {
                 url = `/friend/${item.user._id}`;
                 break;
             case 'recommend':
-                url = `/course/${item.courseId}`;
+                url = `/course/${item.course}`;
                 break;
             default:
                 url = '/';

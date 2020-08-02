@@ -8,14 +8,14 @@ import Wrapper from '@/components/JumpotronWrapper';
 import whiteShopping from '@/assets/images/white_shopping.png';
 import styles from './index.less';
 
-const CoursePurchaseItem = ({ avatar, name }) => {
+const CoursePurchaseItem = ({ avatar, title }) => {
     return (
         <Row className={styles.item}>
             <Col span={8} className={styles.avatar}>
                 <img alt="avatar" src={avatar} />
             </Col>
             <Col span={16} className={styles.name}>
-                {name}
+                {title}
             </Col>
         </Row>
     )
@@ -44,6 +44,16 @@ const PurchaseHistory = ({ dispatch, ...props }) => {
         return () => dispatch({ type: 'purchase/reset' });
     }, []);
 
+    const realData = data && _.map(data, purchaseItem => {
+        let prices = [purchaseItem.totalPrice];
+        if (purchaseItem.items.length > 1) {
+            prices = [purchaseItem.totalPrice, ..._.map(purchaseItem.items, 'price')];
+        }
+        return {
+            ...purchaseItem,
+            prices
+        };
+    });
     const handleChangeCurrentPage = page => {
         if (page <= maxPage) {
             setCurrentPage(page);
@@ -64,19 +74,20 @@ const PurchaseHistory = ({ dispatch, ...props }) => {
     const renderItems = items => {
         if (!items || _.isEmpty(items) === 0) return null;
         if (items.length === 1) {
-            return items[0].type === 1 ? (
-                <CoursePurchaseItem avatar={items[0].avatar} name={items[0].name} />
+            console.log(items);
+            return items[0].type === 'Course' ? (
+                <CoursePurchaseItem avatar={items[0].avatar} title={items[0].title} />
             ): (
                 <BundlePurchaseItem courses={items[0].courses} />
             );
         }
         return (
             <div className={styles.items}>
-                <CoursePurchaseItem avatar={whiteShopping} name={`${items.length} ${items.length > 1 ? 'Courses' : 'Course'} purchased`} />
+                <CoursePurchaseItem avatar={whiteShopping} title={`${items.length} ${items.length > 1 ? 'Courses' : 'Course'} purchased`} />
                 <div className={styles.subItems}>
                     {_.map(items, item => (
-                        item.type === 1 ? (
-                            <CoursePurchaseItem key={item._id} name={item.name} avatar={item.avatar} />
+                        item.type === 'Course' ? (
+                            <CoursePurchaseItem key={item._id} title={item.title} avatar={item.avatar} />
                         ) : (
                             <BundlePurchaseItem courses={item.courses} key={_.uniqueId('bundle_')}/>
                         )
@@ -138,15 +149,15 @@ const PurchaseHistory = ({ dispatch, ...props }) => {
             <div className={styles.purchaseHistory}>
                 <Table
                     className={styles.table}
-                    pagination={total && (total > 8) ? {
+                    pagination={total && (total > 4) ? {
                         total,
                         pageSize: 4,
                         current: currentPage,
                         onChange: handleChangeCurrentPage
                     } : false}
-                    rowKey={order => order._id + _.uniqueId('order_')}
+                    rowKey={order => order._id}
                     columns={columns}
-                    dataSource={!data ? [] : data}
+                    dataSource={!realData ? [] : realData}
                     loading={!data || loading}
                 />
             </div>
