@@ -85,12 +85,12 @@ export default [
                 title: 'route.learning.instructorreview'
             },
             {
-                path: '/learning/:courseId/lecture/video/:lectureId',
+                path: '/learning/:courseId/:chapterId/lecture/video/:lectureId',
                 component: './Learning/Lecture/VideoLecture',
                 title: 'route.learning.videolecture'
             },
             {
-                path: '/learning/:courseId/lecture/article/:lectureId',
+                path: '/learning/:courseId/:chapterId/lecture/article/:lectureId',
                 component: './Learning/Lecture/ArticleLecture',
                 title: 'route.learning.articlelecture'
             },

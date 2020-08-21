@@ -501,6 +501,7 @@ const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelec
                             e.preventDefault();
                             return false;
                         }}
+                        crossOrigin="use-credentials"
                     >
                         {_.map(captions, captionItem => (
                             <track

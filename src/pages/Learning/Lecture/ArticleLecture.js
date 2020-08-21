@@ -7,7 +7,7 @@ const ArticleLecture = () => {
     return (
         <div className={styles.article}>
             <Lecture
-                type={1}
+                type={'Article'}
             >
                 {(lecture, loading) => (
                     <div className={styles.container}>

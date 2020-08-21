@@ -54,12 +54,13 @@ export default {
     state: initialState,
     effects: {
         *fetchInfo({ payload: courseId }, { call, put }) {
-            yield delay(1500);
-            //fetch Info by courseId
-            yield put({
-                type: 'saveInfo',
-                payload: COURSE_INFO
-            });
+            const response = yield call(courseService.fetchInfoByLearner, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveInfo',
+                    payload: response.data
+                })
+            }
         },
         *fetchOverview({ payload: courseId }, { call, put }) {
             const response = yield call(courseService.overview, courseId);
@@ -521,32 +522,29 @@ export default {
                 });
             }
         },
-        *fetchLecture({ payload }, { call, put }) {
-            const { courseId, lectureId, type } = payload;
-            yield delay(1500);
-            //call api with courseId, lectureId --> for checking whether lecture belong to the course, is exist lecture
-            const status = 0;
-            if (status === 0) {
-                if (type) {
-                    yield put({
-                        type: 'saveLecture',
-                        payload: {
-                            ...LECTURE,
-                            _id: lectureId
-                        }
-                    });
-                }
-                else
-                    yield put({
-                        type: 'saveLecture',
-                        payload: {
-                            ...VIDEO_LECTURE,
-                            _id: lectureId
-                        }
-                    })
+        *fetchArticleLecture({ payload }, { call, put }) {
+            const { courseId, chapterId, lectureId } = payload;
+            const response = yield call(courseService.fetchArticleLecture, courseId, chapterId, lectureId);
+            if (response) {
+                yield put({
+                    type: 'saveLecture',
+                    payload: response.data
+                });
             }
-                
-            else router.replace('/error/404');
+        },
+        *fetchVideoLecture({ payload }, { call, put }) {
+            const { courseId, chapterId, lectureId } = payload;
+            const response = yield call(courseService.fetchVideoLecture, courseId, chapterId, lectureId);
+            if (response) {
+                const result = response.data;
+                result.resolutions = _.keyBy(result.resolutions, 'resolution');
+                const videoRes = _.max(_.map(_.keys(result.resolutions), key => parseInt(key)));
+                result.videoRes = videoRes;
+                yield put({
+                    type: 'saveLecture',
+                    payload: result
+                });
+            }
         },
         *toggleComplete({ payload: lectureId }, { call, put }) {
             yield put({
@@ -561,11 +559,18 @@ export default {
                 title,
                 lecture,
                 content,
+                lectureIndex,
                 callback
             } = payload;
-            //call api with 4 above variables 
-            yield delay(1400);
-            if (callback) callback();
+            const response = yield call(questionService.ask, courseId, {
+                title,
+                lectureId: lecture,
+                content,
+                lectureIndex
+            });
+            if (response) {
+                if (callback) callback();
+            }
         },
         *validCourse({ payload }, { call }) {
             const { courseId, onOk, onInvalidCourse, onInvalidStudent } = payload;

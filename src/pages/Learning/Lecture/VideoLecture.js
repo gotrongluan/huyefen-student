@@ -15,7 +15,7 @@ const VideoLecture = ({ dispatch }) => {
     return (
         <div className={styles.video}>
             <Lecture
-                type={0}
+                type={'Video'}
             >
                 {(lecture, loading) => (
                     <div className={styles.container}>

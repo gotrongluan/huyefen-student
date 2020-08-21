@@ -33,7 +33,7 @@ export async function addReview({ courseId, starVal, comment }) {
 }
 
 export async function fetchInstructorReviews(courseId) {
-    return apiGet(`${COURSE_API_URL}/${courseId}/reviews/instructor`);
+    return apiGet(`${COURSE_API_URL}/${courseId}/reviews/instructors`);
 }
 
 export async function reviewInstructor(courseId, { instructorId, starRating, ratingContent }) {
@@ -68,4 +68,16 @@ export async function voteReview(courseId, reviewId, value) {
 
 export async function fetchPublicInfo(courseId) {
     return apiGet(`${COURSE_API_URL}/${courseId}/info/public`);
+}
+
+export async function fetchInfoByLearner(courseId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/info/learner`);
+}
+
+export async function fetchArticleLecture(courseId, chapterId, lectureId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/${chapterId}/article/${lectureId}/user`)
+}
+
+export async function fetchVideoLecture(courseId, chapterId, lectureId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/${chapterId}/video/${lectureId}/user`)
 }

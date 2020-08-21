@@ -65,7 +65,7 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
     }
     return (
         <Layout className={styles.learningLayout}>
-            <Header loading={!courseInfo || courseInfo.loading} name={courseInfo && courseInfo.name} authors={courseInfo && courseInfo.authors} courseId={courseInfo && courseInfo._id} />
+            <Header loading={!courseInfo || courseInfo.loading} name={courseInfo && courseInfo.title} authors={courseInfo && courseInfo.authors} courseId={courseInfo && courseInfo._id} />
             <ScrollLayout>
                 <Sider 
                     className={styles.sider}
@@ -100,9 +100,9 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                             {_.map(courseInfo.syllabus, chapter => (
                                 <SubMenu key={chapter._id} title={chapter.title} className={styles.chapter} popupClassName={styles.subMenuPopup}>
                                     {_.map(chapter.lectures, lecture => (
-                                        <MenuItem key={`/lecture/${lecture.type ? 'article' : 'video'}/${lecture._id}`} className={styles.lecture}>
+                                        <MenuItem key={`/${chapter._id}/lecture/${lecture.type === 'Article' ? 'article' : 'video'}/${lecture._id}`} className={styles.lecture}>
                                             <div>
-                                                <Link className={styles.name} to={`${match.url}/lecture/${lecture.type ? 'article' : 'video'}/${lecture._id}`}>{lecture.title}</Link>
+                                                <Link className={styles.name} to={`${match.url}/${chapter._id}/lecture/${lecture.type === 'Article' ? 'article' : 'video'}/${lecture._id}`}>{lecture.title}</Link>
                                                 <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleToggleLectureStatus(lecture._id)}/>
                                             </div>  
                                         </MenuItem>

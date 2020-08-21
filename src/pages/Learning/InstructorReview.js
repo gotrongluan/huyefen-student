@@ -135,7 +135,7 @@ const InstructorReview = ({ dispatch, match, ...props }) => {
                                     </div>
                                     <div className={classNames(styles.stat, styles.courses)}>
                                         <Icon type="read" />
-                                        <span className={styles.value}>{`${numberWithCommas(instructor.numOfCourse)} courses`}</span>
+                                        <span className={styles.value}>{`${numberWithCommas(instructor.numOfCourses)} courses`}</span>
                                     </div>
                                 </Col>
                                 <Col span={20} className={styles.detail}>

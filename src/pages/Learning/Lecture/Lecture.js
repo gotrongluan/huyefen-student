@@ -34,16 +34,29 @@ const Lecture = ({ match, dispatch, ...props }) => {
         children,
         type
     } = props;
-    const { lectureId, courseId } = match.params;
+    const { lectureId, courseId, chapterId } = match.params;
+    console.log(match.params);
     useEffect(() => {
-        dispatch({
-            type: 'learning/fetchLecture',
-            payload: {
-                courseId,
-                lectureId,
-                type
-            }
-        });
+        if (type === 'Article') {
+            dispatch({
+                type: 'learning/fetchArticleLecture',
+                payload: {
+                    courseId,
+                    chapterId,
+                    lectureId
+                }
+            });
+        }
+        else {
+            dispatch({
+                type: 'learning/fetchVideoLecture',
+                payload: {
+                    courseId,
+                    lectureId,
+                    chapterId
+                }
+            });
+        }
         return () => dispatch({ 
             type: 'learning/resetLecture'
         });
@@ -56,8 +69,8 @@ const Lecture = ({ match, dispatch, ...props }) => {
     };
     const handleAskQuestion = () => setQuestionVisible(true);
     const goToLecture = ({ _id, type }) => {
-        const { courseId } = match.params;
-        router.push(`/learning/${courseId}/lecture/${type ? 'article' : 'video'}/${_id}`);
+        const { courseId, chapterId } = match.params;
+        router.push(`/learning/${courseId}/${chapterId}/lecture/${type === 'Article' ? 'article' : 'video'}/${_id}`);
     };
     const handleChangeQuestionTitle = e => {
         const val = e.target.value;
@@ -99,13 +112,14 @@ const Lecture = ({ match, dispatch, ...props }) => {
                 title: questionTitle.value,
                 lecture: lectureId,
                 content: html,
+                lectureIndex: lecture.lectureIndex,
                 callback: () => message.success('Your question submitted successfully!')
             }
         });
         handleCancelAskQuestion();
     };
     const checkEmptyResources = resources => {
-        return !resources || (_.isEmpty(resources.downloadable) && !_.isEmpty(resources.external));
+        return !resources || (_.isEmpty(resources.downloadable) && _.isEmpty(resources.external));
     };
     const handleDownloadResource = (resourceURL, resourceName) => {
         fetch(resourceURL)
@@ -132,7 +146,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
                     {article.chapter.title}
                 </Descriptions.Item>
                 <Descriptions.Item label="Type">
-                    {type ? 'Article' : 'Video'}
+                    {type === 'Article' ? 'Article' : 'Video'}
                 </Descriptions.Item>
                 <Descriptions.Item label="Creator">
                     <span className={styles.userName}>
@@ -165,7 +179,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
             <div className={styles.header}>
                 <Row className={styles.infor}>
                     <Col span={1} className={styles.iconCol}>
-                        {type ? (
+                        {type === 'Article' ? (
                             <FileTextFilled className={styles.icon} />
                         ) : (
                             <VideoCameraFilled className={styles.icon} />
@@ -185,7 +199,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
                                     <span className={styles.chapter}>
                                         {`Chapter ${lecture.chapter.title}`}
                                     </span>
-                                    {type === 1 && (
+                                    {type === 'Article' && (
                                         <span className={styles.duration}>
                                             <span className={styles.icon}>
                                                 <ClockCircleFilled />
@@ -220,7 +234,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
                                         />
                                     </Tooltip>
                                 </span>
-                                {type === 1 ? (
+                                {type === 'Article' ? (
                                     <span className={styles.markComplete}>
                                         <Tooltip placement="top" title="Toggle complete status" mouseEnterDelay={1}>
                                             <Button
@@ -244,7 +258,7 @@ const Lecture = ({ match, dispatch, ...props }) => {
                                         arrowPointAtCenter
                                         popupAlign={{ offset: [21, 6] }}
                                     >
-                                        <Tooltip placement="top" title={`View ${type ? 'article' : 'video'} metadata`} mouseEnterDelay={1}>
+                                        <Tooltip placement="top" title={`View ${type === 'Article' ? 'article' : 'video'} metadata`} mouseEnterDelay={1}>
                                             <Button shape="circle" icon="info" />
                                         </Tooltip>
                                     </Popover>
