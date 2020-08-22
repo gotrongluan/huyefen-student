@@ -68,7 +68,11 @@ const Lecture = ({ match, dispatch, ...props }) => {
         });
     };
     const handleAskQuestion = () => setQuestionVisible(true);
-    const goToLecture = ({ _id, type }) => {
+    const goToLecture = (lecture) => {
+        if (!lecture) {
+            return;
+        }
+        const { _id, type } = lecture;
         const { courseId, chapterId } = match.params;
         router.push(`/learning/${courseId}/${chapterId}/lecture/${type === 'Article' ? 'article' : 'video'}/${_id}`);
     };
@@ -268,22 +272,26 @@ const Lecture = ({ match, dispatch, ...props }) => {
                     </Col>
                 </Row>
                 <div className={styles.navigation}>
-                    <div className={styles.prev} onClick={() => goToLecture(lecture.prevLecture)}>
-                        <span className={styles.icon}>
-                            <LeftOutlined />
-                        </span>
-                        <span className={styles.text}>
-                            Prev
-                        </span>
-                    </div>
-                    <div className={styles.next} onClick={() => goToLecture(lecture.nextLecture)}>
-                        <span className={styles.text}>
-                            Next
-                        </span>
-                        <span className={styles.icon}>
-                            <RightOutlined />
-                        </span>
-                    </div>
+                    {lecture && lecture.prevLecture !== null && (
+                        <div className={styles.prev} onClick={() => goToLecture(lecture.prevLecture)}>
+                            <span className={styles.icon}>
+                                <LeftOutlined />
+                            </span>
+                            <span className={styles.text}>
+                                Prev
+                            </span>
+                        </div>
+                    )}
+                    {lecture && lecture.nextLecture !== null && (
+                        <div className={styles.next} onClick={() => goToLecture(lecture.nextLecture)}>
+                            <span className={styles.text}>
+                                Next
+                            </span>
+                            <span className={styles.icon}>
+                                <RightOutlined />
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className={styles.clear} />

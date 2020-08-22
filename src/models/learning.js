@@ -540,6 +540,7 @@ export default {
                 result.resolutions = _.keyBy(result.resolutions, 'resolution');
                 const videoRes = _.max(_.map(_.keys(result.resolutions), key => parseInt(key)));
                 result.videoRes = videoRes;
+                console.log(result);
                 yield put({
                     type: 'saveLecture',
                     payload: result
