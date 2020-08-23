@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { connect } from 'dva';
 import { Layout, Menu, Checkbox, Skeleton, Row, Spin, Icon, Button } from 'antd';
+import { YoutubeFilled, ReadFilled, PlayCircleFilled } from '@ant-design/icons';
 import router from 'umi/router';
 import Link from 'umi/link';
 import ScrollLayout from '@/components/ScrollLayout';
-import { transAuthors } from '@/utils/utils';
+import { secondsToTime, secondToTime2, transAuthors } from '@/utils/utils';
 import styles from './index.less';
 
 const { Content, Sider } = Layout;
@@ -41,7 +42,7 @@ const Header = ({ loading, name, authors, courseId }) => {
 
 
 const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
-    const { courseId } = match.params;
+    const { courseId, chapterId } = match.params;
     const {
         courseInfo,
         loading
@@ -53,10 +54,15 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
         });
         return () => dispatch({ type: 'learning/resetInfo' });
     }, [courseId]);
-    const handleToggleLectureStatus = lectureId => {
+    const handleToggleLectureStatus = (chapterId, lectureId, value) => {
         dispatch({
             type: 'learning/toggleComplete',
-            payload: lectureId
+            payload: {
+                courseId,
+                chapterId,
+                lectureId,
+                value
+            }
         });
     };
     let openKeys;
@@ -69,7 +75,7 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
             <ScrollLayout>
                 <Sider 
                     className={styles.sider}
-                    width={250}
+                    width={350}
                 >
                     {!courseInfo || loading ? (
                         <div className={styles.inlineDiv}>
@@ -102,8 +108,19 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                                     {_.map(chapter.lectures, lecture => (
                                         <MenuItem key={`/${chapter._id}/lecture/${lecture.type === 'Article' ? 'article' : 'video'}/${lecture._id}`} className={styles.lecture}>
                                             <div>
-                                                <Link className={styles.name} to={`${match.url}/${chapter._id}/lecture/${lecture.type === 'Article' ? 'article' : 'video'}/${lecture._id}`}>{lecture.title}</Link>
-                                                <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleToggleLectureStatus(lecture._id)}/>
+                                                <Link className={styles.name} to={`${match.url}/${chapter._id}/lecture/${lecture.type === 'Article' ? 'article' : 'video'}/${lecture._id}`}>
+                                                    <span style={{ display: 'inline-block', marginRight: '3px' }}>
+                                                        {lecture.type === 'Video' ? (
+                                                            <PlayCircleFilled />
+                                                        ) : (
+                                                            <ReadFilled />
+                                                        )}
+                                                    </span>
+                                                    <span>
+                                                        {`${lecture.title} (${secondToTime2(lecture.duration)})`}
+                                                    </span>
+                                                </Link>
+                                                <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleToggleLectureStatus(chapter._id, lecture._id, e.target.checked)}/>
                                             </div>  
                                         </MenuItem>
                                     ))}

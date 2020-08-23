@@ -18,7 +18,7 @@ import styles from './default.less';
 
 const MenuItem = Menu.Item;
 
-const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelectResolution, downloadable, ...props }) => {
+const Video = ({ onFinish, nextLecture, onGoToNextLecture, videoRes, resolutions, baseWidth, baseHeight, captions, onSelectResolution, downloadable, ...props }) => {
     const divRef = useRef(null);
     const videoRef = useRef(null);
     const sliderRef = useRef(null);
@@ -54,7 +54,6 @@ const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelec
     const [volume, setVolume] = useState(0);
     const [oldVolume, setOldVolume] = useState(0);
     const [volumeVisible, setVolumeVisible] = useState(false);
-    
     const [playbackRate, setPlaybackRate] = useState("1.0");
     const [rateVisible, setRateVisible] = useState(false);
     const [oldCurTime, setOldCurTime] = useState(null);
@@ -62,6 +61,14 @@ const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelec
     const [captionText, setCaptionText] = useState([]);
     const [captionVisible, setCaptionVisible] = useState(false);
     const [settingsVisible, setSettingsVisible] = useState(false);
+    const [timeCount, setTimeCount] = useState({
+        timeStart: null,
+        timePlayed: 0
+    });
+    const [timerToNextLecture, setTimerToNextLecture] = useState({
+        timeInterval: 0,
+        second: 0
+    });
     useEffect(() => {
         if (videoRef.current) {
             const videoEle = videoRef.current;
@@ -124,9 +131,57 @@ const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelec
             }
             videoEle.onwaiting = () => setWaiting(true);
             videoEle.onplaying = () => setWaiting(false);
-            videoEle.onplay = () => setPlayingStatus(0);
-            videoEle.onpause = () => setPlayingStatus(1);
-            videoEle.onended = () => setPlayingStatus(2);
+            videoEle.onplay = () => {
+                setTimerToNextLecture(oldTimer => {
+                    if (oldTimer.timeInterval === 0) return oldTimer;
+                    clearInterval(oldTimer.timeInterval);
+                    return{
+                        timeInterval: 0,
+                        second: 0
+                    };
+                })
+                if (timeCount.timeStart === null) {
+                    setTimeCount(old => ({
+                        ...old,
+                        timeStart: new Date().getTime() / 1000
+                    }))
+                }
+                setPlayingStatus(0)
+            };
+            videoEle.onpause = () => {
+                setPlayingStatus(1);
+                countTimePlayed();
+            }
+            videoEle.onended = () => {
+                setPlayingStatus(2);
+                setTimerToNextLecture(oldTimer => {
+                    if (oldTimer.timeInterval === 0 && nextLecture !== null) {
+                        const intervalId = setInterval(() => {
+                            setTimerToNextLecture(oldValue => {
+                                if (oldValue.second === 1) {
+                                    onGoToNextLecture(nextLecture);
+                                    clearInterval(oldValue.timeInterval);
+                                    return {
+                                        timeInterval: 0,
+                                        second: 0
+                                    };
+                                }
+                                else {
+                                    return {
+                                        ...oldValue,
+                                        second: oldValue.second - 1
+                                    };
+                                }
+                            })
+                        }, 1000);
+                        return {
+                            timeInterval: intervalId,
+                            second: 6
+                        };
+                    }
+                    return oldTimer;
+                });
+            }
             videoEle.onerror = () => handleError('Sorry, there was an error');
             videoEle.onstalled = () => handleError('Sorry, the video is not available.');
             videoEle.onabort = () => handleError('Sorry, the video is stoped downloading.');
@@ -164,6 +219,13 @@ const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelec
             document.removeEventListener('msfullscreenchange', msFullscreenFn);
         };
     }, []);
+    useEffect(() => {
+        if (timeCount.timePlayed && duration) {
+            if (timeCount.timePlayed / duration > 0.85) {
+                onFinish();
+            }
+        }
+    }, [timeCount.timePlayed]);
     useEffect(() => {
         setSrcObj(resolutions[videoRes].src);
         return () => {
@@ -222,6 +284,16 @@ const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelec
                 value
             });
         }
+    };
+    const countTimePlayed = () => {
+        setTimeCount(old => {
+            const curTime = new Date().getTime() / 1000;
+            const curTimePlayed = curTime - old.timeStart;
+            return {
+                timeStart: null,
+                timePlayed: old.timePlayed + curTimePlayed
+            };
+        })
     };
     const handleMouseOnSlider = e => {
         const offsetX = e.nativeEvent.offsetX;
@@ -766,7 +838,14 @@ const Video = ({ videoRes, resolutions, baseWidth, baseHeight, captions, onSelec
                         </div>
                     </>
                 )}
+                {timerToNextLecture.timeInterval > 0 && (
+                    <div className={styles.timerToNext}>
+                        <span className={styles.second}>{timerToNextLecture.second}</span>
+                        <div className={styles.text}>Go to next lecture</div>
+                    </div>
+                )}
             </div>
+
         </React.Fragment>
     )
 }

@@ -12,7 +12,7 @@ import UserAvatar from '@/components/Avatar';
 import TimeAgo from 'react-timeago';
 import { saveAs } from 'file-saver';
 import { exportToHTML } from '@/utils/editor';
-import { minutesToHour } from '@/utils/utils';
+import { minutesToHour, secondToDuration } from '@/utils/utils';
 import styles from './Lecture.less';
 
 const FormItem = Form.Item;
@@ -35,7 +35,6 @@ const Lecture = ({ match, dispatch, ...props }) => {
         type
     } = props;
     const { lectureId, courseId, chapterId } = match.params;
-    console.log(match.params);
     useEffect(() => {
         if (type === 'Article') {
             dispatch({
@@ -61,10 +60,15 @@ const Lecture = ({ match, dispatch, ...props }) => {
             type: 'learning/resetLecture'
         });
     }, [courseId, lectureId]);
-    const handleCompleteLecture = () => {
+    const handleCompleteLecture = (value) => {
         dispatch({
             type: 'learning/toggleComplete',
-            payload: lectureId
+            payload: {
+                courseId,
+                chapterId,
+                lectureId,
+                value
+            }
         });
     };
     const handleAskQuestion = () => setQuestionVisible(true);
@@ -241,15 +245,28 @@ const Lecture = ({ match, dispatch, ...props }) => {
                                 {type === 'Article' ? (
                                     <span className={styles.markComplete}>
                                         <Tooltip placement="top" title="Toggle complete status" mouseEnterDelay={1}>
-                                            <Button
-                                                shape="circle"
-                                                type={lecture.isCompleted ? "primary" : "default"}
-                                                icon="check"
-                                                onClick={handleCompleteLecture}
-                                                style={{ 
-                                                    backgroundColor: lecture.isCompleted ? '#fada5e' : 'white'
-                                                }}
-                                            />
+                                            {lecture.isCompleted ? (
+                                                <Button
+                                                    shape="circle"
+                                                    type={"primary"}
+                                                    icon="check"
+                                                    onClick={() => handleCompleteLecture(false)}
+                                                    style={{
+                                                        backgroundColor: '#fada5e'
+                                                    }}
+                                                />
+                                            ) : (
+                                                <Button
+                                                    shape="circle"
+                                                    type={"default"}
+                                                    icon="check"
+                                                    onClick={() => handleCompleteLecture(true)}
+                                                    style={{
+                                                        backgroundColor: 'white'
+                                                    }}
+                                                />
+                                            )}
+
                                         </Tooltip>
                                     </span>
                                 ) : null}

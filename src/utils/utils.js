@@ -192,3 +192,25 @@ export const extractContent = htmlStr => {
     span.innerHTML = htmlStr;
     return span.textContent || span.innerText;
 };
+
+export const secondToDuration = (d) => {
+    let seconds = Number(d);
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor(seconds % 3600 / 60);
+    const s = Math.floor(seconds % 3600 % 60);
+
+    const hDisplay = h > 0 ? h + "h" : "";
+    const mDisplay = m > 0 ? m + "m" : "";
+    const sDisplay = s > 0 ? s + "s" : "";
+    return hDisplay + mDisplay + sDisplay;
+}
+
+export const secondToTime2 = (seconds) => {
+    let start = 14;
+    let pad = 5;
+    if (seconds >= 3600) {
+        start = 11;
+        pad = 8;
+    }
+    return new Date(seconds * 1000).toISOString().substr(start, pad)
+}

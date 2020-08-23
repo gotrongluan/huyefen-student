@@ -540,19 +540,27 @@ export default {
                 result.resolutions = _.keyBy(result.resolutions, 'resolution');
                 const videoRes = _.max(_.map(_.keys(result.resolutions), key => parseInt(key)));
                 result.videoRes = videoRes;
-                console.log(result);
                 yield put({
                     type: 'saveLecture',
                     payload: result
                 });
             }
         },
-        *toggleComplete({ payload: lectureId }, { call, put }) {
+        *toggleComplete({ payload }, { call, put }) {
+            const { courseId, chapterId, lectureId, value } = payload;
             yield put({
                 type: 'toggleCompleteStatus',
                 payload: lectureId
             });
-            yield delay(1000);
+            yield call(courseService.setCompleteLectureStatus, courseId, chapterId, lectureId, value);
+        },
+        *setComplete({ payload }, { call, put }) {
+            const { courseId, chapterId, lectureId } = payload;
+            yield put({
+                type: 'setCompleteStatus',
+                payload: lectureId
+            });
+            yield call(courseService.setCompleteLectureStatus, courseId, chapterId, lectureId, true);
         },
         *askQuestionDirectly({ payload }, { call, put }) {
             const {
@@ -683,7 +691,6 @@ export default {
         },
         shiftComment(state, { payload }) {
             const { data, announcementId } = payload;
-            console.log(announcementId);
             return {
                 ...state,
                 announcements: {
@@ -907,6 +914,23 @@ export default {
                     syllabus: [...syllabusData]
                 },
                 lecture: { ...lectureData }
+            };
+        },
+        setCompleteStatus(state, { payload: lectureId }) {
+            let syllabusData = [...state.info.syllabus];
+            let lectureIndex;
+            const chapterIndex = _.findIndex(syllabusData, chapter => (lectureIndex = _.findIndex(chapter.lectures, lecture => lecture._id === lectureId)) > -1);
+            syllabusData[chapterIndex].lectures[lectureIndex].isCompleted = true;
+            return {
+                ...state,
+                info: {
+                    ...state.info,
+                    syllabus: [...syllabusData]
+                },
+                lecture: {
+                    ...state.lecture,
+                    isCompleted: true
+                }
             };
         },
         resetLecture(state) {

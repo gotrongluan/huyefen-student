@@ -288,6 +288,38 @@
         }
 
     }
+    .timerToNext {
+        position: absolute;
+        width: 150px;
+        top: 10px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        display: inline-block;
+        text-align: center;
+        .second, .text {
+            text-align: center;
+            font-weight: bold;
+        }
+        .second {
+            //background: rgba(250, 214, 98, 0.7);
+            background: @primary-color;
+            display: inline-block;
+            height: 48px;
+            width: 48px;
+            line-height: 48px;
+            border-radius: 50%;
+            font-size: 1.6em;
+            color: white;
+        }
+        .text {
+            padding: 7px;
+            background: rgba(128, 128, 128, 0.7);
+            margin-top: 8px;
+            width: auto;
+            border-radius: 6px;
+            color: white;
+        }
+    }
 }
 
 .settingsPopover {

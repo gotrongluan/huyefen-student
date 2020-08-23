@@ -81,3 +81,11 @@ export async function fetchArticleLecture(courseId, chapterId, lectureId) {
 export async function fetchVideoLecture(courseId, chapterId, lectureId) {
     return apiGet(`${COURSE_API_URL}/${courseId}/${chapterId}/video/${lectureId}/user`)
 }
+
+export async function setCompleteLectureStatus(courseId, chapterId, lectureId, value) {
+    return apiPost(`${COURSE_API_URL}/${courseId}/${chapterId}/${lectureId}/completed`, {
+        body: {
+            status: value
+        }
+    });
+}
