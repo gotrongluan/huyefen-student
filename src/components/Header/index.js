@@ -3,7 +3,7 @@ import Link from 'umi/link';
 import router from 'umi/router';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Layout, Row, Col, Input, Popover, Divider, Avatar, Icon, message } from 'antd';
+import { Layout, Row, Col, Input, Popover, Divider, Avatar, Icon } from 'antd';
 import UserAvatar from '@/components/Avatar';
 import Categories from '@/components/Popover/Categories';
 import MyCourses from '@/components/Popover/MyCourses';
@@ -13,6 +13,7 @@ import Notifications from '@/components/Popover/Notifications';
 import { capitalText } from '@/utils/utils';
 import logo from '@/assets/images/logo_trans.png';
 import styles from './index.less';
+import SearchEngine from '@/components/Header/SearchEngine';
 
 const { Header: AntdHeader } = Layout;
 const { Search } = Input;
@@ -33,7 +34,7 @@ const Header = ({ dispatch, user }) => {
                     <Categories />
                 </div>
                 <div className={styles.search}>
-                    <Search placeholder={formatMessage({ id: 'header.search.placeholder' })} size="large"/>
+                    <SearchEngine />
                 </div>
             </div>
             <div className={styles.rightContent}>
