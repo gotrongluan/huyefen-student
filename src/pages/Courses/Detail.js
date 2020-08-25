@@ -19,11 +19,10 @@ import {
     minutesToHour,
     transAuthors,
     mapLevelKeyToLevel,
-    mapKeyToLang, mapKeyToPrice,
+    mapKeyToLang, mapKeyToPrice, secondToDuration, secondToTime2,
 } from '@/utils/utils';
 import storage from '@/utils/storage';
 import styles from './Detail.less';
-import relatedCourses from '@/assets/fakers/relatedCourses';
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -41,7 +40,7 @@ const Loading = () => {
 const Syllabus = ({ data: syllabus, handlePreview }) => {
     const countLecturesAll = _.map(syllabus, chapter => chapter.lectures.length);
     const totalLectures = _.sum(countLecturesAll);
-    const times = _.map(syllabus, chapter => _.sumBy(chapter.lectures, 'time'));
+    const times = _.map(syllabus, chapter => _.sumBy(chapter.lectures, 'duration'));
     const totalTime = _.sum(times);
     const defaultActiveKey = _.map(syllabus, chapter => chapter._id);
     return (
@@ -52,7 +51,7 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
                 </Col>
                 <Col span={12} className={styles.extra}>
                     <span className={styles.totalLectures}>{`${totalLectures} lectures`}</span>
-                    <span className={styles.totalTime}>{`${minutesToHour(totalTime)}`}</span>
+                    <span className={styles.totalTime}>{`${secondToTime2(totalTime)}`}</span>
                 </Col>
             </Row>
             <Row className={styles.main}>
@@ -66,7 +65,7 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
                             extra={(
                                 <>
                                     <span className={styles.countLectures}>{`${countLecturesAll[index]} lectures`}</span>
-                                    <span className={styles.allTime}>{`${minutesToHour(times[index])}`}</span>
+                                    <span className={styles.allTime}>{`${secondToTime2(times[index])}`}</span>
                                 </>
                             )}
                         >
@@ -79,16 +78,16 @@ const Syllabus = ({ data: syllabus, handlePreview }) => {
                                     <List.Item
                                         className={styles.lecture}
                                         extra={!lecture.isPreviewed ? (
-                                            <span className={styles.time}>{`${minutesToHour(lecture.time)}`}</span>
+                                            <span className={styles.time}>{`${secondToTime2(lecture.duration)}`}</span>
                                         ) : (
                                             <>
                                                 <span className={styles.preview} onClick={() => handlePreview(lecture._id)}>Preview</span>
-                                                <span className={styles.time}>{`${minutesToHour(lecture.time)}`}</span>
+                                                <span className={styles.time}>{`${secondToTime2(lecture.duration)}`}</span>
                                             </>
                                         )}
                                     >
                                         <List.Item.Meta
-                                            avatar={<Avatar size={16} icon={lecture.type === 0 ? <YoutubeFilled /> : <ReadOutlined />} style={{ background: lecture.type === 0 ? '#fada5e' : 'white', color: 'black', position: 'relative', top: '3px' }}/>}
+                                            avatar={<Avatar size={16} icon={lecture.type === 'Video' ? <YoutubeFilled /> : <ReadOutlined />} style={{ background: lecture.type === 'Video' ? '#fada5e' : 'white', color: 'black', position: 'relative', top: '3px' }}/>}
                                             title={<span className={styles.lectureName}>{lecture.title}</span>}
                                         />
                                     </List.Item>

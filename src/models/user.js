@@ -1,8 +1,8 @@
-import { delay } from '@/utils/utils';
 import storage from '@/utils/storage';
 import _ from 'lodash';
 import router from 'umi/router';
 import * as userService from '@/services/user';
+import * as cloudServices from '@/services/cloud';
 import { message } from 'antd';
 
 export default {
@@ -66,17 +66,19 @@ export default {
             }
         },
         *uploadAvatar({ payload }, { call, put }) {
-            const { file, callback } = payload;
-            //call api to upload file (Base64) to cloud, get url
-            yield delay(1000);
-            const avatarUrl = 'https://images.pexels.com/photos/2451616/pexels-photo-2451616.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260';
-            const response = yield call(userService.updateAvatar, avatarUrl);
+            const { formData, callback } = payload;
+            let response = yield call(cloudServices.uploadAvatar, formData);
+            console.log(response)
             if (response) {
-                yield put({
-                    type: 'updateUser',
-                    payload: response.data
-                });
-                if (callback) callback();
+                const avatarUrl = response.data.url;
+                response = yield call(userService.updateAvatar, avatarUrl);
+                if (response) {
+                    yield put({
+                        type: 'updateUser',
+                        payload: response.data
+                    });
+                    if (callback) callback();
+                }
             }
         },
         *login({ from, payload }, { call, put }) {

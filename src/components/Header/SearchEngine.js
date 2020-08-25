@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { connect } from 'dva';
 import _ from 'lodash';
-import { AutoComplete, Input } from 'antd';
+import { AutoComplete, Input, Spin } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './SearchEngine.less';
 import { Link } from 'umi';
@@ -16,13 +16,18 @@ const SearchEngine = ({ dispatch, curSearchText, suggestData, isLoading }) => {
 			type: 'search/suggest',
 			payload: searchText
 		});
-	}, 300);
+	}, 500);
 	const handleChangeSearchText = (searchText) => {
-		console.log('dfdfd');
+		if (searchText === '') {
+			dispatch({
+				type: 'search/reset'
+			});
+			return;
+		}
 		debouncedSearchData(searchText);
 	};
-	const handleGotoItem = url => {
-		router.push(url);
+	const handleSelectItem = value => {
+		router.push(value);
 	}
 	const getSuggestOptionsFromRawData = (suggestData) => {
 		const keys = _.keys(suggestData);
@@ -46,23 +51,25 @@ const SearchEngine = ({ dispatch, curSearchText, suggestData, isLoading }) => {
 			title = 'COURSES';
 			routeTo = `/search/courses?q=${curSearchText}`;
 		}
-		else if (key === 'authors') {
+		else if (key === 'teachers') {
 			title = 'TEACHERS';
 			routeTo = `/search/teachers?q=${curSearchText}`;
 		}
-		else if (key === 'users') {
-			title = 'USERS';
-			routeTo = `/search/users?q=${curSearchText}`;
+		else if (key === 'topics') {
+			title = 'TOPICS';
+			routeTo = `/search/topics?q=${curSearchText}`;
 		}
 		return (
 			<span>
 				{title}
-				<Link
-					style={{ float: 'right', fontWeight: 'bold', color: '#FADA5E' }}
-					to={routeTo}
-				>
-					More
-				</Link>
+				{!isLoading && (
+					<Link
+						style={{ float: 'right', fontWeight: 'bold', color: '#FADA5E' }}
+						to={routeTo}
+					>
+						More
+					</Link>
+				)}
 			</span>
 		);
 	}
@@ -74,18 +81,18 @@ const SearchEngine = ({ dispatch, curSearchText, suggestData, isLoading }) => {
 				url: `/course/${item._id}`
 			}));
 		}
-		else if (key === 'authors') {
+		else if (key === 'teachers') {
 			return _.map(arrData, item => ({
 				key: item._id,
 				title: item.name,
 				url: `/teacher/${item._id}`
 			}));
 		}
-		else if (key === 'users') {
+		else if (key === 'topics') {
 			return _.map(arrData, item => ({
 				key: item._id,
 				title: item.name,
-				url: `/friend/${item._id}`
+				url: `/courses/topic/${item._id}`
 			}));
 		}
 		return [];
@@ -99,8 +106,7 @@ const SearchEngine = ({ dispatch, curSearchText, suggestData, isLoading }) => {
 			size="large"
 			dataSource={suggestOptions}
 			onSearch={handleChangeSearchText}
-			onSelect={handleGotoItem}
-			value=""
+			onSelect={handleSelectItem}
 		>
 			<Search loading={isLoading} />
 		</AutoComplete>

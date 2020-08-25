@@ -68,20 +68,19 @@ const Profile = ({ form, dispatch, ...props }) => {
 
     const handleUploadAvatar = e => {
         setAvatarLoading(true);
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(avatar);
-        fileReader.onload = () => {
-            dispatch({
-                type: 'user/uploadAvatar',
-                payload: {
-                    file: fileReader.result,
-                    callback: () => {
-                        setAvatar(null);
-                        setAvatarLoading(false);
-                    }
+        const formData = new FormData();
+        formData.append('avatar', avatar);
+        console.log('gay');
+        dispatch({
+            type: 'user/uploadAvatar',
+            payload: {
+                formData,
+                callback: () => {
+                    setAvatar(null);
+                    setAvatarLoading(false);
                 }
-            });
-        };
+            }
+        });
         setFileList([]);
         e.preventDefault();
     };

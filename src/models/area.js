@@ -1,6 +1,7 @@
 //import * as areaServices from '@/services/area';
 import { message } from 'antd';
-import { delay } from '@/utils/utils';
+import { delay, createFilterStrFromNormalize, createNormalizeFilters, updateOneFilter } from '@/utils/utils';
+import * as areaServices from '@/services/area';
 import RECOMMEND from '@/assets/fakers/recommends';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
 import INSTRUCTORS from '@/assets/fakers/instructors1';
@@ -16,21 +17,13 @@ export default {
     },
     effects: {
         *fetchInfo({ payload: areaId }, { call, put }) {
-            yield delay(1200);
-            yield put({
-                type: 'saveInfo',
-                payload: {
-                    _id: 1,
-                    title: 'Business'
-                }
-            });
-            //const area = yield call(areaServices.fetchInfo, areaId);
-            // if (area) {
-            //     yield put({
-            //         type: 'saveInfo',
-            //         payload: area
-            //     })
-            // }
+            const response = yield call(areaServices.fetchInfo, areaId);
+            if (response) {
+                yield put({
+                    type: 'saveInfo',
+                    payload: response.data
+                });
+            }
         },
         *fetchRecommendCourses({ payload: areaId }, { call, put }) {
             yield delay(1700);
@@ -62,38 +55,44 @@ export default {
             });
         },
         *fetchCourses({ payload: areaId }, { call, put }) {
-            yield delay(1800);
-            yield put({
-                type: 'saveCourses',
-                payload: COURSES
-            })
+            const response = yield call(areaServices.fetchCourses, areaId);
+            if (response) {
+                yield put({
+                    type: 'saveCourses',
+                    payload: response.data
+                });
+            }
         },
         *sortCourses({ payload: sortBy }, { call, select, put }) {
             const {
                 info: { _id: areaId },
-                courses
+                courses: { filters }
             } = yield select(state => state.area);
-            //call api with sortBy, areaId, filters, pagination = 1...
-            yield delay(1000);
-            yield put({
-                type: 'saveCourses',
-                payload: {
-                    ...courses,
-                    sortBy
-                }
-            });
+            const normalizeFilter = createNormalizeFilters(filters);
+            const filterStr = createFilterStrFromNormalize(normalizeFilter);
+            const response = yield call(areaServices.fetchCourses, areaId, filterStr, sortBy);
+            if (response) {
+                yield put({
+                    type: 'saveCourses',
+                    payload: {
+                        ...response.data,
+                        filters
+                    }
+                });
+            }
         },
         *clear(action, { call, put, select }) {
             const {
                 info: { _id: areaId },
                 courses: { sortBy }
             } = yield select(state => state.area);
-            //call api with areaId, no filters, pagination = 1, sortBy still the same as before.
-            yield delay(1100);
-            // yield put({
-            //     type: 'saveCourses',
-            //     payload: {}
-            // });
+            const response = yield call(areaServices.fetchCourses, areaId, '', sortBy);
+            if (response) {
+                yield put({
+                    type: 'saveCourses',
+                    payload: response.data
+                });
+            }
         },
         *filter({ payload }, { select, call, put }) {
             const { type, option, checked } = payload;
@@ -101,21 +100,40 @@ export default {
                 info: { _id: areaId },
                 courses: { filters, sortBy }
             } = yield select(state => state.area);
-            //handle filters
-            //make params for api call, pagination = 1
-            yield delay(1300);
-            //yield call
-            //yield put
+            const normalizeFilter = createNormalizeFilters(filters);
+            if (normalizeFilter[type]) {
+                normalizeFilter[type] = updateOneFilter(normalizeFilter[type], option, checked);
+            }
+            const filterStr = createFilterStrFromNormalize(normalizeFilter);
+            const response = yield call(areaServices.fetchCourses, areaId, filterStr, sortBy);
+            if (response) {
+                yield put({
+                    type: 'saveCoursesWithFilter',
+                    payload: {
+                        data: response.data,              //list, filters, total, sortBy
+                        filterType: type
+                    }
+                });
+            }
         },
         *changePage({ payload: page }, { call, select, put }) {
             const {
                 info: { _id: areaId },
                 courses: { filters, sortBy }
             } = yield select(state => state.area);
-            //make api call with new page
-            yield delay(1200);
-            //yield call
-            //yield put
+            const normalizeFilter = createNormalizeFilters(filters);
+            const filterStr = createFilterStrFromNormalize(normalizeFilter);
+            const response = yield call(areaServices.fetchCourses, areaId, filterStr, sortBy, page);
+            if (response) {
+                yield put({
+                    type: 'saveCourses',
+                    payload: {
+                        ...response.data,
+                        sortBy,
+                        filters
+                    }             //list, filters, total, sortBy
+                });
+            }
         }
     },
     reducers: {
@@ -133,6 +151,16 @@ export default {
         },
         saveCourses(state, { payload: courses }) {
             return { ...state, courses };
+        },
+        saveCoursesWithFilter(state, { payload }) {
+            const { data, filterType } = payload;
+            if (filterType !== 'topics' && data.filters[filterType].select.length > 0) {
+                data.filters[filterType].list = [...state.courses.filters[filterType].list];
+            }
+            return {
+                ...state,
+                courses: data
+            }
         },
         resetInfo(state) {
             return { ...state, info: null };

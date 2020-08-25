@@ -7,34 +7,20 @@ import { Button, Popover, Empty, Cascader, message } from 'antd';
 import Spin from '@/elements/spin/secondary';
 import styles from './index.less';
 
-const steps = [
-    {
-        plural: 'areas',
-        singular: 'area'
-    }, 
-    {
-        plural: 'categories',
-        singular: 'category'
-    },
-    {
-        plural: 'topics',
-        singular: 'topic'
-    }
-];
 
 const Categories = ({ dispatch, ...props}) => {
     const [popupVisible, setPopupVisible] = useState(false);
     const { areas, loading } = props;
-    const getCascaderOptions = (list, typeIndex) => {
-        const nextIndex = typeIndex + 1;
-        const nextType = steps[nextIndex] && steps[nextIndex].plural;
-        return _.map(list, item => {
-            const childrenObj = nextType && item[nextType] ? { children: getCascaderOptions(item[nextType], nextIndex) } : {};
+    const getCascaderOptions = (areas) => {
+        return _.map(areas, area => {
             return {
-                label: item.title,
-                value: `${steps[typeIndex].singular}/${item._id}`,
-                ...childrenObj
-            };
+                label: area.title,
+                value: `area/${area._id}`,
+                children: _.map(area.categories, category => ({
+                    label: category.title,
+                    value: `category/${area._id}/${category._id}`
+                }))
+            }
         });
     };
 
@@ -77,9 +63,9 @@ const Categories = ({ dispatch, ...props}) => {
     }
     return (
         <Cascader
-            options={getCascaderOptions(areas, 0)}
+            options={getCascaderOptions(areas)}
             expandTrigger='hover'
-            onChange={value => { console.log(value); router.push(`/courses/${value[value.length - 1]}`); } }
+            onChange={value => router.push(`/courses/${value[value.length - 1]}`)}
             popupClassName={styles.cascader}
             changeOnSelect
             popupVisible={popupVisible}

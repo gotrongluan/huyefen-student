@@ -130,7 +130,7 @@ export default [
                 component: './Courses/Area'
             },
             {
-                path: '/courses/category/:categoryId',
+                path: '/courses/category/:areaId/:categoryId',
                 title: 'route.basic.cate',
                 component: './Courses/Category'
             },
@@ -199,6 +199,27 @@ export default [
                     },
                     {
                         redirect: '/exception/404'
+                    }
+                ]
+            },
+            {
+                path: '/search',
+                title: 'route.basic.search',
+                routes: [
+                    {
+                        path: '/search/courses',
+                        title: 'route.basic.search.courses',
+                        component: './Search/Courses'
+                    },
+                    {
+                        path: '/search/teachers',
+                        title: 'route.basic.search.teachers',
+                        component: './Search/Teachers'
+                    },
+                    {
+                        path: '/search/topics',
+                        title: 'route.basic.search.users',
+                        component: './Search/Topics'
                     }
                 ]
             },

@@ -1,6 +1,7 @@
 module.exports = {
     PRODUCTION: false,
     AUTH_API_URL: 'https://localhost:3443/api/auth',
+    AREA_API_URL: 'https://localhost:3443/api/areas',
     USER_API_URL: 'https://localhost:3443/api/users',
     COURSE_API_URL: 'https://localhost:3443/api/courses',
     FRIEND_API_URL: 'https://localhost:3443/api/friends',
@@ -11,6 +12,7 @@ module.exports = {
     QUESTION_API_URL: 'https://localhost:3443/api/questions',
     ANNOUNCE_API_URL: 'https://localhost:3443/api/announcements',
     PURCHASE_HISTORY_API_URL: 'https://localhost:3443/api/purchase-history',
+    CLOUD_API_URL: 'https://localhost:3443/api/cloud',
     FIREBASE: {
         apiKey: "AIzaSyCy0-aVl3F5qXjnG6TrxyVc6TW7G58SQBU",
         authDomain: "huyefen-2102.firebaseapp.com",

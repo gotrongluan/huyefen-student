@@ -19,26 +19,26 @@ const CourseInList = ({ course }) => {
                     <Row className={styles.lectureInfo}>
                         <Col className={styles.infoItem} span={12}>
                             <Icon type="container" theme="filled" />
-                            <span>{`${course.numOfLectures} ${formatMessage({ id: 'course.lectures' })}`}</span>
+                            <span>{`${course.numOfStudents} students`}</span>
                         </Col>
                         <Col className={styles.infoItem} span={12}>
                             <Icon type="rocket" theme="filled" />
-                            <span>{formatMessage({ id: course.level })}</span>
+                            <span>{course.level}</span>
                         </Col>
                     </Row>
                     {course.featured && (
                         <div className={styles.topic}>
                             <FeaturedBadge type={course.featured} style={{ marginRight: '12px' }}/>
-                            in <Link to="/">{formatMessage({ id: course.topic })}</Link>
+                            in <Link to="/">{course.primaryTopic}</Link>
                             <Divider type="vertical" style={{ background: 'white' }} />
-                            <span>{formatMessage({ id: course.category })}</span>
+                            <span>{course.area}</span>
                         </div>
                     )}
                     <div className={styles.whatLearn}>
                         <div>What you'll learn</div>
                         <ul className={styles.list}>
-                            {_.map(course.whatLearn, item => (
-                                <li key={_.uniqueId('what_learn_')}>{truncate(item, 120)}</li>
+                            {_.map(course.whatLearns, item => (
+                                <li key={item._id}>{truncate(item.content, 120)}</li>
                             ))}
                         </ul>
                     </div>
@@ -57,12 +57,12 @@ const CourseInList = ({ course }) => {
                     <img alt="avatar" src={course.avatar} />
                 </Col>
                 <Col span={16} className={styles.info}>
-                    <div className={styles.name}>{course.name}</div>
+                    <div className={styles.name}>{course.title}</div>
                     <div className={styles.authors}>
                         {`Created by ${transAuthors(course.authors, 1000)}`}
                     </div>
                     <div className={styles.summary}>
-                        {truncate(course.summary, 200)}
+                        {truncate(course.subTitle, 200)}
                     </div>
                 </Col>
                 <Col span={4} className={styles.extra}>
@@ -79,9 +79,6 @@ const CourseInList = ({ course }) => {
                     <div className={styles.starRating}>
                         <Rate disabled className={styles.star} allowHalf value={roundStarRating(course.starRating)}/>
                         <span className={styles.ratingVal}>{course.starRating}</span>
-                    </div>
-                    <div className={styles.countRating}>
-                        {`(${numberWithCommas(course.numOfStarRatings)} ratings)`}
                     </div>
                 </Col>
             </Row>

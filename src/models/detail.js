@@ -41,11 +41,13 @@ export default {
             }
         },
         *fetchSyllabus({ payload: courseId }, { call, put }) {
-            yield delay(3300);
-            yield put({
-                type: 'saveSyllabus',
-                payload: SYLLABUS 
-            });
+            const response = yield call(courseServices.fetchSyllabusPublic, courseId);
+            if (response) {
+                yield put({
+                    type: 'saveSyllabus',
+                    payload: response.data
+                })
+            }
         },
         *fetchRelatedCourses({ payload: courseId }, { call, put }) {
             yield delay(2000);

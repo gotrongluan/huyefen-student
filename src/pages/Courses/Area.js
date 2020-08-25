@@ -190,7 +190,7 @@ const Area = ({ match, dispatch, ...props }) => {
     const renderFilters = (type, initialCount = 100, stepCount = 1) => (
         <FilterOptionsList
             dataSource={courses.filters[type].list}
-            rowKey={option => (option._id || option.key) + _.uniqueId(`option_${type}_`)}
+            rowKey={option => `${(option._id || option.key)}_${type}`}
             initialCount={initialCount}
             stepCount={stepCount}
             renderItem={option => (
@@ -210,13 +210,13 @@ const Area = ({ match, dispatch, ...props }) => {
         />
     );
 
-    const renderStarRatings = () => _.map(courses.filters['starRating'].list, option => (
-        <div className={classNames(styles.option, styles.ratingOption)} key={(option._id || option.key) + _.uniqueId('option_')}>
+    const renderStarRatings = () => _.map(courses.filters['ratings'].list, option => (
+        <div className={classNames(styles.option, styles.ratingOption)} key={`${(option._id || option.key)}_ratings`}>
             <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
                 <Checkbox
                     className={styles.checkbox}
-                    checked={_.indexOf(courses.filters['starRating'].select, (option._id || option.key)) > -1}
-                    onChange={checked => handleFilter('starRating', (option._id || option.key), checked)}
+                    checked={_.indexOf(courses.filters['ratings'].select, (option._id || option.key)) > -1}
+                    onChange={checked => handleFilter('ratings', (option._id || option.key), checked)}
                 >
                     <span>
                         <Rate disabled value={option.star} className={styles.star}/>
@@ -285,7 +285,7 @@ const Area = ({ match, dispatch, ...props }) => {
                                 <div className={styles.filter}>
                                     <div className={styles.btns}>
                                         {!filterOpen ? (
-                                            <Badge dot={isClearable} style={{ background: '#FE7F9C' }}>
+                                            <Badge dot={isClearable} style={{ background: '#fe7f9c' }}>
                                                 <Button className={styles.filterOpen} onClick={() => setFilterOpen(true)}>
                                                     <Icon type="filter" />
                                                     Filter
@@ -316,8 +316,6 @@ const Area = ({ match, dispatch, ...props }) => {
                                             <Option value="highest-rated">Highest rated</Option>
                                             <Option value="popularity">Popularity</Option>
                                             <Option value="newest">Newest</Option>
-                                            <Option value="lowest-price">Lowest price</Option>
-                                            <Option value="highest-price">Highest price</Option>
                                         </Select>
                                     </div>
                                     <Collapse
@@ -331,15 +329,15 @@ const Area = ({ match, dispatch, ...props }) => {
                                                         Topic
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('topic', 10, 3)}
+                                                        {renderFilters('topics', 10, 3)}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
                                                     <div className={styles.filterTitle}>
-                                                        Topic
+                                                        Category
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('category', 6, 3)}
+                                                        {renderFilters('categories', 6, 3)}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
@@ -347,7 +345,7 @@ const Area = ({ match, dispatch, ...props }) => {
                                                         Level
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('level')}
+                                                        {renderFilters('levels')}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
@@ -355,7 +353,7 @@ const Area = ({ match, dispatch, ...props }) => {
                                                         Language
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('language', 12, 4)}
+                                                        {renderFilters('languages', 12, 4)}
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -365,7 +363,7 @@ const Area = ({ match, dispatch, ...props }) => {
                                                         Price
                                                     </div>
                                                     <div className={styles.filterOptions}>
-                                                        {renderFilters('price')}
+                                                        {renderFilters('prices')}
                                                     </div>
                                                 </Col>
                                                 <Col span={6}>
@@ -374,14 +372,6 @@ const Area = ({ match, dispatch, ...props }) => {
                                                     </div>
                                                     <div className={styles.filterOptions}>
                                                         {renderStarRatings()}
-                                                    </div>
-                                                </Col>
-                                                <Col span={6}>
-                                                    <div className={styles.filterTitle}>
-                                                        Lecture
-                                                    </div>
-                                                    <div className={styles.filterOptions}>
-                                                        {renderFilters('lecture')}
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -394,8 +384,8 @@ const Area = ({ match, dispatch, ...props }) => {
                                             itemLayout="horizontal"
                                             dataSource={courses.list}
                                             rowKey={course => course._id + _.uniqueId('course_')}
-                                            pagination={courses.pagination.total > 8 ? {
-                                                total: courses.pagination.total,
+                                            pagination={courses.total > 8 ? {
+                                                total: courses.total,
                                                 pageSize: 8,
                                                 defaultCurrent: 1,
                                                 onChange: handleChangePage

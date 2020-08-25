@@ -214,3 +214,33 @@ export const secondToTime2 = (seconds) => {
     }
     return new Date(seconds * 1000).toISOString().substr(start, pad)
 }
+
+export const createNormalizeFilters = (filters) => {
+    const result = {};
+    const filterKeys = _.keys(filters);
+    filterKeys.forEach(key => {
+        result[key] = filters[key].select;
+    });
+    return result;
+};
+
+export const updateOneFilter = (filterArr, value, type) => {
+    if (type) {
+        return _.concat(filterArr, [value]);
+    }
+    return _.filter(filterArr, item => item !== value);
+};
+
+export const createFilterStrFromNormalize = (filter) => {
+    const filterKeys = _.keys(filter);
+    let resultStr = '';
+    filterKeys.forEach(key => {
+        if (filter[key].length > 0) {
+            if (resultStr !== '') {
+                resultStr += '&';
+            }
+            resultStr += `${key}=${_.join(filter[key], ',')}`;
+        }
+    });
+    return resultStr;
+}

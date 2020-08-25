@@ -89,3 +89,11 @@ export async function setCompleteLectureStatus(courseId, chapterId, lectureId, v
         }
     });
 }
+
+export async function fetchSyllabusPublic(courseId) {
+    return apiGet(`${COURSE_API_URL}/${courseId}/syllabus/public`);
+}
+
+export async function suggestCourses(keyword) {
+    return apiGet(`${COURSE_API_URL}/suggest?keyword=${keyword}`);
+}
