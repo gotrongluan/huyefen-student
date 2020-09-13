@@ -91,7 +91,7 @@ const SearchEngine = ({ dispatch, curSearchText, suggestData, isLoading }) => {
 		else if (key === 'topics') {
 			return _.map(arrData, item => ({
 				key: item._id,
-				title: item.name,
+				title: item.title,
 				url: `/courses/topic/${item._id}`
 			}));
 		}

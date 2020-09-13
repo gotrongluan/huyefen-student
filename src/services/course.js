@@ -97,3 +97,7 @@ export async function fetchSyllabusPublic(courseId) {
 export async function suggestCourses(keyword) {
     return apiGet(`${COURSE_API_URL}/suggest?keyword=${keyword}`);
 }
+
+export async function searchCourses(keyword, page = 1, pageSize = 8 ) {
+    return apiGet(`${COURSE_API_URL}/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
+}

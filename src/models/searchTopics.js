@@ -1,7 +1,7 @@
 import * as courseService from '@/services/course';
 
 export default {
-	namespace: 'searchCourses',
+	namespace: 'searchTopics',
 	state: {
 		page: 1,
 		pageSize: 8,
