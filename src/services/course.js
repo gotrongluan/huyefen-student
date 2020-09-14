@@ -101,3 +101,7 @@ export async function suggestCourses(keyword) {
 export async function searchCourses(keyword, page = 1, pageSize = 8 ) {
     return apiGet(`${COURSE_API_URL}/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`);
 }
+
+export async function fetchRelatedCourses(courseId) {
+  return apiGet(`${COURSE_API_URL}/${courseId}/related-courses`);
+}

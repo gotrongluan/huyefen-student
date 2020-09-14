@@ -24,3 +24,11 @@ export async function fetchCoursesOfCategory(areaId, categoryId, filterStr = '',
 	}
 	return apiGet(`${AREA_API_URL}/${areaId}/${categoryId}/courses?sortBy=${sortBy}&page=${page}&pageSize=${8}${s}`);
 }
+
+export async function fetchRecommendCourses(areaId) {
+  return apiGet(`${COURSE_API_URL}/areas/${areaId}/recommend/courses`);
+}
+
+export async function fetchRecommendCoursesOfCategory(categoryId) {
+  return apiGet(`${COURSE_API_URL}/categories/${categoryId}/recommend/courses`);
+}

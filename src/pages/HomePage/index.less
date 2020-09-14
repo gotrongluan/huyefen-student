@@ -70,7 +70,7 @@
                     opacity: 0.6;
                     color: black;
                     z-index: 10;
-                    
+
                     &:hover {
                         opacity: 0.9;
                     }
@@ -100,7 +100,7 @@
                 animation: shimmer 1.5s infinite;
                 content: '';
             }
-            
+
             @keyframes shimmer {
                 100% {
                   transform: translateX(100%);
@@ -121,7 +121,7 @@
             .coursesSkeleton {
                 margin-top: 10px;
                 margin-bottom: 20px;
-                
+
                 .course {
                     margin-top: 20px;
                     margin-bottom: 20px;
@@ -138,19 +138,19 @@
                         padding: 10px 10px 20px 5px;
                         .name {
                             width: 75%;
-                            
+
                             height: 20px;
                             margin-bottom: 15px;
                         }
                         .progress {
                             width: 90%;
-                            
+
                             height: 8px;
                             margin-bottom: 15px;
                         }
                         .authors {
                             width: 45%;
-                            
+
                             height: 20px;
                         }
                     }
@@ -161,7 +161,7 @@
             margin-top: 10px;
             margin-bottom: 20px;
             .subTitle {
-                font-size: 1.2em; 
+                font-size: 1.2em;
             }
             .backCourses {
                 margin-top: 20px;
@@ -191,14 +191,14 @@
                         background-color: rgb(30, 30, 30);
                         .avatar {
                             height: 163px;
-                            
+
                             width: 100%;
                         }
                         .info {
                             padding: 15px;
                             .name, .authors, .price {
                                 height: 25px;
-                                
+
                                 width: 100%;
                                 margin-bottom: 15px;
                             }
@@ -225,19 +225,25 @@
                 }
             }
         }
-        .topCoursesOfCateCont {
+        .topCoursesOfCateCont, .personalized {
             margin-top: 45px;
             .subTitle {
-                font-size: 1.2em;
+                font-size: 1.5em;
                 .cateName {
                     font-weight: bold;
                     color: @primary-color;
                 }
             }
-            .topCoursesOfCate {
+            .topCoursesOfCate, .topCourses {
                 margin-top: 10px;
             }
         }
+      .personalized {
+        .subTitle {
+          font-size: 1.5em;
+          font-weight: bold;
+        }
+      }
         .topTopicsCont {
             margin-top: 45px;
             .subTitle {

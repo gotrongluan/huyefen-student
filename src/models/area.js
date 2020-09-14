@@ -13,7 +13,8 @@ export default {
         info: null,
         topics: null,
         instructors: null,
-        courses: null
+        courses: null,
+        recommendCourses: null
     },
     effects: {
         *fetchInfo({ payload: areaId }, { call, put }) {
@@ -26,11 +27,13 @@ export default {
             }
         },
         *fetchRecommendCourses({ payload: areaId }, { call, put }) {
-            yield delay(1700);
-            yield put({
+            const response = yield call(areaServices.fetchRecommendCourses, areaId);
+            if (response) {
+              yield put({
                 type: 'saveRecommendCourses',
-                payload: RECOMMEND
-            })
+                payload: response.data
+              });
+            }
         },
         *fetchTopTopics({ payload: areaId }, { call, put }) {
             yield delay(1400);
@@ -162,17 +165,14 @@ export default {
                 courses: data
             }
         },
-        resetInfo(state) {
-            return { ...state, info: null };
-        },
-        resetTopics(state) {
-            return { ...state, topics: null };
-        },
-        resetInstructors(state) {
-            return { ...state, instructors: null };
-        },
-        resetCourses(state) {
-            return { ...state, courses: null };
+        resetArea() {
+          return {
+            info: null,
+            topics: null,
+            instructors: null,
+            courses: null,
+            recommendCourses: null
+          }
         }
     }
 }

@@ -4,6 +4,7 @@ let unSubscribeMessage = null;
 let unSubscribeTokenRefresh = null;
 
 export const getFCMToken = async (onGetTokenErrorCallback) => {
+    console.log('fffff');
     try {
         return await messaging.getToken();
     }
@@ -37,7 +38,7 @@ export const unSubscribeMessaging = async (deletedToken, errCallback) => {
     }
     if (unSubscribeTokenRefresh) {
         unSubscribeTokenRefresh();
-    }   
+    }
     try {
         await messaging.deleteToken(deletedToken);
     }

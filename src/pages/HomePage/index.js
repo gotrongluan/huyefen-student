@@ -1,62 +1,57 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import router from 'umi/router';
+import { connect } from 'dva';
 import { Parallax } from 'react-parallax';
-import { Row, Col, Tabs, Carousel } from 'antd';
-import Spin from '@/elements/spin/secondary';
+import { Row, Col, Tabs, Carousel, Empty } from 'antd';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Course from '@/components/CourseCarouselItem';
 import Friend from '@/components/Friend';
 import ArrowCarousel from '@/components/ArrowCarousel';
 import InProgressCourse from '@/components/InProgressCourse';
-import MOST_POPULAR from '@/assets/fakers/mostPopular';
-import TOP_RATING from '@/assets/fakers/topRating';
-import TOP_COURSES_OF_CATES from '@/assets/fakers/topCoursesOfCates';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
 import TOP_FRIENDS from '@/assets/fakers/topFriends';
-import MY_COURSES from '@/assets/fakers/mycourses';
 import homeJumpotronImg from '@/assets/images/homeJumpotronImg.jpg';
 import { range } from '@/utils/utils';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
 
-const Homepage = () => {
+const Homepage = ({ dispatch, ...props }) => {
     // let loading = false;
     // let categories = CATEGORIES;
-    const personal = false;
-    const mostPopularCourses = MOST_POPULAR;
-    const topRatingCourses = TOP_RATING;
+    const { user, myCourses, isFetchingMyCourses, recommendCourses, isFetchingRecommendCourses } = props;
+    useEffect(() => {
+      if (user) {
+        dispatch({
+          type: 'home/fetchMyCourses'
+        });
+      }
+      else {
+        dispatch({
+          type: 'home/saveMyCourses',
+          payload: []
+        });
+      }
+      dispatch({
+        type: 'home/fetchRecommendCourses'
+      });
+      return () => dispatch({
+        type: 'home/resetHomeCourses'
+      })
+    }, []);
     const topTopics = TOP_TOPICS;
     const topFriends = TOP_FRIENDS;
-    const backCourses = MY_COURSES;
-    const loading = false
-    const isBack = true;
-    const backLoading = false;
-    const recommendLoading = false;
     let recommender = null;
-    const topCoursesOfCates = TOP_COURSES_OF_CATES;
     const coursesCarousel = (courses) => {
-        // const chunks = _.chunk(courses, chunkSize);
-        // return (
-        //     <Carousel
-        //         arrows
-        //         dots={false}
-        //         prevArrow={<Button shape="circle" icon="left" size="large" />}
-        //         nextArrow={<Button shape="circle" icon="right" size="large" />}
-        //     >
-        //         {_.map(chunks, courses => (
-        //             <Row key={_.uniqueId('panel_courses_')} gutter={24}>
-        //                 {_.map(courses, course => (
-        //                     <Col span={6} key={_.uniqueId('course_')}>
-        //                         <Course course={course} />
-        //                     </Col>
-        //                 ))}
-        //             </Row>
-        //         ))}
-        //     </Carousel>
-        // );
+        if (courses.length === 0) {
+          return (
+            <div className={styles.emptyRecommend}>
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={'Sorry, currently this function isn\'t supported.'}/>
+            </div>
+          )
+        }
         return (
             <ArrowCarousel
                 pageSize={5}
@@ -64,7 +59,7 @@ const Homepage = () => {
                 buttonSize={34}
                 dataSource={courses}
                 renderItem={course => (
-                    <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
+                    <div className={styles.courseItem} key={course._id}>
                         <Course course={course} />
                     </div>
                 )}
@@ -119,11 +114,11 @@ const Homepage = () => {
                 buttonSize={24}
                 dataSource={backCourses}
                 renderItem={backCourse => (
-                    <div className={styles.backCourseItem} key={backCourse._id + _.uniqueId('backCourse_')}>
+                    <div className={styles.backCourseItem} key={backCourse._id}>
                         <InProgressCourse course={backCourse} />
                     </div>
                 )}
-                renderEmptyItem={() => <div className={styles.backCoursetem} />}
+                renderEmptyItem={() => <div className={styles.backCourseItem} />}
             />
         )
     }
@@ -151,7 +146,7 @@ const Homepage = () => {
         )
     };
 
-    if (!personal) {
+    if (recommendCourses && !isFetchingRecommendCourses) {
         recommender = (
             <React.Fragment>
                 <Row className={styles.title}>{formatMessage({ id: 'home.title.whatshould' })}</Row>
@@ -160,22 +155,35 @@ const Homepage = () => {
                     <Row className={styles.topCourses}>
                         <Tabs defaultActiveKey="most-popular" animated={false}>
                             <TabPane tab={formatMessage({ id: 'home.topcourses.mostpopular' })} key="most-popular">
-                                {coursesCarousel(mostPopularCourses)}
+                                {coursesCarousel(recommendCourses['nonPersonalized'].mostPopular)}
                             </TabPane>
                             <TabPane tab={formatMessage({ id: 'home.topcourses.toprating' })} key="top-rating">
-                                {coursesCarousel(topRatingCourses)}
+                                {coursesCarousel(recommendCourses['nonPersonalized'].starRatings)}
                             </TabPane>
                         </Tabs>
                     </Row>
                 </Row>
-                {_.map(topCoursesOfCates, topCourses => (
-                    <Row className={styles.topCoursesOfCateCont} key={topCourses.cateId + _.uniqueId('top_courses_of_cate_')}>
-                        <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.topcoursesofcate' })} `}<span className={styles.cateName}>{`${formatMessage({ id: topCourses.cateName})}`}</span></Row>
-                        <Row className={styles.topCoursesOfCate}>
-                            {coursesCarousel(topCourses.courses)}
-                        </Row>
+                <React.Fragment>
+                  {recommendCourses.personalized && recommendCourses.personalized.length > 0 && (
+                    <Row className={styles.personalized}>
+                      <Row className={styles.subTitle}>You may love these</Row>
+                      <Row className={styles.topCourses}>
+                        {coursesCarousel(recommendCourses.personalized)}
+                      </Row>
                     </Row>
-                ))}
+                    )}
+                </React.Fragment>
+                {_.map(_.keys(recommendCourses.categories), categoryKey => {
+                  const categoryData = recommendCourses.categories[categoryKey];
+                  return (
+                    <Row className={styles.topCoursesOfCateCont} key={categoryKey}>
+                      <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.topcoursesofcate' })} `}<span className={styles.cateName}>{categoryData.title}</span></Row>
+                      <Row className={styles.topCoursesOfCate}>
+                        {coursesCarousel(categoryData.list)}
+                      </Row>
+                    </Row>
+                  )
+                })}
                 <Row className={styles.topFriendsCont}>
                     <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.topfriends' })} `}</Row>
                     <Row className={styles.topFriends}>
@@ -191,14 +199,9 @@ const Homepage = () => {
             </React.Fragment>
         )
     }
-    else {
 
-    }
     return (
         <div className={styles.homepage}>
-            {/* <div className={styles.cateBar}>
-                <CategoriesBar loading={loading} categories={categories} />
-            </div> */}
             <Row className={styles.jumpotron}>
                 <Parallax
                     bgImage={homeJumpotronImg}
@@ -213,7 +216,7 @@ const Homepage = () => {
                                 }}
                             />
                         </div>
-                        
+
                     )}
                 >
                     <div style={{ height: 400 }}>
@@ -228,71 +231,67 @@ const Homepage = () => {
                     </div>
                 </Parallax>
             </Row>
-            {loading ? (
-                <div className={styles.loading}>
-                    <Spin spinning fontSize={10} isCenter/>
-                </div>
-            ) : (
-                <React.Fragment>
-                    {isBack && (
-                        <Row className={styles.back}>
-                            {backLoading ? (
-                                <div className={styles.backLoading}>
-                                    <div className={classNames(styles.titleSkeleton, styles.skeletonBox)} />
-                                    <Row className={styles.coursesSkeleton} gutter={16}>
-                                        <Col span={12} className={styles.course}>
-                                            <Row>
-                                                <Col span={10} className={styles.avatarCol}>
-                                                    <div className={classNames(styles.avatar, styles.skeletonBox)} />
-                                                </Col>
-                                                <Col span={14} className={styles.infoCol}>
-                                                    <div className={classNames(styles.name, styles.skeletonBox)} />
-                                                    <div className={classNames(styles.progress, styles.skeletonBox)} />
-                                                    <div className={classNames(styles.authors, styles.skeletonBox)} />
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                        <Col span={12} className={styles.course}>
-                                            <Row>
-                                                <Col span={10} className={styles.avatarCol}>
-                                                    <div className={classNames(styles.avatar, styles.skeletonBox)} />
-                                                </Col>
-                                                <Col span={14} className={styles.infoCol}>
-                                                    <div className={classNames(styles.name, styles.skeletonBox)} />
-                                                    <div className={classNames(styles.progress, styles.skeletonBox)} />
-                                                    <div className={classNames(styles.authors, styles.skeletonBox)} />
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            ) : (
-                                <>
-                                    <Row className={styles.title}>{`${formatMessage({ id: 'home.title.back' })}, Ngọc Hạnh`}</Row>
-                                    <Row className={styles.backCoursesCont}>
-                                        <Row className={styles.subTitle}>{formatMessage({ id: 'home.subtitle.back' })}</Row>
-                                        <Row className={styles.backCourses}>
-                                            {backCoursesCarousel(backCourses)}
-                                        </Row>
-                                    </Row>
-                                </>
-                            )}
-                        </Row>
-                    )}
-                    <Row className={styles.recommender}>
-                        {recommendLoading ? (
-                            <div className={styles.recommendLoading}>
-                                <div className={classNames(styles.titleSkeleton, styles.skeletonBox)} />
-                                <div className={styles.coursesSkeleton}>
-                                    {courseSkeletonsCarousel()}
-                                </div>
-                            </div>
-                        ) : recommender}
+          <Row className={styles.back}>
+            {!myCourses || isFetchingMyCourses ? (
+              <div className={styles.backLoading}>
+                <div className={classNames(styles.titleSkeleton, styles.skeletonBox)} />
+                <Row className={styles.coursesSkeleton} gutter={16}>
+                  <Col span={12} className={styles.course}>
+                    <Row>
+                      <Col span={10} className={styles.avatarCol}>
+                        <div className={classNames(styles.avatar, styles.skeletonBox)} />
+                      </Col>
+                      <Col span={14} className={styles.infoCol}>
+                        <div className={classNames(styles.name, styles.skeletonBox)} />
+                        <div className={classNames(styles.progress, styles.skeletonBox)} />
+                        <div className={classNames(styles.authors, styles.skeletonBox)} />
+                      </Col>
                     </Row>
-                </React.Fragment>
-            )}
+                  </Col>
+                  <Col span={12} className={styles.course}>
+                    <Row>
+                      <Col span={10} className={styles.avatarCol}>
+                        <div className={classNames(styles.avatar, styles.skeletonBox)} />
+                      </Col>
+                      <Col span={14} className={styles.infoCol}>
+                        <div className={classNames(styles.name, styles.skeletonBox)} />
+                        <div className={classNames(styles.progress, styles.skeletonBox)} />
+                        <div className={classNames(styles.authors, styles.skeletonBox)} />
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </div>
+            ) : (myCourses.length > 0 && (
+              <>
+                <Row className={styles.title}>{`${formatMessage({ id: 'home.title.back' })}, ${user && user.name}`}</Row>
+                <Row className={styles.backCoursesCont}>
+                  <Row className={styles.subTitle}>{formatMessage({ id: 'home.subtitle.back' })}</Row>
+                  <Row className={styles.backCourses}>
+                    {backCoursesCarousel(myCourses)}
+                  </Row>
+                </Row>
+              </>
+            ))}
+          </Row>
+          <Row className={styles.recommender}>
+            {!recommendCourses || isFetchingRecommendCourses ? (
+              <div className={styles.recommendLoading}>
+                <div className={classNames(styles.titleSkeleton, styles.skeletonBox)} />
+                <div className={styles.coursesSkeleton}>
+                  {courseSkeletonsCarousel()}
+                </div>
+              </div>
+            ) : recommender}
+          </Row>
         </div>
     )
 };
 
-export default Homepage;
+export default connect(({ user, loading, home }) => ({
+  user: user,
+  myCourses: home.myCourses,
+  recommendCourses: home.recommendCourses,
+  isFetchingMyCourses: !!loading.effects['home/fetchMyCourses'],
+  isFetchingRecommend: !!loading.effects['home/fetchRecommendCourses']
+}))(Homepage);

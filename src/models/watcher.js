@@ -2,7 +2,7 @@ import { EffectWithType } from '@/config/constants';
 import { requestPermission, subscribeMessaging, unSubscribeMessaging, getFCMToken } from '@/utils/firebase/messaging';
 import storage from '@/utils/storage';
 import _ from 'lodash';
-import { notification as notificationPopup, Icon, Avatar } from 'antd';
+import { notification as notificationPopup, Icon } from 'antd';
 import { mapNotificationTypeToTitle } from '@/utils/utils';
 import UserAvatar from '@/components/avatar';
 

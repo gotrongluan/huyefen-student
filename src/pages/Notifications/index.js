@@ -29,7 +29,7 @@ const Notifications = ({ dispatch, ...props }) => {
         let url = '';
         switch (item.type) {
             case 'friend':
-                url = `/friend/${item.user._id}`;
+                url = `/friend/${item.owner._id}`;
                 break;
             case 'recommend':
                 url = `/course/${item.course}`;

@@ -26,11 +26,13 @@ export default {
             }
         },
         *fetchRecommendCourses({ payload: categoryId }, { call, put }) {
-            yield delay(1700);
+          const response = yield call(areaServices.fetchRecommendCoursesOfCategory, categoryId);
+          if (response) {
             yield put({
-                type: 'saveRecommendCourses',
-                payload: RECOMMEND
-            })
+              type: 'saveRecommendCourses',
+              payload: response.data
+            });
+          }
         },
         *fetchTopTopics({ payload: categoryId }, { call, put }) {
             yield delay(1400);

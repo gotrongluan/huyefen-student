@@ -3,7 +3,24 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col, message } from 'antd';
+import {
+  Tabs,
+  List,
+  Carousel,
+  Spin,
+  Icon,
+  Select,
+  Checkbox,
+  Button,
+  Tooltip,
+  Collapse,
+  Badge,
+  Rate,
+  Row,
+  Col,
+  message,
+  Empty,
+} from 'antd';
 import CourseInList from '@/components/CourseInList';
 import Loading from '@/elements/spin/secondary';
 import ArrowCarousel from '@/components/ArrowCarousel';
@@ -18,7 +35,7 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const Category = ({ match, dispatch, ...props }) => { 
+const Category = ({ match, dispatch, ...props }) => {
     const [filterOpen, setFilterOpen] = useState(false);
     const { categoryId, areaId } = match.params;
     const {
@@ -120,6 +137,13 @@ const Category = ({ match, dispatch, ...props }) => {
     };
 
     const coursesCarousel = (courses) => {
+      if(!courses || courses.length === 0) {
+        return (
+          <div className={styles.emptyRecommend}>
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={'Sorry, currently this function isn\'t supported.'}/>
+          </div>
+        )
+      }
         return (
             <ArrowCarousel
                 pageSize={5}
@@ -127,7 +151,7 @@ const Category = ({ match, dispatch, ...props }) => {
                 buttonSize={34}
                 dataSource={courses}
                 renderItem={course => (
-                    <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
+                    <div className={styles.courseItem} key={course._id}>
                         <CourseInCarousel course={course} />
                     </div>
                 )}
@@ -204,7 +228,7 @@ const Category = ({ match, dispatch, ...props }) => {
                 <div className={styles.option}>
                     <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
                         {type === 'categories' && (option._id || option.key).toString() === match.params.categoryId ? (
-                            <Checkbox 
+                            <Checkbox
                                 className={styles.checkbox}
                                 disabled
                                 defaultChecked
@@ -213,7 +237,7 @@ const Category = ({ match, dispatch, ...props }) => {
                                 <span className={styles.count}>{option.count}</span>
                             </Checkbox>
                         ) : (
-                            <Checkbox 
+                            <Checkbox
                                 className={styles.checkbox}
                                 checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
                                 onChange={checked => handleFilter(type, (option._id || option.key), checked)}
@@ -222,7 +246,7 @@ const Category = ({ match, dispatch, ...props }) => {
                                 <span className={styles.count}>{option.count}</span>
                             </Checkbox>
                         )}
-                        
+
                     </Tooltip>
                 </div>
             )}
@@ -267,11 +291,17 @@ const Category = ({ match, dispatch, ...props }) => {
                         <div className={styles.title}>Courses to get you started</div>
                         <div className={styles.content}>
                             <Tabs animated={false}>
-                                {_.map(recommend, recommendType => (
-                                    <TabPane tab={recommendType.title} key={recommendType.key}>
-                                        <div>{coursesCarousel(recommendType.courses)}</div>
-                                    </TabPane>
-                                ))}
+                              <TabPane tab="Most popular" key="most-popular">
+                                <div>{coursesCarousel(recommend.nonPersonalized.mostPopular)}</div>
+                              </TabPane>
+                              <TabPane tab="Top ratings" key="top-ratings">
+                                <div>{coursesCarousel(recommend.nonPersonalized.starRating)}</div>
+                              </TabPane>
+                              {recommend.nonPersonalized.beginner && recommend.nonPersonalized.beginner.length > 0 (
+                                <TabPane tab="For you" key="for-you">
+                                  <div>{coursesCarousel(recommend.recommend.nonPersonalized.beginner)}</div>
+                                </TabPane>
+                              )}
                             </Tabs>
                         </div>
                     </div>

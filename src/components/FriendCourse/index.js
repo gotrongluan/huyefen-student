@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import Link from 'umi/link';
 import { Card, Rate, Tooltip, Tag } from 'antd';
 import { truncate, transAuthors, roundStarRating } from '@/utils/utils';
@@ -23,7 +24,7 @@ const FriendCourse = ({ course }) => {
                     <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                     <div className={styles.starRating}>
                         <Rate allowHalf value={roundStarRating(course.starRating)} disabled className={styles.stars} />
-                        <span className={styles.ratingVal}>{course.starRating}</span>
+                        <span className={styles.ratingVal}>{_.round(course.starRating, 1)}</span>
                     </div>
                     {course.isRegistered && (
                         <div className={styles.same}>
@@ -33,7 +34,7 @@ const FriendCourse = ({ course }) => {
                         </div>
                     )}
                 </div>
-            </Card> 
+            </Card>
         </Link>
     );
 };

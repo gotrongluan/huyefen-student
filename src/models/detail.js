@@ -1,10 +1,5 @@
 import _ from 'lodash';
-import { delay } from '@/utils/utils';
-import COURSE_INFO from '@/assets/fakers/courseInfo';
-import SYLLABUS from '@/assets/fakers/syllabus';
 import RELATED_COURSES from '@/assets/fakers/relatedCourses';
-import INSTRUCTORS from '@/assets/fakers/instructors';
-import REVIEWS from '@/assets/fakers/reviews';
 import * as courseServices from '@/services/course';
 
 export default {
@@ -50,11 +45,13 @@ export default {
             }
         },
         *fetchRelatedCourses({ payload: courseId }, { call, put }) {
-            yield delay(2000);
-            yield put({
+            const response = yield call(courseServices.fetchRelatedCourses, courseId);
+            if (response) {
+              yield put({
                 type: 'saveRelatedCourses',
-                payload: RELATED_COURSES
-            });
+                payload: response.data
+              });
+            }
         },
         *fetchInstructors({ payload: courseId }, { call, put }) {
             const response = yield call(courseServices.fetchInstructorsPublic, courseId);

@@ -29,7 +29,7 @@ const TeacherCourse = ({ course }) => {
                         )}
                         <img alt="cover" src={course.avatar || defaultPhoto} />
                     </div>
-                    
+
                 )}
             >
                 <div className={styles.info}>
@@ -37,7 +37,7 @@ const TeacherCourse = ({ course }) => {
                     <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                     <div className={styles.starRating}>
                         <Rate allowHalf value={roundStarRating(course.starRating)} disabled className={styles.stars} />
-                        <span className={styles.ratingVal}>{course.starRating}</span>
+                        <span className={styles.ratingVal}>{_.round(course.starRating, 1)}</span>
                     </div>
                     {course.isRegistered ? (
                         <div className={styles.registered}>

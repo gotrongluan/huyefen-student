@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import moment from 'moment';
 import router from 'umi/router';
 import Link from 'umi/link';
 import { formatMessage } from 'umi-plugin-react/locale';
@@ -13,42 +14,42 @@ const CourseCarouselItem = ({ course }) => {
     const content = (
         <div className={styles.content}>
             <div className={styles.lastUpdated}>
-                {`${formatMessage({ id: 'course.lastupdated' })}: ${course.lastUpdated}`}
+                {`${formatMessage({ id: 'course.lastupdated' })}: ${moment(course.lastUpdated).format("YYYY-MM-DD")}`}
             </div>
             <div className={styles.name}>
-                {truncate(course.name, 100)}
+                {truncate(course.title, 100)}
             </div>
             {course.featured ? (
                 <div className={styles.topic}>
                     <FeaturedBadge type={course.featured} style={{ marginRight: '12px' }}/>
-                    in <Link to="/">{formatMessage({ id: course.topic })}</Link>
+                    in <Link to="/">{course.area}</Link>
                     <Divider type="vertical" style={{ background: 'white' }} />
-                    <span>{formatMessage({ id: course.category })}</span>
+                    <span>{course.primaryTopic}</span>
                 </div>
             ) : (
                 <div className={styles.topic}>
-                    <Link to="/">{formatMessage({ id: course.topic })}</Link>
+                    <Link to="/">{course.area}</Link>
                     <Divider type="vertical" style={{ background: 'white' }} />
-                    <span>{formatMessage({ id: course.category })}</span>
+                    <span>{course.primaryTopic}</span>
                 </div>
             )}
             <Row className={styles.lectureInfo}>
                 <Col className={styles.infoItem} span={12}>
                     <Icon type="container" theme="filled" />
-                    <span>{`${course.numOfLectures} ${formatMessage({ id: 'course.lectures' })}`}</span>
+                    <span>{`${course.numOfStudents} students`}</span>
                 </Col>
                 <Col className={styles.infoItem} span={12}>
                     <Icon type="rocket" theme="filled" />
-                    <span>{formatMessage({ id: course.level })}</span>
+                    <span>{course.level}</span>
                 </Col>
             </Row>
             <div className={styles.summary}>
-                {truncate(course.summary, 130)}
+                {truncate(course.subTitle, 130)}
             </div>
             <div className={styles.whatLearn}>
                 <ul className={styles.list}>
-                    {_.map(course.whatLearn, item => (
-                        <li key={_.uniqueId('what_learn_')}>{truncate(item, 120)}</li>
+                    {_.map(course.whatLearns, item => (
+                        <li key={item._id}>{truncate(item.title, 120)}</li>
                     ))}
                 </ul>
             </div>
@@ -62,7 +63,7 @@ const CourseCarouselItem = ({ course }) => {
         <Card
             className={styles.course}
             hoverable
-            onClick={() => router.push('/course/123')}
+            onClick={() => router.push(`/course/${course._id}`)}
             style={{ width: '100%' }}
             cover={(
                 <div className={styles.cover}>
@@ -73,15 +74,15 @@ const CourseCarouselItem = ({ course }) => {
                     )}
                     <img alt="cover" src={course.avatar} />
                 </div>
-                
+
             )}
         >
             <div className={styles.info}>
-                <div className={styles.name}>{truncate(course.name, 35)}</div>
+                <div className={styles.name}>{truncate(course.title, 44)}</div>
                 <div className={styles.authors}>{transAuthors(course.authors, 26)}</div>
                 <div className={styles.starRating}>
                     <Rate allowHalf value={roundStarRating(course.starRating)} disabled className={styles.stars} />
-                    <span className={styles.ratingVal}>{course.starRating}</span>
+                    <span className={styles.ratingVal}>{_.round(course.starRating, 1)}</span>
                 </div>
                 <div className={styles.price}>
                     {course.realPrice > course.price && (
@@ -95,7 +96,7 @@ const CourseCarouselItem = ({ course }) => {
                 </div>
             </div>
         </Card>
-        
+
     );
 
     return (

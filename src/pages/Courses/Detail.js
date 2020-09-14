@@ -110,7 +110,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
     };
 
     const renderAlsoBoughtCourse = course => {
-        const { _id, lastUpdated, name, numOfLectures, avatar } = course;
+        const { _id, lastUpdated, title, numOfLectures, avatar } = course;
         return (
             <Row className={styles.course} onClick={() => router.push(`/course/${_id}`)}>
                 <Col span={8} className={styles.avatar}>
@@ -118,7 +118,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
                     <div className={styles.numOfLectures}>{`${numOfLectures} lectures`}</div>
                 </Col>
                 <Col span={16} className={styles.info}>
-                    <div className={styles.name}>{name}</div>
+                    <div className={styles.name}>{title}</div>
                     <div className={styles.updatedTime}>{`Updated at ${moment(lastUpdated).format('MM/YYYY')}`}</div>
                 </Col>
             </Row>
@@ -128,7 +128,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
         return (
             <div className={styles.starRating}>
                 <Icon type="star" theme="filled" style={{ color: '#fada5e' }} />
-                <span className={styles.value}>{rating}</span>
+                <span className={styles.value}>{_.round(rating, 1)}</span>
             </div>
         )
     };
@@ -171,7 +171,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
         },
         {
             title: 'Num enrolled',
-            dataIndex: 'numOfEnrolled',
+            dataIndex: 'numOfStudents',
             key: 'numOfStudents',
             width: '15%',
             render: num => renderNumOfEnrolled(num)
@@ -194,7 +194,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
                         <Table
                             columns={alsoBoughtColumns}
                             dataSource={_.slice(data.alsoBought, 0, alsoBoughtCount)}
-                            rowKey={item => item._id + _.uniqueId('also_course_')}
+                            rowKey={item => item._id}
                             showHeader={false}
                             className={styles.table}
                             pagination={false}
@@ -261,7 +261,7 @@ const RelatedCourses = ({ data, onAddBundleToCart, isInCart }) => {
                                 column: 4
                             }}
                             dataSource={data.sameAuthors}
-                            rowKey={course => (course._id || course.key) + _.uniqueId('same_authors_course_')}
+                            rowKey={course => course._id}
                             renderItem={course => (
                                 <List.Item>
                                     <TeacherCourse course={course} />
@@ -497,7 +497,7 @@ const Reviews = ({ list, featured, hasMore, handleVoting, handleMoreReviews, rev
                                 <List.Item style={{ borderBottom: 'none' }}>
                                     <Skeleton loading={item.loading} active avatar={{ size: 60 }} paragraph={{ rows: 3, width: ['90%', '75%', '45%']}} title={{ width: '30%' }}>
                                         <Review data={item} handleVoting={handleVoting} />
-                                    </Skeleton>  
+                                    </Skeleton>
                                 </List.Item>
                             </>
                         )}
@@ -639,7 +639,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     };
 
     const handlePreview = lectureId => {
-        
+
     };
     const handleMoreReviews = () => {
         dispatch({
@@ -675,7 +675,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
         if (!user || !storage.getToken()) router.push('/user/login');
         else handleAddBundleToCartNow();
     }
-    
+
     const handleAddBundleToCartNow = (inModal = false) => {
         const bundle = relatedCourses && relatedCourses.frequent;
         if (bundle) {
@@ -740,7 +740,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 )}
                                 <div className={styles.statistic}>
                                     <Rate allowHalf value={roundStarRating(courseInfo.starRating)} disabled className={styles.stars} />
-                                    <span className={styles.ratingVal}>{courseInfo.starRating}</span>
+                                    <span className={styles.ratingVal}>{_.round(courseInfo.starRating, 2)}</span>
                                     <span className={styles.numOfRatings}>{`(${numberWithCommas(courseInfo.numOfRatings)} ratings)`}</span>
                                     <span className={styles.numOfEnrolled}>{`${numberWithCommas(courseInfo.numOfStudents)} students enrolled`}</span>
                                 </div>
@@ -817,7 +817,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             )}
                         </div>
                     </div>
-                    
+
                 </Row>
             </Row>
             <Sticky
@@ -834,7 +834,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                             </div>
                             <div className={styles.statistic}>
                                 <Rate allowHalf value={roundStarRating(courseInfo.starRating)} disabled className={styles.stars} />
-                                <span className={styles.ratingVal}>{courseInfo.starRating}</span>
+                                <span className={styles.ratingVal}>{_.round(courseInfo.starRating, 2)}</span>
                                 <span className={styles.numOfRatings}>{`(${numberWithCommas(courseInfo.numOfRatings)} ratings)`}</span>
                                 <span className={styles.numOfEnrolled}>{`${numberWithCommas(courseInfo.numOfStudents)} students enrolled`}</span>
                             </div>
@@ -868,7 +868,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                 )}
                             </div>
                         </Row>
-                        
+
                     </div>
                 ) : (
                     <div />

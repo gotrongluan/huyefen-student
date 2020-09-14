@@ -78,7 +78,7 @@ const CourseInList = ({ course }) => {
                     </div>
                     <div className={styles.starRating}>
                         <Rate disabled className={styles.star} allowHalf value={roundStarRating(course.starRating)}/>
-                        <span className={styles.ratingVal}>{course.starRating}</span>
+                        <span className={styles.ratingVal}>{_.round(course.starRating, 1)}</span>
                     </div>
                 </Col>
             </Row>

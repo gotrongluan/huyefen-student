@@ -3,7 +3,24 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Tabs, List, Carousel, Spin, Icon, Select, Checkbox, Button, Tooltip, Collapse, Badge, Rate, Row, Col, message } from 'antd';
+import {
+  Tabs,
+  List,
+  Carousel,
+  Spin,
+  Icon,
+  Select,
+  Checkbox,
+  Button,
+  Tooltip,
+  Collapse,
+  Badge,
+  Rate,
+  Row,
+  Col,
+  message,
+  Empty,
+} from 'antd';
 import CourseInList from '@/components/CourseInList';
 import Loading from '@/elements/spin/secondary';
 import ArrowCarousel from '@/components/ArrowCarousel';
@@ -18,7 +35,7 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const Area = ({ match, dispatch, ...props }) => { 
+const Area = ({ match, dispatch, ...props }) => {
     const [filterOpen, setFilterOpen] = useState(false);
     const { areaId } = match.params;
     const {
@@ -41,45 +58,27 @@ const Area = ({ match, dispatch, ...props }) => {
             type: 'area/fetchInfo',
             payload: areaId
         });
-        return () => dispatch({
-            type: 'area/resetInfo'
-        });
-    }, [areaId]);
-    useEffect(() => {
-        dispatch({
-            type: 'area/fetchRecommendCourses',
-            payload: areaId
-        });
-        return () => dispatch({
-            type: 'area/resetRecommend'
-        });
-    }, [areaId]);
-    useEffect(() => {
-        dispatch({
-            type: 'area/fetchTopTopics',
-            payload: areaId
-        });
-        return () => dispatch({
-            type: 'area/resetTopics'
-        });
-    }, [areaId]);
-    useEffect(() => {
-        dispatch({
-            type: 'area/fetchTopInstructors',
-            payload: areaId
-        });
-        return () => dispatch({
-            type: 'area/resetInstructors'
-        });
-    }, [areaId]);
-    useEffect(() => {
-        dispatch({
-            type: 'area/fetchCourses',
-            payload: areaId
-        });
-        return () => dispatch({
-            type: 'area/resetCourses'
-        });
+      dispatch({
+        type: 'area/fetchRecommendCourses',
+        payload: areaId
+      });
+      dispatch({
+        type: 'area/fetchTopTopics',
+        payload: areaId
+      });
+      dispatch({
+        type: 'area/fetchTopInstructors',
+        payload: areaId
+      });
+      dispatch({
+        type: 'area/fetchCourses',
+        payload: areaId
+      });
+        return () => {
+          dispatch({
+            type: 'area/resetArea'
+          });
+        }
     }, [areaId]);
 
     const handleSortBy = sortBy => {
@@ -113,6 +112,13 @@ const Area = ({ match, dispatch, ...props }) => {
     };
 
     const coursesCarousel = (courses) => {
+        if(!courses || courses.length === 0) {
+          return (
+            <div className={styles.emptyRecommend}>
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={'Sorry, currently this function isn\'t supported.'}/>
+            </div>
+          )
+        }
         return (
             <ArrowCarousel
                 pageSize={5}
@@ -120,7 +126,7 @@ const Area = ({ match, dispatch, ...props }) => {
                 buttonSize={34}
                 dataSource={courses}
                 renderItem={course => (
-                    <div className={styles.courseItem} key={course._id + _.uniqueId('course_')}>
+                    <div className={styles.courseItem} key={course._id}>
                         <CourseInCarousel course={course} />
                     </div>
                 )}
@@ -196,7 +202,7 @@ const Area = ({ match, dispatch, ...props }) => {
             renderItem={option => (
                 <div className={styles.option}>
                     <Tooltip placement="bottom" mouseEnterDelay={1} title={`${option.title} (${option.count} ${option.count > 1 ? 'courses' : 'course'})`}>
-                        <Checkbox 
+                        <Checkbox
                             className={styles.checkbox}
                             checked={_.indexOf(courses.filters[type].select, (option._id || option.key)) > -1}
                             onChange={checked => handleFilter(type, (option._id || option.key), checked)}
@@ -248,11 +254,17 @@ const Area = ({ match, dispatch, ...props }) => {
                         <div className={styles.title}>Courses to get you started</div>
                         <div className={styles.content}>
                             <Tabs animated={false}>
-                                {_.map(recommend, recommendType => (
-                                    <TabPane tab={recommendType.title} key={recommendType.key}>
-                                        <div>{coursesCarousel(recommendType.courses)}</div>
-                                    </TabPane>
-                                ))}
+                                <TabPane tab="Most popular" key="most-popular">
+                                    <div>{coursesCarousel(recommend.nonPersonalized.mostPopular)}</div>
+                                </TabPane>
+                              <TabPane tab="Top ratings" key="top-ratings">
+                                <div>{coursesCarousel(recommend.nonPersonalized.starRating)}</div>
+                              </TabPane>
+                              {recommend.nonPersonalized.beginner && recommend.nonPersonalized.beginner.length > 0 (
+                                <TabPane tab="For you" key="for-you">
+                                  <div>{coursesCarousel(recommend.recommend.nonPersonalized.beginner)}</div>
+                                </TabPane>
+                              )}
                             </Tabs>
                         </div>
                     </div>
