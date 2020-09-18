@@ -20,6 +20,7 @@ export default {
 	'route.learning.announcements': 'Announcements',
 	'route.learning.review': 'Review',
 	'route.learning.instructorreview': 'Instructor Review',
+  'route.learning.messenger': 'Messenger',
 	'route.basic': 'HuYeFen',
 	'route.basic.home': 'Home page',
 	'route.basic.area': 'Area',

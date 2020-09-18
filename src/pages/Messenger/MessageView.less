@@ -1,16 +1,20 @@
 .listmessages {
     padding: 10px;
     padding-bottom: 22px;
+    height: 100%;
     :global(.ant-list-item) {
         padding: 0;
     }
-    p.date {
-        text-align: center;
-        color: wheat;
-        font-weight: bold;
-        font-size: 13px;
-        margin-bottom: 5px;
-        margin-top: 10px;
+    div.date {
+      text-align: center;
+      margin-bottom: 12px;
+      span {
+        border-radius: 20px;
+        display: inline-block;
+        padding: 2px 12px;
+        background: #fff;
+        color: #1e1e1e;
+      }
     }
 }
 

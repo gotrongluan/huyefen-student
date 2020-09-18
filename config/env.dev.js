@@ -13,6 +13,8 @@ module.exports = {
     ANNOUNCE_API_URL: 'https://localhost:3443/api/announcements',
     PURCHASE_HISTORY_API_URL: 'https://localhost:3443/api/purchase-history',
     CLOUD_API_URL: 'https://localhost:3443/api/cloud',
+    TOPIC_API_URL: 'https://localhost:3443/api/topics',
+  COURSE_MESSENGER_API_URL: 'https://localhost:3443/api/course-messenger',
     FIREBASE: {
         apiKey: "AIzaSyCy0-aVl3F5qXjnG6TrxyVc6TW7G58SQBU",
         authDomain: "huyefen-2102.firebaseapp.com",

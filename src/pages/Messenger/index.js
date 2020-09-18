@@ -291,11 +291,11 @@ const Messenger = ({ dispatch, match, ...props }) => {
                             dataSource={conversationsData}
                             rowKey={item => item._id}
                             renderItem={item => (
-                                <List.Item 
+                                <List.Item
                                     className={(currentUser && (currentUser.converId === item._id)) ? classNames(styles.item, styles.select) : styles.item}
                                     extra={item.loading ? null : <span style={{ fontSize: '13px', color: 'gray' }}>{ fromNow(item.lastUpdated) }</span>}
                                     onClick={() => handleClickConver(item._id)}
-                                >   
+                                >
                                     <Skeleton avatar={{ size: 36 }} title={false} paragraph={{ rows: 2, width: ['40%','86%'] }} active loading={item.loading}>
                                         <List.Item.Meta
                                             avatar={(
@@ -344,18 +344,18 @@ const Messenger = ({ dispatch, match, ...props }) => {
                             />
                             <span className={styles.name}>{currentUser.name}</span>
                         </React.Fragment>
-                    )}                
+                    )}
                 </div>
                 <Row className={styles.content}>
                     <div className={styles.messages}>
                         {messagesInitLoading ? (
                             <div className={styles.messLoading} style={{ height: `${window.innerHeight - 64 - 64 - 50}px`, position: 'relative' }}>
                                 <div className={styles.inlineDiv}>
-                                    <Loading indicator={<Icon type="loading-3-quarters" style={{ fontSize: 84 }} spin />} />
+                                    <Loading indicator={<Icon type="loading-3-quarters" style={{ fontSize: 64 }} spin />} />
                                 </div>
                             </div>
                         ) : (
-                            <MessageView 
+                            <MessageView
                                 userId={userId}
                                 messages={messagesData}
                                 converId={converId}

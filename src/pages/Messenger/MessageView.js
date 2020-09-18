@@ -33,7 +33,7 @@ class MessageView extends React.PureComponent {
             const scrollbar = this.messageView.current;
             if (snapshot)
                 scrollbar.scrollTop(scrollbar.getScrollHeight() - snapshot);
-            else 
+            else
                 scrollbar.scrollToBottom();
         }
     }
@@ -72,7 +72,7 @@ class MessageView extends React.PureComponent {
                         renderItem={item => {
                             return (
                                 <List.Item>
-                                    <p className={styles.date}>{item.day}</p>
+                                    <div className={styles.date}><span>{item.day}</span></div>
                                     <MessagesList messages={item.messages} userId={userId} />
                                 </List.Item>
                             );

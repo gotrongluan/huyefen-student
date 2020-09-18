@@ -269,22 +269,22 @@ const Area = ({ match, dispatch, ...props }) => {
                         </div>
                     </div>
                 )}
-                {!topicsLoading && topics && !_.isEmpty(topics) && (
-                    <div className={styles.topics}>
-                        <div className={styles.title}>Most popular topics</div>
-                        <div className={styles.content}>
-                            {topicsCarousel(topics)}
-                        </div>
-                    </div>
-                )}
-                {!instructorsLoading && instructors && !_.isEmpty(instructors) && (
-                    <div className={styles.instructors}>
-                        <div className={styles.title}>Popular instructors</div>
-                        <div className={styles.content}>
-                            {instructorsCarousel(instructors)}
-                        </div>
-                    </div>
-                )}
+                {/*{!topicsLoading && topics && !_.isEmpty(topics) && (*/}
+                {/*    <div className={styles.topics}>*/}
+                {/*        <div className={styles.title}>Most popular topics</div>*/}
+                {/*        <div className={styles.content}>*/}
+                {/*            {topicsCarousel(topics)}*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*)}*/}
+                {/*{!instructorsLoading && instructors && !_.isEmpty(instructors) && (*/}
+                {/*    <div className={styles.instructors}>*/}
+                {/*        <div className={styles.title}>Popular instructors</div>*/}
+                {/*        <div className={styles.content}>*/}
+                {/*            {instructorsCarousel(instructors)}*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*)}*/}
                 {!courses || coursesLoading ? (
                     <div className={styles.coursesLoading}>
                         <Spin indicator={<Icon type="loading" spin style={{ fontSize: 64 }} />} />

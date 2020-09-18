@@ -1,4 +1,4 @@
-//import * as topicServices from '@/services/topic';
+import * as topicServices from '@/services/topic';
 import { delay } from '@/utils/utils';
 import RECOMMEND from '@/assets/fakers/recommends';
 import TOP_TOPICS from '@/assets/fakers/topTopics';
@@ -15,21 +15,13 @@ export default {
     },
     effects: {
         *fetchInfo({ payload: topicId }, { call, put }) {
-            yield delay(1200);
-            yield put({
+            const response = yield call(topicServices.fetchInfo, topicId);
+            if (response) {
+              yield put({
                 type: 'saveInfo',
-                payload: {
-                    _id: 1,
-                    title: 'React'
-                }
-            });
-            //const topic = yield call(topicServices.fetchInfo, topicId);
-            // if (topic) {
-            //     yield put({
-            //         type: 'saveInfo',
-            //         payload: topic
-            //     })
-            // }
+                payload: response.data
+              })
+            }
         },
         *fetchRecommendCourses({ payload: topicId }, { call, put }) {
             yield delay(1700);

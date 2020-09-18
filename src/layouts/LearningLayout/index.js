@@ -35,7 +35,7 @@ const Header = ({ loading, name, authors, courseId }) => {
                     )}
                 </div>
             </Row>
-            
+
         </div>
     )
 };
@@ -73,7 +73,7 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
         <Layout className={styles.learningLayout}>
             <Header loading={!courseInfo || courseInfo.loading} name={courseInfo && courseInfo.title} authors={courseInfo && courseInfo.authors} courseId={courseInfo && courseInfo._id} />
             <ScrollLayout>
-                <Sider 
+                <Sider
                     className={styles.sider}
                     width={350}
                 >
@@ -103,6 +103,9 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                             <MenuItem key="/instructor-review">
                                 <Link to={`${match.url}/instructor-review`}>Instructor review</Link>
                             </MenuItem>
+                          <MenuItem key="/messenger">
+                            <Link to={`${match.url}/messenger`}>Chatting</Link>
+                          </MenuItem>
                             {_.map(courseInfo.syllabus, chapter => (
                                 <SubMenu key={chapter._id} title={chapter.title} className={styles.chapter} popupClassName={styles.subMenuPopup}>
                                     {_.map(chapter.lectures, lecture => (
@@ -121,7 +124,7 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                                                     </span>
                                                 </Link>
                                                 <Checkbox checked={lecture.isCompleted} className={styles.status} onChange={e => handleToggleLectureStatus(chapter._id, lecture._id, e.target.checked)}/>
-                                            </div>  
+                                            </div>
                                         </MenuItem>
                                     ))}
                                 </SubMenu>
@@ -134,7 +137,7 @@ const LearningLayout = ({ children, match, location, dispatch, ...props }) => {
                         {children}
                     </Content>
                 </Layout>
-                
+
             </ScrollLayout>
         </Layout>
     )

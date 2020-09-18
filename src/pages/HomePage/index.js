@@ -184,18 +184,18 @@ const Homepage = ({ dispatch, ...props }) => {
                     </Row>
                   )
                 })}
-                <Row className={styles.topFriendsCont}>
-                    <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.topfriends' })} `}</Row>
-                    <Row className={styles.topFriends}>
-                        {friendsCarousel(topFriends)}
-                    </Row>
-                </Row>
-                <Row className={styles.topTopicsCont}>
-                    <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.toptopics' })} `}</Row>
-                    <Row className={styles.topTopics}>
-                        {topicsCarousel(topTopics)}
-                    </Row>
-                </Row>
+                {/*<Row className={styles.topFriendsCont}>*/}
+                {/*    <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.topfriends' })} `}</Row>*/}
+                {/*    <Row className={styles.topFriends}>*/}
+                {/*        {friendsCarousel(topFriends)}*/}
+                {/*    </Row>*/}
+                {/*</Row>*/}
+                {/*<Row className={styles.topTopicsCont}>*/}
+                {/*    <Row className={styles.subTitle}>{`${formatMessage({ id: 'home.subtitle.toptopics' })} `}</Row>*/}
+                {/*    <Row className={styles.topTopics}>*/}
+                {/*        {topicsCarousel(topTopics)}*/}
+                {/*    </Row>*/}
+                {/*</Row>*/}
             </React.Fragment>
         )
     }

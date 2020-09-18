@@ -105,3 +105,23 @@ export async function searchCourses(keyword, page = 1, pageSize = 8 ) {
 export async function fetchRelatedCourses(courseId) {
   return apiGet(`${COURSE_API_URL}/${courseId}/related-courses`);
 }
+
+export async function submitView(courseId) {
+  return apiPost(`${COURSE_API_URL}/${courseId}/submit-view`);
+}
+
+export async function fetchMessagesOfCourse(courseId, skip = 0, limit = 20) {
+  return apiGet(`${COURSE_MESSENGER_API_URL}/${courseId}/messages?skip=${skip}&limit=${limit}`);
+}
+
+export async function sendCourseMessage(courseId, content) {
+  return apiPost(`${COURSE_MESSENGER_API_URL}/${courseId}/messages`, {
+    body: {
+      content
+    }
+  });
+}
+
+export async function fetchMembersOfCourse(courseId, skip = 0, limit = 10) {
+  return apiGet(`${COURSE_MESSENGER_API_URL}/${courseId}/members?skip=${skip}&limit=${limit}`);
+}

@@ -127,13 +127,13 @@ const MyCourses = ({ dispatch, ...props }) => {
                 handleChangeProgress(null, currentTraceCount + 1, 'category', category);
                 setCurrentTraceCount(currentTraceCount + 1);
             }
-            else { 
+            else {
                 handleChangeInstructor(null, trace.category, 'category', category);
                 handleChangeProgress(null, trace.category, 'category', category);
             }
         }
     };
-    const handleChangeProgress = (progress, count = 0, type, value) => { 
+    const handleChangeProgress = (progress, count = 0, type, value) => {
         if (!progress) {
             if (trace.progress > count || trace.progress === 0) {
                 setProgress(undefined);
@@ -175,7 +175,7 @@ const MyCourses = ({ dispatch, ...props }) => {
                 handleChangeCategory(null, currentTraceCount + 1, 'progress', progress);
                 setCurrentTraceCount(currentTraceCount + 1);
             }
-            else { 
+            else {
                 handleChangeCategory(null, trace.progress, 'progress', progress);
                 handleChangeInstructor(null, trace.progress, 'progress', progress);
             }
@@ -223,7 +223,7 @@ const MyCourses = ({ dispatch, ...props }) => {
                 handleChangeCategory(null, currentTraceCount + 1, 'instructor', instructor);
                 setCurrentTraceCount(currentTraceCount + 1);
             }
-            else { 
+            else {
                 handleChangeCategory(null, trace.instructor, 'instructor', instructor);
                 handleChangeProgress(null, trace.instructor, 'instructor', instructor);
             }
@@ -345,86 +345,86 @@ const MyCourses = ({ dispatch, ...props }) => {
                                 </Select>
                             </Form.Item>
                         </Form>
-                    </Col>  
-                    <Col span={19} className={styles.filterCont}>
-                        <Form layout="inline" className={styles.filterForm}>
-                            <div className={styles.label}>Filter by</div>
-                            <Form.Item className={styles.formItem}>
-                                <Select
-                                    value={category}
-                                    placeholder="Category"
-                                    size="large"
-                                    onChange={handleChangeCategory}
-                                    style={{ width: 180 }}
-                                    dropdownStyle={{
-                                        width: 'auto !important',
-                                        minWidth: 180
-                                    }}
-                                    dropdownClassName={styles.cateDropdown}
-                                    disabled={!categories || optionsLoading || categoriesLoading}
-                                    loading={!categories || optionsLoading || categoriesLoading}
-                                >
-                                    {_.map(categories, category => (
-                                        <Option key={category._id} value={category._id}>{category.title}</Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                            <Form.Item className={styles.formItem}>
-                                <Select
-                                    value={progress}
-                                    placeholder="Progress"
-                                    size="large"
-                                    onChange={handleChangeProgress}
-                                    style={{ width: 130 }}
-                                    dropdownStyle={{
-                                        width: 'auto !important',
-                                        minWidth: 130
-                                    }}
-                                    dropdownClassName={styles.dropdown}
-                                    disabled={!progresses || optionsLoading || progressesLoading}
-                                    loading={!progresses || optionsLoading || progressesLoading}
-                                >
-                                    {_.map(progresses, progress => (
-                                        <Option key={progress.key} value={progress.key}>{progress.title}</Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                            <Form.Item className={styles.formItem}>
-                                <Select
-                                    value={instructor}
-                                    placeholder="Instructor"
-                                    size="large"
-                                    onChange={handleChangeInstructor}
-                                    style={{ width: 200 }}
-                                    dropdownStyle={{
-                                        width: 'auto !important',
-                                        minWidth: 200
-                                    }}
-                                    dropdownClassName={classnames(styles.dropdown, styles.insDropdown)}
-                                    disabled={!instructors || optionsLoading || instructorsLoading}
-                                    loading={!instructors || optionsLoading || instructorsLoading}
-                                >
-                                    {_.map(instructors, instructor => (
-                                        <Option key={instructor._id} value={instructor._id}>{instructor.name}</Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                            <Form.Item className={classnames(styles.formItem, styles.btn)}>
-                                <Button type="primary" disabled={!myCourses || initLoading || filterLoading} onClick={handleFilter}>
-                                    {filterLoading && (
-                                        <Icon type="loading" />
-                                    )}
-                                    <span className={styles.text}>Filter</span>
-                                </Button>
-                                <Button className={styles.resetBtn} disabled={!myCourses || initLoading || resetLoading} onClick={handleReset}>
-                                    {resetLoading && (
-                                        <Icon type="loading" />
-                                    )}
-                                    <span className={styles.text}>Reset</span>
-                                </Button>
-                            </Form.Item>
-                        </Form>
                     </Col>
+                    {/*<Col span={19} className={styles.filterCont}>*/}
+                    {/*    <Form layout="inline" className={styles.filterForm}>*/}
+                    {/*        <div className={styles.label}>Filter by</div>*/}
+                    {/*        <Form.Item className={styles.formItem}>*/}
+                    {/*            <Select*/}
+                    {/*                value={category}*/}
+                    {/*                placeholder="Category"*/}
+                    {/*                size="large"*/}
+                    {/*                onChange={handleChangeCategory}*/}
+                    {/*                style={{ width: 180 }}*/}
+                    {/*                dropdownStyle={{*/}
+                    {/*                    width: 'auto !important',*/}
+                    {/*                    minWidth: 180*/}
+                    {/*                }}*/}
+                    {/*                dropdownClassName={styles.cateDropdown}*/}
+                    {/*                disabled={!categories || optionsLoading || categoriesLoading}*/}
+                    {/*                loading={!categories || optionsLoading || categoriesLoading}*/}
+                    {/*            >*/}
+                    {/*                {_.map(categories, category => (*/}
+                    {/*                    <Option key={category._id} value={category._id}>{category.title}</Option>*/}
+                    {/*                ))}*/}
+                    {/*            </Select>*/}
+                    {/*        </Form.Item>*/}
+                    {/*        <Form.Item className={styles.formItem}>*/}
+                    {/*            <Select*/}
+                    {/*                value={progress}*/}
+                    {/*                placeholder="Progress"*/}
+                    {/*                size="large"*/}
+                    {/*                onChange={handleChangeProgress}*/}
+                    {/*                style={{ width: 130 }}*/}
+                    {/*                dropdownStyle={{*/}
+                    {/*                    width: 'auto !important',*/}
+                    {/*                    minWidth: 130*/}
+                    {/*                }}*/}
+                    {/*                dropdownClassName={styles.dropdown}*/}
+                    {/*                disabled={!progresses || optionsLoading || progressesLoading}*/}
+                    {/*                loading={!progresses || optionsLoading || progressesLoading}*/}
+                    {/*            >*/}
+                    {/*                {_.map(progresses, progress => (*/}
+                    {/*                    <Option key={progress.key} value={progress.key}>{progress.title}</Option>*/}
+                    {/*                ))}*/}
+                    {/*            </Select>*/}
+                    {/*        </Form.Item>*/}
+                    {/*        <Form.Item className={styles.formItem}>*/}
+                    {/*            <Select*/}
+                    {/*                value={instructor}*/}
+                    {/*                placeholder="Instructor"*/}
+                    {/*                size="large"*/}
+                    {/*                onChange={handleChangeInstructor}*/}
+                    {/*                style={{ width: 200 }}*/}
+                    {/*                dropdownStyle={{*/}
+                    {/*                    width: 'auto !important',*/}
+                    {/*                    minWidth: 200*/}
+                    {/*                }}*/}
+                    {/*                dropdownClassName={classnames(styles.dropdown, styles.insDropdown)}*/}
+                    {/*                disabled={!instructors || optionsLoading || instructorsLoading}*/}
+                    {/*                loading={!instructors || optionsLoading || instructorsLoading}*/}
+                    {/*            >*/}
+                    {/*                {_.map(instructors, instructor => (*/}
+                    {/*                    <Option key={instructor._id} value={instructor._id}>{instructor.name}</Option>*/}
+                    {/*                ))}*/}
+                    {/*            </Select>*/}
+                    {/*        </Form.Item>*/}
+                    {/*        <Form.Item className={classnames(styles.formItem, styles.btn)}>*/}
+                    {/*            <Button type="primary" disabled={!myCourses || initLoading || filterLoading} onClick={handleFilter}>*/}
+                    {/*                {filterLoading && (*/}
+                    {/*                    <Icon type="loading" />*/}
+                    {/*                )}*/}
+                    {/*                <span className={styles.text}>Filter</span>*/}
+                    {/*            </Button>*/}
+                    {/*            <Button className={styles.resetBtn} disabled={!myCourses || initLoading || resetLoading} onClick={handleReset}>*/}
+                    {/*                {resetLoading && (*/}
+                    {/*                    <Icon type="loading" />*/}
+                    {/*                )}*/}
+                    {/*                <span className={styles.text}>Reset</span>*/}
+                    {/*            </Button>*/}
+                    {/*        </Form.Item>*/}
+                    {/*    </Form>*/}
+                    {/*</Col>*/}
                 </Row>
                 <Row className={styles.content}>
                     <Spin spinning={!myCourses || initLoading || filterLoading || resetLoading || sortLoading} fontSize={8} isCenter>
@@ -495,7 +495,7 @@ const MyCourses = ({ dispatch, ...props }) => {
                     maskClosable={false}
                     title={null}
                     centered
-                    bodyStyle={{ 
+                    bodyStyle={{
                         padding: '10px'
                     }}
                 >

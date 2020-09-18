@@ -62,7 +62,7 @@ const SearchEngine = ({ dispatch, curSearchText, suggestData, isLoading }) => {
 		return (
 			<span>
 				{title}
-				{!isLoading && (
+				{!isLoading && key === 'courses' &&  (
 					<Link
 						style={{ float: 'right', fontWeight: 'bold', color: '#FADA5E' }}
 						to={routeTo}

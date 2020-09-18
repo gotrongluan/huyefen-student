@@ -220,7 +220,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                 </Form>
             </div>
             <Row className={styles.totalAndNew}>
-                <Col span={12} className={styles.total}>{(!forum.total || initLoading) ? 'Loading...' : `${forum.total} ${forum.total < 2 ? 'question' : 'questions'}`}</Col>
+                <Col span={12} className={styles.total}>{(forum.total === null || initLoading) ? 'Loading...' : `${forum.total} ${forum.total < 2 ? 'question' : 'questions'}`}</Col>
                 <Col span={12} className={styles.newQuestion}><span onClick={() => setVisibleModal(true)}>Ask a new question</span></Col>
             </Row>
             <Divider className={styles.divider} dashed/>
@@ -293,7 +293,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
             >
                 <Form>
                     <FormItem label="Title" help={questionTitle.help} validateStatus={questionTitle.validateStatus} required>
-                        <Input 
+                        <Input
                             type="text"
                             placeholder="Title"
                             value={questionTitle.value}
@@ -339,7 +339,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
                 maskClosable={false}
                 title={null}
                 centered
-                bodyStyle={{ 
+                bodyStyle={{
                     padding: '10px'
                 }}
             >
@@ -348,7 +348,7 @@ const Forum = ({ location, match, dispatch, ...props }) => {
             </Modal>
         </div>
     )
-    
+
 };
 
 export default connect(

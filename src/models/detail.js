@@ -17,6 +17,9 @@ export default {
         }
     },
     effects: {
+        *submitView({ payload: courseId }, { call }) {
+            yield call(courseServices.submitView, courseId);
+        },
         *fetchInfo({ payload: courseId }, { call, put }) {
             const response = yield call(courseServices.fetchPublicInfo, courseId);
             if (response) {

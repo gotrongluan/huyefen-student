@@ -1,15 +1,77 @@
 .messages {
-    .messRow {
-        margin-top: 12px;
-        .message {
-            padding-left: 10px;
-            padding-top: 5px;
-            .userName {
-                color: @primary-color;
-                font-weight: bold;
-                font-size: 1.1em;
-            }
-        }
+  .messageItem {
+    margin-bottom: 5px;
+    display: flex;
+    .messageContent {
+      width: auto;
+      max-width: 60%;
+      .messageText {
+        padding: 10px 8px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        background-color: #f5f5f5;
+        color: black;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -o-pre-wrap;
+      }
     }
-    
+    .messageExtra {
+      width: 80px;
+      font-weight: bold;
+      color: white;
+      font-size: 12px;
+      margin-left: 8px;
+      align-self: flex-end;
+    }
+  }
+    .userMessages, .otherMessages {
+      margin-bottom: 16px;
+    }
+    .otherMessages {
+      .name {
+        margin-bottom: 8px;
+        color: @primary-color;
+      }
+      .messageItem {
+        &:last-child .messageText {
+          border-bottom-left-radius: 8px;
+        }
+        &:first-child .messageText {
+          border-top-left-radius: 8px;
+        }
+      }
+      display: flex;
+      .avatar {
+        align-self: flex-start;
+        margin-right: 8px;
+      }
+    }
+    .userMessages {
+      .messageItem {
+        flex-direction: row-reverse;
+        .messageText{
+          border-bottom-left-radius: 8px;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          background: #FADAAF;
+          img {
+            display: block;
+            max-width: 100%;
+          }
+        }
+        &:last-child .messageText {
+          border-bottom-right-radius: 8px;
+        }
+        &:first-child .messageText {
+          border-top-right-radius: 8px;
+        }
+        .messageExtra {
+          text-align: right;
+          margin-left: 0;
+          margin-right: 8px;
+        }
+      }
+    }
 }

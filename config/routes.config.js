@@ -95,6 +95,11 @@ export default [
                 title: 'route.learning.articlelecture'
             },
             {
+                path: '/learning/:courseId/messenger',
+                component: './Learning/Messenger',
+                title: 'route.learning.messenger'
+            },
+            {
                 component: '404'
             }
         ]

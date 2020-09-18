@@ -582,6 +582,10 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     useEffect(() => {
         setSticky(false);
         dispatch({
+          type: 'detail/submitView',
+          payload: courseId
+        });
+        dispatch({
             type: 'detail/fetchInfo',
             payload: courseId
         });
@@ -649,7 +653,10 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
     };
 
     const handleAddToCart = () => {
-        if (!user || !storage.getToken()) router.push('/user/login');
+        if (!user || !storage.getToken()) {
+          router.push('/user/login');
+          return false;
+        }
         else {
             if (_.isEmpty(relatedCourses.frequent.list)) {
                 handleAddToCartNow();
@@ -657,8 +664,16 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
             else {
                 setModalVisible(true);
             }
+            return true;
         }
     };
+
+    const handleBuyNow = () => {
+        const type = handleAddToCart();
+        if (type) {
+          router.push('/shopping-cart');
+        }
+    }
 
     const handleAddToCartNow = () => {
         dispatch({
@@ -811,7 +826,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         <Button loading={!relatedCourses || relatedCoursesLoading} type="primary" icon="shopping-cart" size="large" onClick={handleAddToCart}>Add to cart</Button>
                                     </div>
                                     <div className={styles.buyNow}>
-                                        <Button icon="audit" size="large" loading={!relatedCourses || relatedCoursesLoading}>Buy now</Button>
+                                        <Button icon="audit" size="large" loading={!relatedCourses || relatedCoursesLoading} onClick={handleBuyNow}>Buy now</Button>
                                     </div>
                                 </React.Fragment>
                             )}
@@ -861,7 +876,7 @@ const DetailCourse = ({ match, dispatch, ...props }) => {
                                         <Button loading={!relatedCourses || relatedCoursesLoading} className={styles.addToCart} type="primary" onClick={handleAddToCart}>
                                             Add to cart
                                         </Button>
-                                        <Button loading={!relatedCourses || relatedCoursesLoading} className={styles.buyNow}>
+                                        <Button loading={!relatedCourses || relatedCoursesLoading} className={styles.buyNow} onClick={handleBuyNow}>
                                             Buy now
                                         </Button>
                                     </React.Fragment>
